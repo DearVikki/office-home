@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Remember me?
+        </title>
+    </head>
+    <body>
+        <button class="zero" id="next">
+            Next Action
+        </button>
+        <div id="square">
+            <p>
+                This is the object
+            </p>
+            <div id="link">
+            </div>
+        </div>
+    </body>
+    <script>
+    	window.onload = function(){
+    		document.getElementById('next').onclick = nextPanel;
+
+    		var hash = window.location.hash.split('#')[1];
+    		switch (hash){
+    			case 'one':
+    				functionOne();
+    				break;
+    			case 'two':
+    				functionOne();
+    				functionTwo();
+    				break;
+    			case 'three':
+    				functionOne();
+    				functionTwo();
+    				functionThree();
+    				break;
+    		}
+
+    		function nextPanel(){
+    			var classNm = this.getAttribute('class');
+    			switch(classNm) {
+    				case 'zero':
+    					functionOne();
+    					break;
+    				case 'one':
+    					functionTwo();
+    					break;
+    				case 'two':
+    					functionThree();
+    					break;
+    			}
+    		}
+    	}
+
+    	function setPage(page){
+    		document.getElementById('next').setAttribute('class', page);
+    		//var link = document.getElementById('link');
+    		//var path = location.protocol + '//' +location.hostname +'/'+location.pathname +'#'+page;
+    		//link.innerHTML = '<p><a href ="' + path +'">link</a></p>';
+    		location.hash = page;
+    	}
+
+    	function functionOne(){
+    		var square = document.getElementById('square');
+    		square.style.backgroundColor = '#ff0000';
+    		square.style.width = '200px';
+    		square.style.height = '200px';
+    		square.style.padding = '10px';
+    		square.style.margin = '20px';
+    		setPage('one');
+    	}
+    	function functionTwo(){
+    		var square = document.getElementById('square');
+    		square.style.backgroundColor = '#ffff00';
+    		square.style.position = 'absolute';
+    		square.style.left = '200px';
+    		setPage('two');
+    	}
+    	function functionThree(){
+    		var square = document.getElementById('square');
+    		square.style.backgroundColor = '#00ff00';
+    		square.style.width = '400px';
+    		square.style.height = '400px';
+    		square.style.left = '400px';
+    		setPage('three');
+    	}
+    </script>
+</html>

@@ -1,0 +1,64 @@
+.vikkiNum div{
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	font-family: cursive;
+}
+.vikkiNum .num{
+	border:1px solid tomato;
+	border-radius: 5px;
+	color: tomato;
+}
+.vikkiNum .plus,.minus{
+	background: #eaa194;
+	color: #fff;
+	cursor: pointer;
+}
+.vikkiNum .plus.active,.minus.active{
+	background: tomato;
+}
+
+.vikkiAddressPicker .select-container{
+	display: inline-block;
+	width: 100px;
+	height: 50px;
+	border:1px solid tomato;
+	vertical-align: top;
+	cursor: pointer;
+}
+.vikkiAddressPicker .select-container p{
+	line-height: 50px;
+	text-align: center;
+	margin:0;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.vikkiAddressPicker .select-container .option-container{
+	height: 0;
+	overflow: hidden;
+	margin:0;
+}
+.vikkiAddressPicker .select-container.active .option-container{
+	height: auto;
+	padding: 0;
+}
+.option{
+	list-style: none;
+    width: 100%;
+    height: 25px;
+    line-height: 25px;
+    background: #fb4a4a;
+    color: ivory;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: 1px solid ivory;
+    cursor: pointer;
+}
+.option.active{
+	background: ivory;
+    color: #fb4a4a;
+}

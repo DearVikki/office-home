@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            vikkiColor
+        </title>
+        <meta charset="utf-8"/>
+        <style type="text/css">
+            html,body{
+				margin:0;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+                align-items: center;
+			}
+			p{
+				color: #fff;
+    			font-family: cursive;
+			}
+        </style>
+    </head>
+    <body>
+        <p>
+        </p>
+    </body>
+    <script type="text/javascript">
+        var body = document.querySelector('body');
+        var p = document.querySelector('p');
+        var pausable = true;
+        function colorDensity(x,y){
+			return {
+				r: x/256,
+				g: x/256/256,
+				b: y/256
+			}
+	    };
+		function createColor(x,y,densityR,densityG,densityB){
+			var r = Math.floor(x/densityR);
+			var g = r%2 == 0 ? Math.floor(x%densityR/densityG) : Math.floor((densityR-x%densityR)/densityG);
+			var b = Math.floor(y/densityB);
+			console.log(g)
+			return {
+				r: r,
+				g: g,
+				b: b
+			}
+		};
+		function transColor(r,g,b){
+			r = r.toString(16);
+			if(r.length < 2) r = '0' + r;
+			g = g.toString(16);
+			if(g.length < 2) g = '0' + g;
+			b = b.toString(16);
+			if(b.length < 2) b = '0' + b;
+			return '#'+r+g+b;
+		};
+		function mouseMove(e){
+			var x = e.clientX;
+			var y = e.clientY;
+			var density = colorDensity(window.innerWidth, window.innerHeight);
+			var color = createColor(x, y, density.r, density.g, density.b);
+			color = transColor(color.r, color.g, color.b);
+			p.innerHTML = color;
+			body.style.background = color;
+		};
+		body.addEventListener('click', function(){
+			if(pausable) {
+				body.removeEventListener('mousemove', mouseMove);
+				pausable = null;
+			} else {
+				body.addEventListener('mousemove', mouseMove);
+				pausable = 1;
+			}
+		});
+		body.addEventListener('mousemove', mouseMove);
+    </script>
+</html>

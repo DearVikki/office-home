@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            HTML5 Drag-and-Drop
+        </title>
+        <style type="text/css">
+            #drop,#drop2 {
+			width: 300px;
+			height: 200px;
+			background-color: #ff0000;
+			padding: 5px;
+			border: 2px solid #fff;
+		}
+		#item{
+			width: 100px;
+			height: 100px;
+			background: #ffff00;
+			padding: 5px;
+			margin: 20px;
+			border: 1px dashed #000;
+		}
+		*[draggable=true] {
+			--moz-user-select: none;
+			-khtml-user-drag:element;
+			cursor: move;
+		}
+        </style>
+    </head>
+    <body>
+        <p>
+            Drag the yellow box with the dash border to the larger red box with the solid border
+        </p>
+        <div draggable="true" id="item">
+        </div>
+        <p draggable="true" id="item2">
+            drag me
+        </p>
+        <div id="drop">
+        </div>
+        <div id="drop2">
+        </div>
+    </body>
+    <script type="text/javascript">
+        var target = document.getElementById('drop');
+	//target.addEventListener('dragenter');
+	target.addEventListener('dragover',function(e){
+		e.preventDefault(); //因为默认是无法放置的
+	});
+	target.addEventListener('drop', function(e){
+		e.preventDefault();
+		//拖拽DOM
+		var id = e.dataTransfer.getData('Text');
+		target.appendChild(document.getElementById(id));
+	});
+	var item = document.getElementById('item');
+	item.addEventListener('dragstart',function(e){
+		e.dataTransfer.setData('Text',item.id);
+	})
+
+	//多来两个拖拽对象和放置目标举例~
+	var target2 = document.getElementById('drop2');
+	target2.addEventListener('dragover',function(e){
+		e.preventDefault();
+	});
+	target2.addEventListener('drop', function(e){
+		e.preventDefault();
+		var id = e.dataTransfer.getData('Text');
+		target2.appendChild(document.getElementById(id));
+	});
+	var item2 = document.getElementById('item2');
+	item2.addEventListener('dragstart',function(e){
+		e.dataTransfer.setData('Text',item2.id);
+	})
+    </script>
+</html>

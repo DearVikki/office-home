@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            HTML5 Drag-and-Drop
+        </title>
+        <style type="text/css">
+            #drop{
+			width: 300px;
+			height: 200px;
+			background-color: #ff0000;
+			padding: 5px;
+			border: 2px solid #fff;
+		}
+		*[draggable=true] {
+			--moz-user-select: none;
+			-khtml-user-drag:element;
+			cursor: move;
+		}
+        </style>
+    </head>
+    <body>
+        <div id="drop">
+        </div>
+    </body>
+    <script type="text/javascript">
+        var target = document.getElementById('drop');
+		target.addEventListener('dragover',function(e){
+			e.preventDefault(); //因为默认是无法放置的
+		});
+		target.addEventListener('drop', function(e){
+			e.preventDefault();
+			var file=e.dataTransfer.files;
+		    var fr = new FileReader();
+		    fr.readAsDataURL(file[0]);
+		    fr.onload = function(e){
+		    	var img = document.createElement('img');
+		    	img.width = 100;
+		    	img.src = this.result;
+		    	target.appendChild(img);
+		    }
+		});
+    </script>
+</html>

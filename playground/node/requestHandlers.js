@@ -1,6 +1,6 @@
 var querystring = require("querystring");
 var fs = require('fs');
-var formidable = require("formidable");
+//var formidable = require("formidable");
 
 function start(response) {
     var body = '<html>' + '<head>' + '<meta http-equiv="Content-Type" content="text/html; ' + 'charset=UTF-8" />' + '</head>' + '<body>' + '<form action="/upload" method="post" enctype="multipart/form-data">' + '<input type="file" name="upload">' + '<input type="submit" value="Submit file" />' + '</form>' + '</body>' + '</html>';
