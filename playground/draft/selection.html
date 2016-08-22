@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>selection</title>
+</head>
+<body>
+<form class="vikki">
+	<select>
+	</select>
+	<select>
+	</select>
+	<select>
+	</select>
+</form>
+</body>
+<script type="text/javascript">
+	var vikki = document.querySelector('.vikki');
+	var selectList = Array.prototype.slice.call(vikki.children);
+	var valueArray = [];
+	//返回填充数据数组
+	function dataFilter(data){
+		if(Array.isArray(data)) return data;
+		else return Object.keys(data);
+	}
+	//填充数据
+	function fillForm(value){
+		var $this = this;
+		$this.options.length = 0;
+		value = dataFilter(value);
+		value.forEach(function(e){
+			var opt = new Option(e);
+			$this.add(opt,null);
+		})
+		/*var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("change", true, true, window, 1, 0, 0, 0, 0,
+        false, false, false, false, 0, null);
+		$this.nextElementSibling.dispatchEvent(evt);*/
+	}
+	function vikkiSelect(){
+		var select = this.getElementsByTagName('select');
+		vikki.onchange = function(e){
+			var $this = e.target;
+			var next = $this.nextElementSibling;
+			var index = selectList.indexOf($this);
+			var value = data;
+			//删除取值数组中index索引后面（包括自己）的各项值
+			valueArray.splice(index);
+			//重新录入index索引的值
+			valueArray[index] = $this.value;
+			console.log(valueArray)
+			//重新计算一遍当前value
+			valueArray.forEach(function(e){
+				value = value[e];
+			})
+			if(next) fillForm.call(next,value);
+		}
+	}
+
+	var data = {
+		a: {a11:[1,2,3],a12:[4,5,6]},
+		b:{b11:[7,8,9],b12:[10,11,12]}
+	}
+	vikkiSelect.call(vikki);
+	fillForm.call(vikki.querySelector('select'),data);
+</script>
+</html>

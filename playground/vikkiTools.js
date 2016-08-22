@@ -48,38 +48,41 @@ $.fn.numEditor = function() {
     });
     //
 };
-
-$.fn.addressPicker = function(){
+$.fn.addressPicker = function(proData) {
     //引入数据库
     var database;
     var proData, cityData, disData;
     var $this = $(this);
-    var $pro = $this.find('.province'), $city = $this.find('.city'), $district = $this.find('.district');
-    var $proSelect = $pro.find('.selected'), $citySelect = $city.find('.selected'), $disSelect = $district.find('.selected');
-    var $proOption = $pro.find('.option-container'), $cityOption = $city.find('.option-container'), $disOption = $district.find('.option-container');
-    $.getJSON('areas.json',function(json){
-        proData = json;
-        addAddress(Object.keys(proData),$proOption);
-    });
+    var $pro = $this.find('.province'),
+        $city = $this.find('.city'),
+        $district = $this.find('.district');
+    var $proSelect = $pro.find('.selected'),
+        $citySelect = $city.find('.selected'),
+        $disSelect = $district.find('.selected');
+    var $proOption = $pro.find('.option-container'),
+        $cityOption = $city.find('.option-container'),
+        $disOption = $district.find('.option-container');
+        console.log(proData)
+    addAddress(Object.keys(proData), $proOption);
     //填充option-container
-    function addAddress(addArray,$area){
-        addArray.forEach(function(e){
-            $area.append('<li class="option" name="'+e+'">'+e+'</li>');
+    function addAddress(addArray, $area) {
+        addArray.forEach(function(e) {
+            $area.append('<li class="option" name="' + e + '">' + e + '</li>');
         });
         $area.find('.option').first().click();
     };
     //点击select-container
-    $('.select-container').on('click',function(){
-        var $this = $(this);
-        if(!$this.hasClass('active')) $('.select-container.active').removeClass('active');
-        $this.toggleClass('active');
-    })
-    //点击option
-    $('.option-container').on('click',function(e){
+    $('.select-container').on('click', function() {
+            var $this = $(this);
+            if (!$this.hasClass('active')) $('.select-container.active').removeClass('active');
+            $this.toggleClass('active');
+        })
+        //点击option
+    $('.option-container').on('click', function(e) {
         e.stopPropagation();
         var $this = $(this);
         var $selectContainer = $this.parent();
-        var $nextAll =  $selectContainer.nextAll();
+        var $nextAll = $selectContainer.nextAll();
         var selectArea = $(e.target).text();
         $this.prev().text(selectArea);
         $nextAll.find('.option').remove();
@@ -87,13 +90,12 @@ $.fn.addressPicker = function(){
         $(e.target).addClass('active');
         $this.find('.option.active').removeClass('active');
         $selectContainer.removeClass('active');
-        if($selectContainer.hasClass('province')){
+        if ($selectContainer.hasClass('province')) {
             cityData = proData[selectArea];
-            addAddress(Object.keys(cityData),$cityOption);
-        } else if($selectContainer.hasClass('city')){
+            addAddress(Object.keys(cityData), $cityOption);
+        } else if ($selectContainer.hasClass('city')) {
             disData = cityData[selectArea];
             addAddress(disData, $disOption);
         }
     });
-
 };
