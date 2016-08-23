@@ -21,30 +21,24 @@
 		var valueArray = [];
 		//判断数据结构
 		if(typeof data === 'object' && Array.isArray(data) === false){
-			console.log('hey')
-			
 			var newData = [];
-			
-			
 			function dataBuild(database){
-				var keys = Object.keys(database);
+				var keys = Array.isArray(database)? database : Object.keys(database);
+				var newData = [];
+
 				keys.forEach(function(e){
 					var obj = {};
 					var children = database[e];
 					obj.text = obj.value = e;
-					obj.children = children;
-					if(!Array.isArray(children)){
-						dataBuild(children);
-					}
+					if(typeof children === 'object') obj.children = dataBuild(children);
 					newData.push(obj);
 				})
 				return newData;
 			}
-			var hh = dataBuild(data);
-			console.log(hh)
+			data = dataBuild(data);
+			console.log(JSON.stringify(data))
 		}
 		//填充数据
-		/*
 		function fillForm(dom,value){
 			dom.options.length = 0;
 			value.forEach(function(e){
@@ -74,9 +68,9 @@
 			console.log(value)
 			if(next) fillForm(next,value);
 		}
-		fillForm(vikki.querySelector('select'),data);*/
+		fillForm(vikki.querySelector('select'),data);
 	}
-	
+
 	var data = {
 		a:{a11:[1,2,3],a12:[4,5,6]},
 		b:{b11:[7,8,9],b12:[10,11,12]}
