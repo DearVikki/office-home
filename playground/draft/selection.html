@@ -16,22 +16,43 @@
         </form>
     </body>
     <script type="text/javascript">
-    function vikkiSelect(dom, config){
-		var data = config.data;
-		var columns = config.columns;
+    function vikkiSelect(dom, data){
 		var selectList = Array.prototype.slice.call(dom.children);
 		var valueArray = [];
+		//判断数据结构
+		if(typeof data === 'object' && Array.isArray(data) === false){
+			console.log('hey')
+			
+			var newData = [];
+			
+			
+			function dataBuild(database){
+				var keys = Object.keys(database);
+				keys.forEach(function(e){
+					var obj = {};
+					var children = database[e];
+					obj.text = obj.value = e;
+					obj.children = children;
+					if(!Array.isArray(children)){
+						dataBuild(children);
+					}
+					newData.push(obj);
+				})
+				return newData;
+			}
+			var hh = dataBuild(data);
+			console.log(hh)
+		}
 		//填充数据
+		/*
 		function fillForm(dom,value){
 			dom.options.length = 0;
-			console.log(value)
 			value.forEach(function(e){
 				var opt = document.createElement('option');
 				opt.innerHTML = e.text;
 				opt.value = e.value;
 				dom.add(opt,null);
 			})
-		
     		var evt = document.createEvent('HTMLEvents');
 			evt.initEvent('change', true, true);
     		dom.dispatchEvent(evt);
@@ -39,23 +60,23 @@
 		vikki.onchange = function(e){
 			var $this = e.target;
 			var next = $this.nextElementSibling;
-			var indexOption = $this.options[$this.selectedIndex];
+			var optionList = Array.prototype.slice.call($this.children);
+			var indexOption = optionList.indexOf($this.options[$this.selectedIndex]);
 			var indexSelect = selectList.indexOf($this);
 			var value = data;
 			//删除取值数组中index索引后面（包括自己）的各项值
 			valueArray.splice(indexSelect);
 			//重新录入index索引的值
 			valueArray[indexSelect] = indexOption;
-			console.log(valueArray)
 			valueArray.forEach(function(e){
-				try{value = value[index].children}
-				catch(e){}
+				value = value[e].children;
 			})
+			console.log(value)
 			if(next) fillForm(next,value);
 		}
-		fillForm(vikki.querySelector('select'),data);
+		fillForm(vikki.querySelector('select'),data);*/
 	}
-
+	
 	var data = {
 		a:{a11:[1,2,3],a12:[4,5,6]},
 		b:{b11:[7,8,9],b12:[10,11,12]}
@@ -81,6 +102,6 @@
 		]}
 	]
 	var vikki = document.querySelector('.vikki');
-	vikkiSelect(vikki, {data: a, columns: []});
+	vikkiSelect(vikki,data);
     </script>
 </html>

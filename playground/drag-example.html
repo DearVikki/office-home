@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Drag-example</title>
+</head>
+<body>
+	<div style="position: absolute;left: 100px;top: 100px;widith:250px;background: gray;border:solid black">
+		<div onmousedown="drag(this.parentNode, event)" style="background:gray; border-bottom: dotted black;padding: 3px;"><p>this is a test</p></div>
+	</div>
+</body>
+<script type="text/javascript">
+	function drag(elementToDrag, event){
+		console.log(event)
+		var startX = event.clientX + window.pageXOffset;
+		var startY = event.clientY + window.pageYOffset;
+
+		var origX = elementToDrag.offsetLeft + window.pageXOffset;
+		var origY = elementToDrag.offsetTop + window.pageYOffset;
+
+		var deltaX = startX - origX;
+		var deltaY = startY - origY;
+
+		document.addEventListener('mousemove',moveHandler, false);
+		document.addEventListener('mouseup', upHandler,false);
+
+		event.stopPropagation();
+		event.preventDefault();
+
+		function moveHandler(e){
+			//console.log(e.clientY)
+			//console.log(e.clientY + window.pageYOffset - deltaY + 'px')
+			elementToDrag.style.left = e.clientX + window.pageXOffset - deltaX +'px';
+			//console.log(e.clientY + window.pageYOffset - deltaY + 'px')
+			elementToDrag.style.top = e.clientY + window.pageYOffset - deltaY + 'px';
+			console.log(elementToDrag.style.left)
+			//e.stopPropagation();
+		}
+
+		function upHandler(e){
+			document.removeEventListener('mouseup',upHandler,false);
+			document.removeEventListener('mousemove', moveHandler, false);
+			e.stopPropagation();
+		}
+	}
+</script>
+</html>
