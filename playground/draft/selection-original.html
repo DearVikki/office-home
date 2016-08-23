@@ -22,16 +22,16 @@
 		var selectList = Array.prototype.slice.call(dom.children);
 		var valueArray = [];
 		//填充数据
-		function fillForm(dom,value){
+		function fillForm(dom, value){
 			dom.options.length = 0;
 			console.log(value)
+			value = Array.isArray(value) ? value : Object.keys(value);
 			value.forEach(function(e){
 				var opt = document.createElement('option');
-				opt.innerHTML = e.text;
-				opt.value = e.value;
+				opt.innerHTML = e;
+				opt.value = e;
 				dom.add(opt,null);
 			})
-		
     		var evt = document.createEvent('HTMLEvents');
 			evt.initEvent('change', true, true);
     		dom.dispatchEvent(evt);
@@ -39,17 +39,16 @@
 		vikki.onchange = function(e){
 			var $this = e.target;
 			var next = $this.nextElementSibling;
-			var indexOption = $this.options[$this.selectedIndex];
-			var indexSelect = selectList.indexOf($this);
+			var index = selectList.indexOf($this);
 			var value = data;
 			//删除取值数组中index索引后面（包括自己）的各项值
-			valueArray.splice(indexSelect);
+			valueArray.splice(index);
 			//重新录入index索引的值
-			valueArray[indexSelect] = indexOption;
+			valueArray[index] = $this.value;
 			console.log(valueArray)
+			//重新计算一遍当前value
 			valueArray.forEach(function(e){
-				try{value = value[index].children}
-				catch(e){}
+				value = value[e];
 			})
 			if(next) fillForm(next,value);
 		}
@@ -57,30 +56,10 @@
 	}
 
 	var data = {
-		a:{a11:[1,2,3],a12:[4,5,6]},
+		a: {a11:[1,2,3],a12:[4,5,6]},
 		b:{b11:[7,8,9],b12:[10,11,12]}
 	}
-	var a = [
-		{text: 'a', value: 1, children: [
-			{text: 'a11', value: 2, children: [
-				{text: 'a111', value: 7},
-				{text: 'a112', value: 7},
-				{text: 'a113', value: 7},
-			]},
-			{text: 'a12', value: 3, children: [
-				{text: 'a121', value: 7}
-			]}
-		]},
-		{text: 'b', value: 4, children: [
-			{text: 'b11', value: 5, children: [
-				{text: 'b111', value: 7}
-			]},
-			{text: 'b12', value: 6, children: [
-				{text: 'b121', value: 7}
-			]}
-		]}
-	]
 	var vikki = document.querySelector('.vikki');
-	vikkiSelect(vikki, {data: a, columns: []});
+	vikkiSelect(vikki, {data: data, columns: []});
     </script>
 </html>
