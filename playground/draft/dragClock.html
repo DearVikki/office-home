@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>dragClock</title>
+</head>
+<body>
+	<h1>Drag the time out of the clock</h1>
+	<span id="clock" style="font:bold 24pt sans; background: #ddf; padding: 10px; border: solid black 2px; border-radius: 10px"></span>
+	<textarea cols=60 rows=20></textarea>
+</body>
+<script type="text/javascript">
+	var clock = document.getElementById('clock');
+	var icon = new Image();
+	icon.src = 'clock.jpg';
+
+	function displayTime(){
+		var now = new Date();
+		var hrs = now.getHours(), mins = now.getMinutes();
+		if(mins < 10) mins = '0' +mins;
+		clock.innerHTML = hrs + ':' +mins;
+		setTimeout(displayTime, 60000);
+	}
+	displayTime();
+	clock.draggable = true;
+
+	clock.ondragstart = function(e){
+		var event = e || window.event;
+		var dt = event.dataTransfer;
+		dt.setData('Text', Date()+"\n");
+		if(dt.setDragImage) dt.setDragImage(icon,0,0);
+	}
+</script>
+</html>
