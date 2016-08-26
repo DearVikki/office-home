@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>scroll pictures</title>
+	<style type="text/css">
+		#container{
+			width: 500px;
+			height: 200px;
+			border:2px solid skyblue;
+			border-radius: 5px;
+			overflow: hidden;
+			position: relative;
+		}
+		ul{
+			padding: 0;
+			margin:0;
+			line-height: 200px;
+			position: absolute;
+			width: 850px; /*如何不设置宽度但是也不会折行*/
+			height: 100%;
+			left: 0;
+		}
+		li{
+			list-style: none;
+			display: inline-block;
+			width: 200px;
+			height: 100px;
+			background: skyblue;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+	<div id="container" class="vikki-container">
+		<ul class="vikki-wrapper">
+			<li class="vikki-swiper"></li>
+			<li class="vikki-swiper" style="height:50px"></li>
+			<li class="vikki-swiper"></li>
+			<li class="vikki-swiper" style="120px"></li>
+			<li class="vikki-swiper"></li>
+			<li class="vikki-swiper"></li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="17.6scroll.js"></script>
+</html>
