@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Validating Forms
+        </title>
+        <style type="text/css">
+        	.alert{
+        		background-color: #ffcccc;
+        		font-weight: bold;
+        		padding: 5px;
+        		border: 1px dashed #000;
+        	}
+        	div{
+        		margin:10px 0;
+        		padding: 5px;
+        		width: 400px;
+        		background-color: #fff;
+        	}
+        	div.warn{
+        		background-color: #fee;
+        	}
+        </style>
+    </head>
+    <body>
+        <form id="testform">
+            <div>
+                <label for="firstfield">
+                    *First Field:
+                </label>
+                <br/>
+                <input type="text" name="firstfield" id="firstfield" data-required="true" />
+            </div>
+            <div>
+                <label for="secondfield">
+                    Second Field:
+                </label>
+                <br/>
+                <input type="text" name="secondfield" id="secondfield" />
+            </div>
+            <div>
+                <label for="thirdfield">
+                    Third Field(numeric):
+                </label>
+                <br/>
+                <input type="text" name="thirdfield" id="thirdfield" />
+            </div>
+            <div>
+                <label for="fourthfield">
+                    Third Field:
+                </label>
+                <br/>
+                <input type="text" name="fourthfield" id="fourthfield" />
+            </div>
+            <input type="submit" value="Send Data" />
+        </form>
+    </body>
+    <script type="text/javascript">
+    	document.getElementById('firstfield').onblur = mandatoryField;
+    	//document.getElementById('secondfield').onfocus = mandatoryField.bind(document.getElementById('firstfield'));
+    	document.getElementById('thirdfield').onchange = validateField;
+    	document.getElementById('testform').onsubmit = finalCheck;
+
+    	function resetField(elem){
+    		elem.parentNode.classList.remove('warn');
+    		elem.removeAttribute('data-invalid');
+    	}
+
+    	function badField(elem){
+    		elem.parentNode.classList.add('warn');
+    		elem.setAttribute('data-invalid','true');
+    	}
+
+    	function generateAlert(txt){
+    		var txtNd = document.createTextNode(txt);
+    		var msg = document.createElement('div');
+    		msg.classList.add('alert');
+    		msg.appendChild(txtNd);
+    		document.body.appendChild(msg);
+    	}
+
+    	function removeAlert(){
+    		var msg = document.querySelector('.alert');
+    		if(msg) document.body.removeChild(msg);
+    	}
+
+    	function validateField(){
+    		removeAlert();
+    		if(!isNaN(Number(this.value))) resetField(this);
+    		else {
+    			badField(this);
+    			generateAlert('Only numeric values allowed');
+    		}
+    	}
+
+    	function mandatoryField(){
+    		removeAlert();
+    		if(this.value.length > 0){
+    			resetField(this);
+    		} else {
+    			badField(this);
+    			generateAlert('You must enter a value into First Field');
+    		}
+    	}
+    	function finalCheck(){
+    		removeAlert();
+    		//var mandatoryFields = document.querySelectorAll('')
+    		var fields = document.querySelectorAll('[data-invalid]');
+    		if(fields.length > 0) generateAlert('Incorrect fields must be fixed');
+    		return false;
+    	}
+    </script>
+</html>

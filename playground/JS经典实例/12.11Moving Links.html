@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Moving Links</title>
+	<style type="text/css">
+		ul li{
+			list-style: none;
+			padding-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="target">
+		<p>A favorite place of mine to visit in St. Louis is the <a href="http://www.mobot.org/">Missouri Botanical Gardens</a>. Great flowers all year round, and one of the finest annual orchid shows. My most visited places, though, are the <a href="http://www.stlzoo.org">St.Louis Zoo</a>, the <a href="http://www.nps.gov"><em>Gateway Arch</em> Good</a>, the new <a href="http://www.citygardenstl.org">City Garden and...</a></p>
+	</div>
+</body>
+<script type="text/javascript">
+	var links = document.querySelectorAll('a');
+	var footnote = document.createElement('ul');
+	for(var i = 0; i < links.length; i++){
+		var parent = links[i].parentNode;
+		//var num = document.createTextNode(i+1);
+		var sup = document.createElement('sup');
+		//sup.appendChild(num);
+		sup.innerHTML = i+1;
+
+		var children = links[i].childNodes;
+		for (var j = 0; j<children.length; j++){
+			var newChild = children[j].cloneNode(true);
+			parent.insertBefore(newChild, links[i]);
+		}
+
+		var sup2 = sup.cloneNode(true);
+		parent.insertBefore(sup2, links[i]);
+
+		var li = document.createElement('li');
+		li.appendChild(sup);
+		li.appendChild(links[i]);
+		footnote.appendChild(li);
+	}
+	document.getElementsByTagName('body')[0].appendChild(footnote);
+</script>
+</html>

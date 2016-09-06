@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Validating Forms2
+        </title>
+        <style type="text/css">
+        	.alert{
+        		    font-weight: bold;
+                    padding: 0;
+                    margin:0;
+                    color: red;
+        	}
+        	div{
+        		margin:10px 0;
+        		padding: 5px;
+        		width: 400px;
+        		background-color: #fff;
+        	}
+        	div.warn{
+        		
+        	}
+        </style>
+    </head>
+    <body>
+        <form id="testform">
+            <div>
+                <label for="firstfield">
+                    *First Field:
+                </label>
+                <br/>
+                <input type="text" name="firstfield" id="firstfield" />
+            </div>
+            <div>
+                <label for="secondfield">
+                    Second Field(numeric):
+                </label>
+                <br/>
+                <input type="text" name="secondfield" id="secondfield" />
+            </div>
+            <div>
+                <label for="thirdfield">
+                    *Password Field:
+                </label>
+                <br/>
+                <input type="text" name="thirdfield" id="thirdfield" />
+            </div>
+            <div>
+                <label for="fourthfield">
+                    *Confirm Password Field:
+                </label>
+                <br/>
+                <input type="text" name="fourthfield" id="fourthfield" />
+            </div>
+            <div>
+                <label for="fifthfield">
+                    Email Field:
+                </label>
+                <br/>
+                <input type="text" name="fifthfield" id="fifthfield" />
+            </div>
+            <div>
+                <label for="male">Male:</label>
+                <input type="radio" name="male" />
+                <label for="female">Female:</label>
+                <input type="radio" name="female" />
+            </div>
+            <input type="submit" id="btn" value="Send Data" />
+        </form>
+    </body>
+    <script type="text/javascript">
+
+        function $(querySelector){
+            return document.querySelectorAll(querySelector);
+        }
+
+        function classEvent(doms,event,handler){
+            for(var i=0; i<doms.length; i++){
+                doms[i].addEventListener(event, handler, false);
+            }
+        }
+
+        function trigger(dom, eventName){
+            if(typeof CustomEvent === 'function') {
+                var evt = new Event(eventName);
+            } else {
+                var evt = document.createEvent('Event');
+                evt.initEvent(eventName, true, false);
+            }
+            dom.dispatchEvent(evt);
+        }
+
+        document.getElementById('firstfield').addEventListener('check', firstField, false);
+        document.getElementById('secondfield').addEventListener('check', validateField, false);
+        document.getElementById('thirdfield').addEventListener('check', pwField, false);
+        document.getElementById('fourthfield').addEventListener('check', repwField, false);
+        document.getElementById('fifthfield').addEventListener('check', emailField, false);
+        classEvent($('input:not([type=submit])'),'focus', defaultField);
+        //document.getElementById('btn').onclick = finalCheck;
+        document.getElementById('testform').onsubmit = finalCheck;
+        //触发上一板块的事件
+        /*classEvent($('input'),'focus',function(){
+            var prev = this.parentNode.previousElementSibling;
+            if(prev) trigger(prev.querySelector('input'), 'check');
+        })*/
+        classEvent($('input'),'blur',function(){
+            trigger(this,'check');
+        })
+
+    	function resetField(elem){
+    		elem.parentNode.classList.remove('warn');
+    		elem.removeAttribute('data-invalid');
+    	}
+
+    	function badField(elem){
+    		elem.parentNode.classList.add('warn');
+    		elem.setAttribute('data-invalid','true');
+    	}
+
+    	function generateAlert(txt){
+    		var txtNd = document.createTextNode(txt);
+    		var msg = document.createElement('div');
+    		msg.classList.add('alert');
+    		msg.appendChild(txtNd);
+    		this.parentNode.appendChild(msg);
+    	}
+
+    	function removeAlert(dom){
+    		var msg = dom.querySelector('.alert');
+    		if(msg) dom.removeChild(msg);
+    	}
+
+        function defaultField(e){
+            var e = e||window.event;
+            var target = e.target||e.srcElement;
+            removeAlert(target.parentNode);
+        }
+
+    	function validateField(){
+    		removeAlert(this.parentNode);
+    		if(!isNaN(Number(this.value))) resetField(this);
+    		else {
+    			badField(this);
+    			generateAlert.call(this,'Only numeric values allowed');
+    		}
+    	}
+
+    	function mandatoryCheck(field){
+    		if(this.value.length > 0){
+    			resetField(this);
+                return true;
+    		} else {
+    			badField(this);
+    			generateAlert.call(this,'You must enter a value into '+field);
+                return false;
+    		}
+    	}
+
+        function firstField(){
+            removeAlert(this.parentNode);
+            mandatoryCheck.call(this, 'First Field');
+        }
+
+        function pwField(){
+            removeAlert(this.parentNode);
+            if(mandatoryCheck.call(this, 'Password Field')) {
+                if(this.value.length > 5) resetField(this);
+                else {
+                    badField(this);
+                    generateAlert.call(this, 'the longer, the safer');
+                }
+            }
+        }
+
+        function repwField(){
+           removeAlert(this.parentNode);
+            if (this.value === document.getElementById('thirdfield').value) resetField(this);
+            else {
+                badField(this);
+                generateAlert.call(this, 'this password is not consistent with the first one');
+            }
+        }
+
+        function emailField(){
+            removeAlert(this.parentNode);
+            if(mandatoryCheck.call(this, 'Email Field')) {
+                var reg = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                if(reg.test(this.value)) resetField(this);
+                else {
+                    badField(this);
+                    generateAlert.call(this, 'Invalid email address');
+                }
+            }
+        }
+
+    	function finalCheck(e){
+            var fields = document.querySelectorAll('input');
+            for(var i = 0; i<fields.length; i++){
+                trigger(fields[i],'check');
+            }
+            var invalidFields = document.querySelectorAll('[data-invalid]');
+            if(invalidFields.length > 0) return false;
+    	}
+    </script>
+</html>
