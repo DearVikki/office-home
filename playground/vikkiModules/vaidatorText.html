@@ -8,10 +8,10 @@
     <body>
         <form>
             <input name="field1" type="text"/>
+            <input name="field2" type="text"/>
         </form>
     </body>
 </html>
-<input name="field2" type="text"/>
 <script src="vikkiValidator.js" type="text/javascript">
 </script>
 <script type="text/javascript">
@@ -20,7 +20,7 @@
 	var field2 = document.querySelector('input[name=field2]');
 	var v = new VikkiValidator(form,[
 		{field: field1, isRequired:true},
-		{field: field2, isRequired:true, max:11}
+		{field: field2, isRequired:true, min:3}
 		]);
 	form.addEventListener('validatePass', function (e) {
 		console.log(e.target);
