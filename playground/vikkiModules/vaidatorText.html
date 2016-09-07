@@ -4,11 +4,32 @@
         <title>
             validatorTest
         </title>
+        <meta charset="utf-8">
+        </meta>
+        <style type="text/css">
+	        div{
+	        	margin-top: 20px;
+	        }
+        	p.error{
+        		color: red;
+        		font-size: 12px;
+        		font-family: '微软雅黑';
+        		margin:0;
+        	}
+        </style>
     </head>
     <body>
         <form>
-            <input name="field1" type="text"/>
-            <input name="field2" type="text"/>
+            <div>
+            	<label for="field1">姓名：</label>
+            	</br>
+                <input name="field1" type="text"/>
+            </div>
+            <div>
+            	<label for="fiel2">密码：</label>
+            	</br>
+                <input name="field2" type="text"/>
+            </div>
         </form>
     </body>
 </html>
@@ -19,14 +40,26 @@
 	var field1 = document.querySelector('input[name=field1]');
 	var field2 = document.querySelector('input[name=field2]');
 	var v = new VikkiValidator(form,[
-		{field: field1, isRequired:true},
-		{field: field2, isRequired:true, min:3}
+		{field: field1, isRequired:{msg:'姓名不能为空'}},
+		{field: field2, isRequired:{msg:''}, min:{len:'4', msg:'密码不能少于4位'}}
 		]);
 	form.addEventListener('validatePass', function (e) {
-		console.log(e.target);
 	},false);
 	form.addEventListener('validateFail', function (e) {
-		console.log(e.target);
-		console.log(e.detail);
+		var target = e.target;
+		var t = document.createTextNode(e.detail);
+		var p = document.createElement('p');
+		p.classList.add('error');
+		p.appendChild(t);
+		target.parentNode.appendChild(p);
 	},false);
+
+	function removeAlert(){
+		var p = this.parentNode.querySelector('.error');
+		if(p) p.parentNode.removeChild(p);
+	}
+	var inputs = document.getElementsByTagName('input');
+	for(var i = 0; i<inputs.length; i++){
+		inputs[i].addEventListener('focus',removeAlert,false);
+	}
 </script>
