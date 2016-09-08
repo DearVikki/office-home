@@ -7,7 +7,7 @@
 	<meta content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" name="viewport"/>
 </head>
 <body>
-	<div class="nav">哈哈哈
+	<div class="nav" onclick="eventHandler(12312)">哈哈哈
 	<div id="xx" style="width:50px;height: 30px; background: skyblue">咕咕咕</div></div>
 </body>
 <script type="text/javascript" src="jquery.js"></script>
@@ -16,15 +16,18 @@
 
 	var xx = document.getElementById('xx');
 	var nav = document.querySelector('.nav');
-	//nav.onclick = eventHandler;
+	nav.onclick = eventHandler;
 	//xx.addEventListener('click', eventHandler, false)
-	$('#xx').on('click',eventHandler);
+	//$('#xx').on('click',eventHandler);
 	function eventHandler(a){
 		console.log(a)
 	}
-	$('.nav').on('custom',{name:'vicky'},eventHandler);
+	nav.onclick = function () {
+		eventHandler(12312);
+	};
+	//$('.nav').on('custom',{name:'vicky'},eventHandler);
 	//$('.nav').trigger('click')
-	$('#xx').trigger('custom');
-	trigger(xx,'click');
+	//$('#xx').trigger('custom');
+	//trigger(xx,'click');
 </script>
 </html>
