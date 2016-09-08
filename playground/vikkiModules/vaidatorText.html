@@ -7,6 +7,9 @@
         <meta charset="utf-8">
         </meta>
         <style type="text/css">
+            p{
+                font-family: '微软雅黑';
+            }
 	        div{
 	        	margin-top: 20px;
 	        }
@@ -23,26 +26,42 @@
             <div>
             	<label for="field1">姓名：</label>
             	</br>
-                <input name="field1" type="text"/>
+                <input name="field1" id="field1" type="text"/>
             </div>
             <div>
-            	<label for="fiel2">密码：</label>
+            	<label for="field2">密码：</label>
             	</br>
                 <input name="field2" type="text"/>
             </div>
+            <div>
+                <label for="field3">密码：</label>
+                </br>
+                <input name="field3" type="text"/>
+            </div>
+            <div>
+                <label for="field4">E-mail：</label>
+                </br>
+                <input name="field4" type="text"/>
+            </div>
+            <button id="submitt">提交a</button>
         </form>
     </body>
 </html>
+<script src="JsCollection.js" type="text/javascript">
+</script>
 <script src="vikkiValidator.js" type="text/javascript">
 </script>
 <script type="text/javascript">
     var form = document.getElementsByTagName('form')[0];
-	var field1 = document.querySelector('input[name=field1]');
+	//var field1 = document.querySelector('input[name=field1]');
 	var field2 = document.querySelector('input[name=field2]');
+    var field3 = document.querySelector('input[name=field3]');
+    var field4 = document.querySelector('input[name=field4]');
 	var v = new VikkiValidator(form,[
 		{field: field1, isRequired:{msg:'姓名不能为空'}},
-		{field: field2, isRequired:{msg:''}, min:{len:'4', msg:'密码不能少于4位'}}
-		]);
+		{field: field2, isRequired:{msg:''}, min:{len:'4', msg:'密码不能少于4位'}},
+        {field: field4, isEmail:{}}
+		],submitt);
 	form.addEventListener('validatePass', function (e) {
 	},false);
 	form.addEventListener('validateFail', function (e) {

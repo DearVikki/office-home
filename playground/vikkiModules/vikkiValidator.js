@@ -1,21 +1,34 @@
-function VikkiValidator(container, rules) {
+function VikkiValidator(container, rules, submitt) {
     this.errMsg = [];
     this.allRules = {};
-    this.rulesDefaultNames = ['isRequired', 'rangeCheck', 'min'];
-    //空值判断
-    this.isRequired = function(el) {
-    	var msg = 'Mandatory field';
-        return {result:el.value.length > 0 ? true : false, msg:msg}
+    this.functions = {
+        isRequired: function(value) {
+            var msg = 'Mandatory field';
+            return {
+                result: value.length > 0 ? true : false,
+                msg: msg
+            };
+        },
+        isEmail: function(value) {
+            var reg = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+            var msg = 'Invalid email address';
+            return {
+                result: reg.test(value) ? true : false,
+                msg: msg
+            };
+        },
+        min: function(value, data) {
+            var len = Number(data.len) ? Number(data.len) : 0;
+            var msg = 'Not enough words';
+            return {
+                result: value.length >= len ? true : false,
+                msg: msg
+            };
+        }
     };
-    //长度判断
-    this.min = function(el, data) {
-        var len = Number(data.len)?Number(data.len):0;
-        var msg = 'Not enough words';
-        return {result:el.value.length >= len ? true : false, msg:msg}
-    };
-    //范围判断
+    this.functionNames = Object.keys(this.functions);
     /*变量解释：
-    this.rulesDefaultName: 按顺序储存的默认检测变量名数组
+    this.functionNames: 按顺序储存的默认检测变量名数组
     this.allRules: 经转换过的用户要求检测对象，格式为{fieldName:{isRequired:{..},min{...}},fieldName:{isRequired:{..},min{...}}}
     rule: 当前dom绑定的检测对象，格式为{isRequired:{...},min:{...}}
     thisName: this.rulesDefaultName循环到的每一检测name
@@ -24,43 +37,50 @@ function VikkiValidator(container, rules) {
     this.check = function(e) {
         var e = e || window.event;
         var target = e.target;
-        var targetName = e.target.name;
-        var rule = this.allRules[targetName];
+        var targetData = e.target.getAttribute('data-v');
+        var rule = this.allRules[targetData];
         var checkResult = true;
         var errMsg;
-        for (var i = 0; i < this.rulesDefaultNames.length; i++) {
-            var thisName = this.rulesDefaultNames[i];
+        if (rule === undefined) return;
+        for (var i = 0; i < this.functionNames.length; i++) {
+            var thisName = this.functionNames[i];
             if (thisName in rule) {
-            	var thisRule = rule[thisName];
-            	var data = this[thisName](target, thisRule);
+                var thisRule = rule[thisName];
+                var data = this.functions[thisName](target.value, thisRule);
                 checkResult = data.result;
-                errMsg = thisRule.msg||data.msg;
+                errMsg = thisRule.msg || data.msg;
                 if (!checkResult) {
-                    var evt = new CustomEvent('validateFail', {
-                        bubbles: true,
-                        detail: errMsg
-                    });
-                    target.dispatchEvent(evt);
+                    trigger(target, 'validateFail', errMsg)
                     break;
                 }
             }
         }
         if (checkResult) {
-            var evt = new CustomEvent('validatePass', {
-                'bubbles': true,
-                'detail': 'all passed'
-            });
-            target.dispatchEvent(evt);
+            trigger(target, 'validatePass', 'all passed')
         }
     }.bind(this);
+    this.checkAll = function() {
+        for (var i = 0; i < inputs.length; i++) {
+            trigger(inputs[i], 'blur');
+        }
+    }
 
+    function idTrans(el) {
+        el = (!el instanceof HTMLElement) ? document.getElementById(el) : el;
+        return el;
+    }
+    container = idTrans(container);
+    submitt = idTrans(submitt);
     for (var i = 0; i < rules.length; i++) {
-        var elName = rules[i].field.name;
+        var el = rules[i].field;
+        idTrans(el);
+        el.setAttribute('data-v', 'v' + i);
         delete rules[i].field;
-        this.allRules[elName] = rules[i];
+        this.allRules['v' + i] = rules[i];
     }
     var inputs = container.querySelectorAll('input');
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].onblur = this.check;
     }
+    submitt.addEventListener('click', this.checkAll, false);
 }
