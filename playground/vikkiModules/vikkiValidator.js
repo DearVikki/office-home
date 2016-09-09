@@ -1,4 +1,4 @@
-function VikkiValidator(container, rules, submitt) {
+function VikkiValidator(container, rules, submit) {
     this.errMsg = [];
     this.allRules = {};
     this.functions = {
@@ -70,7 +70,9 @@ function VikkiValidator(container, rules, submitt) {
         return el;
     }
     container = idTrans(container);
-    submitt = idTrans(submitt);
+    //console.log(submit)
+    submit = idTrans(submit);
+    //console.log(submit)
     for (var i = 0; i < rules.length; i++) {
         var el = rules[i].field;
         idTrans(el);
@@ -82,5 +84,5 @@ function VikkiValidator(container, rules, submitt) {
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].onblur = this.check;
     }
-    submitt.addEventListener('click', this.checkAll, false);
+    submit.addEventListener('click', this.checkAll, false);
 }
