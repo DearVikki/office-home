@@ -19,11 +19,20 @@ function VikkiValidator(container, rules, submit) {
         },
         min: function(value, data) {
             var len = Number(data.len) ? Number(data.len) : 0;
-            var msg = 'Not enough words';
+            var msg = 'More                                                                                                                  than ' + len + ' words.';
             return {
                 result: value.length >= len ? true : false,
                 msg: msg
             };
+        },
+        equalTo: function(value, data){
+            var field2 = idTrans(data.field);
+            var value2 = field2.value;
+            var msg = 'Values are not equal'
+            return {
+                result: value === value2 ? true : false,
+                msg: msg
+            }
         }
     };
     this.functionNames = Object.keys(this.functions);
@@ -41,7 +50,8 @@ function VikkiValidator(container, rules, submit) {
         var rule = this.allRules[targetData];
         var checkResult = true;
         var errMsg;
-        if (rule === undefined) return;
+        //剔除没有被写检查的元素
+        //if (rule === undefined) return;
         for (var i = 0; i < this.functionNames.length; i++) {
             var thisName = this.functionNames[i];
             if (thisName in rule) {
@@ -69,6 +79,8 @@ function VikkiValidator(container, rules, submit) {
         el = (!el instanceof HTMLElement) ? document.getElementById(el) : el;
         return el;
     }
+
+    var inputs = [];
     container = idTrans(container);
     //console.log(submit)
     submit = idTrans(submit);
@@ -79,8 +91,9 @@ function VikkiValidator(container, rules, submit) {
         el.setAttribute('data-v', 'v' + i);
         delete rules[i].field;
         this.allRules['v' + i] = rules[i];
+        inputs.push(el);
     }
-    var inputs = container.querySelectorAll('input');
+
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].onblur = this.check;
     }

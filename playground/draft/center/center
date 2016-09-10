@@ -1,0 +1,203 @@
+乌拉拉，今天起得特别早！因为要开启第一篇总结了！然后…想要以身试法来总结一下虽然耳熟能详被讲烂了但我还是想讲的居中对齐，这样以后就肯定再也不怕啦hhh!!
+
+因水平居中无非是text-align: center和x方向的margin: auto两种, 所以底下只讨论垂直居中，并且以我最爱用的对齐方法为主~只排一二三名!:D
+
+以下是**非flex-box**版本，关于flex-box的情况我还没有太熟…【掌嘴! 预约未来五天内补上~
+
+
+
+#### Pure Text
+
+- 单行文字
+
+  情境：
+
+  ````javascript
+  <div><p>啦啦啦</p></div>
+  ````
+
+  - 利用line-height
+
+    ```javascript
+    div/p/span: {line-height: height的值;}
+    ```
+
+  - **不要利用**table-cell属性
+
+    ````javascript
+    div: {display:table-cell; vertical-align: middle;}
+    ````
+
+    看起来倒是很简单~但某元素的<code>display: table-cell</code>一般要与其父元素的<code>display: table</code>搭配使用，以达到类表格效果为目的，所以还是不要随便用为好。如果某元素单独使用table-cell: ①这个元素不可以absolute/fix定位，因为该定位情况下的display会被强制设为block；②这个元素的margin属性会失效，[MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/margin)里有讲到：
+
+    > [The margin property] applies to all elements except elements with table display types other than table-caption, table and inline-table
+
+    不过display:table-cell&&display:table也有自己独特的用处，过后就可以看到啦!
+
+    ​
+
+- 单行多个不同font-size的文字
+
+  情境：
+
+  ````javascript
+  <div>
+    <span style="font-size:15px">啦</span><span style="font-size:10px">啦啦</span>
+  </div>
+  ````
+
+  - 利用line-height + vertical-align
+
+    ````javascript
+    两个span都要设: {line-height: height的值; vertical-align:middle;}
+    ````
+
+    vertical-align表示”**行内**元素的基线baseline相对于该元素所在**行**的关系“，所以一定记得只可以给display: inline/inline-block的元素使用，给display: block元素使用是无效的；想要知道关于vertical-align更详细的内容，可以移步[css-tricks](https://css-tricks.com/what-is-vertical-align/)和[张鑫旭](http://www.zhangxinxu.com/wordpress/2010/05/%E6%88%91%E5%AF%B9css-vertical-align%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3%E4%B8%8E%E8%AE%A4%E8%AF%86%EF%BC%88%E4%B8%80%EF%BC%89/)的啦。
+
+    ​
+
+- 多行文字
+
+  情境：
+
+  ````javascript
+  <div><p>啦</p><p>啦啦</p></div>
+  ````
+
+  以下两种方法都需要对原代码做一点点修改
+
+  - 利用absolute定位 + translate3d （IE11?, Chrome, Firefox）
+
+    ````javascript
+    <div>
+      <span class="wrapper">
+        <p>啦</p>
+      	<p>啦啦</p>
+      </span>
+    </div>
+    ---------------html/css分割线----------
+    div{
+      position: relative;
+    }
+    .wrapper{
+      position: absolute;
+      ~~display:inline-block;~~ /*再次提醒哟 由于absolute定位，span的display已被强制设为block*/
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0); 
+      /*相当于margin-top: -halfHeight; margin-left: -halfWidth;*/
+    }
+    ````
+
+    这里用到了css3属性translate，它的好用之处在于是**百分比是相对于自身**而言的，也就免去了不知道元素高宽的烦恼。css2的日子里，或许.wrapper用absolute定位后，需要用js写<code>el.style.marginTop = -halfHeight</code>，但是现在就可以直接用css搞定啦!
+
+  - 利用vertical-align + span助手（IE9, Chrome, Firefox）
+
+    ````javascript
+    <div>
+      <span class="helper"></span>
+      <span class="wrapper">
+        <p>啦</p>
+        <p>啦啦</p>
+      </span>
+    </div>
+      ------------html/css分割线-------------
+    .helper {
+    	display: inline-block; /*span的默认display是inline,所以无法设置高宽*/
+        width: 0;
+    	height: 100%;
+        vertical-align: middle;
+    }
+    /*p是块状元素，所以要被包起来*/
+    .wrapper {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    ````
+
+    这个奇妙的方法最早又是在[张鑫旭](http://www.zhangxinxu.com/wordpress/2009/08/%E5%A4%A7%E5%B0%8F%E4%B8%8D%E5%9B%BA%E5%AE%9A%E7%9A%84%E5%9B%BE%E7%89%87%E3%80%81%E5%A4%9A%E8%A1%8C%E6%96%87%E5%AD%97%E7%9A%84%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD/)使用空白图片实现垂直对齐那里看见（他真的有数不尽的可以看的东西!!），然后又很巧的看见了[大漠](http://www.w3cplus.com/css%2520/img-vertically-center-content-with-css)的改进版（在“2, 空白标签实现图片的垂直居中”里）。span.helper的height因和外部容器的height一致，所以该行的行高度也被撑成height那么高，那么只要是该行的行内元素的vertical-align为 middle，就都可以相对容器垂直居中了! 
+
+    ps: p标签不可以长到折行，所以如果文本内容可能过长的话，就给.wrapper一个<code>max-width: 99%</code>把!~
+
+    ​
+
+#### Pure Imgs####
+
+- 单张图片（图片高宽不定）
+
+  情境：
+
+  ````javascript
+  <div><img src="xx" /></div>
+  ````
+
+  因为img标签就基本相当于一个inline-block的span（除了img是名不符实的inline display这一点外），所以基本多行文字被span包起来进行居中定位的方法，都同样适用于img。写过的方法就不再赘述啦。
+
+  - 利用absolute定位 + translate3d
+
+  - 利用vertical-align + span助手
+
+  - 一个调皮的absolute小trick~
+
+    ````javascript
+    div{
+      position: relative;
+    }
+    img{
+      position: absolute;
+      top:0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+    }
+    ````
+
+    这个方法超方便的!!看起来像是有一种“房间里被监禁着的元素小人被看守小人们使劲的往四个方向拉扯着，因为哪一方都没有多余的margin力来帮忙拉一拉，所以元素小人只好紧绷绷的位于房间中心”的既视感。所以这个方法只能用于有固定高宽的小人咯，如果给包着多行文字的span用上的话，span弹力小人可是会被拉成房间高宽那么大的!
+
+  - 利用background（一般用于logo图）
+
+    ````javascript
+    <div></div>
+    div{
+      background: url(...) center no-repeat;
+    }
+    ````
+
+    ​
+
+- 多张图片（图片高宽不定）
+
+  情境：
+
+  ````javascript
+  <div>
+    <img src='xx' /><img src='xx' /><img src='xx' /><img src='xx' />
+  </div>
+  ````
+
+  这种单纯的情况应该不常见了…假设出现了，就还是…
+
+  - 利用vertical-align + span助手把！❤
+
+
+
+#### Pure Divs####
+
+- 一个子div在父div里垂直居中
+
+  - 利用absolute定位 + translate3d
+  - 利用调皮的absolute小trick
+
+- 多个子div们在父div里并列
+
+  这些子div们的display一定是inline-block，所以即等同于多张图片的垂直居中
+
+  - 利用vertical-align + span助手
+
+    注：如果不是利用<code>display: inline-block</code>而是利用<code>float: left</code>来使div们位于一行的话就不适用这种方法了。因为float定位使元素只能**靠top对齐**，并且display也变为block， [stack](http://stackoverflow.com/questions/12557897/how-to-vertically-middle-align-floating-elements-of-unknown-heights)的这个回答就超好的~
+
+
+
+#### Imgs + Texts####
+

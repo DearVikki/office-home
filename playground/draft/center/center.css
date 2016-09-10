@@ -1,0 +1,26 @@
+.parent {
+    width: 200px;
+    height: 100px;
+    background: skyblue;
+    text-align: center;
+    position: relative;
+}
+
+p {
+   vertical-align: middle;
+   display: inline-block;
+}
+span{
+	position: absolute;
+	top: 50%;
+	left:50%;
+	transform: translate3d(-50%,-50%,0);
+}
+img{
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
