@@ -1,18 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>testLayers</title>
-	<meta charset="utf-8" />
-</head>
-<body>
-	<div>
-		<div></div>
-		<div></div>
-	</div>
-</body>
-	<script type="text/javascript" src="vikkiLayers.js">
-		var layer = new VikkiLayers({
-
-		});
-	</script>
+    <head>
+        <title>
+            testLayers
+        </title>
+        <meta charset="utf-8"/>
+        <style type="text/css">
+        	div{
+        		width: 100px;
+        		height: 20px;
+        		margin-top: 10px;
+        		border: 1px solid skyblue;
+        		text-align: center;
+        	}
+        	div.vikki-on{
+        		background-color: skyblue;
+        	}
+        </style>
+    </head>
+    <body>
+    	<section id="vikki-layer">
+    		<div class="layer1" id="idlayer1">layer 1</div>
+	        <div class="layer21" id="idlayer2" data-to="idlayer1">layer 2.1</div>
+	        <div class="layer213" data-to="idlayer2">layer 3</div>
+	        <div class="layer213" data-to="idlayer2">layer 3</div>
+	        <div class="layer22" id="idlayer22" data-to="idlayer1">layer 2.2</div>
+	        <div class="layer223" data-to="idlayer22">layer 3</div>
+    	</section>
+    </body>
+    <script src="vikkiLayers.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+        var eg = document.getElementById('vikki-layer');
+        VikkiLayers(eg);
+    </script>
 </html>
