@@ -3,6 +3,7 @@ function VikkiLayers(el) {
     var relations = {};
     var leaders = [];
     var followers = [];
+    var initialDoms = Array.prototype.slice.call(el.querySelectorAll('.vikki-on'));
     //遍历dom类数组函数
     function domEach(array, f) {
         for (var i = 0; i < array.length; i++) {
@@ -97,5 +98,11 @@ function VikkiLayers(el) {
         if (this.nodeType !== 3 && (this.id || this.hasAttribute('data-to'))) {
             this.addEventListener('click', eventHandler, false);
         }
-    })
+    });
+    //初始化选中的dom
+    initialDoms.forEach(function(e) {
+        findFollowers(e, function(e){
+            e.classList.add('vikki-on');
+        })
+    });
 }
