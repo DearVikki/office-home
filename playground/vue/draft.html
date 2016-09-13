@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>vue test</title>
-	<style type="text/css"></style>
-</head>
-<body>
-	<input id="id1" v-model='msg'/>
-</body>
-<script type="text/javascript" src="vue.js"></script>
-<script type="text/javascript">
-	var v = new Vue({
+    <head>
+        <title>
+            vue test
+        </title>
+        <style type="text/css">
+        </style>
+    </head>
+    <body id="id1">
+        <input v-model="msg"/>
+        <div v-bind:class='msg'>
+            {{ msg }}
+        </div>
+    </body>
+    <script src="vue.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+        var vm = new Vue({
 		el:'#id1',
 		data:{
 			msg:'love you'
 		}
 	})
-</script>
+	vm.$watch('msg', function(newVal, oldVal){
+		console.log(newVal);
+		console.log(oldVal);
+	})
+	function filter(a){
+		console.log(a)
+	}
+    </script>
 </html>
