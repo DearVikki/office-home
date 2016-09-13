@@ -32,10 +32,11 @@ function radioToggle(parentEl) {
         var e = e || window.event;
         var target = e.target;
         var radios = parentEl.querySelectorAll('input[type=radio]');
-        e.preventDefault();
+        //e.preventDefault();
         if (target.type === 'radio') {
-        	console.log(target.checked) //总是为true啊
-            if (target.checked) target.checked = false;
+            console.log(target.checked);
+            //target.checked = !target.checked;
+                //target.removeAttribute('checked');
             /*else {
                 map(radios, function() {
                     this.checked = false;

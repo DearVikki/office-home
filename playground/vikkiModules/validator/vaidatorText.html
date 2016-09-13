@@ -63,9 +63,9 @@
 <div id="submit">
     提交
 </div>
-<script src="JsCollection.js" type="text/javascript">
+<script src="../JsCollection.js" type="text/javascript">
 </script>
-<script src="../vikkiValidator.js" type="text/javascript">
+<script src="vikkiValidator.js" type="text/javascript">
 </script>
 <script type="text/javascript">
     window.onload = function(){
@@ -74,6 +74,7 @@
     var field2 = document.querySelector('input[name=field2]');
     var field3 = document.querySelector('input[name=field3]');
     var field4 = document.querySelector('input[name=field4]');
+    console.log(field1)
     var v = new VikkiValidator(form,[
         {field: field1, isRequired:{msg:'姓名不能为空'}},
         {field: field2, isRequired:{msg:''}, min:{len:'4', msg:'密码不能少于4位'}},

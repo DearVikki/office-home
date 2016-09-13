@@ -1,6 +1,7 @@
 $.fn.swipeHide = function(){
-	function swipeLeftHandler(){
-		console.log(this)
+	function swipeLeftHandler(e){
+		console.log(this);
+		e.preventDefault();
 		//this.style.left = '-200px';
 	}
 	this.on('swipeLeft', swipeLeftHandler);
