@@ -9,7 +9,7 @@
     </head>
     <body id="id1">
         <input v-model="msg"/>
-        <div v-bind:class='msg'>
+        <div v-bind:class="classObject" v-bind:style="styleObject">
             {{ msg }}
         </div>
     </body>
@@ -17,17 +17,27 @@
     </script>
     <script type="text/javascript">
         var vm = new Vue({
-		el:'#id1',
-		data:{
-			msg:'love you'
-		}
-	})
-	vm.$watch('msg', function(newVal, oldVal){
-		console.log(newVal);
-		console.log(oldVal);
-	})
-	function filter(a){
-		console.log(a)
-	}
+        el:'#id1',
+        data:{
+            msg:'love you',
+            classObject: {
+                'classA': true,
+                'classB': false
+            },
+            styleObject: {
+                color: 'red'
+            }
+        },
+        computed:{
+            msg2:{
+                get:function(){
+                    return this.msg+'2'
+                },
+                set:function(val){
+                    this.msg = 'yoxi'
+                }
+            }
+        }
+    })
     </script>
 </html>
