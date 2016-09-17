@@ -5,14 +5,41 @@
             vue test
         </title>
         <style type="text/css">
+        .hh-transition{
+            color: black;
+            font-size: 30px;
+        }
+        .hh-enter{
+            animation: enter 2s;
+        }
+        .hh-leave{
+            animation: leave 5s;
+        }
+        @keyframes enter{
+            50% {
+                color: red;
+            }
+            100% {
+                color:blue;
+            }
+        }
+        @keyframes leave{
+            to{
+                color: yellow;
+                font-size: 10px;
+            }
+        }
         </style>
     </head>
     <body id="id1">
-        <input v-model="msg"/>
-        <div v-bind:class="classObject" v-bind:style="styleObject">
-            {{ msg }}
+        <div>{{msg}}</div>
+        <input v-model="msg" />
+        <div v-if="show" transition="hh">{{msg}}</div>
+        <div v-for="good in items" v-on:click="change(good)">
+            {{ good.msg }}
         </div>
-    </body>
+        <input type="checkbox" v-model="radio" v-on:change="alert">
+        <div id="example"><my-component></my-component></div>
     <script src="vue.js" type="text/javascript">
     </script>
     <script type="text/javascript">
@@ -20,12 +47,24 @@
         el:'#id1',
         data:{
             msg:'love you',
-            classObject: {
-                'classA': true,
-                'classB': false
-            },
+            radio: '',
+            checked:'',
+            items:[
+            {msg:'a'},
+            {msg:'b'}
+            ],
             styleObject: {
                 color: 'red'
+            }
+        },
+        methods:{
+            //关于是change以后再打勾的问题
+            change: function(o){
+                console.log(this.items.indexOf(o) )
+                //this.items.$remove(o);
+            },
+            alert: function(){
+                alert('boo');
             }
         },
         computed:{
@@ -36,8 +75,22 @@
                 set:function(val){
                     this.msg = 'yoxi'
                 }
+            },
+            show: function(){
+                return this.msg === 'hh'
             }
         }
+    });
+    
+    var MyComponent = Vue.extend({
+        //template: '<div>A custom component!</div>',
+        data:function(){
+            return {a:1}
+        }
+    })
+    Vue.component('my-component', MyComponent);
+    new Vue({
+        el:'#example'
     })
     </script>
 </html>

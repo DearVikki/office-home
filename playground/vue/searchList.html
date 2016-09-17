@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>searchList</title>
+	<style type="text/css">
+		input{
+			outline: none;
+			border: 2px solid skyblue;
+			padding-left: 5px;
+		}
+		ul{
+			padding: 0;
+			margin: 0;
+		}
+		li{
+			list-style: none;
+		    margin-top: 5px;
+		    width: 170px;
+		    height: 20px;
+		    line-height: 20px;
+		    padding-left: 5px;
+		    color: #fff;
+		    background: skyblue;
+		    border-radius: 2px;
+		    font-family: cursive;
+		}
+		.stagger-transition{
+			transition: all .5s;
+		}
+		.stagger-enter,.stagger-leave{
+			height: 0;
+			opacity: 0;
+		}
+	</style>
+</head>
+<body>
+	<div id="id1">
+		<input type="text" v-model="searchTxt" />
+		<ul>
+			<li v-show="list.show" v-for="list in lists" transition="stagger" stagger="1000">{{list.txt}}</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript">
+	Vue.transition('stagger',{
+		stagger: function(index) {
+			console.log(index)
+			return Max.min(5000, index*500);
+		}
+	})
+	var vm = new Vue({
+		el: '#id1',
+		data: {
+		    searchTxt: '',
+		    lists: [{
+		        txt: 'apple',
+		        show: true
+		    }, {
+		        txt: 'banana',
+		        show: true
+		    }, {
+		        txt: 'cherry',
+		        show: true
+		    }, {
+		        txt: 'chip',
+		        show: true
+		    }, {
+		        txt: 'grape',
+		        show: true
+		    }, {
+		        txt: 'mango',
+		        show: true
+		    }],
+		},
+		methods:{
+			search: function(){
+				var txt = this.searchTxt;
+				console.log(txt)
+				this.lists.forEach(function(e){
+					var fruit = e.txt;
+					if(fruit.indexOf(txt) !== 0) e.show = false;
+				});
+				//console.log(fruit)
+			}
+		},
+		computed:{}
+	})
+	vm.$watch('searchTxt',function(val){
+		this.lists.forEach(function(e){
+			var fruit = e.txt;
+			if(fruit.indexOf(val) !== 0) e.show = false;
+			else e.show = true;
+		});
+	})
+
+</script>
+</html>
