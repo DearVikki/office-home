@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            picUpload test
+        </title>
+    </head>
+    <body>
+            <input name="" type="file"/>
+            <div class="container">
+            	 <div class="vikki-img-holder">
+                <img class="vikki-img" src=""/>
+                <div class="vikki-img-remove">
+                ×
+                </div>
+            </div>
+            </div>
+        </div>
+    </body>
+    <script src="vikkiPicUpload.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+	    var input = document.querySelector('input');
+		var container = document.querySelector('.container');
+		var upload = new VikkiPic({input:input,template:container});
+    </script>
+</html>

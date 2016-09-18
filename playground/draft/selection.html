@@ -58,9 +58,9 @@
 			var indexOption = optionList.indexOf($this.options[$this.selectedIndex]);
 			var indexSelect = selectList.indexOf($this);
 			var value = data;
-			//删除取值数组中index索引后面（包括自己）的各项值
+			//*删除取值数组中index索引后面（包括自己）的各项值
 			valueArray.splice(indexSelect);
-			//重新录入index索引的值
+			//*重新录入index索引的值
 			valueArray[indexSelect] = indexOption;
 			valueArray.forEach(function(e){
 				value = value[e].children;
