@@ -6,7 +6,7 @@ function map(els, f) {
 }
 //remove child
 function remove(el) {
-    if (type instanceof HTMLElement) el.parentNode.removeChild(el);
+    if (el instanceof HTMLElement) el.parentNode.removeChild(el);
 }
 //trigger
 function trigger(el, event, detail) {
@@ -23,6 +23,23 @@ function trigger(el, event, detail) {
         evt.initEvent(event, true, false);
     }
     el.dispatchEvent(evt);
+}
+//得到dom数组
+function domArray(selector, container){
+    if(!container) container = 'document';
+    console.log(container)
+    var dom = container.querySelectorAll(selector);
+    return Array.prototype.slice.call(dom);
+}
+//index
+function domIndex(el, selector, container){
+    var list = domArray(selector, container);
+    return list.indexOf(el);
+}
+//last child
+function last(selector, container){
+    var dom = domArray(selector, container);
+    return dom[dom.length-1];
 }
 //radio
 function radioToggle(parentEl) {

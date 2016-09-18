@@ -21,11 +21,12 @@ function VikkiPic(config) {
             var dom = template.cloneNode(true);
             dom.style.display = initialStyle;
             var newImg = dom.querySelectorAll('.vikki-img');
-            var removeBtn = dom.querySelector('.vikki-img-remove');
+            var removeBtn;
             for (var i = 0; i < newImg.length; i++) {
                 newImg[i].src = this.result;
             }
             container.insertAdjacentHTML('beforeend', dom.outerHTML);
+            removeBtn = last('.vikki-img-holder', container).querySelector('.vikki-img-remove');
             removeBtn.addEventListener('click', deletePic, false);
         }
     }
@@ -36,9 +37,8 @@ function VikkiPic(config) {
         var target = e.target;
         //parents()及children()如何实现?
         var holder = target.parentNode;
-        var holderList = container.querySelectorAll('.vikki-img-holder');
-        holderList = Array.prototype.slice.call(holderList);
-        var index = holderList.indexOf(holder) - 1;
-        this.files.splice(index, 1);
+        var index = domIndex(holder, '.vikki-img-holder', container) - 1;
+        remove(holder);
+        fileArray.splice(index, 1);
     }
 }
