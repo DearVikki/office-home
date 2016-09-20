@@ -1,13 +1,18 @@
 function VikkiPic(config) {
-    var fileArray = this.files = [];
+    var fileArray = this.files = []; //也可以直接最简单的var $this = this;
     var input = config.input;
     var container = config.template;
     var template = container.querySelector('.vikki-img-holder');
     var initialStyle = template.style.display;
     template.style.display = 'none';
     input.onchange = function() {
-        var file = input.files[0];
-        showPic(file);
+        if (input.files) {
+            var file = input.files[0];
+            showPic(file);
+        } else {
+            var src = input.value;
+            showPicIE(src);
+        }
         fileArray.push(file);
     }
 
@@ -27,16 +32,25 @@ function VikkiPic(config) {
             }
             container.insertAdjacentHTML('beforeend', dom.outerHTML);
             removeBtn = last('.vikki-img-holder', container).querySelector('.vikki-img-remove');
-            removeBtn.addEventListener('click', deletePic, false);
+            if (removeBtn) removeBtn.addEventListener('click', deletePic, false);
         }
+    }
+
+    function showPicIE(src) {
+        src = 'file:///'+src;
+        console.log(src)
+        var imgDiv = document.createElement('div');
+        document.body.appendChild(imgDiv);
+        imgDiv.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod = scale)";
+        imgDiv.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = src;
+        container.appendChild(imgDiv)
     }
 
     function deletePic() {
         console.log('hey')
         var e = e || window.event;
         var target = e.target;
-        //parents()及children()如何实现?
-        var holder = target.parentNode;
+        var holder = parent(target, '.vikki-img-holder');
         var index = domIndex(holder, '.vikki-img-holder', container) - 1;
         remove(holder);
         fileArray.splice(index, 1);

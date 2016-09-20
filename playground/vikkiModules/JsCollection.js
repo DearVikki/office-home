@@ -25,21 +25,50 @@ function trigger(el, event, detail) {
     el.dispatchEvent(evt);
 }
 //得到dom数组
-function domArray(selector, container){
-    if(!container) container = 'document';
-    console.log(container)
+function domArray(selector, container) {
+    if (!container) container = document;
+    //console.log(container)
+    //var parser = new DOMParser,
+    //doc = parser.parseFromString(container, "text/html");
+    //console.log(doc)
     var dom = container.querySelectorAll(selector);
     return Array.prototype.slice.call(dom);
 }
 //index
-function domIndex(el, selector, container){
+function domIndex(el, selector, container) {
     var list = domArray(selector, container);
     return list.indexOf(el);
 }
 //last child
-function last(selector, container){
+function last(selector, container) {
     var dom = domArray(selector, container);
-    return dom[dom.length-1];
+    return dom[dom.length - 1];
+}
+//.parents('')
+function parents(el, selector) {
+    var selectorArray = domArray(selector);
+    var parentsArray = [];
+
+    function findIte(el) {
+        var parent = el.parentNode;
+        if (parent.nodeName === '#document') return parentsArray;
+        if (selectorArray.indexOf(parent) > -1) parentsArray.push(parent);
+        return findIte(parent);
+    }
+    return findIte(el);
+}
+//.parent()
+function parent(el, selector) {
+    var selectorArray = domArray(selector);
+    var parentDom;
+
+    function findIte(el) {
+        var parent = el.parentNode;
+        if (parent.nodeName === '#document') return;
+        if (selectorArray.indexOf(parent) > -1) return parentDom = parent;
+        return findIte(parent);
+    }
+    return findIte(el);
 }
 //radio
 function radioToggle(parentEl) {
@@ -53,7 +82,7 @@ function radioToggle(parentEl) {
         if (target.type === 'radio') {
             console.log(target.checked);
             //target.checked = !target.checked;
-                //target.removeAttribute('checked');
+            //target.removeAttribute('checked');
             /*else {
                 map(radios, function() {
                     this.checked = false;
