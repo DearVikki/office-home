@@ -17,7 +17,6 @@ function VikkiPic(config) {
     }
 
     function showPic(file) {
-        console.log('show!')
         var fr = new FileReader();
         fr.readAsDataURL(file);
         fr.onload = function() {
@@ -40,7 +39,7 @@ function VikkiPic(config) {
         src = 'file:///'+src;
         console.log(src)
         var imgDiv = document.createElement('div');
-        document.body.appendChild(imgDiv);
+        document.body.appendChild(imgDiv); 
         imgDiv.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod = scale)";
         imgDiv.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = src;
         container.appendChild(imgDiv)

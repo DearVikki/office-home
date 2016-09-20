@@ -70,6 +70,10 @@ function parent(el, selector) {
     }
     return findIte(el);
 }
+//.children()
+function children(el, selector) {
+    return domArray(selector, el);
+}
 //radio
 function radioToggle(parentEl) {
     parentEl.addEventListener('click', checkOrUncheck, false);
