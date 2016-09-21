@@ -66,7 +66,7 @@ function VikkiValidator(container, rules, submit) {
             }
         }
         if (checkResult) {
-            trigger(target, 'validatePass', 'all passed')
+            trigger(target, 'validatePass', 'all passed');
         }
     }.bind(this);
     this.checkAll = function() {

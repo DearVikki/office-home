@@ -84,14 +84,16 @@
 				//console.log(fruit)
 			}
 		},
+		watch:{
+			searchTxt: function(val){
+				this.lists.forEach(function(e){
+				var fruit = e.txt;
+				if(fruit.indexOf(val) !== 0) e.show = false;
+				else e.show = true;
+			});
+			}
+		},
 		computed:{}
-	})
-	vm.$watch('searchTxt',function(val){
-		this.lists.forEach(function(e){
-			var fruit = e.txt;
-			if(fruit.indexOf(val) !== 0) e.show = false;
-			else e.show = true;
-		});
 	})
 
 </script>
