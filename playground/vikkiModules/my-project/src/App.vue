@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <hello :msgfromfather="length"></hello>
+    <hello :msgfromfather="length" @child-msg="handleIt"></hello>
     <input type="text" v-model="newToDo" @keyup.enter="submit" />
     <ul>
       <li v-for="item in items" :class="{'done':item.done}" @click="toggle(item)">{{item.value}}</li>
@@ -16,7 +16,7 @@ export default {
    data: function(){
     return {
       newToDo: '',
-      items:Store.fetch(),
+      items:Store.fetch()||[],
       length:''
     }
   },
@@ -37,6 +37,7 @@ export default {
     },
     toDoNum:function(items){
       var toDo = 0;
+      if(!items) return 0;
         items.forEach(function(e){
           if(e.done === false) toDo++;
         })
@@ -58,11 +59,6 @@ export default {
   computed:{
     length: function(){
       return this.toDoNum(this.items);
-    }
-  },
-  events: {
-    'child-msg':function(msg){
-        this.newToDo = msg;
     }
   }
 }

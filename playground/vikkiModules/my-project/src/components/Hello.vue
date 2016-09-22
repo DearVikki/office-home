@@ -2,7 +2,8 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <span class="to-do-num">{{msgfromfather}}</span>
-    <button @click="notify" @child-msg="handleIt">Tell Father</button>
+    <button @click="notify">Tell Father</button>
+     <!--"-->
   </div>
 </template>
 
@@ -21,7 +22,7 @@ export default {
   props: ['msgfromfather'],
   methods: {
     notify: function(){
-      //this.$dispatch('child-msg',this.msg2);
+      this.$dispatch('child-msg',this.msg2);
     }
   }
 }

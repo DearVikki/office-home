@@ -4,26 +4,28 @@
         <title>
             picUpload test
         </title>
-        <meta charset="utf-8" />
+        <meta charset="utf-8"/>
     </head>
     <body>
-            <input name="" type="file"/>
-            <div class="container">
-            	<div class="vikki-img-holder">
+        <!--<button>upload</button>-->
+        <p class="drag" style="border:1px dotted black;width:200px; height: 50px; padding: 0 5px;line-height: 50px;text-align: center">+Drag the pic here..</p>
+        <div class="vikki-container">
+            <div class="vikki-img-holder">
                 <img class="vikki-img" src=""/>
-                <!--<div class="vikki-img-remove">
-                ×
-                </div>-->
-            </div>
+                <div class="vikki-img-remove">
+                    ×
+                </div>
             </div>
         </div>
     </body>
-    <script type="text/javascript" src="../JsCollection.js"></script>
-    <script src="vikkiPicUpload.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-	    var input = document.querySelector('input');
-		var container = document.querySelector('.container');
-		var upload = new VikkiPic({input:input,template:container});
-    </script>
 </html>
+<script src="../JsCollection.js" type="text/javascript">
+</script>
+<script src="vikkiPicUpload.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+    var btn = document.querySelector('button');
+    var container = document.querySelector('.vikki-container');
+    var drag = document.querySelector('.drag');
+    var upload = new VikkiPic({trigger:drag,container:container, multipics:true, dragArea:drag});
+</script>

@@ -60,19 +60,25 @@ function VikkiValidator(container, rules, submit) {
                 checkResult = data.result;
                 errMsg = thisRule.msg || data.msg;
                 if (!checkResult) {
+                    target.setAttribute('data-fail',true);
                     trigger(target, 'validateFail', errMsg)
                     break;
                 }
             }
         }
         if (checkResult) {
-            trigger(target, 'validatePass', 'all passed');
+            target.removeAttribute('data-fail');
+            trigger(target, 'validatePass', 'This field passed');
         }
     }.bind(this);
     this.checkAll = function() {
+        var pass=true;
         for (var i = 0; i < inputs.length; i++) {
             trigger(inputs[i], 'blur');
+            if(inputs[i].hasAttribute('data-fail')) pass=false;
         }
+        if(pass) trigger(submit, 'validatePass', false);
+        else trigger(submit, 'validateFail', false);
     }
 
     function idTrans(el) {
