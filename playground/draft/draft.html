@@ -1,33 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>draft</title>
-	<meta charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="draft.css">
-	<meta content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" name="viewport"/>
-</head>
-<body>
-	<div class="nav" onclick="eventHandler(12312)">哈哈哈
-	<div id="xx" style="width:50px;height: 30px; background: skyblue">咕咕咕</div></div>
-</body>
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="../vikkiModules/JsCollection.js"></script>
-<script type="text/javascript">
-
-	var xx = document.getElementById('xx');
-	var nav = document.querySelector('.nav');
-	nav.onclick = eventHandler;
-	//xx.addEventListener('click', eventHandler, false)
-	//$('#xx').on('click',eventHandler);
-	function eventHandler(a){
-		console.log(a)
-	}
-	nav.onclick = function () {
-		eventHandler(12312);
-	};
-	//$('.nav').on('custom',{name:'vicky'},eventHandler);
-	//$('.nav').trigger('click')
-	//$('#xx').trigger('custom');
-	//trigger(xx,'click');
-</script>
+    <head>
+        <title>
+            draft
+        </title>
+        <meta charset="utf-8"/>
+        <link href="draft.css" rel="stylesheet" type="text/css">
+            <meta content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" name="viewport"/>
+        </link>
+    </head>
+    <body>
+        <table>
+            <caption>
+                xxx Table
+            </caption>
+            <colgroup>
+            	<col class="a" />
+            	<col class="b" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <td>
+                        It's a long title
+                    </td>
+                    <td>
+                        Short title
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        itemA1
+                    </td>
+                    <td>
+                        itemA2
+                    </td>
+                </tr>
+                 <tr>
+                    <td>
+                        itemB1
+                    </td>
+                   <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+    <script src="jquery.js" type="text/javascript">
+    </script>
+    <script src="../vikkiModules/JsCollection.js" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+    </script>
 </html>
