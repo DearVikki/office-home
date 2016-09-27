@@ -4,6 +4,12 @@ require.config({
 	}
 })
 
-require(['math'], function(math){
-	alert(math.add(1,1))
+require(['math'], function(add){
+	alert(add(1,1))
+})
+
+require(['math'], function(add){
+	alert(add(1,1))
+
+
 })

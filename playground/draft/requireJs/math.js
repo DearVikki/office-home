@@ -5,10 +5,10 @@ require.config({
 })
 define(['jquery'], function(jquery){
 	console.log($('table'));
+	var sum = 0;
 	var add = function(x,y){
-		return x+y;
+		sum += x + y;
+		return sum;
 	};
-	return {
-		add: add
-	}
+	return add;
 })
