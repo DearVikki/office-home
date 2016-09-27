@@ -11,56 +11,6 @@
     <body>
         <input type="text" id="J_input"/>
     </body>
-    <!--\<script src="requireJs/require.js" defer async="true"></script>-->
+    <script src="requireJs/config.js"></script>
     <script src="requireJs/require.js" data-main="requireJs/main"></script>
-    <script src="jquery.js" type="text/javascript">
-    </script>
-    <script src="../vikkiModules/JsCollection.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-    var TextCount = (function(){
-        var _bind = function(that){
-            that.input.on('keyup',function(){
-                that.render();
-            })
-        }
-        var _getNum = function(that){
-            console.log(this)
-            return that.input.val().length;
-        }
-        var TextCountFun = function(config){
-
-        }
-        TextCountFun.prototype.init = function(config){
-            this.input = $(config.id);
-            _bind(this);
-            return this;
-        }
-        TextCountFun.prototype.render = function(){
-            var num = _getNum(this);
-            if ($('#J_input_count').length == 0) {
-              this.input.after('<span id="J_input_count"></span>');
-            };
-
-            $('#J_input_count').html(num+'个字');
-        }
-        return TextCountFun;
-    })();
-    $(function(){
-        var a = new TextCount().init({id:'#J_input'}).render();
-        console.log(new TextCount())
-    })
-
-    var Class = (function(){
-        var _mix = function(r,s){
-            for(var p in s){
-                if(s.hasOwnProperty(p)) r[p] = s[p];
-            }
-        }
-        var _extend = function(){
-            this.initPrototype = true;
-            var prototype = new this()
-        }
-    })()
-    </script>
 </html>
