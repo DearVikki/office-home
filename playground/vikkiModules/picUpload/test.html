@@ -8,7 +8,9 @@
     </head>
     <body>
         <!--<button>upload</button>-->
-        <p class="drag" style="border:1px dotted black;width:200px; height: 50px; padding: 0 5px;line-height: 50px;text-align: center">+Drag the pic here..</p>
+        <p class="drag" style="border:1px dotted black;width:200px; height: 50px; padding: 0 5px;line-height: 50px;text-align: center">
+            +Drag the pic here..
+        </p>
         <div class="vikki-container">
             <div class="vikki-img-holder">
                 <img class="vikki-img" src=""/>
@@ -19,13 +21,24 @@
         </div>
     </body>
 </html>
-<script src="../JsCollection.js" type="text/javascript">
+<script type="text/javascript">
+    var require = {
+        paths:{
+            'JsCollection':'../JsCollection',
+            'vikkiPicUpload':'vikkiPicUpload1.3'
+        }
+    }
 </script>
-<script src="vikkiPicUpload.js" type="text/javascript">
+<script src="../../require.js">
 </script>
 <script type="text/javascript">
     var btn = document.querySelector('button');
     var container = document.querySelector('.vikki-container');
     var drag = document.querySelector('.drag');
-    var upload = new VikkiPic({trigger:drag,container:container, multipics:true, dragArea:drag});
+    require(['vikkiPicUpload','JsCollection'],function(VikkiPicFun){
+        var upload = new VikkiPicFun({trigger:drag,container:container, multipics:true, dragArea:drag, max:2});
+        //upload.showPic('file:///C:/Users/Administrator/Desktop/edit.png');
+        //console.log(upload.files)
+        container.addEventListener('maxImg',function(){console.log('max img!'),false})
+    })
 </script>
