@@ -1,17 +1,17 @@
 var webpack = require('webpack')
 module.exports = {
-    entry: './entry.js',
+    entry: {
+        app: ["./app/entry.js"]
+    },
     output: {
-        path: __dirname,
-        filename: 'bundle.js'
+        path: path.resolve(__dirname, "build"),
+        publicPath: "/assets/",
+        filename: "bundle.js"
     },
     module: {
         loaders: [{
             test: /\.css$/,
-            loader: 'style!css'
-        }],
-        plugins: [
-            new webpack.BannerPlugin('This file is created by me')
-        ]
+            loader: "style!css"
+        }]
     }
 }
