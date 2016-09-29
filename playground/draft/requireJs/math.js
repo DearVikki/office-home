@@ -17,7 +17,8 @@ define(function(){
 })*/
 
 define(function(require, exports, module){
+	var m = require('minus');
 	exports.add = function(x,y){
-	return x+y;
+	return x+y+m.m1;
 }
 })

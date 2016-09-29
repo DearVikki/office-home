@@ -37,8 +37,7 @@
     var drag = document.querySelector('.drag');
     require(['vikkiPicUpload','JsCollection'],function(VikkiPicFun){
         var upload = new VikkiPicFun({trigger:drag,container:container, multipics:true, dragArea:drag, max:2});
-        //upload.showPic('file:///C:/Users/Administrator/Desktop/edit.png');
-        //console.log(upload.files)
+
         container.addEventListener('maxImg',function(){console.log('max img!'),false})
     })
 </script>
