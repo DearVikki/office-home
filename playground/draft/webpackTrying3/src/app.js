@@ -6,5 +6,5 @@ var yell = require('./js/alert.js');
 alert('123');
 require(['./js/alert.js'],function(good){
 	//good('worlddd');
-	console.log('12312asdsadsad');
+	console.log('12312');
 })
