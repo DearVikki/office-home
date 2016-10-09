@@ -1,0 +1,35 @@
+html,body{
+	margin:0;
+	width: 100%;
+	height: 100%;
+}
+.band,.wrapper{
+	width: 100%;
+	height: 100%;
+}
+.wrapper{
+	background: pink;
+}
+.band{
+	background: url(b1.jpg) center;
+	background-size: cover;
+	background-attachment: fixed;
+	text-align: center;
+    line-height: 1500px;
+    color: #fff;
+    font-family: fantasy;
+    font-size: 100px;
+    position: relative;
+}
+.band2{
+	background-image: url(b2.jpg);
+}
+.band:after{
+	content: '';
+	position: absolute;
+	left:0;
+	top:0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,.25);
+}
