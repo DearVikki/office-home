@@ -1,0 +1,103 @@
+* {
+    box-sizing: border-box;
+}
+
+#main-container {
+    margin-top: 1.17rem;
+    .part1 {
+        width: 100%;
+        padding: .4rem;
+        background: #fff;
+        .text-comment {
+            img {
+                width: 1.6rem;
+            }
+            textarea {
+                font-size: 24px;
+                width: 6.9rem;
+                margin-left: .4rem;
+                vertical-align: top;
+                height: 1.4rem;
+                border: none;
+                resize: none;
+            }
+        }
+        .img-comment {
+            margin-top: .6rem;
+            .img-item {
+                width: 1.86rem;
+                height: 1.86rem;
+                border-radius: .1rem;
+                display: inline-block;
+                margin-top: .2rem;
+                margin-right: .26rem;
+                vertical-align: middle;
+                position: relative;
+                .close{
+                    font-size: 38px;
+                    color: #ccc;
+                    position: absolute;
+                    right: .01rem;
+                    top: -.12rem;
+                }
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+                &.input-container {
+                    border: 1px solid #ccc;
+                }
+            }
+        }
+    }
+    .part2 {
+        width: 100%;
+        background: #fff;
+        margin-top: .4rem;
+        height: 1.17rem;
+        line-height: 1.17rem;
+        font-size: 28px;
+        padding: 0 .4rem;
+        .star {
+            .star-item {
+                width: .42rem;
+                height: .42rem;
+                background-image: url(../image/purchase/common_star_normal@2x.png);
+                background-size: 100%;
+                display: inline-block;
+                &.active {
+                    background-image: url(../image/purchase/common_star_selected@2x.png);
+                }
+            }
+        }
+    }
+}
+
+#cover.cover1 {
+    background: rgba(21, 18, 18, 0.85);
+    img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        max-width: 80%;
+    }
+}
+
+#cover.cover2 {
+    background: rgba(211, 211, 211, 0.45);
+    div {
+        width: 3rem;
+        height: 1rem;
+        line-height: 1rem;
+        background: #fff;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -.5rem;
+        margin-left: -1.5rem;
+        font-size: 26px;
+        border-radius: 6px;
+    }
+}

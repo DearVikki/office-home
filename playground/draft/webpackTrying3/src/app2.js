@@ -1,7 +1,6 @@
 alert('123');
 
 console.log('this is page1');
-//想要为了common chunk
 /*require.ensure(['./js/alert'],function(require){
 	var a = require('./js/alert');
 	a('you');

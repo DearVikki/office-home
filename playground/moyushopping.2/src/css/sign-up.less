@@ -1,0 +1,103 @@
+    html {
+    background: #fff;
+}
+
+body {
+    box-sizing: border-box;
+}
+
+.container {
+    margin-top: 2rem;
+    padding: 0 .4rem;
+    display: none;
+    &.active {
+        display: block;
+    }
+}
+
+#step1-container, #forget-pw {
+    margin-top: 2.8rem;
+    .common-btn {
+        margin-top: 1.6rem;
+    }
+    .pro {
+        font-size: 24px;
+        margin-top: .4rem;
+        color: #b5b5b5;
+    }
+}
+
+#step2-container {
+    p {
+        font-size: 32px;
+        margin-bottom: .3rem;
+        span {
+            color: #fb4a4a;
+        }
+        &.wrong-verify {
+            color: #fb4a4a;
+            font-size: 24px;
+            margin-top: .1rem;
+            display: none;
+        }
+    }
+    .common-btn {
+        margin-top: 1.29rem;
+    }
+}
+
+#step3-container, #reset-pw {
+    p {
+        font-size: 32px;
+        margin-bottom: .4rem;
+    }
+}
+
+.common-input-group-B {
+    margin-top: .3rem;
+}
+
+.common-btn {
+    margin-top: 1.29rem;
+}
+
+.resend-veri {
+    width: 2rem;
+    height: .47rem;
+    line-height: .45rem;
+    text-align: center;
+    font-size: .26rem;
+    color: #b5b5b5;
+    border: 1px solid #fb4a4a;
+    border-radius: .08rem;
+    position: absolute;
+    top: .45rem;
+    right: .4rem;
+    &.disable {
+        border: 1px solid #b5b5b5;
+    }
+    .resend {
+        display: none;
+    }
+    .access {
+        color: #fb4a4a;
+    }
+}
+
+.reset-pw-reminder {
+    font-size: 22px;
+    color: #fb4a4a;
+    margin-top: .1rem;
+    &.wrong-verify:before{
+        content:'验证码不对喔'
+    }
+    &.wrong-pw:before {
+        content: '两次密码不一致喔';
+    }
+    &.already-exist:before {
+        content: '该手机号已经注册'
+    }
+    &.not-exist:before{
+        content:'用户尚未注册喔'
+    }
+}

@@ -1,0 +1,105 @@
+#header-container {
+    width: 100%;
+    height: 1.173rem;
+    background: #fb4a4a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    .search-container {
+        width: 100%;
+        height: .8rem;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        #search,#searchAll {
+            width: 90%;
+            height: .8rem;
+            border-radius: 6px;
+            border: none;
+            font-size: 24px;
+            padding: .06rem .33rem;
+            vertical-align: middle;
+        }
+        label {
+            display: inline-block;
+            font-size: 30px;
+            vertical-align: middle;
+            color: #fbfbfb;
+            margin-left: .27rem;
+            vertical-align: middle;
+        }
+    }
+}
+
+#footer-container {
+    margin-top: .026rem;
+    width: 100%;
+    height: 1.33rem;
+    background: #fbfbfb;
+    padding-top: 1px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    ul {
+        width: 100%;
+        margin-top: .2rem;
+        .footer-item {
+            width: 25%;
+            float: left;
+            text-align: center;
+            a {
+                width: 100%;
+                height: 100%;
+            }
+            img {
+                width: .587rem;
+            }
+            p {
+                font-size: 20px;
+                color: #858585;
+                margin-top: .08rem;
+            }
+            &.active p {
+                color: #fb4a4a;
+            }
+        }
+    }
+}
+
+#second-header-container {
+    width: 10rem;
+    height: 1.17rem;
+    line-height: 1.17rem;
+    text-align: center;
+    font-size: 36px;
+    color: #5c5c5c;
+    background: #fff;
+    position: relative;
+    border-bottom: 1px solid #bbb;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    label {
+        width: .66rem;
+        height: .66rem;
+        margin-top: .25rem;
+        &.back {
+            background: url(../image/home/common_back@2x.png) center no-repeat;
+            position: absolute;
+            left: .4rem;
+        }
+        &.share {
+            background: url(../image/home/common_back@2x.png) center no-repeat;
+            margin-right: .4rem;
+        }
+        &.cancle {
+            background: url(../image/account/common_close_normal@2x.png) center no-repeat;
+            position: absolute;
+            left: .4rem;
+        }
+    }
+}

@@ -1,0 +1,184 @@
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+* {
+  box-sizing: border-box;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:visited {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+img {
+  border: 0px;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: normal;
+}
+input,
+select,
+textarea {
+  outline: none;
+}
+body {
+  position: relative;
+}
+.clear {
+  clear: both;
+}
+.margauto {
+  width: 1190px;
+  margin: 0 auto;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.textLeft {
+  text-align: left !important;
+}
+.textCenter {
+  text-align: center !important;
+}
+.inLine {
+  display: inline-block;
+}
+.cd {
+  cursor: default;
+}
+.cp {
+  cursor: pointer;
+}
+.j-box {
+  position: relative;
+  overflow: hidden;
+}
+/*按钮样式*/
+.rt_btn {
+  display: block;
+  width: 120px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  background: #00a5e3;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.rt_btn.w85 {
+  width: 85px;
+}
+.rt_btn.w60 {
+  width: 60px;
+}
+.rt_btn.w280 {
+  width: 280px;
+  height: 52px;
+  line-height: 52px;
+  font-size: 16px;
+  letter-spacing: 15px;
+}
+.rt_btn:hover {
+  background: #00b5fc;
+}
+.rt_btn:active {
+  background: #009edd;
+}
+/*自定义样式*/
+html {
+  background: #eee;
+}
+body {
+  font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;
+  cursor: default;
+  font-size: 0px;
+  color: #5c5c5c;
+}
+.s-font {
+  font-size: 20px;
+  color: #fb4a4a;
+}
+.m-font {
+  font-size: 24px;
+  color: #fb4a4a;
+}
+.bold {
+  font-family: PingFangSC-Semibold;
+}

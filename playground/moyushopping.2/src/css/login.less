@@ -1,0 +1,28 @@
+html{
+	background: #fff;
+}
+body{
+	box-sizing: border-box;
+}
+#main-container{
+	margin-top: 2.8rem;
+	padding: 0 .4rem;
+	.common-btn{
+		margin-top: 2.6rem;
+	}
+	.phone-login,.forget-pw{
+		font-size: 28px;
+		margin-top: .4rem;
+	}
+	.reminder{
+		font-size: 24px;
+		color: #fb4a4a;
+		margin-top: .1rem;
+		&.wrong-pw:before{
+			content:'密码不正确喔'
+		}
+		&.not-in:before{
+			content: '该手机号尚未注册哟'
+		}
+	}
+}

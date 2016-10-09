@@ -1,0 +1,101 @@
+* {
+    box-sizing: border-box;
+    max-height: 100%;
+}
+
+#container {
+    margin-top: 1.17rem;
+    #nav {
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        display: table;
+        background: #fff;
+        position: fixed;
+        z-index: 2;
+        top: 1.17rem;
+        left: 0;
+        .nav-item {
+            width: 20%;
+            display: table-cell;
+            height: 1.17rem;
+            font-size: 24px;
+            text-align: center;
+            vertical-align: middle;
+            &.active {
+                color: #fb4a4a;
+            }
+        }
+    }
+    #comment {
+        margin-top: 2.34rem;
+        .comment-item {
+            margin-top: .26rem;
+            width: 100%;
+            padding-left: .4rem;
+            background: #fff;
+            .header {
+                width: 100%;
+                height: 1.46rem;
+                line-height: 1.46rem;
+                border-bottom: 1px solid #ddd;
+                .avatar {
+                    vertical-align: middle;
+                    width: .66rem;
+                    height: .66rem;
+                    border-radius: 100%;
+                }
+                .name {
+                    font-size: 24px;
+                    color: #5c5c5c;
+                    margin-left: .26rem;
+                    vertical-align: middle;
+                }
+                .date {
+                    font-size: 24px;
+                    color: #5c5c5c;
+                    margin-right: .4rem;
+                }
+            }
+            .main {
+                padding-right: .3rem;
+                overflow: hidden;
+                padding-bottom: .4rem;
+                overflow: hidden;
+                .star {
+                    margin: .2rem 0;
+                    img{
+                    	margin-right: 3px;
+                    }
+                }
+                .text {
+                    font-size: 24px;
+                }
+                .show {
+                    img {
+                        margin-top: .15rem;
+                        margin-right: .15rem;
+                        width: 2.13rem;
+                        height: 2.13rem;
+                    }
+                }
+                .reply {
+                    margin-top: .4rem;
+                    width: 8.3rem;
+                    background: #ddd;
+                    font-size: 24px;
+                    padding: .3rem .4rem;
+                    border-radius: .08rem;
+                    position: relative;
+                    &:before {
+                        content: "";
+                        border: .2rem solid transparent;
+                        border-bottom-color: #ddd;
+                        position: absolute;
+                        left: .5rem;
+                        top: -.35rem;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,121 @@
+html {
+    font-size: 50px;
+}
+
+body {}
+
+#main_container {
+    font-size: 16px;
+    background: #eee;
+    .banner-container {
+        width: 100%;
+        height: 3.173rem;
+        margin-top: 1.173rem;
+        .banner img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .sale-container {
+        width: 100%;
+        height: 3.93rem;
+        margin-top: .267rem;
+        background: #fff;
+        padding: .27rem .46rem;
+        .title {
+            width: 100%;
+            position: relative;
+            h3 {
+                font-size: 24px;
+                color: #5c5c5c;
+                letter-spacing: 0.48px;
+                display: inline-block;
+            }
+            .more {
+                position: absolute;
+                display: inline-block;
+                font-size: 20px;
+                color: #fb4a4a;
+                right: 0;
+                top: .1rem;
+                padding-right: .43rem;
+                background: url(../image/home/home_more@2x.png) right center no-repeat;
+            }
+        }
+        .swiper-container {
+            margin-top: 23px;
+            .sale-item {
+                text-align: center;
+                width: 1.86rem;
+                .picture {
+                    width: 1.86rem;
+                    height: 2.13rem;
+                }
+                .price {
+                    font-size: 24px;
+                }
+            }
+        }
+    }
+    .type-container {
+        margin-top: .267rem;
+        margin-bottom: .15rem;
+        ul {
+            width: 100%;
+            overflow: hidden;
+        }
+        .type-item {
+            width: 4.98rem;
+            height: 1.97rem;
+            padding: 20px 30px;
+            background: #fff;
+            float: left;
+            margin-top: .0267rem;
+            &:nth-child(2n) {
+                float: right;
+            }
+            a {
+                width: 100%;
+                height: 100%;
+                display: inline-block;
+            }
+            .fl {
+                max-width: 2.32rem;
+                .type-name {
+                    font-size: 28px;
+                    color: #5c5c5c;
+                }
+                .type-description {
+                    font-size: 20px;
+                    color: #b5b5b5;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                }
+            }
+            .type-img {
+                width: 1.6rem;
+                height: 1.52rem;
+            }
+        }
+    }
+    .recommend-container {
+        width: 100%;
+        margin-bottom: .1rem;
+    }
+    #loading {
+        margin-top: .5rem;
+        width: 100%;
+        position: relative;
+        text-align: center;
+        font-size: 28px;
+        color: #858585;
+        letter-spacing: 0.56px;
+        display: none;
+    }
+    #content_container {
+        margin-bottom: 1.5rem;
+    }
+}

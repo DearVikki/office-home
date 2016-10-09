@@ -1,0 +1,25 @@
+.common-divider {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    font-size: 28px;
+    color: #858585;
+    letter-spacing: 0.56px;
+    &:before, &:after {
+        content: '';
+        position: absolute;
+        width: 3.2rem;
+        height: 1px;
+        left: .64rem;
+        top: 20px;
+        background: #d3d3d3;
+    }
+    &:after {
+        left: auto;
+        right: .64rem;
+    }
+}
+
+.common-divider#no-more{
+    display: none;
+}

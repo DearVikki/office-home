@@ -1,0 +1,136 @@
+* {
+    box-sizing: border-box;
+}
+
+#second-header-container {
+    label.guide {
+        position: absolute;
+        width: auto;
+        font-size: 30px;
+        right: .3rem;
+        top: -.2rem;
+    }
+}
+
+#my-level-container {
+    margin-top: 1.17rem;
+    background-image:linear-gradient(-180deg, #f7c5a3 8%, #ff7c56 100%);
+    color: #fff;
+    padding-left: .9rem;
+    padding-top: 1px;
+    height: 2.9rem;
+    .my-level {
+        margin-top: .55rem;
+        font-size: 40px;
+        .metal {
+            width: 1.8rem;
+            height: .5rem;
+            line-height: .5rem;
+            padding-left: .6rem;
+            border-radius: 1.33rem;
+            background: url(../image/member/medal_alliance_no@2x.png) left center no-repeat;
+            background-size: .5rem .5rem;
+            font-size: 22px;
+            border: 1px solid #fff;
+            display: inline-block;
+        }
+    }
+    p:last-child {
+        font-size: 26px;
+        margin-top: .5rem;
+    }
+}
+
+.pi-title {
+    width: 100%;
+    font-size: 30px;
+    height: 1.1rem;
+    line-height: 1.1rem;
+    border-bottom: 2px solid #ddd;
+    display: inline-block;
+}
+
+#privilege-container {
+    width: 100%;
+    height: 4.13rem;
+    padding-left: .4rem;
+    background: #fff;
+    ul {
+        width: 100%;
+        overflow: hidden;
+        margin-top: .57rem;
+        .p-item {
+            float: left;
+            width: 25%;
+            text-align: center;
+            font-size: 22px;
+            img{
+                width: 1.28rem;
+                height: 1.28rem;
+            }
+        }
+    }
+}
+
+#card-container {
+    width: 100%;
+    background: #fff;
+    margin-top: .26rem;
+    padding-bottom: .4rem;
+    .card-item {
+        width: 8.4rem;
+        height: 4.96rem;
+        background-size: 100%;
+        padding-top: 1px;
+        padding-left: .4rem;
+        position: relative;
+        margin:.92rem auto;
+        .card-title {
+            font-size: .66rem;
+            color: #5c5c5c;
+            text-shadow: 0px 1px 10px rgba(171, 171, 171, 0.50);
+            margin-top: .93rem;
+        }
+        .card-goal {
+            font-size: .4rem;
+            color: #f2f2f2;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.50);
+            margin-top: 1.7rem;
+            span {
+                font-size: .66rem;
+            }
+        }
+        p.fr{
+        	margin-right: .4rem;
+        	margin-top: 1.2rem;
+        	 font-size: .4rem;
+            color: #5c5c5c;
+        }
+        #current-level {
+            width: 3.1rem;
+            height: 0;
+            font-size: .4rem;
+            border: .6rem solid transparent;
+            color: #fff;
+            border-bottom-color: #b5b5b5;
+            position: absolute;
+            top: .09rem;
+            right: -.88rem;
+            transform: rotate3d(0, 0, 45, 45deg);
+            text-align: center;
+        }
+    }
+    .card-item:last-child{
+    	.card-title{
+    		color: #fff;
+    		text-shadow:0px 1px 4px #afafaf;
+    	}
+    	.card-goal{
+    		color: #f2f2f2;
+    		text-shadow:0px 2px 4px rgba(179, 179, 179, 0.5)
+    	}
+    	p.fr{
+    		color: #f2f2f2;
+    	}
+    }
+}

@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+}
+
+#collection-container {
+    margin-top: 1.17rem;
+    .item {
+        position: relative;
+        width: 12.15rem;
+        transform: translateZ(0);
+    }
+    .order-item {
+        background: #fff;
+        margin: 0;
+        border-bottom: 1px solid #bbb;
+        width: 10rem;
+        display: inline-block;
+        .order-detail .order-info {
+            .title {
+                width: 100%;
+                font-size: 28px;
+            }
+            .price {
+                color: #fb4a4a;
+                font-size: 24px;
+                font-weight: bold;
+            }
+        }
+    }
+    .delete {
+        width: 2.13rem;
+        height: 2.93rem;
+        display: inline-block;
+        background: #fe3f35;
+        line-height: 2.93rem;
+        text-align: center;
+        font-size: 32px;
+        vertical-align: top;
+        color: white;
+    }
+}

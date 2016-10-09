@@ -1,13 +1,10 @@
 var webpack = require('webpack');
 var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
-var CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 module.exports = {
     entry: {
-        /*hot1: 'webpack/hot/dev-server',
-        hot2:'webpack-dev-server/client?http://localhost:8080',*/
         bundle1: './src/app.js',
-        bundle2: './src/app2.js',
-        vendor: ['jquery']
+        bundle2: './src/app2.js'
     },
     output: {
         path: './dist',
@@ -20,7 +17,6 @@ module.exports = {
                 warnings: false
             }
         }),
-        new CommonsChunkPlugin('vendor', 'vendor.js'),
         new CommonsChunkPlugin('common.js', ['bundle1', 'bundle2'])
     ],
     module: {
