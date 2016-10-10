@@ -1,12 +1,13 @@
-require('./css/public.less');
-require('./css/headerfooter.less');
-require('./css/index.less');
-require('./css/common-display-list.less');
-require('./css/common-divider.less');
+require('public');
+require('headerfooter');
+var css = './css/';
+require(css + 'index.less');
+require(css + 'common-display-list.less');
+require(css + 'common-divider.less');
 var $ = require('jquery');
-require('./js/initial.js');
+require('initial');
 var scroll = require('./js/scroll.js');
-var ajax = require('./js/ajax.js');
+var ajax = require('ajax');
 var page = 1;
 var $container = $('.recommend-container');
 require('./lib/swiper.min.css');
@@ -18,7 +19,11 @@ var mySwiper1 = new S('.swiper-container.banner-container', {
     autoplay: 4000,
     autoplayDisableOnInteraction: false
 })
-console.log(mySwiper1);
+var mySwiper2 = new S('.sale-container .swiper-container', {
+    pagination: '.swiper-pagination',
+    slidesPerView: '4',
+    paginationClickable: true
+});
 /*
 require(['./lib/swiper.jquery.js', './lib/swiper.min.css'], function(S) {
     //初始化swiper
@@ -30,11 +35,7 @@ require(['./lib/swiper.jquery.js', './lib/swiper.min.css'], function(S) {
         autoplayDisableOnInteraction: false
     })
     console.log(mySwiper1)
-    var mySwiper2 = new S('.sale-container .swiper-container', {
-        pagination: '.swiper-pagination',
-        slidesPerView: '4',
-        paginationClickable: true
-    });
+   
 })*/
 scroll(function() {
     ajax({

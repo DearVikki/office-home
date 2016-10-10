@@ -1,9 +1,9 @@
-require('./css/public.less');
-require('./css/headerfooter.less');
+require('public');
+require('headerfooter');
 require('./css/category.less');
 var $ = require('jquery');
-require('./js/initial.js');
-var ajax = require('./js/ajax.js');
+require('initial');
+var ajax = require('ajax');
 ajax({
     data: {
         name: 'shopping.sys.category.info'

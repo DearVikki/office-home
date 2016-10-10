@@ -44,10 +44,486 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(1);
+	__webpack_require__(1);
+	__webpack_require__(5);
+	__webpack_require__(9);
+	var $ = __webpack_require__(11);
+	__webpack_require__(12);
+	var ajax = __webpack_require__(13);
+	ajax({
+	    data: {
+	        name: 'shopping.sys.category.info'
+	    },
+	    success: function(data, status) {
+	        var categoryInfo = data.data['CategoryInfo'];
+	        categoryInfo.forEach(function(e,index) {
+	            var menu = e.category_menu;
+	            var type = 'type' + index;
+	            $('.swiper-wrapper').append('<a class="tab-item swiper-slide" data-type="' + type + '">' + e.class_name + '</a>');
+	            menu.forEach(function(e) {
+	                $('#category-container ul').append('<li class="ca-item ' + type + '" data-id="' + e.class_append_id + '"><img class="ca-img" src="' + e.imgurl + '"><p class="ca-name">' + e.class_name + '</p></img></li>');
+	            });
+	        });
+	        /*new Swiper('.swiper-container', {
+	            direction: 'vertical',
+	            slidesPerView: 10,
+	            freeMode: true
+	        });*/
+	        //默认是打开常用分类
+	        $('.tab-item:first-child').click();
+	    }
+	});
+	//点击tab
+	$('#tab-container').on('click', '.tab-item', function() {
+	    var type = $(this).data('type');
+	    $('.tab-item.active').removeClass('active');
+	    $(this).addClass('active');
+	    $('.ca-item.active').removeClass('active');
+	    $('.ca-item.' + type).addClass('active');
+	});
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(2);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./public.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./public.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "html,\nbody,\ndiv,\nspan,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\ni,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  outline: 0;\n  font-size: 100%;\n  vertical-align: baseline;\n  background: transparent;\n}\n* {\n  box-sizing: border-box;\n}\nli {\n  list-style: none;\n}\na {\n  text-decoration: none;\n  color: black;\n}\na:visited {\n  text-decoration: none;\n}\na:hover {\n  text-decoration: none;\n}\nimg {\n  border: 0px;\n}\nh1,\nh2,\nh3,\nh4,\nh5 {\n  font-weight: normal;\n}\ninput,\nselect,\ntextarea {\n  outline: none;\n}\nbody {\n  position: relative;\n}\n.clear {\n  clear: both;\n}\n.margauto {\n  width: 1190px;\n  margin: 0 auto;\n}\n.fl {\n  float: left;\n}\n.fr {\n  float: right;\n}\n.textLeft {\n  text-align: left !important;\n}\n.textCenter {\n  text-align: center !important;\n}\n.inLine {\n  display: inline-block;\n}\n.cd {\n  cursor: default;\n}\n.cp {\n  cursor: pointer;\n}\n.j-box {\n  position: relative;\n  overflow: hidden;\n}\n/*按钮样式*/\n.rt_btn {\n  display: block;\n  width: 120px;\n  height: 35px;\n  line-height: 35px;\n  text-align: center;\n  font-size: 14px;\n  color: #fff;\n  background: #00a5e3;\n  border-radius: 3px;\n  overflow: hidden;\n}\n.rt_btn.w85 {\n  width: 85px;\n}\n.rt_btn.w60 {\n  width: 60px;\n}\n.rt_btn.w280 {\n  width: 280px;\n  height: 52px;\n  line-height: 52px;\n  font-size: 16px;\n  letter-spacing: 15px;\n}\n.rt_btn:hover {\n  background: #00b5fc;\n}\n.rt_btn:active {\n  background: #009edd;\n}\n/*自定义样式*/\nhtml {\n  background: #eee;\n}\nbody {\n  font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\", microsoft yahei, Arial, Helvetica, sans-serif;\n  cursor: default;\n  font-size: 0px;\n  color: #5c5c5c;\n}\n.s-font {\n  font-size: 20px;\n  color: #fb4a4a;\n}\n.m-font {\n  font-size: 24px;\n  color: #fb4a4a;\n}\n.bold {\n  font-family: PingFangSC-Semibold;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+	
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+	
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+	
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+	
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+	
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+	
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+	
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+	
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+	
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+	
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+	
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+	
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+	
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+	
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+	
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+	
+		update(obj);
+	
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+	
+	var replaceText = (function () {
+		var textStore = [];
+	
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+	
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+	
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+	
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+	
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+	
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+	
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+	
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+	
+		var blob = new Blob([css], { type: "text/css" });
+	
+		var oldSrc = linkElement.href;
+	
+		linkElement.href = URL.createObjectURL(blob);
+	
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(6);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./headerfooter.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./headerfooter.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "#header-container {\n  width: 100%;\n  height: 1.173rem;\n  background: #fb4a4a;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 2;\n}\n#header-container .search-container {\n  width: 100%;\n  height: .8rem;\n  text-align: center;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#header-container .search-container #search,\n#header-container .search-container #searchAll {\n  width: 90%;\n  height: .8rem;\n  border-radius: 6px;\n  border: none;\n  font-size: 24px;\n  padding: .06rem .33rem;\n  vertical-align: middle;\n}\n#header-container .search-container label {\n  display: inline-block;\n  font-size: 30px;\n  color: #fbfbfb;\n  margin-left: .27rem;\n  vertical-align: middle;\n}\n#footer-container {\n  margin-top: .026rem;\n  width: 100%;\n  height: 1.33rem;\n  background: #fbfbfb;\n  padding-top: 1px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  z-index: 2;\n}\n#footer-container ul {\n  width: 100%;\n  margin-top: .2rem;\n}\n#footer-container ul .footer-item {\n  width: 25%;\n  float: left;\n  text-align: center;\n}\n#footer-container ul .footer-item a {\n  width: 100%;\n  height: 100%;\n}\n#footer-container ul .footer-item img {\n  width: .587rem;\n}\n#footer-container ul .footer-item p {\n  font-size: 20px;\n  color: #858585;\n  margin-top: .08rem;\n}\n#footer-container ul .footer-item.active p {\n  color: #fb4a4a;\n}\n#second-header-container {\n  width: 10rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  text-align: center;\n  font-size: 36px;\n  color: #5c5c5c;\n  background: #fff;\n  position: relative;\n  border-bottom: 1px solid #bbb;\n  position: fixed;\n  z-index: 2;\n  top: 0;\n  left: 0;\n}\n#second-header-container label {\n  width: .66rem;\n  height: .66rem;\n  margin-top: .25rem;\n}\n#second-header-container label.back {\n  background: url(" + __webpack_require__(7) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n#second-header-container label.share {\n  background: url(" + __webpack_require__(7) + ") center no-repeat;\n  margin-right: .4rem;\n}\n#second-header-container label.cancle {\n  background: url(" + __webpack_require__(8) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAkCAYAAACJ8xqgAAAAAXNSR0IArs4c6QAAA5NJREFUSA2tlltIk3EUwHef2rRMgswMy4dtOGcPYZmloyLYY4GYlyC6UBEh+NCT4UNBEGgYRA8G9iCKQeCrBDJU1AfN8BbOivUgC0pQcuJsm/3O+DbyOr/ZgcP3v5zz2znnO///N63mP0hlZaXDaDSWrq2t9Rv2yquqqjqn1+tfwXGin/YErKmpuQKkBc1FNVqtNl0rg2QEmBu/N0COKP6TPB8mBayurq4A1IweFRi1m0FrOjo6RlWnDOyaTqd7AeewApuKRCL3Ojs7R2WuBqgjzVv4NKMWcSaqPvQ2sFmZi+wqZZfLZcjJyakjxUZ80qOeGs0gkV0nzW/KPPpIGGFFRUWqyWSqB9aAR4p4EVVPKBR60NXVtQ4mezsCFZjUS1KN2bYR2SNgvwSwUWJGG9c1brfbTPc/JbI7bOrEgMg6A4FAfXd398ImB2VhSyDFz2D/GXof1QIK82xdXl5u2AmGTTwNGUeFtsgkqiYgN3gKbJWNViJLCBPAugip2TEYUrOrPCVFgT2em5t76fF4VsQhkcSBHHIbDdsC6LLitML4STAYbAImKe9Kon1YW1trJZq3AM6IF+NFxo3t7e1y8FWJlhdQisdrAIWK53w4HL5L979XRVKMpR3a/oF9ZX4zWZgwdcBi14/MV6nZtAySFR1dX4fzTwVgN5vN7yhDLH3VXP3ExMRYYWHhJJFexFtukWy0nLXP7PkYqxK9WOP4xel0zvJ2ywGno4fQMqBe2VNDjALFYXx8fMbhcEwAOo8eYCkTLWNtEtl0q4jPVhIHyqY4FhQU9NHgxUyzAe9HLxUVFS3ygx+3AmxcWweUTaA/iGoEkINpLk+5UMsoyQLQMcZr6LayCSiW1M1vt9sHiNQKMJ+lFOrrAhqx2WxD09PT20K3BAp0ampqnvQHAJ5E81ATepaP+lJWVtaIz+eLiN1G2RYohqS/QEQ9BoNBPpdSAiN6ISMjIzUvL2/I6/X+Yb5OdgSKJekt0T4fGArUSZRyQ5VwADKJtJdIQ8zjkhAoltQ0SKS9pCuX7ylUjmyxxWJJY32QH5V7Myq7AoolTjHoPmDRa45nCeU4YbVah9n/LXa7BirQELXr57OaCuw0a3KfOoj8OK3moeYBVUCByosgTQ+RBWklOVV61I7m0xWDqoECJb0wn9hhXor8hZNTZVSgtqSAAvX7/RFeVh8d4GdaCjANPZg0UKAiQMc4699J34I+/wud5VrUQDZ94wAAAABJRU5ErkJggg=="
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAiBJREFUWAnF1jlPwzAUB/DGbb8AUITYQeUQEgvMvVYkpp5fr8fAghAbUD4ACAmkCrEgNsS906T8X4WrNHWTZ+eopdSJE/v94ri2rVardTIajXYcxznudruPqQWkRqOxIYQ4heNJ4OfQsqx8Op3u1+v1fNIewiD+NeJu4TgQtm0fAfWFi7WkURID0Dri/5DFwkmqVqvtA3OBG0u4fMWNQtyfz4sZDoeVXq93MwYljZqHIccElBTKDzMDihsVhFGC4kJxMHNBUaO4GF9QVCgdTCAoLEoXwwKZokwwFEvQT1DChHWHybLMndG9GKyTZZr0guLQfRaIHuSiqtXqJq1NcjkgTKfTuaU2OGlqYuRU8FtmCJPJZPqmGIqvDaJKKhR6wgmLMQapUBhfDvUM8m8cFZ3PRO3JZNRDsrKnp1JhMdQue1BLhDsH4Be9YrvKbCpzXWufGoMwgHez2ewVIuaA+ED+BtwKtqKX2HnuaUv+KxiBFJgiUIUoUNpjSIVpt9sP9ILNZnMbvdTH6Sr1Gv54Jew87+keN2mB/DAyYFgUG8TBRIFigXQwYVGBg9qNQbB3HEU5ZmRwVY5nBiYD3beHvBgEKHEwbqDumJoLigIjYTooJShKjC5qBhQHRgc1BYoTw0VNQElgOKgxKEmMCoWyT+zZi7TMWIvA+KEEtp1neCCH491knpGNm+TuyRP1l7F1ORdYnWlGfUkaI1/AhXpG2eAPO2V4zAARfRoAAAAASUVORK5CYII="
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(10);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./category.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./category.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "body {\n  font-size: 0px;\n  background: #fff;\n}\n#tab-container {\n  display: inline-block;\n  width: 2.4rem;\n  height: 15.2rem;\n  margin-top: 1.173rem;\n}\n#tab-container .tab-item {\n  width: 2.4rem;\n  height: 1.49rem;\n  line-height: 1.49rem;\n  text-align: center;\n  background: #f2f2f2;\n  border: 1px solid #d3d3d3;\n  color: #5c5c5c;\n  font-size: 24px;\n  display: block;\n}\n#tab-container .tab-item.active {\n  border: none;\n  color: #fb4a4a;\n  background: #fff;\n}\n#tab-container .tab-item:last-child {\n  margin-bottom: 1.49rem;\n}\n#category-container {\n  width: 7.6rem;\n  display: inline-block;\n  vertical-align: top;\n  margin-top: .4rem;\n  margin-top: 1.173rem;\n}\n#category-container ul .ca-item {\n  width: 1.86rem;\n  margin-left: .4rem;\n  margin-bottom: .4rem;\n  text-align: center;\n  display: none;\n  vertical-align: top;\n}\n#category-container ul .ca-item.active {\n  display: inline-block;\n}\n#category-container ul .ca-item .ca-img {\n  width: 100%;\n}\n#category-container ul .ca-item .ca-name {\n  font-size: 24px;\n  color: #5c5c5c;\n  margin-top: .05rem;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10271,6 +10747,60 @@
 	return jQuery;
 	} );
 
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory(require('jquery'));
+	    } else {
+	        root.times = factory(root.jQuery);
+	    }
+	}(this, function($) {
+	    var h = $('html');
+	    var width = h.width();
+	    var viewport = document.querySelector("meta[name=viewport]");
+	    var densityDpi = 640 / width;
+	    densityDpi = densityDpi > 1 ? 300 * densityDpi : densityDpi;
+	    if (isWeixin()) {
+	        viewport.setAttribute('content', 'width=640, target-densityDpi=' + densityDpi);
+	    }
+	    h.css('font-size', width / 10 + 'px');
+	
+	    function isWeixin() {
+	        var ua = navigator.userAgent.toLowerCase();
+	        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    }
+	})
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory(require('jquery'));
+	    } else {
+	        root.times = factory(root.jQuery);
+	    }
+	}(this, function($) {
+	    function ajax(config) {
+	        config.url = 'http://mozhishi.com/shopping/php/PcApi';
+	        config.method = 'post';
+	        $.ajax(config);
+	    }
+	    return ajax;
+	})
 
 /***/ }
 /******/ ]);

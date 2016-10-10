@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            手机快速注册
+        </title>
+        <meta charset="utf-8"/>
+        <meta content="initial-scale=.5, maximum-scale=.5, minimum-scale=.5, user-scalable=no" name="viewport"/>
+    </head>
+    <body>
+        <!--header开始-->
+        <section id="second-header-container" style="border-bottom:none">
+            手机快速注册
+            <label class="back fl">
+            </label>
+        </section>
+        <!--header结束-->
+        <!--step1开始-->
+        <section class="container active" id="step1-container">
+            <!--输入部分开始-->
+            <div class="common-input-group-A">
+                <img src="image/account/login_moblie@2x.png"/>
+                <input class="common-input phone" name="" placeholder="请输入手机号" />
+            </div>
+            <div class="common-input-group-A">
+                <img src="image/account/login_invitation@2x.png"/>
+                <input class="common-input invite" name="" placeholder="请输入邀请码 不可补填" type="text"/>
+            </div>
+            <div class="fl common-radio-group">
+                <div class="radio" data-type=1>
+                </div>
+                <label>
+                    个人
+                </label>
+            </div>
+            <div class="fr common-radio-group">
+                <div class="radio"  data-type=2>
+                </div>
+                <label>
+                    企业（个体户）
+                </label>
+            </div>
+            <div class="clear">
+            </div>
+            <p style="color:#b5b5b5;font-size:24px;">
+                个人企业身份一旦选择不可更改，请仔细选择
+            </p>
+            <!--输入部分结束-->
+            <div class="common-btn">
+                下一步
+            </div>
+            <p class="fl pro">
+                注册即同意《XXXX》协议
+            </p>
+        </section>
+        <!--step1结束-->
+        <!--step2开始-->
+        <section class="container" id="step2-container">
+            <p>
+                请输入
+                <span class="tel">
+                    18868107999
+                </span>
+                收到的短信验证码
+            </p>
+            <div class="common-input-group-B">
+                <input class="verify" name="" type="text"/>
+                <label class="getVerify">
+                    <span class="access">获取验证码</span>
+                    <span class="resend"><span class="time">60</span>s重新发送</span>
+                </label>
+            </div>
+            <p class="wrong-verify">验证码不正确喔</p>
+            <div class="common-btn disable">
+                确定
+            </div>
+        </section>
+        <!--step2结束-->
+        <!--step3开始-->
+        <section class="container" id="step3-container">
+            <p>
+                请设置登录密码
+            </p>
+            <div class="common-input-group-B">
+                <input name="" placeholder="请输入6-20位字符" type="password"/>
+            </div>
+            <div class="common-input-group-B">
+                <input name="" placeholder="请再次输入密码" type="password"/>
+            </div>
+            <p class="reset-pw-reminder"></p>
+            <div class="common-btn disable">
+                确定
+            </div>
+        </section>
+        <!--step3结束-->
+        <!--主要部分结束-->
+    </body>
+   <script src="signup.js"></script>
+</html>

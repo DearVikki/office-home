@@ -1,7 +1,12 @@
 module.exports = {
     entry: {
         index: './src/index.js',
-        category: './src/category.js'
+        category: './src/category.js',
+        usercenter: './src/usercenter.js',
+        set:'./src/set.js',
+        login:'./src/login.js',
+        signup:'./src/signup.js',
+        forgetPw:'./src/resetPw.js'
     },
     output: {
         path: './dist',
@@ -19,5 +24,17 @@ module.exports = {
             test: /\.(png|jpg)$/,
             loader: 'url-loader?limit=8192'
         }]
+    },
+    resolve:{
+        alias:{
+            js:'./js/',
+            css:'./css/',
+            lib:'./lib/',
+            img:'./img/',
+            public: './css/public.less',
+            headerfooter:'./css/headerfooter.less',
+            initial:'./js/initial.js',
+            ajax:'./js/ajax.js'
+        }
     }
 };

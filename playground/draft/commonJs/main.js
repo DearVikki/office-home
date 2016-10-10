@@ -1,8 +1,5 @@
-var add = require('./add');
+var times = require('../draft-umd');
 
-delete require.cache['./add'];
-require('./add').hh = 'haha'
-console.log(require.main === module)
-
+console.log(times(4,2))
 //console.log('main.js', require('./add.js').x);
 //console.log('main.js', require('./add2.js').x);
