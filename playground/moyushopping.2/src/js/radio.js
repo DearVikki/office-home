@@ -9,20 +9,20 @@
 }(this, function($) {
     function Radio(containerClass, radioClass, type, cb) {
         var container = $(containerClass);
+
         function bind(e) {
             var radio = $(e).find(radioClass);
             radio.on('click', function() {
                 if (type === 'multi') {
                     $(this).toggleClass('active');
-                    cb();
                 } else {
                     radio.removeClass('active');
                     $(this).addClass('active');
-                    cb();
                 }
+                if (typeof cb === 'function') cb();
             })
         }
-       Array.prototype.slice.call(container).forEach(bind);
+        Array.prototype.slice.call(container).forEach(bind);
     }
     return Radio;
 })

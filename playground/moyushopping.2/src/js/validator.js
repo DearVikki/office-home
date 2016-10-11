@@ -26,7 +26,14 @@
                     msg: msg
                 };
             },
-            isPhone: function(value) {},
+            isPhone: function(value) {
+                var reg = /^1[3|4|5|7|8]\d{9}$/;
+                var msg = 'Invalid phone No.';
+                return {
+                    result: reg.test(value) ? true : false,
+                    msg: msg
+                }
+            },
             min: function(value, thisRule) {
                 var len = Number(data.len) ? Number(thisRule.len) : 0;
                 var msg = 'More                                                                                                                  than ' + len + ' words.';
@@ -90,11 +97,10 @@
                 this.check(inputs[i]);
                 if (inputs[i].attr('data-fail')) pass = false;
             }
-            if (pass) container.trigger('validateAllPass','Congrats!');
+            if (pass) container.trigger('validateAllPass', 'Congrats!');
         }
         var inputs = [];
         container = $(container);
-
         for (var i = 0; i < rules.length; i++) {
             var r = rules[i];
             var $el = container.find(r.field);
@@ -108,7 +114,7 @@
             $el.on(checkEvent, function() {
                 var e = e || window.event;
                 var target = $(e.target);
-                if(r.checkAll) Validator.prototype.checkAll(target);
+                if (r.checkAll) Validator.prototype.checkAll(target);
                 else Validator.prototype.check(target);
             })
             this.allRules['v' + i] = r;
