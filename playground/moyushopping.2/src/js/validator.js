@@ -8,6 +8,7 @@
     }
 }(this, function($) {
     function Validator(container, rules) {
+        var $this = this;
         this.errMsg = [];
         this.allRules = {};
         this.functions = {
@@ -35,16 +36,15 @@
                 }
             },
             min: function(value, thisRule) {
-                var len = Number(data.len) ? Number(thisRule.len) : 0;
-                var msg = 'More                                                                                                                  than ' + len + ' words.';
+                var len = Number(thisRule.len) ? Number(thisRule.len) : 0;
+                var msg = 'Less than                                                                                                  than ' + len + ' words.';
                 return {
                     result: value.length >= len ? true : false,
                     msg: msg
                 };
             },
             equalTo: function(value, thisRule) {
-                var field2 = $(thisRule.field);
-                var value2 = $(field2).val();
+                var value2 = $(thisRule.field).val();
                 var msg = 'Values are not equal'
                 return {
                     result: value === value2 ? true : false,
@@ -66,10 +66,9 @@
         rule: 当前dom绑定的检测对象，格式为{isRequired:{...},min:{...}}
         thisName: this.rulesDefaultName循环到的每一检测name
         */
-        this.rangeCheck = function() {};
-        Validator.prototype.check = function(target) {
+        this.check = function(target) {
             var targetData = target.attr('data-v');
-            var rule = this.allRules[targetData];
+            var rule = $this.allRules[targetData];
             var checkResult = true;
             var errMsg;
             for (var i = 0; i < this.functionNames.length; i++) {
@@ -79,6 +78,7 @@
                     var data = this.functions[thisName](target.val(), thisRule, target);
                     checkResult = data.result;
                     errMsg = thisRule.msg || data.msg;
+                    //验证失败 则不会进行队列中排队等待的其他验证
                     if (!checkResult) {
                         target.attr('data-fail', true);
                         target.trigger('validateFail', errMsg);
@@ -90,11 +90,13 @@
                 target.removeAttr('data-fail');
                 target.trigger('validatePass', 'This field passed');
             }
-        }.bind(this);
-        Validator.prototype.checkAll = function() {
+        }
+        //一开始我这里是Validator.prototype.checkAll
+        this.checkAll = function() {
             var pass = true;
             for (var i = 0; i < inputs.length; i++) {
-                this.check(inputs[i]);
+                //然后这里的check又写了this...
+                $this.check(inputs[i]);
                 if (inputs[i].attr('data-fail')) pass = false;
             }
             if (pass) container.trigger('validateAllPass', 'Congrats!');
@@ -114,15 +116,15 @@
             $el.on(checkEvent, function() {
                 var e = e || window.event;
                 var target = $(e.target);
-                if (r.checkAll) Validator.prototype.checkAll(target);
-                else Validator.prototype.check(target);
+                //一开始我这里↓↓是Validator.prototype.checkAll
+                if (r.checkAll) $this.checkAll(target);
+                else $this.check(target);
+                //我一开始这里↑↑用的是this 所以就会说this.check()is not a function
             })
             this.allRules['v' + i] = r;
             inputs.push($el);
         }
-        /*submit.on('click', function() {
-            Validator.prototype.checkAll()
-        });*/
+        return this;
     }
     return Validator;
 })
