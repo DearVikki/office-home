@@ -1,12 +1,7 @@
-var main=function(){
-	$('.vikkiNum').numEditor();
-	$('.vikkiNum').on('numCb',function(e,num){
-		console.log('现在的数字是'+num); //第一个参数默认是event事件
-	});
-	 $.getJSON('areas.json',function(json){
-        proData = json;
-        console.log(data)
-       $('.vikkiAddressPicker').addressPicker(data);
-    });
-};
-$(document).ready(main);
+var Foo = function(x,y){
+	x.onclick = function(){
+		console.log(y);
+	}
+}
+var a = new Foo(1,10)
+var b = new Foo(2,20)

@@ -18,9 +18,9 @@ var btn2 = container2.find('.common-btn');
 var btn3 = container3.find('.common-btn');
 new R('#step1-container', '.radio', 'single');
 //第一步验证
-new V('#step1-container', [{
+var v1 = new V('#step1-container', [{
     field: '.phone',
-    isRequired: {},
+    isPhone: {},
     checkEvent: 'keyup',
     checkAll: true
 }, {
@@ -36,11 +36,17 @@ new V('#step1-container', [{
 }]);
 container1.on('validateFail', function(event, errMsg) {
     btn1.removeClass('active');
+    console.log('fail')
 });
 container1.on('validateAllPass', function(event, msg) {
     btn1.addClass('active');
     $('.tel').text($('.phone').val());
+    //console.log('pass')
 });
+console.log(v1)
+//v1.checkAll()
+//v1.check($('.phone')); //想要可以直接$('.phone').check()
+v1.ruleFunctions.isPhone($('.phone'))
 //发送验证码
 var $veri = $('.getVerify');
 var $access = $('.access');

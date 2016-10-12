@@ -8,24 +8,23 @@ var ajax = require('ajax');
 var $ = require('jquery');
 var V = require('./js/validator');
 var container = $('#main-container');
-new V({
-    '#step1-container',
-    [{
-        field: '.phone',
-        isPhone: {},
-        checkEvent: 'keyup',
-        checkAll: true
-    }, {
-        field: '.radio',
-        min: 6,
-        checkEvent: 'keyup',
-        checkAll: true
-    }]
-})
-container1.on('validateFail', function(event, errMsg) {
-    btn1.removeClass('active');
+var btn = $('.common-btn');
+new V('#main-container', [{
+    field: '.phone',
+    isPhone: {},
+    checkEvent: 'keyup',
+    checkAll: true
+}, {
+    field: '.pw',
+    min: {
+        len: 6
+    },
+    checkEvent: 'keyup',
+    checkAll: true
+}])
+container.on('validateFail', function(event, errMsg) {
+    btn.removeClass('active');
 });
-container1.on('validateAllPass', function(event, msg) {
-    btn1.addClass('active');
-    $('.tel').text($('.phone').val());
+container.on('validateAllPass', function(event, msg) {
+    btn.addClass('active');
 });
