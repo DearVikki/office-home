@@ -6,7 +6,8 @@ module.exports = {
         set:'./src/set.js',
         login:'./src/login.js',
         signup:'./src/signup.js',
-        forgetPw:'./src/resetPw.js'
+        forgetPw:'./src/resetPw.js',
+        order:'./src/order.js'
     },
     output: {
         path: './dist',

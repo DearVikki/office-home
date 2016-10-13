@@ -47,9 +47,9 @@
 	__webpack_require__(12);
 	__webpack_require__(1);
 	__webpack_require__(5);
-	__webpack_require__(28);
-	__webpack_require__(30);
-	__webpack_require__(32);
+	__webpack_require__(44);
+	__webpack_require__(17);
+	__webpack_require__(46);
 
 /***/ },
 /* 1 */
@@ -10717,64 +10717,13 @@
 /* 14 */,
 /* 15 */,
 /* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(29);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./set.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./set.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "body {\n  box-sizing: border-box;\n}\n#main-container {\n  margin-top: 1.17rem;\n}\n#main-container .img-load {\n  margin-top: .3rem;\n  width: 1.36rem;\n  height: .66rem;\n  border: 2px solid #bbb;\n  border-radius: .66rem;\n  position: relative;\n  overflow: hidden;\n}\n#main-container .img-load .bar {\n  width: 2.6rem;\n  height: 100%;\n  position: absolute;\n  left: -1rem;\n  background: linear-gradient(90deg, #fb4a4a 50%, #fff 50%);\n}\n#main-container .img-load .bar .dot {\n  width: .6rem;\n  height: .6rem;\n  background: #fff;\n  border-radius: 100%;\n  box-shadow: 0 0 5px #5c5c5c;\n  margin: 0 auto;\n}\n#main-container .common-btn {\n  margin-top: 2.6rem;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(31);
+	var content = __webpack_require__(18);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10794,7 +10743,7 @@
 	}
 
 /***/ },
-/* 31 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10808,13 +10757,78 @@
 
 
 /***/ },
-/* 32 */
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(33);
+	var content = __webpack_require__(45);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./set.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./set.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "body {\n  box-sizing: border-box;\n}\n#main-container {\n  margin-top: 1.17rem;\n}\n#main-container .img-load {\n  margin-top: .3rem;\n  width: 1.36rem;\n  height: .66rem;\n  border: 2px solid #bbb;\n  border-radius: .66rem;\n  position: relative;\n  overflow: hidden;\n}\n#main-container .img-load .bar {\n  width: 2.6rem;\n  height: 100%;\n  position: absolute;\n  left: -1rem;\n  background: linear-gradient(90deg, #fb4a4a 50%, #fff 50%);\n}\n#main-container .img-load .bar .dot {\n  width: .6rem;\n  height: .6rem;\n  background: #fff;\n  border-radius: 100%;\n  box-shadow: 0 0 5px #5c5c5c;\n  margin: 0 auto;\n}\n#main-container .common-btn {\n  margin-top: 2.6rem;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(47);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10834,7 +10848,7 @@
 	}
 
 /***/ },
-/* 33 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();

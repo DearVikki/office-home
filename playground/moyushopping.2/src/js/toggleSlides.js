@@ -13,6 +13,7 @@
         var $next = $(config.next);
         var $prev = $(config.prev);
         var custom = config.custom;
+        var prevCb = config.prev.Cb;
         var first = config.first;
         var last = config.last;
         var mid = config.mid;
@@ -40,7 +41,7 @@
             if ($slides.index($this) === 0) return;
             $this.hide().removeClass(currentc);
             $prev.show().addClass(currentc);
-            config.prevCb($this);
+            if(typeof prevCb === 'function') prevCb();
             if(typeof mid === 'function') mid();
             if($slides.index($prev) === 0 && typeof first === 'function') first();
         })

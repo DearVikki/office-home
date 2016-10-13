@@ -47,57 +47,11 @@
 	__webpack_require__(1);
 	__webpack_require__(14);
 	__webpack_require__(17);
-	__webpack_require__(39);
+	__webpack_require__(42);
 	__webpack_require__(12);
 	__webpack_require__(5);
 	var ajax = __webpack_require__(13);
 	var $ = __webpack_require__(11);
-	var V = __webpack_require__(21);
-	var h = __webpack_require__(23);
-	var ls = __webpack_require__(41)
-	var container = $('#main-container');
-	var btn = $('.common-btn');
-	new V('#main-container', [{
-	    field: '.phone',
-	    isPhone: {},
-	    checkEvent: 'keyup',
-	    checkAll: true
-	}, {
-	    field: '.pw',
-	    min: {
-	        len: 6
-	    },
-	    checkEvent: 'keyup',
-	    checkAll: true
-	}])
-	container.on('validateFail', function(event, errMsg) {
-	    btn.removeClass('active');
-	});
-	container.on('validateAllPass', function(event, msg) {
-	    btn.addClass('active');
-	});
-	h({
-	    input: '.pw',
-	    reminder: '.reminder'
-	});
-	btn.on('click', function() {
-	            if (!btn.hasClass('active')) return;
-	            ajax({
-	                    data: {
-	                        name: 'shopping.sys.pc.login',
-	                        mobile: $('.phone').val(),
-	                        password: $('.pw').val()
-	                    },
-	                    success: function(data) {
-	                        if (data.code == 1000) {
-	                            location.href = 'index.html';
-	                            ls('user', data.data);
-	                        } else {
-	                            $('.reminder').text(data.msg).show();
-	                        }
-	                    }
-	            })
-	        })
 
 /***/ },
 /* 1 */
@@ -10870,164 +10824,9 @@
 /***/ },
 /* 19 */,
 /* 20 */,
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports === 'object') {
-	        module.exports = factory(require('jquery'));
-	    } else {
-	        root.times = factory(root.jQuery);
-	    }
-	}(this, function($) {
-	    function Validator(container, rules) {
-	        var self = this;
-	        this.allRules = {};
-	        this.inputs = [];
-	        this.container = $(container);
-	        Validator.prototype.ruleFunctions = {
-	            isRequired: function(target) {
-	                var value = target.val();
-	                var msg = 'Mandatory field';
-	                return {
-	                    result: value.length > 0 ? true : false,
-	                    msg: msg
-	                };
-	            },
-	            isEmail: function(target) {
-	                var value = target.val();
-	                var reg = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-	                var msg = 'Invalid email address';
-	                return {
-	                    result: reg.test(value) ? true : false,
-	                    msg: msg
-	                };
-	            },
-	            isPhone: function(target) {
-	                var value = target.val();
-	                var reg = /^1[3|4|5|7|8]\d{9}$/;
-	                var msg = 'Invalid phone No.';
-	                return {
-	                    result: reg.test(value) ? true : false,
-	                    msg: msg
-	                }
-	            },
-	            min: function(target, thisRule) {
-	                var value = target.val();
-	                var len = Number(thisRule.len) ? Number(thisRule.len) : 0;
-	                var msg = 'Less than' + len + 'words';
-	                return {
-	                    result: value.length >= len ? true : false,
-	                    msg: msg
-	                };
-	            },
-	            equalTo: function(target, thisRule) {
-	                var value = target.val();
-	                var value2 = $(thisRule.field).val();
-	                var msg = 'Values are not equal'
-	                return {
-	                    result: value === value2 ? true : false,
-	                    msg: msg
-	                }
-	            },
-	            custom: function(target, thisRule) {
-	                var value = target.val();
-	                var msg = 'Unqualified field';
-	                return {
-	                    result: thisRule.rule(target) ? true : false,
-	                    msg: msg
-	                }
-	            }
-	        };
-	        /*变量解释：
-	        this.functionNames: 按顺序储存的默认检测变量名数组
-	        this.allRules: 经转换过的用户要求检测对象，格式为{fieldName:{isRequired:{..},min{...}},fieldName:{isRequired:{..},min{...}}}
-	        rule: 当前dom绑定的检测对象，格式为{isRequired:{...},min:{...}}
-	        thisName: this.rulesDefaultName循环到的每一检测name
-	        */
-	        Validator.prototype.check = function(target) {
-	            var targetData = target.attr('data-v');
-	            var rule = this.allRules[targetData];
-	            var functionNames = Object.keys(Validator.prototype.ruleFunctions);
-	            var checkResult = true;
-	            var errMsg;
-	            for (var i = 0; i < functionNames.length; i++) {
-	                var thisName = functionNames[i];
-	                if (thisName in rule) {
-	                    var thisRule = rule[thisName];
-	                    var data = this.ruleFunctions[thisName](target, thisRule);
-	                    checkResult = data.result;
-	                    errMsg = thisRule.msg || data.msg;
-	                    //验证失败 则不会进行队列中排队等待的其他验证
-	                    if (!checkResult) {
-	                        target.attr('data-fail', true);
-	                        target.trigger('validateFail', errMsg);
-	                        console.log('fail:' + data.msg)
-	                        break;
-	                    }
-	                }
-	            }
-	            if (checkResult) {
-	                target.removeAttr('data-fail');
-	                target.trigger('validatePass', 'This field passed');
-	            }
-	        }
-	        Validator.prototype.checkAll = function() {
-	            var pass = true;
-	            for (var i = 0; i < this.inputs.length; i++) {
-	                this.check(this.inputs[i]);
-	                if (this.inputs[i].attr('data-fail')) pass = false;
-	            }
-	            if (pass) this.container.trigger('validateAllPass', 'Congrats!');
-	        }
-	        for (var i = 0; i < rules.length; i++) {
-	            var r = rules[i];
-	            var $el = this.container.find(r.field);
-	            var checkEvent = 'blur';
-	            $el.attr('data-v', 'v' + i);
-	            delete r.field;
-	            if (r.checkEvent) {
-	                checkEvent = r.checkEvent;
-	                delete r.checkEvent;
-	            }
-	            $el.on(checkEvent, function() {
-	                var e = e || window.event;
-	                var target = $(e.target);
-	                if (r.checkAll) self.checkAll();
-	                else self.check(target);
-	            })
-	            this.allRules['v' + i] = r;
-	            this.inputs.push($el);
-	        }
-	    }
-	    return Validator;
-	})
-
-/***/ },
+/* 21 */,
 /* 22 */,
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports === 'object') {
-	        module.exports = factory(require('jquery'));
-	    } else {
-	        root.hideReminder = factory(root.jQuery);
-	    }
-	}(this, function($) {
-	    function hideReminder(e) {
-	        $(e.input).on('focus', function() {
-	            $(e.reminder).hide();
-	        })
-	    }
-	    return hideReminder;
-	})
-
-/***/ },
+/* 23 */,
 /* 24 */,
 /* 25 */,
 /* 26 */,
@@ -11043,13 +10842,16 @@
 /* 36 */,
 /* 37 */,
 /* 38 */,
-/* 39 */
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(40);
+	var content = __webpack_require__(43);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -11058,8 +10860,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./login.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./login.less");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -11069,7 +10871,7 @@
 	}
 
 /***/ },
-/* 40 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -11077,32 +10879,11 @@
 	
 	
 	// module
-	exports.push([module.id, "html {\n  background: #fff;\n}\nbody {\n  box-sizing: border-box;\n}\n#main-container {\n  margin-top: 2.8rem;\n  padding: 0 .4rem;\n}\n#main-container .common-btn {\n  margin-top: 2.6rem;\n}\n#main-container .phone-login,\n#main-container .forget-pw {\n  font-size: 28px;\n  margin-top: .4rem;\n}\n#main-container .reminder {\n  font-size: 24px;\n  color: #fb4a4a;\n  margin-top: .1rem;\n}\n#main-container .reminder.wrong-pw:before {\n  content: '\\5BC6\\7801\\4E0D\\6B63\\786E\\5594';\n}\n#main-container .reminder.not-in:before {\n  content: '\\8BE5\\624B\\673A\\53F7\\5C1A\\672A\\6CE8\\518C\\54DF';\n}\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n}\n#order-status-container {\n  width: 100%;\n  height: .8rem;\n  position: fixed;\n  top: 1.17rem;\n  left: 0;\n  background: #fff;\n  z-index: 2;\n}\n#order-status-container div {\n  width: 20%;\n  display: inline-block;\n  text-align: center;\n  height: .8rem;\n  line-height: .8rem;\n}\n#order-status-container div .order-status {\n  color: #5c5c5c;\n  font-size: 24px;\n}\n#order-status-container div .order-status.active {\n  color: #fb4a4a;\n}\n#order-container {\n  margin-top: 1.97rem;\n}\n.weui_dialog_confirm .weui_dialog_hd .weui_dialog_title {\n  display: none;\n}\n.weui_dialog_confirm.confirm {\n  display: block;\n}\n.weui_dialog_confirm.confirm .weui_dialog_hd .weui_dialog_title.confirm {\n  display: inline-block;\n}\n.weui_dialog_confirm.cancle {\n  display: block;\n}\n.weui_dialog_confirm.cancle .weui_dialog_hd .weui_dialog_title.cancle {\n  display: inline-block;\n}\n", ""]);
 	
 	// exports
 
 
-/***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports === 'object') {
-	        module.exports = factory();
-	    } else {
-	        root.times = factory();
-	    }
-	}(this, function() {
-	    function ls() {
-	        var a = arguments;
-	        if (a.length === 1) return JSON.parse(localStorage.getItem(a[0]));
-	        else if (a.length === 2) return localStorage.setItem(a[0], JSON.stringify(a[1]));
-	    }
-	    return ls;
-	})
-
 /***/ }
 /******/ ]);
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=order.js.map

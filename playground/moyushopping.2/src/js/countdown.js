@@ -13,6 +13,7 @@
         var s = config.start;
         var e = config.end;
         s();
+        $p.text(--t);
         var i = setInterval(function(cb) {
             $p.text(--t);
             if (t == 0) {

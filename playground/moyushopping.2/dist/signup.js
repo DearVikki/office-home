@@ -44,14 +44,243 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	__webpack_require__(1);
+	__webpack_require__(14);
+	__webpack_require__(17);
+	__webpack_require__(19);
 	__webpack_require__(12);
 	__webpack_require__(5);
-	__webpack_require__(34);
-	__webpack_require__(13);
+	var ajax = __webpack_require__(13);
+	var $ = __webpack_require__(11);
+	var R = __webpack_require__(48);
+	var V = __webpack_require__(21);
+	var S = __webpack_require__(22);
+	var C = __webpack_require__(24);
+	var container1 = $('#step1-container');
+	var container2 = $('#step2-container');
+	var container3 = $('#step3-container');
+	var btn1 = container1.find('.common-btn');
+	var btn2 = container2.find('.common-btn');
+	var btn3 = container3.find('.common-btn');
+	new R('#step1-container', '.radio', 'single');
+	//第一步验证
+	var v1 = new V('#step1-container', [{
+	    field: '.phone',
+	    isPhone: {},
+	    checkEvent: 'keyup',
+	    checkAll: true
+	}, {
+	    field: '.radio',
+	    custom: {
+	        rule: function(target) {
+	            return ($('.radio').hasClass('active')) ? true : false;
+	        },
+	        msg: ''
+	    },
+	    checkEvent: 'click',
+	    checkAll: true
+	}]);
+	container1.on('validateFail', function(event, errMsg) {
+	    btn1.removeClass('active');
+	    console.log('fail')
+	});
+	container1.on('validateAllPass', function(event, msg) {
+	    btn1.addClass('active');
+	    $('.tel').text($('.phone').val());
+	    //console.log('pass')
+	});
+	console.log(v1)
+	//v1.checkAll()
+	//v1.check($('.phone')); //想要可以直接$('.phone').check()
+	v1.ruleFunctions.isPhone($('.phone'))
+	//发送验证码
+	var $veri = $('.getVerify');
+	var $access = $('.access');
+	$veri.on('click', function() {
+	    if ($veri.hasClass('disabled')) return;
+	    ajax({
+	        data: {
+	            name: 'shopping.sys.register.sms.send',
+	            mobile: $('.phone').val()
+	        },
+	        success: function(result) {
+	            if (result.success === true) {
+	                new C({
+	                    text: '.time',
+	                    time: 60,
+	                    start: function() {
+	                        $access.text('s重新发送');
+	                        $veri.addClass('disabled');
+	                    },
+	                    end: function() {
+	                        $access.text('重新发送');
+	                    }
+	                })
+	            } else {
+	                console.log(result)
+	                $('.wrong-verify').text(result.msg).show();
+	            }
+	        }
+	    })
+	});
+	
+	function checkVeri() {
+	    var a;
+	    ajax({
+	        //这里用了同步…
+	        async: false,
+	        data: {
+	            name: 'shopping.sys.register.sms.confirm',
+	            mobile: $('.phone').val(),
+	            code: $('.verify').val()
+	        },
+	        success: function(result) {
+	            if (result.success == true) {
+	                a = true;
+	            } else {
+	                $('.wrong-verify').text(result.msg).show();
+	                a = false;
+	            }
+	        }
+	    })
+	    return a;
+	}
+	//第二步验证
+	new V('#step2-container', [{
+	    field: '.verify',
+	    checkEvent: 'keyup',
+	    min: {
+	        len: 4
+	    },
+	    custom: {
+	        rule: function(target) {
+	            return checkVeri() ? true : false;
+	        }
+	    }
+	}]);
+	container2.on('validateFail', function(event, errMsg) {
+	    btn2.addClass('active');
+	});
+	container2.on('validateAllPass', function(event, msg) {
+	    btn2.addClass('active');
+	});
+	//第三步验证
+	new V('#step3-container', [{
+	    field: '.pw1',
+	    checkEvent: 'keyup',
+	    min: {
+	        len: 6
+	    },
+	    max: {
+	        len: 20
+	    },
+	    checkAll: true
+	}, {
+	    field: '.pw2',
+	    checkEvent: 'keyup',
+	    equalTo: {
+	        field: '.pw1'
+	    },
+	    checkAll: true
+	}]);
+	container3.on('validateFail', function(event, errMsg) {
+	    btn3.removeClass('active');
+	});
+	container3.on('validateAllPass', function(event, msg) {
+	    btn3.addClass('active');
+	});
+	//下一步按钮
+	new S({
+	    slides: '.container',
+	    prev: '.back',
+	    next: '.common-btn',
+	    custom: {
+	        '#step1-container': function(slide) {
+	            return slide.find('.common-btn').hasClass('active') ? true : false;
+	        }
+	    },
+	    prevCb: function(target) {
+	        target.find('.wrong-verify').hide();
+	    },
+	    first: function(){
+	        $('.back').on('click',historyBack);
+	    },
+	    mid: function(){
+	        $('.back').off('click',historyBack);
+	    }
+	});
+	//the last signup btn
+	btn3.on('click', function() {
+	    if (!btn.hasClass('active')) return;
+	    var pw = $('.pw1').val();
+	    ajax({
+	        data: {
+	            name: 'shopping.sys.pc.register',
+	            mobile: $('.phone').val(),
+	            password: pw,
+	            r_password: pw,
+	            type: $('.radio.active').data('type'),
+	            input_code: ''
+	        },
+	        success: function(data, status) {
+	            if (data.code == 1000) {
+	                //注册成功
+	                window.location.href = 'login.html';
+	            } else if (data.code == 1033) {
+	                //用户已存在
+	                $('.reset-pw-reminder').text('用户已存在');
+	                setTimeout(function() {
+	                    window.location.href = 'login.html';
+	                }, 2000)
+	            }
+	        }
+	    })
+	});
+	function historyBack(){
+	    window.history.back();
+	}
 
 /***/ },
-/* 1 */,
-/* 2 */,
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(2);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./public.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./public.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "html,\nbody,\ndiv,\nspan,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\ni,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  outline: 0;\n  font-size: 100%;\n  vertical-align: baseline;\n  background: transparent;\n}\n* {\n  box-sizing: border-box;\n}\nli {\n  list-style: none;\n}\na {\n  text-decoration: none;\n  color: black;\n}\na:visited {\n  text-decoration: none;\n}\na:hover {\n  text-decoration: none;\n}\nimg {\n  border: 0px;\n}\nh1,\nh2,\nh3,\nh4,\nh5 {\n  font-weight: normal;\n}\ninput,\nselect,\ntextarea {\n  outline: none;\n}\nbody {\n  position: relative;\n}\n.clear {\n  clear: both;\n}\n.margauto {\n  width: 1190px;\n  margin: 0 auto;\n}\n.fl {\n  float: left;\n}\n.fr {\n  float: right;\n}\n.textLeft {\n  text-align: left !important;\n}\n.textCenter {\n  text-align: center !important;\n}\n.inLine {\n  display: inline-block;\n}\n.cd {\n  cursor: default;\n}\n.cp {\n  cursor: pointer;\n}\n.j-box {\n  position: relative;\n  overflow: hidden;\n}\n/*按钮样式*/\n.rt_btn {\n  display: block;\n  width: 120px;\n  height: 35px;\n  line-height: 35px;\n  text-align: center;\n  font-size: 14px;\n  color: #fff;\n  background: #00a5e3;\n  border-radius: 3px;\n  overflow: hidden;\n}\n.rt_btn.w85 {\n  width: 85px;\n}\n.rt_btn.w60 {\n  width: 60px;\n}\n.rt_btn.w280 {\n  width: 280px;\n  height: 52px;\n  line-height: 52px;\n  font-size: 16px;\n  letter-spacing: 15px;\n}\n.rt_btn:hover {\n  background: #00b5fc;\n}\n.rt_btn:active {\n  background: #009edd;\n}\n/*自定义样式*/\nhtml {\n  background: #eee;\n}\nbody {\n  font-family: \"\\5FAE\\8F6F\\96C5\\9ED1\", microsoft yahei, Arial, Helvetica, sans-serif;\n  cursor: default;\n  font-size: 0px;\n  color: #5c5c5c;\n}\n.s-font {\n  font-size: 20px;\n  color: #fb4a4a;\n}\n.m-font {\n  font-size: 24px;\n  color: #fb4a4a;\n}\n.bold {\n  font-family: PingFangSC-Semibold;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
 /* 3 */
 /***/ function(module, exports) {
 
@@ -10694,33 +10923,99 @@
 	})
 
 /***/ },
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(35);
+	var content = __webpack_require__(15);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".common-input-group-A {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  padding-bottom: .32rem;\n  border-bottom: 2px solid #fb4a4a;\n  margin: 0 auto;\n  position: relative;\n}\n.common-input-group-A img {\n  width: .64rem;\n  vertical-align: middle;\n}\n.common-input-group-A input {\n  font-size: 32px;\n  border: none;\n  vertical-align: middle;\n  margin-left: .32rem;\n}\n.common-input-group-B {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  border: 2px solid #fb4a4a;\n  border-radius: 3px;\n}\n.common-input-group-B input {\n  width: 75%;\n  border: none;\n  font-size: 32px;\n  vertical-align: middle;\n  padding-left: .32rem;\n}\n.common-input-group-B label {\n  width: 25%;\n  height: 1.3rem;\n  display: inline-block;\n  vertical-align: middle;\n  border-left: 2px solid #fb4a4a;\n  font-size: 24px;\n  color: #fb4a4a;\n  text-align: center;\n  line-height: 1.3rem;\n}\n.common-input-group-B label span.resend {\n  display: none;\n}\n.common-radio-group {\n  height: 1.3rem;\n  line-height: 1.3rem;\n}\n.common-radio-group .radio {\n  width: .5rem;\n  height: .5rem;\n  border-radius: 100%;\n  border: 1px solid #aaa;\n  display: inline-block;\n  vertical-align: middle;\n}\n.common-radio-group .radio.active {\n  background: url(" + __webpack_require__(16) + ") center;\n  background-size: 100%;\n}\n.common-radio-group label {\n  font-size: 32px;\n  margin-left: .32rem;\n  vertical-align: middle;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAABQNJREFUWAnNmF9MW1Ucx8+5dwU6Nh1MIFkwc4a5JWiMAZc10UlCbW+vUYNO0yVzMQOMM0YffNvT5oOP+uD/P1tiTFz0RZI5bukKqw+kiUmXjA0nOhPCYFkAhRUshfb2+P1dvPXC2t5LR3Hnoff8+f359Hd+9/y5nJVQUqr6kJTNepkkeZgQeznnjXhuNUxxPicYm0B7BO2YSKf7KyORq2t1w50qXPd43A01NUfhsBMgjznVIzkhxBB+Tk1PTX21Ix5POtG1BTvBmHRcUbq5JJ2EwQYnRovITAPyZI+mffoyY3oROVYUbMHn2yXL8reI0P5iRtY6hqmOZ3U9WNXXd62QbkEw5NHTMmPfQ3FbIeU77J/Tdf0Q4M7lsyPl61xUlJdkIUihXFDkdqssST3wdTgfw20RSwUCPkTqR8a5K59CGfp0XYiOKk07a7W9Aizl9T4ou1wXAXWvVajsdSHmAddaFQrREmOU3FSewNsnVVSc2XAowuB8iyRJ311oa9tkUOEnB3ZcVY8hfPvMgY1+wvejT7jdb5t+jam80dKyua6+fhTkdebA//ScTQixc7umJYyI3dfQ0H0XQFEstt3D2DGqmFPZRY27oQjOO4mDL/r9zZIsXyk3FLYietuHuRBBPIsuRdgZHpe4LHvLDYUN/OzvY2Oeit7eI1nG3rfzx3FykaDksRO8w/Fzv42NHWweHl4iO3jbam3tce7ZhLDutRUsVUAIbZSxF02opUDgTRwIuu3MYSr3SJjzRjvBEsdDgOrYrWmLpL+kKG8A6kMnthDVRorY8snTiYZTGSHC4wsLHbuj0WUoVX0dAfjIqTqYqs3loriOEONC11syQrQjJ6eKC7MIoJ7fFY2mSA7T9xqgPoEzYzG30c0NU/LP5VoFKlhb+ir6+i66NW0gK4QXOn/mFRVi4ObMzHM5KFXtAs1na4WC7aSERJvI68TSCeMvpBRlD3VVhkJDIpv1oTprEaGDfXRqcvLZ+2OxBepHpI4iUl+UAAVTYlyC4q8rHORv1MicD6T8/iYapuhhav2wkKA2DP0EqGfMiwYS/VXM3JelQJE9BGKEpjJGDdvC+Q4cTQYWFOUBkgXcz0zXA9DX/tL1/6D8/ldwcTkFEWf5S8ZWF85jfFFVH4GFodVjhdqIzmhG1w9sDoevr5ahYzLgv0Z/6VBQRqrsQ9SMfLiC0DdT3UkB3LV0JvNU9fnzN0x5QB0C1Ddo42ReeoHtPyo0rWn5n+EyuhZT+BNNLperf7693bhnAiq4HlDEgEid/vfJ2GRb25Yat3sUybp9LYDIryksJVfx9j1ZaqKv8CfErbl0emdtJHLLiFh9NDqPEL67QshJAyde/MMD6wK17O89gqJqLkl7QqGPsabFnfCUQwaBuXxpcvID03YOjL4l0LUdA7Y7gam8js8kghJsjcfTps0cGHXQtwQ9mw0idzKmwAY84TJ7uFLTfrH6WgFGA7h09mI/PLJBcDrWrC5scz9YoahurGOrO6mNvVHFNkQXYFxcylCE+BvHbIpUTz7rBcFImPZGrE9nsG615lMutQ/5dElkMsHKcLjgPn3bVFqdUc7hI9t+vDFvoX/aOlZifQZ67wwmk63FoMh20YhZnd/0+aprZZkuxp1Qetg6ZldHhGgRPj2bSHxeNzjo6K13DGZ1TndR49pHNyxcZuC0Ec/lIzoOngCZwPSPILFjqPfTGc6q76T+D4xj7viYAxmzAAAAAElFTkSuQmCC"
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(18);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".common-btn {\n  margin: 0 auto;\n  width: 9.2rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  border-radius: .08rem;\n  text-align: center;\n  font-size: 32px;\n  background: #eee;\n  color: #bbb;\n}\n.common-btn.active {\n  background: #fb4a4a;\n  color: #fff;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(20);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10740,7 +11035,7 @@
 	}
 
 /***/ },
-/* 35 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10748,10 +11043,291 @@
 	
 	
 	// module
-	exports.push([module.id, "html {\n  background: #fff;\n}\nbody {\n  box-sizing: border-box;\n}\n.container {\n  margin-top: 2rem;\n  padding: 0 .4rem;\n  display: none;\n}\n.container.active {\n  display: block;\n}\n#step1-container,\n#forget-pw {\n  margin-top: 2.8rem;\n}\n#step1-container .common-btn,\n#forget-pw .common-btn {\n  margin-top: 1.6rem;\n}\n#step1-container .pro,\n#forget-pw .pro {\n  font-size: 24px;\n  margin-top: .4rem;\n  color: #b5b5b5;\n}\n#step2-container p {\n  font-size: 32px;\n  margin-bottom: .3rem;\n}\n#step2-container p span {\n  color: #fb4a4a;\n}\n#step2-container p.wrong-verify {\n  color: #fb4a4a;\n  font-size: 24px;\n  margin-top: .1rem;\n  display: none;\n}\n#step2-container .common-btn {\n  margin-top: 1.29rem;\n}\n#step3-container p,\n#reset-pw p {\n  font-size: 32px;\n  margin-bottom: .4rem;\n}\n.common-input-group-B {\n  margin-top: .3rem;\n}\n.common-btn {\n  margin-top: 1.29rem;\n}\n.resend-veri {\n  width: 2rem;\n  height: .47rem;\n  line-height: .45rem;\n  text-align: center;\n  font-size: .26rem;\n  color: #b5b5b5;\n  border: 1px solid #fb4a4a;\n  border-radius: .08rem;\n  position: absolute;\n  top: .45rem;\n  right: .4rem;\n}\n.resend-veri.disable {\n  border: 1px solid #b5b5b5;\n}\n.resend-veri .resend {\n  display: none;\n}\n.resend-veri .access {\n  color: #fb4a4a;\n}\n.reset-pw-reminder {\n  font-size: 22px;\n  color: #fb4a4a;\n  margin-top: .1rem;\n}\n.reset-pw-reminder.wrong-verify:before {\n  content: '\\9A8C\\8BC1\\7801\\4E0D\\5BF9\\5594';\n}\n.reset-pw-reminder.wrong-pw:before {\n  content: '\\4E24\\6B21\\5BC6\\7801\\4E0D\\4E00\\81F4\\5594';\n}\n.reset-pw-reminder.already-exist:before {\n  content: '\\8BE5\\624B\\673A\\53F7\\5DF2\\7ECF\\6CE8\\518C';\n}\n.reset-pw-reminder.not-exist:before {\n  content: '\\7528\\6237\\5C1A\\672A\\6CE8\\518C\\5594';\n}\n", ""]);
+	exports.push([module.id, "html {\n  background: #fff;\n}\nbody {\n  box-sizing: border-box;\n}\n.container {\n  margin-top: 2rem;\n  padding: 0 .4rem;\n  display: none;\n}\n.container.active {\n  display: block;\n}\n#step1-container,\n#forget-pw {\n  margin-top: 2.8rem;\n}\n#step1-container .common-btn,\n#forget-pw .common-btn {\n  margin-top: 1.6rem;\n}\n#step1-container .pro,\n#forget-pw .pro {\n  font-size: 24px;\n  margin-top: .4rem;\n  color: #b5b5b5;\n}\n#step2-container p {\n  font-size: 32px;\n  margin-bottom: .3rem;\n}\n#step2-container p span {\n  color: #fb4a4a;\n}\n#step2-container p.wrong-verify {\n  color: #fb4a4a;\n  font-size: 24px;\n  margin-top: .1rem;\n  display: none;\n}\n#step2-container .common-btn {\n  margin-top: 1.29rem;\n}\n#step3-container p,\n#reset-pw p {\n  font-size: 32px;\n  margin-bottom: .4rem;\n}\n.common-input-group-B {\n  margin-top: .3rem;\n}\n.common-btn {\n  margin-top: 1.29rem;\n}\n.resend-veri {\n  width: 2rem;\n  height: .47rem;\n  line-height: .45rem;\n  text-align: center;\n  font-size: .26rem;\n  color: #fb4a4a;\n  border: 1px solid #fb4a4a;\n  border-radius: .08rem;\n  position: absolute;\n  top: .45rem;\n  right: .4rem;\n}\n.resend-veri.disable {\n  border: 1px solid #b5b5b5;\n}\n.reset-pw-reminder {\n  font-size: 22px;\n  color: #fb4a4a;\n  margin-top: .1rem;\n}\n.reset-pw-reminder.wrong-verify:before {\n  content: '\\9A8C\\8BC1\\7801\\4E0D\\5BF9\\5594';\n}\n.reset-pw-reminder.wrong-pw:before {\n  content: '\\4E24\\6B21\\5BC6\\7801\\4E0D\\4E00\\81F4\\5594';\n}\n.reset-pw-reminder.already-exist:before {\n  content: '\\8BE5\\624B\\673A\\53F7\\5DF2\\7ECF\\6CE8\\518C';\n}\n.reset-pw-reminder.not-exist:before {\n  content: '\\7528\\6237\\5C1A\\672A\\6CE8\\518C\\5594';\n}\n", ""]);
 	
 	// exports
 
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory(require('jquery'));
+	    } else {
+	        root.times = factory(root.jQuery);
+	    }
+	}(this, function($) {
+	    function Validator(container, rules) {
+	        var self = this;
+	        this.allRules = {};
+	        this.inputs = [];
+	        this.container = $(container);
+	        Validator.prototype.ruleFunctions = {
+	            isRequired: function(target) {
+	                var value = target.val();
+	                var msg = 'Mandatory field';
+	                return {
+	                    result: value.length > 0 ? true : false,
+	                    msg: msg
+	                };
+	            },
+	            isEmail: function(target) {
+	                var value = target.val();
+	                var reg = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+	                var msg = 'Invalid email address';
+	                return {
+	                    result: reg.test(value) ? true : false,
+	                    msg: msg
+	                };
+	            },
+	            isPhone: function(target) {
+	                var value = target.val();
+	                var reg = /^1[3|4|5|7|8]\d{9}$/;
+	                var msg = 'Invalid phone No.';
+	                return {
+	                    result: reg.test(value) ? true : false,
+	                    msg: msg
+	                }
+	            },
+	            min: function(target, thisRule) {
+	                var value = target.val();
+	                var len = Number(thisRule.len) ? Number(thisRule.len) : 0;
+	                var msg = 'Less than' + len + 'words';
+	                return {
+	                    result: value.length >= len ? true : false,
+	                    msg: msg
+	                };
+	            },
+	            equalTo: function(target, thisRule) {
+	                var value = target.val();
+	                var value2 = $(thisRule.field).val();
+	                var msg = 'Values are not equal'
+	                return {
+	                    result: value === value2 ? true : false,
+	                    msg: msg
+	                }
+	            },
+	            custom: function(target, thisRule) {
+	                var value = target.val();
+	                var msg = 'Unqualified field';
+	                return {
+	                    result: thisRule.rule(target) ? true : false,
+	                    msg: msg
+	                }
+	            }
+	        };
+	        /*变量解释：
+	        this.functionNames: 按顺序储存的默认检测变量名数组
+	        this.allRules: 经转换过的用户要求检测对象，格式为{fieldName:{isRequired:{..},min{...}},fieldName:{isRequired:{..},min{...}}}
+	        rule: 当前dom绑定的检测对象，格式为{isRequired:{...},min:{...}}
+	        thisName: this.rulesDefaultName循环到的每一检测name
+	        */
+	        Validator.prototype.check = function(target) {
+	            var targetData = target.attr('data-v');
+	            var rule = this.allRules[targetData];
+	            var functionNames = Object.keys(Validator.prototype.ruleFunctions);
+	            var checkResult = true;
+	            var errMsg;
+	            for (var i = 0; i < functionNames.length; i++) {
+	                var thisName = functionNames[i];
+	                if (thisName in rule) {
+	                    var thisRule = rule[thisName];
+	                    var data = this.ruleFunctions[thisName](target, thisRule);
+	                    checkResult = data.result;
+	                    errMsg = thisRule.msg || data.msg;
+	                    //验证失败 则不会进行队列中排队等待的其他验证
+	                    if (!checkResult) {
+	                        target.attr('data-fail', true);
+	                        target.trigger('validateFail', errMsg);
+	                        console.log('fail:' + data.msg)
+	                        break;
+	                    }
+	                }
+	            }
+	            if (checkResult) {
+	                target.removeAttr('data-fail');
+	                target.trigger('validatePass', 'This field passed');
+	            }
+	        }
+	        Validator.prototype.checkAll = function() {
+	            var pass = true;
+	            for (var i = 0; i < this.inputs.length; i++) {
+	                this.check(this.inputs[i]);
+	                if (this.inputs[i].attr('data-fail')) pass = false;
+	            }
+	            if (pass) this.container.trigger('validateAllPass', 'Congrats!');
+	        }
+	        for (var i = 0; i < rules.length; i++) {
+	            var r = rules[i];
+	            var $el = this.container.find(r.field);
+	            var checkEvent = 'blur';
+	            $el.attr('data-v', 'v' + i);
+	            delete r.field;
+	            if (r.checkEvent) {
+	                checkEvent = r.checkEvent;
+	                delete r.checkEvent;
+	            }
+	            $el.on(checkEvent, function() {
+	                var e = e || window.event;
+	                var target = $(e.target);
+	                if (r.checkAll) self.checkAll();
+	                else self.check(target);
+	            })
+	            this.allRules['v' + i] = r;
+	            this.inputs.push($el);
+	        }
+	    }
+	    return Validator;
+	})
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory(require('jquery'));
+	    } else {
+	        root.times = factory(root.jQuery);
+	    }
+	}(this, function($) {
+	    function Slides(config) {
+	        var $slides = $(config.slides);
+	        var len = $slides.length;
+	        var $next = $(config.next);
+	        var $prev = $(config.prev);
+	        var custom = config.custom;
+	        var prevCb = config.prev.Cb;
+	        var first = config.first;
+	        var last = config.last;
+	        var mid = config.mid;
+	        var currentc = 'slide-active';
+	        $slides.each(function(e) {
+	            $(this).data('slide', e);
+	        })
+	        for (key in custom) {
+	            $(key).data('custom', custom[key]);
+	        }
+	        $next.on('click', function() {
+	            var $this = $(config.slides + '.' + currentc);
+	            var $next = $this.next();
+	            var customF = $this.data('custom');
+	            if ($slides.index($this) >= len - 1) return;
+	            if (typeof customF === 'function' && !customF($this)) return;
+	            $this.hide().removeClass(currentc);
+	            $next.show().addClass(currentc);
+	            if(typeof mid === 'function') mid();
+	            if($slides.index($next) >= len - 1 && typeof last === 'function') last();
+	        })
+	        $prev.on('click', function() {
+	            var $this = $(config.slides + '.' + currentc);
+	            var $prev = $this.prev();
+	            if ($slides.index($this) === 0) return;
+	            $this.hide().removeClass(currentc);
+	            $prev.show().addClass(currentc);
+	            if(typeof prevCb === 'function') prevCb();
+	            if(typeof mid === 'function') mid();
+	            if($slides.index($prev) === 0 && typeof first === 'function') first();
+	        })
+	        $slides.first().addClass(currentc);
+	    }
+	    return Slides;
+	})
+
+/***/ },
+/* 23 */,
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory(require('jquery'));
+	    } else {
+	        root.times = factory(root.jQuery);
+	    }
+	}(this, function($) {
+	    function Countdown(config) {
+	        var $p = $(config.text);
+	        var t = config.time;
+	        var s = config.start;
+	        var e = config.end;
+	        s();
+	        $p.text(--t);
+	        var i = setInterval(function(cb) {
+	            $p.text(--t);
+	            if (t == 0) {
+	                clearInterval(i);
+	                $p.text('');
+	                e();
+	            };
+	        }, 1000)
+	    }
+	    return Countdown;
+	})
+
+/***/ },
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory(require('jquery'));
+	    } else {
+	        root.times = factory(root.jQuery);
+	    }
+	}(this, function($) {
+	    function Radio(containerClass, radioClass, type, cb) {
+	        var container = $(containerClass);
+	
+	        function bind(e) {
+	            var radio = $(e).find(radioClass);
+	            radio.on('click', function() {
+	                if (type === 'multi') {
+	                    $(this).toggleClass('active');
+	                } else {
+	                    radio.removeClass('active');
+	                    $(this).addClass('active');
+	                }
+	                if (typeof cb === 'function') cb();
+	            })
+	        }
+	        Array.prototype.slice.call(container).forEach(bind);
+	    }
+	    return Radio;
+	})
 
 /***/ }
 /******/ ]);

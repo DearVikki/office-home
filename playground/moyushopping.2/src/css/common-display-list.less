@@ -41,3 +41,98 @@
         }
     }
 }
+
+#order-container, #collection-container {
+    width: 100%;
+    .order-item {
+        margin-bottom: .26rem;
+    }
+    .order-header, .order-footer {
+        width: 100%;
+        height: .85rem;
+        line-height: .85rem;
+        padding: 0 .53rem;
+        font-size: 24px;
+        background: #fff;
+        border-top: 1px solid #bbb;
+        border-bottom: 1px solid #bbb;
+    }
+    .order-detail {
+        width: 100%;
+        height: 2.93rem;
+        padding: .13rem;
+        display: inline-block;
+        .order-img {
+            width: 2.93rem;
+            height: 2.66rem;
+            display: inline-block;
+        }
+        .order-info {
+            vertical-align: top;
+            display: inline-block;
+            position: relative;
+            width: 6.3rem;
+            height: 2.66rem;
+            margin-left: .26rem;
+            .title {
+                font-size: .32rem;
+                width: 4.17rem;
+                height: .96rem;
+                line-height: .48rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+            }
+            .price {
+                font-size: .32rem;
+                height: .96rem;
+                line-height: .96rem;
+            }
+            .size, .piece {
+                font-size: .32rem;
+                color: #b5b5b5;
+                height: .35rem;
+                line-height: .35rem;
+            }
+            .conclu {
+                width: 100%;
+                text-align: center;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                font-size: .32rem;
+            }
+        }
+    }
+    .btn {
+        width: 1.6rem;
+        height: .58rem;
+        line-height: .58rem;
+        text-align: center;
+        margin-left: .5rem;
+        margin-top: .12rem;
+        border: 1px solid #858585;
+        border-radius: .08rem;
+        &.important {
+            color: #fb4a4a;
+            border-color: #fb4a4a;
+        }
+        &.comment:before {
+            content: '评价';
+        }
+        &.delivery:before {
+            content: '查看物流';
+        }
+        &.pay:before {
+            content: '付款';
+        }
+        &.cancle:before {
+            content: '取消订单';
+        }
+        &.confirm:before {
+            content: '确认收货';
+        }
+    }
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            我的订单
+        </title>
+        <meta charset="utf-8"/>
+        <meta content="initial-scale=.5, maximum-scale=.5, minimum-scale=.5, user-scalable=no" name="viewport"/>
+    </head>
+    <body>
+        <!--header开始-->
+        <div id="second-header-container">
+            我的订单
+            <label class="back fl">
+            </label>
+        </div>
+        <!--header结束-->
+        <!--订单状态tab开始-->
+        <div id="order-status-container">
+            <div>
+                <span class="order-status active" data-status="1">
+                    全部
+                </span>
+            </div>
+            <div>
+                <span class="order-status" data-status="2">
+                    待付款
+                </span>
+            </div>
+            <div>
+                <span class="order-status" data-status="3">
+                    待发货
+                </span>
+            </div>
+            <div>
+                <span class="order-status" data-status="4">
+                    待收货
+                </span>
+            </div>
+            <div>
+                <span class="order-status" data-status="5">
+                    待评价
+                </span>
+            </div>
+        </div>
+        <!--订单状态tab结束-->
+        <!--订单详情开始-->
+        <div id="order-container">
+            <div class="order-item to-comment">
+                <div class="order-header">
+                    <span class="fl order-shop">
+                        自营商城
+                    </span>
+                    <span class="fr order-item-status">
+                        交易成功
+                    </span>
+                </div>
+                <a class="order-detail" href="order-detail.html">
+                    <img class="order-img" src="image/member/220200.jpg"/>
+                    <div class="order-info">
+                        <div class="fl title">
+                            又见小夕 春季新款 韩版立领双口袋松紧
+                        </div>
+                        <div class="fr price">
+                            ￥
+                            <span>
+                                1299.0
+                            </span>
+                        </div>
+                        <div class="fl size">
+                            尺码：
+                            <span>
+                                XL
+                            </span>
+                        </div>
+                        <div class="fr piece">
+                            x
+                            <span>
+                                1
+                            </span>
+                        </div>
+                        <div class="conclu">
+                            共
+                            <span class="conclu-pi">
+                                this.goods_info.goods_num
+                            </span>
+                            件商品 合计
+                            <span class="conclu-pr">
+                                this.goods_info.price
+                            </span>
+                            （包运费
+                            <span class="conclu-de">
+                                0
+                            </span>
+                            ）
+                        </div>
+                    </div>
+                </a>
+                <div class="order-footer">
+                <!--举个栗子！-->
+                    <a class="fr btn important comment" href="write-comment.html">
+                    </a>
+                    <a class="fr btn delivery" href="delivery.html">
+                    </a>
+                    <!---->
+                </div>
+            </div>
+        </div>
+        <!--订单详情结束-->
+        <div class="common-divider" id="no-more">
+            加载完成啦!
+        </div>
+        <div class="common-divider" id="loading">
+            努力加载中..
+        </div>
+        <!--询问弹窗开始-->
+        <div class="weui_dialog_confirm">
+            <div class="weui_mask">
+            </div>
+            <div class="weui_dialog">
+                <div class="weui_dialog_hd">
+                    <strong class="weui_dialog_title confirm">
+                        收到货啦？
+                    </strong>
+                    <strong class="weui_dialog_title cancle">
+                        取消订单
+                    </strong>
+                </div>
+                <div class="weui_dialog_ft">
+                    <a class="weui_btn_dialog default" href="#">
+                        取消
+                    </a>
+                    <a class="weui_btn_dialog primary" href="#">
+                        确定
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--询问弹窗结束-->
+    </body>
+    <script src="order.js" type="text/javascript">
+    </script>
+</html>
