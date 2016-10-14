@@ -45,13 +45,94 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(14);
-	__webpack_require__(17);
+	__webpack_require__(30);
+	__webpack_require__(33);
 	__webpack_require__(42);
+	__webpack_require__(44);
 	__webpack_require__(12);
 	__webpack_require__(5);
 	var ajax = __webpack_require__(13);
 	var $ = __webpack_require__(11);
+	var qs = __webpack_require__(46);
+	var $nomore = $('#no-more');
+	var type = qs('type') || 0;
+	var page = 0;
+	
+	function getOrder(type,page) {
+	    ajax({
+	        data: {
+	            name: 'shopping.sys.order.info',
+	            type: type,
+	            page: page
+	        },
+	        success: function(data) {
+	            var allOrder = data.data;
+	            $.each(allOrder, function() {
+	                $('#order-container').append('<div class="order-item to-comment" data-order_id="' + this.order_info.order_id + '"><div class="order-header"><span class="fl order-shop">自营商城</span><span class="fr order-item-status"></span></div><a class="order-detail" href = "order-detail.html" ><img class="order-img" src ="' + this.goods_info.goods_pic + '" /><div class="order-info"><div class="fl title">' + this.goods_info.goods_name + '</div><div class="fr price">￥<span>' + this.goods_info.price + '</span></div><div class= "fl size">' + this.goods_info.description + '</div><div class = "fr piece">x<span>' + this.goods_info.goods_num + '</span></div><div class = "conclu">共<span class = "conclu-pi">' + this.order_info.goods_count + '</span>件商品 合计<span class = "conclu-pr">' + this.order_info.sum_price + '</span>（包运费<span class = "conclu-de">' + this.order_info.postage + '</span>）</div></div></a><div class = "order-footer"></div></div>');
+	                var status = this.order_info.status;
+	                var $thisOrder = $('.order-item').last();
+	                switch (status) {
+	                    case 1:
+	                        $thisOrder.find('.order-item-status').text('待付款');
+	                        $thisOrder.find('.order-footer').append('<a class = "fr btn important pay"></a><a class = "fr btn default cancle"></a>');
+	                        break;
+	                    case 2:
+	                        $thisOrder.find('.order-item-status').text('待发货');
+	                        break;
+	                    case 3:
+	                        $thisOrder.find('.order-item-status').text('待收货');
+	                        $thisOrder.find('.order-footer').append('<a class = "fr btn important confirm" href = ""></a><a class = "fr btn default delivery" href = "delivery.html"></a>');
+	                        break;
+	                    case 4:
+	                        $thisOrder.find('.order-item-status').text('待评价');
+	                        $thisOrder.find('.order-footer').append('<a class = "fr btn default delivery" href = "delivery.html"></a>');
+	                        break;
+	                    case 5:
+	                        $thisOrder.find('.order-item-status').text('退款');
+	                        break;
+	                    case 6:
+	                        $thisOrder.find('.order-item-status').text('退货');
+	                        break;
+	                    case 7:
+	                        $thisOrder.find('.order-item-status').text('交易关闭');
+	                        break;
+	                    case 8:
+	                        $thisOrder.find('.order-item-status').text('交易成功');
+	                        $thisOrder.find('.order-footer').append('<a class = "fr btn important delivery" href = "delivey.html"></a>');
+	                        break;
+	                    case 9:
+	                        $thisOrder.find('.order-item-status').text('退款处理中');
+	                        break;
+	                    case 10:
+	                        $thisOrder.find('.order-item-status').text('退货处理中');
+	                        break;
+	                    case 11:
+	                        $thisOrder.find('.order-item-status').text('退款完成');
+	                        break;
+	                    case 12:
+	                        $thisOrder.find('.order-item-status').text('退货完成');
+	                        break;
+	                }
+	                page++;
+	            })
+	            if (allOrder == '' && page !== 0) {
+	                $nomore.show();
+	            } else {
+	            	$('body').append('<div class="nothing-alert">无相关数据</div>');
+	            }
+	        }
+	    })
+	}
+	
+	$('.order-status').on('click',function(){
+		var $this = $(this);
+		type = $this.data('type');
+		page = 0;
+		$('.order-status.active').removeClass('active');
+		$this.addClass('active');
+		$('.nothing-alert,.order-item').remove();
+		getOrder(type,page);
+	})
 
 /***/ },
 /* 1 */
@@ -10736,92 +10817,11 @@
 	})
 
 /***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(15);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".common-input-group-A {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  padding-bottom: .32rem;\n  border-bottom: 2px solid #fb4a4a;\n  margin: 0 auto;\n  position: relative;\n}\n.common-input-group-A img {\n  width: .64rem;\n  vertical-align: middle;\n}\n.common-input-group-A input {\n  font-size: 32px;\n  border: none;\n  vertical-align: middle;\n  margin-left: .32rem;\n}\n.common-input-group-B {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  border: 2px solid #fb4a4a;\n  border-radius: 3px;\n}\n.common-input-group-B input {\n  width: 75%;\n  border: none;\n  font-size: 32px;\n  vertical-align: middle;\n  padding-left: .32rem;\n}\n.common-input-group-B label {\n  width: 25%;\n  height: 1.3rem;\n  display: inline-block;\n  vertical-align: middle;\n  border-left: 2px solid #fb4a4a;\n  font-size: 24px;\n  color: #fb4a4a;\n  text-align: center;\n  line-height: 1.3rem;\n}\n.common-input-group-B label span.resend {\n  display: none;\n}\n.common-radio-group {\n  height: 1.3rem;\n  line-height: 1.3rem;\n}\n.common-radio-group .radio {\n  width: .5rem;\n  height: .5rem;\n  border-radius: 100%;\n  border: 1px solid #aaa;\n  display: inline-block;\n  vertical-align: middle;\n}\n.common-radio-group .radio.active {\n  background: url(" + __webpack_require__(16) + ") center;\n  background-size: 100%;\n}\n.common-radio-group label {\n  font-size: 32px;\n  margin-left: .32rem;\n  vertical-align: middle;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAABQNJREFUWAnNmF9MW1Ucx8+5dwU6Nh1MIFkwc4a5JWiMAZc10UlCbW+vUYNO0yVzMQOMM0YffNvT5oOP+uD/P1tiTFz0RZI5bukKqw+kiUmXjA0nOhPCYFkAhRUshfb2+P1dvPXC2t5LR3Hnoff8+f359Hd+9/y5nJVQUqr6kJTNepkkeZgQeznnjXhuNUxxPicYm0B7BO2YSKf7KyORq2t1w50qXPd43A01NUfhsBMgjznVIzkhxBB+Tk1PTX21Ix5POtG1BTvBmHRcUbq5JJ2EwQYnRovITAPyZI+mffoyY3oROVYUbMHn2yXL8reI0P5iRtY6hqmOZ3U9WNXXd62QbkEw5NHTMmPfQ3FbIeU77J/Tdf0Q4M7lsyPl61xUlJdkIUihXFDkdqssST3wdTgfw20RSwUCPkTqR8a5K59CGfp0XYiOKk07a7W9Aizl9T4ou1wXAXWvVajsdSHmAddaFQrREmOU3FSewNsnVVSc2XAowuB8iyRJ311oa9tkUOEnB3ZcVY8hfPvMgY1+wvejT7jdb5t+jam80dKyua6+fhTkdebA//ScTQixc7umJYyI3dfQ0H0XQFEstt3D2DGqmFPZRY27oQjOO4mDL/r9zZIsXyk3FLYietuHuRBBPIsuRdgZHpe4LHvLDYUN/OzvY2Oeit7eI1nG3rfzx3FykaDksRO8w/Fzv42NHWweHl4iO3jbam3tce7ZhLDutRUsVUAIbZSxF02opUDgTRwIuu3MYSr3SJjzRjvBEsdDgOrYrWmLpL+kKG8A6kMnthDVRorY8snTiYZTGSHC4wsLHbuj0WUoVX0dAfjIqTqYqs3loriOEONC11syQrQjJ6eKC7MIoJ7fFY2mSA7T9xqgPoEzYzG30c0NU/LP5VoFKlhb+ir6+i66NW0gK4QXOn/mFRVi4ObMzHM5KFXtAs1na4WC7aSERJvI68TSCeMvpBRlD3VVhkJDIpv1oTprEaGDfXRqcvLZ+2OxBepHpI4iUl+UAAVTYlyC4q8rHORv1MicD6T8/iYapuhhav2wkKA2DP0EqGfMiwYS/VXM3JelQJE9BGKEpjJGDdvC+Q4cTQYWFOUBkgXcz0zXA9DX/tL1/6D8/ldwcTkFEWf5S8ZWF85jfFFVH4GFodVjhdqIzmhG1w9sDoevr5ahYzLgv0Z/6VBQRqrsQ9SMfLiC0DdT3UkB3LV0JvNU9fnzN0x5QB0C1Ddo42ReeoHtPyo0rWn5n+EyuhZT+BNNLperf7693bhnAiq4HlDEgEid/vfJ2GRb25Yat3sUybp9LYDIryksJVfx9j1ZaqKv8CfErbl0emdtJHLLiFh9NDqPEL67QshJAyde/MMD6wK17O89gqJqLkl7QqGPsabFnfCUQwaBuXxpcvID03YOjL4l0LUdA7Y7gam8js8kghJsjcfTps0cGHXQtwQ9mw0idzKmwAY84TJ7uFLTfrH6WgFGA7h09mI/PLJBcDrWrC5scz9YoahurGOrO6mNvVHFNkQXYFxcylCE+BvHbIpUTz7rBcFImPZGrE9nsG615lMutQ/5dElkMsHKcLjgPn3bVFqdUc7hI9t+vDFvoX/aOlZifQZ67wwmk63FoMh20YhZnd/0+aprZZkuxp1Qetg6ZldHhGgRPj2bSHxeNzjo6K13DGZ1TndR49pHNyxcZuC0Ec/lIzoOngCZwPSPILFjqPfTGc6q76T+D4xj7viYAxmzAAAAAElFTkSuQmCC"
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(18);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".common-btn {\n  margin: 0 auto;\n  width: 9.2rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  border-radius: .08rem;\n  text-align: center;\n  font-size: 32px;\n  background: #eee;\n  color: #bbb;\n}\n.common-btn.active {\n  background: #fb4a4a;\n  color: #fff;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
 /* 19 */,
 /* 20 */,
 /* 21 */,
@@ -10833,11 +10833,87 @@
 /* 27 */,
 /* 28 */,
 /* 29 */,
-/* 30 */,
-/* 31 */,
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(31);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-display-list.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-display-list.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".display-list ul {\n  overflow: hidden;\n}\n.display-list ul .item {\n  width: 4.93rem;\n  height: 7.2rem;\n  float: left;\n  margin-top: .267rem;\n  background: #fff;\n}\n.display-list ul .item:nth-child(2n) {\n  float: right;\n}\n.display-list ul .item img {\n  width: 100%;\n  height: 4.93rem;\n}\n.display-list ul .item .item-detail {\n  width: 100%;\n  height: 2.27rem;\n  background: #fff;\n  padding: .25rem .21rem;\n}\n.display-list ul .item .item-detail .title {\n  display: inline-block;\n  width: 4.49rem;\n  height: .96rem;\n  font-size: 26px;\n  color: #5c5c5c;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n.display-list ul .item .item-detail .price {\n  margin-top: .213rem;\n  color: #fb4a4a;\n  font-size: 24px;\n}\n#order-container,\n#collection-container {\n  width: 100%;\n}\n#order-container .order-item,\n#collection-container .order-item {\n  margin-bottom: .26rem;\n}\n#order-container .order-header,\n#collection-container .order-header,\n#order-container .order-footer,\n#collection-container .order-footer {\n  width: 100%;\n  height: .85rem;\n  line-height: .85rem;\n  padding: 0 .53rem;\n  font-size: 24px;\n  background: #fff;\n  border-top: 1px solid #bbb;\n  border-bottom: 1px solid #bbb;\n}\n#order-container .order-detail,\n#collection-container .order-detail {\n  width: 100%;\n  height: 2.93rem;\n  padding: .13rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-img,\n#collection-container .order-detail .order-img {\n  width: 2.93rem;\n  height: 2.66rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-info,\n#collection-container .order-detail .order-info {\n  vertical-align: top;\n  display: inline-block;\n  position: relative;\n  width: 6.3rem;\n  height: 2.66rem;\n  margin-left: .26rem;\n}\n#order-container .order-detail .order-info .title,\n#collection-container .order-detail .order-info .title {\n  font-size: .32rem;\n  width: 4.17rem;\n  height: .96rem;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n#order-container .order-detail .order-info .price,\n#collection-container .order-detail .order-info .price {\n  font-size: .32rem;\n  height: .96rem;\n  line-height: .96rem;\n}\n#order-container .order-detail .order-info .size,\n#collection-container .order-detail .order-info .size,\n#order-container .order-detail .order-info .piece,\n#collection-container .order-detail .order-info .piece {\n  font-size: .32rem;\n  color: #b5b5b5;\n  height: .35rem;\n  line-height: .35rem;\n}\n#order-container .order-detail .order-info .conclu,\n#collection-container .order-detail .order-info .conclu {\n  width: 100%;\n  text-align: center;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  font-size: .32rem;\n}\n#order-container .btn,\n#collection-container .btn {\n  width: 1.6rem;\n  height: .58rem;\n  line-height: .58rem;\n  text-align: center;\n  margin-left: .5rem;\n  margin-top: .12rem;\n  border: 1px solid #858585;\n  border-radius: .08rem;\n}\n#order-container .btn.important,\n#collection-container .btn.important {\n  color: #fb4a4a;\n  border-color: #fb4a4a;\n}\n#order-container .btn.comment:before,\n#collection-container .btn.comment:before {\n  content: '\\8BC4\\4EF7';\n}\n#order-container .btn.delivery:before,\n#collection-container .btn.delivery:before {\n  content: '\\67E5\\770B\\7269\\6D41';\n}\n#order-container .btn.pay:before,\n#collection-container .btn.pay:before {\n  content: '\\4ED8\\6B3E';\n}\n#order-container .btn.cancle:before,\n#collection-container .btn.cancle:before {\n  content: '\\53D6\\6D88\\8BA2\\5355';\n}\n#order-container .btn.confirm:before,\n#collection-container .btn.confirm:before {\n  content: '\\786E\\8BA4\\6536\\8D27';\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
 /* 32 */,
-/* 33 */,
-/* 34 */,
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(34);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-divider.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-divider.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".common-divider {\n  width: 100%;\n  position: relative;\n  text-align: center;\n  font-size: 28px;\n  color: #858585;\n  letter-spacing: 0.56px;\n}\n.common-divider:before,\n.common-divider:after {\n  content: '';\n  position: absolute;\n  width: 3.2rem;\n  height: 1px;\n  left: .64rem;\n  top: 20px;\n  background: #d3d3d3;\n}\n.common-divider:after {\n  left: auto;\n  right: .64rem;\n}\n.common-divider#no-more {\n  display: none;\n}\n.common-divider#loading {\n  display: none;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
 /* 35 */,
 /* 36 */,
 /* 37 */,
@@ -10860,8 +10936,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-alert.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-alert.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -10879,10 +10955,75 @@
 	
 	
 	// module
+	exports.push([module.id, ".nothing-alert {\n  font-size: 40px;\n  position: fixed;\n  top: 40%;\n  left: 50%;\n  transform: translate3d(-50%, 50%, 0);\n}\n.my-alert {\n  position: fixed;\n  font-size: 24px;\n  background: rgba(0, 0, 0, 0.5);\n  color: #fff;\n  padding: .1rem .2rem;\n  bottom: 1rem;\n  left: 50%;\n  transform: translate3d(-50%, 0, 0);\n  opacity: 0;\n  z-index: 100;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(45);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
 	exports.push([module.id, "* {\n  box-sizing: border-box;\n}\n#order-status-container {\n  width: 100%;\n  height: .8rem;\n  position: fixed;\n  top: 1.17rem;\n  left: 0;\n  background: #fff;\n  z-index: 2;\n}\n#order-status-container div {\n  width: 20%;\n  display: inline-block;\n  text-align: center;\n  height: .8rem;\n  line-height: .8rem;\n}\n#order-status-container div .order-status {\n  color: #5c5c5c;\n  font-size: 24px;\n}\n#order-status-container div .order-status.active {\n  color: #fb4a4a;\n}\n#order-container {\n  margin-top: 1.97rem;\n}\n.weui_dialog_confirm .weui_dialog_hd .weui_dialog_title {\n  display: none;\n}\n.weui_dialog_confirm.confirm {\n  display: block;\n}\n.weui_dialog_confirm.confirm .weui_dialog_hd .weui_dialog_title.confirm {\n  display: inline-block;\n}\n.weui_dialog_confirm.cancle {\n  display: block;\n}\n.weui_dialog_confirm.cancle .weui_dialog_hd .weui_dialog_title.cancle {\n  display: inline-block;\n}\n", ""]);
 	
 	// exports
 
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory();
+	    } else {
+	        root.getParameterByName = factory();
+	    }
+	}(this, function() {
+	    function getParameterByName(name, url) {
+	        if (!url) url = window.location.href;
+	        name = name.replace(/[\[\]]/g, "\\$&");
+	        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	            results = regex.exec(url);
+	        if (!results) return null;
+	        if (!results[2]) return '';
+	        return decodeURIComponent(results[2].replace(/\+/g, " "));
+	    }
+	    return getParameterByName;
+	})
 
 /***/ }
 /******/ ]);

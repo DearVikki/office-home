@@ -90,7 +90,7 @@
 	                    },
 	                    success: function(data) {
 	                        if (data.code == 1000) {
-	                            location.href = 'index.html';
+	                            //location.href = 'index.html';
 	                            ls('user', data.data);
 	                        } else {
 	                            $('.reminder').text(data.msg).show();
