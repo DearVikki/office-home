@@ -10,6 +10,10 @@
     function ajax(config) {
         config.url = 'http://mozhishi.com/shopping/php/PcApi';
         config.method = 'post';
+        config.xhrFields = {
+            withCredentials: true
+        };
+        config.crossDomain = true;
         $.ajax(config);
     }
     return ajax;
