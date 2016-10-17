@@ -40,16 +40,17 @@
 /******/ 	return __webpack_require__(0);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(12);
 	__webpack_require__(1);
 	__webpack_require__(5);
-	__webpack_require__(52);
+	__webpack_require__(68);
 	var $ = __webpack_require__(11);
-	var ls = __webpack_require__(41);
+	var ls = __webpack_require__(60);
 	var userinfo = ls('user');
 	var $avatar = $('.avatar');
 	var $username = $('.user-name');
@@ -84,7 +85,8 @@
 	}
 
 /***/ },
-/* 1 */
+
+/***/ 1:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
@@ -110,7 +112,8 @@
 	}
 
 /***/ },
-/* 2 */
+
+/***/ 2:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -124,7 +127,8 @@
 
 
 /***/ },
-/* 3 */
+
+/***/ 3:
 /***/ function(module, exports) {
 
 	/*
@@ -180,7 +184,8 @@
 
 
 /***/ },
-/* 4 */
+
+/***/ 4:
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -432,7 +437,8 @@
 
 
 /***/ },
-/* 5 */
+
+/***/ 5:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
@@ -458,7 +464,8 @@
 	}
 
 /***/ },
-/* 6 */
+
+/***/ 6:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -472,21 +479,22 @@
 
 
 /***/ },
-/* 7 */
+
+/***/ 7:
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAkCAYAAACJ8xqgAAAAAXNSR0IArs4c6QAAA5NJREFUSA2tlltIk3EUwHef2rRMgswMy4dtOGcPYZmloyLYY4GYlyC6UBEh+NCT4UNBEGgYRA8G9iCKQeCrBDJU1AfN8BbOivUgC0pQcuJsm/3O+DbyOr/ZgcP3v5zz2znnO///N63mP0hlZaXDaDSWrq2t9Rv2yquqqjqn1+tfwXGin/YErKmpuQKkBc1FNVqtNl0rg2QEmBu/N0COKP6TPB8mBayurq4A1IweFRi1m0FrOjo6RlWnDOyaTqd7AeewApuKRCL3Ojs7R2WuBqgjzVv4NKMWcSaqPvQ2sFmZi+wqZZfLZcjJyakjxUZ80qOeGs0gkV0nzW/KPPpIGGFFRUWqyWSqB9aAR4p4EVVPKBR60NXVtQ4mezsCFZjUS1KN2bYR2SNgvwSwUWJGG9c1brfbTPc/JbI7bOrEgMg6A4FAfXd398ImB2VhSyDFz2D/GXof1QIK82xdXl5u2AmGTTwNGUeFtsgkqiYgN3gKbJWNViJLCBPAugip2TEYUrOrPCVFgT2em5t76fF4VsQhkcSBHHIbDdsC6LLitML4STAYbAImKe9Kon1YW1trJZq3AM6IF+NFxo3t7e1y8FWJlhdQisdrAIWK53w4HL5L979XRVKMpR3a/oF9ZX4zWZgwdcBi14/MV6nZtAySFR1dX4fzTwVgN5vN7yhDLH3VXP3ExMRYYWHhJJFexFtukWy0nLXP7PkYqxK9WOP4xel0zvJ2ywGno4fQMqBe2VNDjALFYXx8fMbhcEwAOo8eYCkTLWNtEtl0q4jPVhIHyqY4FhQU9NHgxUyzAe9HLxUVFS3ygx+3AmxcWweUTaA/iGoEkINpLk+5UMsoyQLQMcZr6LayCSiW1M1vt9sHiNQKMJ+lFOrrAhqx2WxD09PT20K3BAp0ampqnvQHAJ5E81ATepaP+lJWVtaIz+eLiN1G2RYohqS/QEQ9BoNBPpdSAiN6ISMjIzUvL2/I6/X+Yb5OdgSKJekt0T4fGArUSZRyQ5VwADKJtJdIQ8zjkhAoltQ0SKS9pCuX7ylUjmyxxWJJY32QH5V7Myq7AoolTjHoPmDRa45nCeU4YbVah9n/LXa7BirQELXr57OaCuw0a3KfOoj8OK3moeYBVUCByosgTQ+RBWklOVV61I7m0xWDqoECJb0wn9hhXor8hZNTZVSgtqSAAvX7/RFeVh8d4GdaCjANPZg0UKAiQMc4699J34I+/wud5VrUQDZ94wAAAABJRU5ErkJggg=="
 
 /***/ },
-/* 8 */
+
+/***/ 8:
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAiBJREFUWAnF1jlPwzAUB/DGbb8AUITYQeUQEgvMvVYkpp5fr8fAghAbUD4ACAmkCrEgNsS906T8X4WrNHWTZ+eopdSJE/v94ri2rVardTIajXYcxznudruPqQWkRqOxIYQ4heNJ4OfQsqx8Op3u1+v1fNIewiD+NeJu4TgQtm0fAfWFi7WkURID0Dri/5DFwkmqVqvtA3OBG0u4fMWNQtyfz4sZDoeVXq93MwYljZqHIccElBTKDzMDihsVhFGC4kJxMHNBUaO4GF9QVCgdTCAoLEoXwwKZokwwFEvQT1DChHWHybLMndG9GKyTZZr0guLQfRaIHuSiqtXqJq1NcjkgTKfTuaU2OGlqYuRU8FtmCJPJZPqmGIqvDaJKKhR6wgmLMQapUBhfDvUM8m8cFZ3PRO3JZNRDsrKnp1JhMdQue1BLhDsH4Be9YrvKbCpzXWufGoMwgHez2ewVIuaA+ED+BtwKtqKX2HnuaUv+KxiBFJgiUIUoUNpjSIVpt9sP9ILNZnMbvdTH6Sr1Gv54Jew87+keN2mB/DAyYFgUG8TBRIFigXQwYVGBg9qNQbB3HEU5ZmRwVY5nBiYD3beHvBgEKHEwbqDumJoLigIjYTooJShKjC5qBhQHRgc1BYoTw0VNQElgOKgxKEmMCoWyT+zZi7TMWIvA+KEEtp1neCCH491knpGNm+TuyRP1l7F1ORdYnWlGfUkaI1/AhXpG2eAPO2V4zAARfRoAAAAASUVORK5CYII="
 
 /***/ },
-/* 9 */,
-/* 10 */,
-/* 11 */
+
+/***/ 11:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10712,7 +10720,8 @@
 
 
 /***/ },
-/* 12 */
+
+/***/ 12:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
@@ -10745,35 +10754,8 @@
 	})
 
 /***/ },
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */,
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */
+
+/***/ 60:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
@@ -10794,23 +10776,14 @@
 	})
 
 /***/ },
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */,
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */
+
+/***/ 68:
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(53);
+	var content = __webpack_require__(69);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10830,7 +10803,8 @@
 	}
 
 /***/ },
-/* 53 */
+
+/***/ 69:
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10838,29 +10812,33 @@
 	
 	
 	// module
-	exports.push([module.id, "#user-info-container {\n  background: #f15858;\n  padding-bottom: .46rem;\n}\n#user-info-container #second-header-container {\n  background: #f15858;\n  color: white;\n  position: relative;\n  border-bottom: none;\n}\n#user-info-container #second-header-container a.set {\n  position: absolute;\n  width: .67rem;\n  height: .67rem;\n  background: url(" + __webpack_require__(54) + ") center no-repeat;\n  background-size: 100%;\n  right: .4rem;\n  top: .2rem;\n}\n#user-info-container .avatar-container {\n  font-size: 24px;\n  color: white;\n  text-align: center;\n}\n#user-info-container .avatar-container .avatar-border {\n  width: 2.1rem;\n  height: 2.1rem;\n  border: 2px solid #fff;\n  border-radius: 100%;\n  padding: .05rem;\n  margin: 0 auto;\n  position: relative;\n}\n#user-info-container .avatar-container .avatar-border .avatar {\n  width: 1.9rem;\n  height: 1.9rem;\n  border-radius: 100%;\n  position: absolute;\n  display: inline-block;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  margin: auto;\n}\n#user-info-container .avatar-container .user-name {\n  margin-top: .2rem;\n}\n#user-info-container .level-container {\n  font-size: 20px;\n  color: #fff;\n  text-align: center;\n  margin-top: .2rem;\n}\n#user-info-container .level-container .level-metal {\n  width: 1.6rem;\n  height: .53rem;\n  line-height: .53rem;\n  background-size: .5rem;\n  background: url(" + __webpack_require__(55) + ") left center no-repeat;\n  border-radius: .26rem;\n  border: 1px solid #c5c5c5;\n  padding-left: .6rem;\n  margin-right: .2rem;\n  display: inline-block;\n}\n#my-order-container {\n  width: 100%;\n  height: 2.77rem;\n  background: #fff;\n}\n#my-order-container .all {\n  height: 1.17rem;\n  line-height: 1.17rem;\n  padding: 0 .4rem;\n  font-size: 28px;\n  border-bottom: 1px solid #eee;\n}\n#my-order-container .all a {\n  font-size: 24px;\n  background: url(" + __webpack_require__(56) + ") right center no-repeat;\n  padding-right: .4rem;\n  color: #858585;\n}\n#my-order-container ul {\n  margin-top: .3rem;\n}\n#my-order-container .orders {\n  width: 100%;\n  height: 1.6rem;\n}\n#my-order-container .orders .order-item {\n  width: 25%;\n  float: left;\n  text-align: center;\n  font-size: 20px;\n  color: #858585;\n}\n#others-container {\n  margin-top: .26rem;\n  margin-bottom: 1.33rem;\n}\n#others-container ul {\n  display: table;\n  width: 100%;\n}\n#others-container .other-item {\n  width: 100%;\n  padding: 0 .4rem;\n  height: 1.33rem;\n  line-height: 1.33rem;\n  background: #fff;\n  border-bottom: 1px solid #eee;\n  font-size: 30px;\n  display: inline-table;\n  vertical-align: middle;\n}\n#others-container .other-item img:first-child {\n  vertical-align: middle;\n  margin-right: .4rem;\n}\n#others-container .other-item img:last-child {\n  margin-top: .5rem;\n}\n", ""]);
+	exports.push([module.id, "#user-info-container {\n  background: #f15858;\n  padding-bottom: .46rem;\n}\n#user-info-container #second-header-container {\n  background: #f15858;\n  color: white;\n  position: relative;\n  border-bottom: none;\n}\n#user-info-container #second-header-container a.set {\n  position: absolute;\n  width: .67rem;\n  height: .67rem;\n  background: url(" + __webpack_require__(70) + ") center no-repeat;\n  background-size: 100%;\n  right: .4rem;\n  top: .2rem;\n}\n#user-info-container .avatar-container {\n  font-size: 24px;\n  color: white;\n  text-align: center;\n}\n#user-info-container .avatar-container .avatar-border {\n  width: 2.1rem;\n  height: 2.1rem;\n  border: 2px solid #fff;\n  border-radius: 100%;\n  padding: .05rem;\n  margin: 0 auto;\n  position: relative;\n}\n#user-info-container .avatar-container .avatar-border .avatar {\n  width: 1.9rem;\n  height: 1.9rem;\n  border-radius: 100%;\n  position: absolute;\n  display: inline-block;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  margin: auto;\n}\n#user-info-container .avatar-container .user-name {\n  margin-top: .2rem;\n}\n#user-info-container .level-container {\n  font-size: 20px;\n  color: #fff;\n  text-align: center;\n  margin-top: .2rem;\n}\n#user-info-container .level-container .level-metal {\n  width: 1.6rem;\n  height: .53rem;\n  line-height: .53rem;\n  background-size: .5rem;\n  background: url(" + __webpack_require__(71) + ") left center no-repeat;\n  border-radius: .26rem;\n  border: 1px solid #c5c5c5;\n  padding-left: .6rem;\n  margin-right: .2rem;\n  display: inline-block;\n}\n#my-order-container {\n  width: 100%;\n  height: 2.77rem;\n  background: #fff;\n}\n#my-order-container .all {\n  height: 1.17rem;\n  line-height: 1.17rem;\n  padding: 0 .4rem;\n  font-size: 28px;\n  border-bottom: 1px solid #eee;\n}\n#my-order-container .all a {\n  font-size: 24px;\n  background: url(" + __webpack_require__(72) + ") right center no-repeat;\n  padding-right: .4rem;\n  color: #858585;\n}\n#my-order-container ul {\n  margin-top: .3rem;\n}\n#my-order-container .orders {\n  width: 100%;\n  height: 1.6rem;\n}\n#my-order-container .orders .order-item {\n  width: 25%;\n  float: left;\n  text-align: center;\n  font-size: 20px;\n  color: #858585;\n}\n#others-container {\n  margin-top: .26rem;\n  margin-bottom: 1.33rem;\n}\n#others-container ul {\n  display: table;\n  width: 100%;\n}\n#others-container .other-item {\n  width: 100%;\n  padding: 0 .4rem;\n  height: 1.33rem;\n  line-height: 1.33rem;\n  background: #fff;\n  border-bottom: 1px solid #eee;\n  font-size: 30px;\n  display: inline-table;\n  vertical-align: middle;\n}\n#others-container .other-item img:first-child {\n  vertical-align: middle;\n  margin-right: .4rem;\n}\n#others-container .other-item img:last-child {\n  margin-top: .5rem;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 54 */
+
+/***/ 70:
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "04df4d5149d2e6f12108fdc452bba356.png";
 
 /***/ },
-/* 55 */
+
+/***/ 71:
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
 
 /***/ },
-/* 56 */
+
+/***/ 72:
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAYAAABoMT8aAAAAAXNSR0IArs4c6QAAAohJREFUOBGVlDtoU2EUx5ObGCG6BV0Ui6CDSt4xXUJB0EUQobjUBwbRSEUQEdxEXUQ76JDqkFEXdRB0KZghFBGp5B0UqqIUFVRcjIMhT38n9rS35t4aP/ju+c7/nP953e9eZ6VSOeB0Oi+wX7VaralIJLLg+I/lrNVq3/H3CafX62XZR4PB4LdhYxg4flVnqtjHniqXy5sU+5c0yHiGPa+OBDhuGMaNfD6/RbHVpFOMZNzlcrnSHPeoM0HnCJby+/1VxayktOAIhUIywLOQZtQJ8ih6plAo7FDMSvYrUEOpVNrudrsfoocUI0iJYEm7SvoVqHM4HH7b6XROoD9n9wSHHCbIPV73qKiCmdcAIEact0LMsPeanF8T/DztPjVhgxHVSO/bPB5PBt082A9Uc4h7UlS/FS0oKDIajb5rNpspCFnFqUgqu8Wsdi9herCTxWJxA4O9DlFmo2uBwOcCgcBjyxmol0pmspHLdQV9UjHkF2ZyaqgAQsrlcut9Pt9FKrmkQajik+0M1Eml1+tdy3md6iIJ9muoCpjDCHO4BuGwBiD7G85JtwJ2kv430/9N7OPqs0hOMcQXq7bA6wqRVa62mfwE/SDkWQlo2wI/mgCZ5DbKFe4v9Bof3bjcEcUsK6hWq34L8ly32z1pJkuQgQCQx8h696/Ms7zzY3wHLzWzyhUtSGaI9zHuVAcqecY5Sc/vFTPLpQroOYZhmm0mz1D2hB1ZAvUDLH4ct8k+JqAsMmcbjcZpyv78B7F+GpS9n//hA8xxcYHYZqfb7faReDz+0Zq2jLrJegd1ZBlypPmMr8ZisR8mzPYov/U1Juujer1+eViy8OQqT7AnGdY8l2Q6kUj8FMOw6zfq2RlEC9cZAgAAAABJRU5ErkJggg=="
 
 /***/ }
-/******/ ]);
+
+/******/ });
 //# sourceMappingURL=usercenter.js.map

@@ -47,17 +47,17 @@
 	__webpack_require__(1);
 	__webpack_require__(5);
 	var css = './css/';
-	__webpack_require__(25)(css + 'index.less');
-	__webpack_require__(29)(css + 'common-display-list.less');
-	__webpack_require__(32)(css + 'common-divider.less');
+	__webpack_require__(49)(css + 'index.less');
+	__webpack_require__(53)(css + 'common-display-list.less');
+	__webpack_require__(54)(css + 'common-divider.less');
 	var $ = __webpack_require__(11);
 	__webpack_require__(12);
-	var scroll = __webpack_require__(35);
+	var scroll = __webpack_require__(45);
 	var ajax = __webpack_require__(13);
 	var page = 1;
 	var $container = $('.recommend-container');
-	__webpack_require__(36);
-	var S = __webpack_require__(38);
+	__webpack_require__(55);
+	var S = __webpack_require__(57);
 	var mySwiper1 = new S('.swiper-container.banner-container', {
 	    pagination: '.swiper-pagination',
 	    loop: true,
@@ -70,19 +70,6 @@
 	    slidesPerView: '4',
 	    paginationClickable: true
 	});
-	/*
-	require(['./lib/swiper.jquery.js', './lib/swiper.min.css'], function(S) {
-	    //初始化swiper
-	    var mySwiper1 = new S('.swiper-container.banner-container', {
-	        pagination: '.swiper-pagination',
-	        loop: true,
-	        paginationClickable: true,
-	        autoplay: 4000,
-	        autoplayDisableOnInteraction: false
-	    })
-	    console.log(mySwiper1)
-	   
-	})*/
 	scroll(function() {
 	    ajax({
 	        data: {
@@ -10780,6 +10767,10 @@
 	    function ajax(config) {
 	        config.url = 'http://mozhishi.com/shopping/php/PcApi';
 	        config.method = 'post';
+	        config.xhrFields = {
+	            withCredentials: true
+	        };
+	        config.crossDomain = true;
 	        $.ajax(config);
 	    }
 	    return ajax;
@@ -10797,101 +10788,21 @@
 /* 22 */,
 /* 23 */,
 /* 24 */,
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var map = {
-		"./css/index.less": 26
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 25;
-
-
-/***/ },
-/* 26 */
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */,
+/* 29 */,
+/* 30 */,
+/* 31 */,
+/* 32 */,
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(27);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./index.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./index.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "html {\n  font-size: 50px;\n}\n#main_container {\n  font-size: 16px;\n  background: #eee;\n}\n#main_container .banner-container {\n  width: 100%;\n  height: 3.173rem;\n  margin-top: 1.173rem;\n}\n#main_container .banner-container .banner img {\n  width: 100%;\n  height: 100%;\n}\n#main_container .sale-container {\n  width: 100%;\n  height: 3.93rem;\n  margin-top: .267rem;\n  background: #fff;\n  padding: .27rem .46rem;\n}\n#main_container .sale-container .title {\n  width: 100%;\n  position: relative;\n}\n#main_container .sale-container .title h3 {\n  font-size: 24px;\n  color: #5c5c5c;\n  letter-spacing: 0.48px;\n  display: inline-block;\n}\n#main_container .sale-container .title .more {\n  position: absolute;\n  display: inline-block;\n  font-size: 20px;\n  color: #fb4a4a;\n  right: 0;\n  top: .1rem;\n  padding-right: .43rem;\n  background: url(" + __webpack_require__(28) + ") right center no-repeat;\n}\n#main_container .sale-container .swiper-container {\n  margin-top: 23px;\n}\n#main_container .sale-container .swiper-container .sale-item {\n  text-align: center;\n  width: 1.86rem;\n}\n#main_container .sale-container .swiper-container .sale-item .picture {\n  width: 1.86rem;\n  height: 2.13rem;\n}\n#main_container .sale-container .swiper-container .sale-item .price {\n  font-size: 24px;\n}\n#main_container .type-container {\n  margin-top: .267rem;\n  margin-bottom: .15rem;\n}\n#main_container .type-container ul {\n  width: 100%;\n  overflow: hidden;\n}\n#main_container .type-container .type-item {\n  width: 4.98rem;\n  height: 1.97rem;\n  padding: 20px 30px;\n  background: #fff;\n  float: left;\n  margin-top: .0267rem;\n}\n#main_container .type-container .type-item:nth-child(2n) {\n  float: right;\n}\n#main_container .type-container .type-item a {\n  width: 100%;\n  height: 100%;\n  display: inline-block;\n}\n#main_container .type-container .type-item .fl {\n  max-width: 2.32rem;\n}\n#main_container .type-container .type-item .fl .type-name {\n  font-size: 28px;\n  color: #5c5c5c;\n}\n#main_container .type-container .type-item .fl .type-description {\n  font-size: 20px;\n  color: #b5b5b5;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n}\n#main_container .type-container .type-item .type-img {\n  width: 1.6rem;\n  height: 1.52rem;\n}\n#main_container .recommend-container {\n  width: 100%;\n  margin-bottom: .1rem;\n}\n#main_container #loading {\n  margin-top: .5rem;\n  width: 100%;\n  position: relative;\n  text-align: center;\n  font-size: 28px;\n  color: #858585;\n  letter-spacing: 0.56px;\n  display: none;\n}\n#main_container #content_container {\n  margin-bottom: 1.5rem;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAihJREFUOBG1lctOGzEUhn/bEQQBqiIQi8KGLWukikWfACT6CLwCq0LERVzEVaivwI5tU8EzoErZli0b0hUIVYAIKB5zfhNHM2g8Ca16FhmPz3++2MfHZxQi5mZnK9a5eXHPO2BKKfWRUufcbwVcyLBmlKqps7Nbzr810WTNLSyUk+vrRZckXwX4IevNvknwH6X1vh4d/aaOj5tpbwbs5ubGW0nyXQTTaVEP43pJ6y/q9LQRtB0wobL1n7LV8eB8z1NS1ZDUfApwzWBunyv9W6hnyII8Q1h892DmVMbR7auZGVF6KWOKbLrNgmqf/mX0oMplmIMDoNGAPToCWq0iMHigkpJJzZKKQoloNmGXl4GREZiVFaCvrxBMFpncH2u12B4eYFdXAWNgNjeBgYFivTC1/MNUN5X3Pz3BbmwA9/cwOzvA8HA0jEwdblRUlXZIfi2hV1cwe3tApZL2dsZk9nTUnYh3DDTvfs/6UgmmWgUmJmCXloDb3Dbh+4mW8mBD6W79/TDr68DQECzhd3fRGEnFL6aiFlUEx+AgzNYWYC3s2hrw+Bg8+U/nfmjf+qSo8xUyK6VldneBmxvY7W3g+TkqpaN9QWqa/ZStL6qW1SUnJ7CHh11vnQcLi0xfFeynMlmPwd35OZAkMXd6vt5mceWv9l/aJtHso+ynMoyu/HUJub/1dC+mInNBCC+NjX3WWld5CLmI1CQ11DImNPjg7qQiTITnv35MXwDFheT3P0qJyQAAAABJRU5ErkJggg=="
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var map = {
-		"./css/common-display-list.less": 30
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 29;
-
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(31);
+	var content = __webpack_require__(34);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10911,7 +10822,7 @@
 	}
 
 /***/ },
-/* 31 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10919,40 +10830,19 @@
 	
 	
 	// module
-	exports.push([module.id, ".display-list ul {\n  overflow: hidden;\n}\n.display-list ul .item {\n  width: 4.93rem;\n  height: 7.2rem;\n  float: left;\n  margin-top: .267rem;\n  background: #fff;\n}\n.display-list ul .item:nth-child(2n) {\n  float: right;\n}\n.display-list ul .item img {\n  width: 100%;\n  height: 4.93rem;\n}\n.display-list ul .item .item-detail {\n  width: 100%;\n  height: 2.27rem;\n  background: #fff;\n  padding: .25rem .21rem;\n}\n.display-list ul .item .item-detail .title {\n  display: inline-block;\n  width: 4.49rem;\n  height: .96rem;\n  font-size: 26px;\n  color: #5c5c5c;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n.display-list ul .item .item-detail .price {\n  margin-top: .213rem;\n  color: #fb4a4a;\n  font-size: 24px;\n}\n#order-container,\n#collection-container {\n  width: 100%;\n}\n#order-container .order-item,\n#collection-container .order-item {\n  margin-bottom: .26rem;\n}\n#order-container .order-header,\n#collection-container .order-header,\n#order-container .order-footer,\n#collection-container .order-footer {\n  width: 100%;\n  height: .85rem;\n  line-height: .85rem;\n  padding: 0 .53rem;\n  font-size: 24px;\n  background: #fff;\n  border-top: 1px solid #bbb;\n  border-bottom: 1px solid #bbb;\n}\n#order-container .order-detail,\n#collection-container .order-detail {\n  width: 100%;\n  height: 2.93rem;\n  padding: .13rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-img,\n#collection-container .order-detail .order-img {\n  width: 2.93rem;\n  height: 2.66rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-info,\n#collection-container .order-detail .order-info {\n  vertical-align: top;\n  display: inline-block;\n  position: relative;\n  width: 6.3rem;\n  height: 2.66rem;\n  margin-left: .26rem;\n}\n#order-container .order-detail .order-info .title,\n#collection-container .order-detail .order-info .title {\n  font-size: .32rem;\n  width: 4.17rem;\n  height: .96rem;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n#order-container .order-detail .order-info .price,\n#collection-container .order-detail .order-info .price {\n  font-size: .32rem;\n  height: .96rem;\n  line-height: .96rem;\n}\n#order-container .order-detail .order-info .size,\n#collection-container .order-detail .order-info .size,\n#order-container .order-detail .order-info .piece,\n#collection-container .order-detail .order-info .piece {\n  font-size: .32rem;\n  color: #b5b5b5;\n  height: .35rem;\n  line-height: .35rem;\n}\n#order-container .order-detail .order-info .conclu,\n#collection-container .order-detail .order-info .conclu {\n  width: 100%;\n  text-align: center;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  font-size: .32rem;\n}\n#order-container .btn,\n#collection-container .btn {\n  width: 1.6rem;\n  height: .58rem;\n  line-height: .58rem;\n  text-align: center;\n  margin-left: .5rem;\n  margin-top: .12rem;\n  border: 1px solid #858585;\n  border-radius: .08rem;\n}\n#order-container .btn.important,\n#collection-container .btn.important {\n  color: #fb4a4a;\n  border-color: #fb4a4a;\n}\n#order-container .btn.comment:before,\n#collection-container .btn.comment:before {\n  content: '\\8BC4\\4EF7';\n}\n#order-container .btn.delivery:before,\n#collection-container .btn.delivery:before {\n  content: '\\67E5\\770B\\7269\\6D41';\n}\n#order-container .btn.pay:before,\n#collection-container .btn.pay:before {\n  content: '\\4ED8\\6B3E';\n}\n#order-container .btn.cancle:before,\n#collection-container .btn.cancle:before {\n  content: '\\53D6\\6D88\\8BA2\\5355';\n}\n#order-container .btn.confirm:before,\n#collection-container .btn.confirm:before {\n  content: '\\786E\\8BA4\\6536\\8D27';\n}\n", ""]);
+	exports.push([module.id, "/*两格式列表*/\n.display-list ul {\n  overflow: hidden;\n}\n.display-list ul .item {\n  width: 4.93rem;\n  height: 7.2rem;\n  float: left;\n  margin-top: .267rem;\n  background: #fff;\n}\n.display-list ul .item:nth-child(2n) {\n  float: right;\n}\n.display-list ul .item img {\n  width: 100%;\n  height: 4.93rem;\n}\n.display-list ul .item .item-detail {\n  width: 100%;\n  height: 2.27rem;\n  background: #fff;\n  padding: .25rem .21rem;\n}\n.display-list ul .item .item-detail .title {\n  display: inline-block;\n  width: 4.49rem;\n  height: .96rem;\n  font-size: 26px;\n  color: #5c5c5c;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n.display-list ul .item .item-detail .price {\n  margin-top: .213rem;\n  color: #fb4a4a;\n  font-size: 24px;\n}\n/*流式列表*/\n.line-display-list ul .item {\n  width: 100%;\n  height: 2.93rem;\n  border-top: 1px solid #eee;\n  padding: .133rem;\n  background: #fff;\n}\n.line-display-list ul .item img {\n  width: 2.93rem;\n  height: 2.66rem;\n}\n.line-display-list ul .item .item-detail {\n  display: inline-block;\n  width: 6.5rem;\n  height: 2.66rem;\n  background: #fff;\n  padding: .2rem .4rem;\n  vertical-align: top;\n}\n.line-display-list ul .item .item-detail .title {\n  width: 4.49rem;\n  height: .96rem;\n  font-size: 26px;\n  color: #5c5c5c;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n.line-display-list ul .item .item-detail .price {\n  margin-top: .213rem;\n  font-size: 24px;\n  color: #fb4a4a;\n}\n.line-display-list ul .item .item-detail .more-info {\n  display: block;\n  font-size: 24px;\n  color: #bbb;\n  margin-top: .13rem;\n}\n.line-display-list ul .item .item-detail .more-info .buyers {\n  margin-left: .13rem;\n}\n#order-container,\n#collection-container {\n  width: 100%;\n}\n#order-container .order-item,\n#collection-container .order-item {\n  margin-bottom: .26rem;\n}\n#order-container .order-header,\n#collection-container .order-header,\n#order-container .order-footer,\n#collection-container .order-footer {\n  width: 100%;\n  height: .85rem;\n  line-height: .85rem;\n  padding: 0 .53rem;\n  font-size: 24px;\n  background: #fff;\n  border-top: 1px solid #bbb;\n  border-bottom: 1px solid #bbb;\n}\n#order-container .order-detail,\n#collection-container .order-detail {\n  width: 100%;\n  height: 2.93rem;\n  padding: .13rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-img,\n#collection-container .order-detail .order-img {\n  width: 2.93rem;\n  height: 2.66rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-info,\n#collection-container .order-detail .order-info {\n  vertical-align: top;\n  display: inline-block;\n  position: relative;\n  width: 6.3rem;\n  height: 2.66rem;\n  margin-left: .26rem;\n}\n#order-container .order-detail .order-info .title,\n#collection-container .order-detail .order-info .title {\n  font-size: .32rem;\n  width: 4.17rem;\n  height: .96rem;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n#order-container .order-detail .order-info .price,\n#collection-container .order-detail .order-info .price {\n  font-size: .32rem;\n  height: .96rem;\n  line-height: .96rem;\n}\n#order-container .order-detail .order-info .size,\n#collection-container .order-detail .order-info .size,\n#order-container .order-detail .order-info .piece,\n#collection-container .order-detail .order-info .piece {\n  font-size: .32rem;\n  color: #b5b5b5;\n  height: .35rem;\n  line-height: .35rem;\n}\n#order-container .order-detail .order-info .conclu,\n#collection-container .order-detail .order-info .conclu {\n  width: 100%;\n  text-align: center;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  font-size: .32rem;\n}\n#order-container .btn,\n#collection-container .btn {\n  width: 1.6rem;\n  height: .58rem;\n  line-height: .58rem;\n  text-align: center;\n  margin-left: .5rem;\n  margin-top: .12rem;\n  border: 1px solid #858585;\n  border-radius: .08rem;\n}\n#order-container .btn.important,\n#collection-container .btn.important {\n  color: #fb4a4a;\n  border-color: #fb4a4a;\n}\n#order-container .btn.comment:before,\n#collection-container .btn.comment:before {\n  content: '\\8BC4\\4EF7';\n}\n#order-container .btn.delivery:before,\n#collection-container .btn.delivery:before {\n  content: '\\67E5\\770B\\7269\\6D41';\n}\n#order-container .btn.pay:before,\n#collection-container .btn.pay:before {\n  content: '\\4ED8\\6B3E';\n}\n#order-container .btn.cancle:before,\n#collection-container .btn.cancle:before {\n  content: '\\53D6\\6D88\\8BA2\\5355';\n}\n#order-container .btn.confirm:before,\n#collection-container .btn.confirm:before {\n  content: '\\786E\\8BA4\\6536\\8D27';\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var map = {
-		"./css/common-divider.less": 33
-	};
-	function webpackContext(req) {
-		return __webpack_require__(webpackContextResolve(req));
-	};
-	function webpackContextResolve(req) {
-		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
-	};
-	webpackContext.keys = function webpackContextKeys() {
-		return Object.keys(map);
-	};
-	webpackContext.resolve = webpackContextResolve;
-	module.exports = webpackContext;
-	webpackContext.id = 32;
-
-
-/***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(34);
+	var content = __webpack_require__(36);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10972,7 +10862,7 @@
 	}
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10980,13 +10870,21 @@
 	
 	
 	// module
-	exports.push([module.id, ".common-divider {\n  width: 100%;\n  position: relative;\n  text-align: center;\n  font-size: 28px;\n  color: #858585;\n  letter-spacing: 0.56px;\n}\n.common-divider:before,\n.common-divider:after {\n  content: '';\n  position: absolute;\n  width: 3.2rem;\n  height: 1px;\n  left: .64rem;\n  top: 20px;\n  background: #d3d3d3;\n}\n.common-divider:after {\n  left: auto;\n  right: .64rem;\n}\n.common-divider#no-more {\n  display: none;\n}\n.common-divider#loading {\n  display: none;\n}\n", ""]);
+	exports.push([module.id, ".common-divider {\n  width: 100%;\n  position: relative;\n  text-align: center;\n  font-size: 28px;\n  color: #858585;\n  letter-spacing: 0.56px;\n}\n.common-divider:before,\n.common-divider:after {\n  content: '';\n  position: absolute;\n  width: 3.2rem;\n  height: 1px;\n  left: .64rem;\n  top: 20px;\n  background: #d3d3d3;\n}\n.common-divider:after {\n  left: auto;\n  right: .64rem;\n}\n.common-divider#no-more {\n  display: none;\n  margin-bottom: .2rem;\n}\n.common-divider#loading {\n  display: none;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 35 */
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
@@ -11001,28 +10899,142 @@
 	    var w = $(window);
 	
 	    function scrollToEnd(cb) {
+	        var timeout;
 	        w.on('scroll', function() {
-	            var scrollTop = w.scrollTop();
-	            var viewHeight = w.height();
-	            var pageHeight = $(document).height();
-	            if (scrollTop + viewHeight >= pageHeight - 2) {
-	                cb();
-	                w.off('scroll');
-	                setTimeout(scrollToEnd.bind(this, cb), 1500);
-	            }
-	        })
+	                var scrollTop = w.scrollTop();
+	                var viewHeight = w.height();
+	                var pageHeight = $(document).height();
+	                if (scrollTop + viewHeight >= pageHeight - 2 && scrollTop !== 0) {
+	                    cb();
+	                    w.off('scroll');
+	                    timeout = setTimeout(scrollToEnd.bind(this, cb), 500);
+	                }
+	            })
+	            //return timeout;
 	    }
 	    return scrollToEnd;
 	})
 
 /***/ },
-/* 36 */
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./css/index.less": 50
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 49;
+
+
+/***/ },
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(37);
+	var content = __webpack_require__(51);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./index.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./index.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "html {\n  font-size: 50px;\n}\n#main_container {\n  font-size: 16px;\n  background: #eee;\n}\n#main_container .banner-container {\n  width: 100%;\n  height: 3.173rem;\n  margin-top: 1.173rem;\n}\n#main_container .banner-container .banner img {\n  width: 100%;\n  height: 100%;\n}\n#main_container .sale-container {\n  width: 100%;\n  height: 3.93rem;\n  margin-top: .267rem;\n  background: #fff;\n  padding: .27rem .46rem;\n}\n#main_container .sale-container .title {\n  width: 100%;\n  position: relative;\n}\n#main_container .sale-container .title h3 {\n  font-size: 24px;\n  color: #5c5c5c;\n  letter-spacing: 0.48px;\n  display: inline-block;\n}\n#main_container .sale-container .title .more {\n  position: absolute;\n  display: inline-block;\n  font-size: 20px;\n  color: #fb4a4a;\n  right: 0;\n  top: .1rem;\n  padding-right: .43rem;\n  background: url(" + __webpack_require__(52) + ") right center no-repeat;\n}\n#main_container .sale-container .swiper-container {\n  margin-top: 23px;\n}\n#main_container .sale-container .swiper-container .sale-item {\n  text-align: center;\n  width: 1.86rem;\n}\n#main_container .sale-container .swiper-container .sale-item .picture {\n  width: 1.86rem;\n  height: 2.13rem;\n}\n#main_container .sale-container .swiper-container .sale-item .price {\n  font-size: 24px;\n}\n#main_container .type-container {\n  margin-top: .267rem;\n  margin-bottom: .15rem;\n}\n#main_container .type-container ul {\n  width: 100%;\n  overflow: hidden;\n}\n#main_container .type-container .type-item {\n  width: 4.98rem;\n  height: 1.97rem;\n  padding: 20px 30px;\n  background: #fff;\n  float: left;\n  margin-top: .0267rem;\n}\n#main_container .type-container .type-item:nth-child(2n) {\n  float: right;\n}\n#main_container .type-container .type-item a {\n  width: 100%;\n  height: 100%;\n  display: inline-block;\n}\n#main_container .type-container .type-item .fl {\n  max-width: 2.32rem;\n}\n#main_container .type-container .type-item .fl .type-name {\n  font-size: 28px;\n  color: #5c5c5c;\n}\n#main_container .type-container .type-item .fl .type-description {\n  font-size: 20px;\n  color: #b5b5b5;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 3;\n  -webkit-box-orient: vertical;\n}\n#main_container .type-container .type-item .type-img {\n  width: 1.6rem;\n  height: 1.52rem;\n}\n#main_container .recommend-container {\n  width: 100%;\n  margin-bottom: .1rem;\n}\n#main_container #loading {\n  margin-top: .5rem;\n  width: 100%;\n  position: relative;\n  text-align: center;\n  font-size: 28px;\n  color: #858585;\n  letter-spacing: 0.56px;\n  display: none;\n}\n#main_container #content_container {\n  margin-bottom: 1.5rem;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 52 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAAXNSR0IArs4c6QAAAihJREFUOBG1lctOGzEUhn/bEQQBqiIQi8KGLWukikWfACT6CLwCq0LERVzEVaivwI5tU8EzoErZli0b0hUIVYAIKB5zfhNHM2g8Ca16FhmPz3++2MfHZxQi5mZnK9a5eXHPO2BKKfWRUufcbwVcyLBmlKqps7Nbzr810WTNLSyUk+vrRZckXwX4IevNvknwH6X1vh4d/aaOj5tpbwbs5ubGW0nyXQTTaVEP43pJ6y/q9LQRtB0wobL1n7LV8eB8z1NS1ZDUfApwzWBunyv9W6hnyII8Q1h892DmVMbR7auZGVF6KWOKbLrNgmqf/mX0oMplmIMDoNGAPToCWq0iMHigkpJJzZKKQoloNmGXl4GREZiVFaCvrxBMFpncH2u12B4eYFdXAWNgNjeBgYFivTC1/MNUN5X3Pz3BbmwA9/cwOzvA8HA0jEwdblRUlXZIfi2hV1cwe3tApZL2dsZk9nTUnYh3DDTvfs/6UgmmWgUmJmCXloDb3Dbh+4mW8mBD6W79/TDr68DQECzhd3fRGEnFL6aiFlUEx+AgzNYWYC3s2hrw+Bg8+U/nfmjf+qSo8xUyK6VldneBmxvY7W3g+TkqpaN9QWqa/ZStL6qW1SUnJ7CHh11vnQcLi0xfFeynMlmPwd35OZAkMXd6vt5mceWv9l/aJtHso+ynMoyu/HUJub/1dC+mInNBCC+NjX3WWld5CLmI1CQ11DImNPjg7qQiTITnv35MXwDFheT3P0qJyQAAAABJRU5ErkJggg=="
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./css/common-display-list.less": 33
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 53;
+
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var map = {
+		"./css/common-divider.less": 35
+	};
+	function webpackContext(req) {
+		return __webpack_require__(webpackContextResolve(req));
+	};
+	function webpackContextResolve(req) {
+		return map[req] || (function() { throw new Error("Cannot find module '" + req + "'.") }());
+	};
+	webpackContext.keys = function webpackContextKeys() {
+		return Object.keys(map);
+	};
+	webpackContext.resolve = webpackContextResolve;
+	module.exports = webpackContext;
+	webpackContext.id = 54;
+
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(56);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -11042,7 +11054,7 @@
 	}
 
 /***/ },
-/* 37 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -11056,7 +11068,7 @@
 
 
 /***/ },
-/* 38 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**

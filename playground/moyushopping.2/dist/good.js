@@ -45,82 +45,13 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(33);
-	__webpack_require__(35);
 	__webpack_require__(25);
-	__webpack_require__(61);
+	__webpack_require__(27);
 	__webpack_require__(12);
 	__webpack_require__(5);
 	var ajax = __webpack_require__(13);
 	var $ = __webpack_require__(11);
 	var qs = __webpack_require__(32);
-	var scroll = __webpack_require__(45);
-	var noResult = __webpack_require__(46);
-	var $nomore = $('#no-more');
-	var type = qs('type') || 1;
-	var page = 1;
-	var orderArr = [{}, {
-	    text: '待付款',
-	    app: '<a class = "fr btn important pay"></a><a class = "fr btn default cancle"></a>'
-	}, {
-	    text: '待发货'
-	}, {
-	    text: '待收货',
-	    app: '<a class = "fr btn important confirm" href = ""></a><a class = "fr btn default delivery" href = "delivery.html"></a>'
-	}, {
-	    text: '待评价'
-	}, {
-	    text: '退款'
-	}, {
-	    text: '退货'
-	}, {
-	    text: '交易关闭'
-	}, {
-	    text: '交易成功',
-	    app: '<a class = "fr btn important delivery" href = "delivey.html"></a>'
-	}, {
-	    text: '退款处理中'
-	}, {
-	    text: '退货处理中'
-	}, {
-	    text: '退款完成'
-	}, {
-	    text: '退货完成'
-	}]
-	
-	function getOrder() {
-	    ajax({
-	        data: {
-	            name: 'shopping.sys.order.info',
-	            type: type,
-	            page: page
-	        },
-	        success: function(data) {
-	            var allOrder = data.data;
-	            $.each(allOrder, function() {
-	                $('#order-container').append('<div class="order-item to-comment" data-order_id="' + this.order_info.order_id + '"><div class="order-header"><span class="fl order-shop">自营商城</span><span class="fr order-item-status"></span></div><a class="order-detail" href = "order-detail.html" ><img class="order-img" src ="' + this.goods_info.goods_pic + '" /><div class="order-info"><div class="fl title">' + this.goods_info.goods_name + '</div><div class="fr price">￥<span>' + this.goods_info.price + '</span></div><div class= "fl size">' + this.goods_info.description + '</div><div class = "fr piece">x<span>' + this.goods_info.goods_num + '</span></div><div class = "conclu">共<span class = "conclu-pi">' + this.order_info.goods_count + '</span>件商品 合计<span class = "conclu-pr">' + this.order_info.sum_price + '</span>（包运费<span class = "conclu-de">' + this.order_info.postage + '</span>）</div></div></a><div class = "order-footer"></div></div>');
-	                var status = this.order_info.status;
-	                var $thisOrder = $('.order-item').last();
-	                $thisOrder.find('.order-item-status').text(orderArr[status].text);
-	                $thisOrder.find('.order-footer').append(orderArr[status].app);
-	                page++;
-	            })
-	            noResult(allOrder, page);
-	        }
-	    })
-	}
-	$('.order-status').on('click', function() {
-	    var $this = $(this);
-	    type = $this.data('type');
-	    page = 1;
-	    $('.order-status.active').removeClass('active');
-	    $this.addClass('active');
-	    $nomore.hide();
-	    $('.nothing-alert,.order-item').remove();
-	    getOrder();
-	})
-	scroll(getOrder);
-	getOrder();
 
 /***/ },
 /* 1 */
@@ -10860,11 +10791,64 @@
 
 
 /***/ },
-/* 27 */,
-/* 28 */,
-/* 29 */,
-/* 30 */,
-/* 31 */,
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(28);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(4)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./product.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./product.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n  max-height: 100%;\n}\n#container {\n  margin-top: 1.17rem;\n  margin-bottom: 1.2rem;\n}\n#container #big-img {\n  background: #fff;\n}\n#container #big-img .swiper-container {\n  width: 10rem;\n  height: 7.4rem;\n}\n#container #big-img .swiper-container img {\n  width: 100%;\n  height: 100%;\n}\n#container #big-img .swiper-container .swiper-pagination-bullet {\n  background: #fff;\n}\n#container #big-img .swiper-container .swiper-pagination-bullet-active {\n  background: #fb4a4a;\n}\n#container #big-img .info {\n  padding: .21rem .3rem;\n  position: relative;\n}\n#container #big-img .info .title {\n  font-size: 30px;\n}\n#container #big-img .info p:nth-child(2) {\n  color: #fb4a4a;\n  font-size: 24px;\n  margin-top: .1rem;\n}\n#container #big-img .info p:last-child {\n  color: #adadad;\n  font-size: 18px;\n  position: absolute;\n  right: .4rem;\n  bottom: .3rem;\n}\n#container #comment {\n  padding-left: .4rem;\n  background: #fff;\n  margin-top: .26rem;\n}\n#container #comment .header {\n  width: 100%;\n  height: 1rem;\n  line-height: 1rem;\n  border-bottom: 1px solid #ddd;\n  padding-right: .4rem;\n}\n#container #comment .header .num {\n  font-size: 30px;\n}\n#container #comment .header .fr {\n  background: url(" + __webpack_require__(29) + ") right center no-repeat;\n  font-size: 24px;\n  padding-right: .4rem;\n}\n#container #comment .header .fr .good-rate {\n  color: #fb4a4a;\n}\n#container #comment ul .comment-item {\n  padding-right: .4rem;\n  padding-bottom: .26rem;\n  border-bottom: 1px solid #ddd;\n  overflow: hidden;\n}\n#container #comment ul .comment-item .star {\n  margin: .2rem 0;\n}\n#container #comment ul .comment-item .star img {\n  margin-right: 3px;\n}\n#container #comment ul .comment-item .name {\n  font-size: 24px;\n}\n#container #comment ul .comment-item .text {\n  margin-top: .2rem;\n  font-size: 24px;\n}\n#container #comment ul .comment-item .show img {\n  margin-top: .15rem;\n  margin-right: .15rem;\n  width: 2.13rem;\n  height: 2.13rem;\n}\n#container #comment ul .comment-item .reply {\n  margin-top: .4rem;\n  width: 8.3rem;\n  background: #ddd;\n  font-size: 24px;\n  padding: .3rem .4rem;\n  border-radius: .08rem;\n  position: relative;\n}\n#container #comment ul .comment-item .reply:before {\n  content: \"\";\n  border: .2rem solid transparent;\n  border-bottom-color: #ddd;\n  position: absolute;\n  left: .5rem;\n  top: -0.35rem;\n}\n#container #detail .divider {\n  width: 100%;\n  height: 1rem;\n  line-height: 1rem;\n  position: relative;\n  text-align: center;\n  font-size: 20px;\n  color: #b5b5b5;\n}\n#container #detail .divider .line {\n  position: absolute;\n  width: 2.93rem;\n  height: 1px;\n  background: #b5b5b5;\n  top: .5rem;\n}\n#container #detail .divider .line:first-child {\n  left: .4rem;\n}\n#container #detail .divider .line:nth-child(2) {\n  right: .4rem;\n}\n#container #detail img {\n  width: 100%;\n}\n#option {\n  width: 100%;\n  background: #fff;\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  z-index: 3;\n}\n#option .header {\n  width: 100%;\n  height: 1.86rem;\n  position: relative;\n  border-bottom: 1px solid #858585;\n}\n#option .header .small-img {\n  width: 2.16rem;\n  height: 2.16rem;\n  border-radius: .1rem;\n  margin: -0.4rem 0.4rem;\n}\n#option .header .info {\n  display: inline-block;\n  text-align: center;\n  margin-top: .2rem;\n}\n#option .header .info .opt-price {\n  font-size: 30px;\n  color: #fb4a4a;\n}\n#option .header .info .opt-storage {\n  font-size: 18px;\n  color: #adadad;\n  margin-top: .2rem;\n}\n#option .header .opt-close {\n  position: absolute;\n  top: .4rem;\n  right: .4rem;\n}\n#option .main {\n  padding: 0 .4rem;\n}\n#option .main .optional-option {\n  margin-top: .26rem;\n}\n#option .main .optional-option span {\n  font-size: 28px;\n  color: #b5b5b5;\n}\n#option .main .optional-option ul .opt-item {\n  width: 1.33rem;\n  height: .67rem;\n  line-height: .67rem;\n  text-align: center;\n  display: inline-block;\n  margin-right: .4rem;\n  margin-top: .26rem;\n  border-radius: .33rem;\n  background: #f5f5f5;\n  font-size: 24px;\n}\n#option .main .optional-option ul .opt-item.active {\n  background: #fb4a4a;\n  color: white;\n}\n#option .main .optional-option ul .opt-item.disabled {\n  color: #d3d3d3;\n}\n#option .main .compulsory-option {\n  margin-top: .4rem;\n  overflow: hidden;\n}\n#option .main .compulsory-option > span {\n  font-size: 28px;\n  display: inline-block;\n  line-height: .74rem;\n  color: #b5b5b5;\n}\n#option .footer {\n  width: 100%;\n  margin-top: .4rem;\n}\n#purchase-footer {\n  position: fixed;\n  left: 0;\n  bottom: 0;\n  width: 100%;\n}\n#purchase-footer ul {\n  width: 100%;\n  height: 1.2rem;\n  background: #fff;\n  border-top: 1px solid #858585;\n}\n#purchase-footer ul a {\n  width: 33.3%;\n  height: 1.2rem;\n  line-height: 1.2rem;\n  text-align: center;\n  border-right: 1px solid #858585;\n  font-size: 32px;\n  color: #858585;\n  display: inline-block;\n}\n#purchase-footer ul a.add-cart {\n  background: #fb4a4a;\n  color: white;\n}\n#purchase-footer ul a span {\n  display: inline-block;\n  vertical-align: middle;\n}\n#purchase-footer ul a span.collection {\n  width: .61rem;\n  height: .6rem;\n  background: url(" + __webpack_require__(30) + ");\n  background-size: 100%;\n  vertical-align: -0.1rem;\n}\n#purchase-footer ul a span.collection.active {\n  background-image: url(" + __webpack_require__(31) + ");\n}\n.cover {\n  width: 100%;\n  height: 100%;\n  position: fixed;\n  background: rgba(110, 110, 110, 0.5);\n  z-index: 3;\n  top: 0;\n  left: 0;\n  display: none;\n}\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAcCAYAAABoMT8aAAAAAXNSR0IArs4c6QAAAqhJREFUOBGVlDtoU2EUx5ubBAddRHxhtFhxqLSlihqomuaBDoII3dTBDlZpV9ckxjyEZBCkxUEHV3VwcFEQ8qCUYhwcpEOsD4qolUoxsSIhL38nvV/42jRp/OBwTs75///nnO/eG0s0Gr1gsVhu1mq1ua6uroTf71/Ad3wMyI9AD+MnsIehUGhXx2yABvZDI5y12WwJptqn5dqGRqVSmWD8nEIxxVXiOJMcULl23ppKpRbcbnfKMIxegAcFjMiA1Wodcrlc2XQ6rU/YpGWVDCJLgN8g0gP5sIlyIHLM4/HMUP/ZxDQTdQGJ6bQEOEt4BpE9Zt2Bl0lmW03SEBACnZZZJ8skffzcj6Fl2cskp8i/pf5NcPpZIyAFQItMkiLsg9xjgncjOkR+nvpHM1d3TQKSBfRLxqZzPz/rF4vfiZ32+XzTyWTyO3H9bCggFXZeRmQGEXk6hyTHRNt55L2sM6fWaSkgBBFxOp0v7Xb7DshHTZFu4nNer/czk+QsktzsyOuNSAjcuMIyySI21nYCBWaSP6yToXMFG5Y8fhvmkm+ho1MsFrdA2KqDmeCvTU+0ivm4ZO871C9rmPfVanV0UwH2d0C+C3FEJ/MRXg8Gg7NtV4jFYoNc3tN15OelUuki5IwItnwKdB6A/ACMU4By2PlduVweofZhNbP6h6Lihg+Hw/3ryRRfY9d0shCa7oALc5G/hw0KwDwZLmwsEAjMq4Tya1aQzry6jykeUQD8NDuP0vmTlmuEjUuk83G+uCkqDTI7v8AutSKLSn0FOp8gnuJxnZSkeV7hb/A3/1UlNvJGJBI5T+cnikzHMsDJlZWVK5C/bETSczaI97FulSSeLBQKt+PxeF7l2nkRsGuAZ/l8/lYikfit5dqGNrkkRMZ5TDlez6n/IYvyP1/K+0vbrCnCAAAAAElFTkSuQmCC"
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAsCAYAAAAacYo8AAAAAXNSR0IArs4c6QAABjFJREFUWAnlmVtoXEUYx7ObpiaxJbUGQWvpJVlUFHxQEXxRBPsg4hVTrLS2VogYWkhQkmwqtdSmDYYEUrwEtWjV1oYipEhBH4y+WKQ+SQXtJlKtF6xN2prERGMSf//TmcPs2bPZTfesPjgw+b75rv+Z+c45s5OSkiK13bt3r1UvUviSeDECt7e318/MzLyvLr4YOWJRB+3p6blsdHR0iLjLTOyfFi9eXLN169Y/o8wV+YqPj49vdkAL6zIjixJ3tKXS19e3kPJoCSKUTLqgvJBxpCs+NDS0ETDLBSgWi/2qLp623OgujiL4Gxnw3t7estnZ2VaLCf4ldWfcKhs7LpRGBnx4eHgDQFcKECv9W3V19avq4iWTTjbio2iRAB8YGFgAmKQDqLO+vv4PdWSdjjxpbB3RpbGRAD927NjjrOhqQWCFh6uqql6xcMRLprFsZGt1hdCCgfO2KAVQmwOiq6GhYcyODd9lx7KVjx1fKi0YeCqVeozkCQFgZc+VlpbuDYKRTDojTxifoNm8xgUBZ/Xkv81mBFx3c3PzqB1bKpl0dgzdZnwd0fzYS/rkkzTW0dGxnA9LHbx95Z1nZVe2tLRcCIOwZ8+equnp6VPolkjPRJ6Lx+N9TOo0/Kxk82lzAgfcNSRLEDgBQK8bvpYk5YFEO9ra2l4IyNKGu3btkn57mrCkZJKYg8RPQb0unkVIMamfA7b+0APO8XMlkrsEDuoCvNy3nIMh4Tl6TWtrq63jUGvyXMEufYfSW/VQI0dIzHE7IcTepKCfkudUjC28mVX9EoHexXk3gp7BOEXgb9ny1wh2PB9nwN8G+Kfxvw57LdJV+fg5Nn+zG7cuIEgNwmygR0jgb594QKYqKipOckz93QmWN2sm6E9StU/cBDjcnfZ4gi4NCexhjumdOjg4eISZ32uNCPQx/LpkMul9OKz836b8CLmSnAfBdo/NDbajtbW198fr6uqmYR5C0W+VGK6B3wGd8+G19sWgJrcw+KDJ0y+swuy9x2H+4kD0KLM5bEHg0EA99v4X4JXT5G6weIRNGIVVsrQVNWWzH8d11gH6FiWzGccZR1Y0ltxxSuRNEmy0Sch9gJXeoJX2ZZaxVI7Mdh/0CSsLc7S6KGnYwpH7bR7oJ4MLl/HJlwGGm6CvW1DaAR7gg1EdSW1clyq2ciiXlQuDwZKx22mlYh1ECaA62wv16wxxfyKRYMcu1plrXwjPSi/k4NVHjAdsHEC/DOgt0NDjQFbgNgDgu3jHNtoxgY4uWrTo4aiuG3SdMTY29gEL5L+O+VZ0A7rJ5gyjGaUSNDIBOqxcCUj0rh0XSrmDec8FTbyOXKCVMydwGXF40pXDTvGm6b0fVXNj7TS5csbOC7iJohr0Giv0g+UjoN87MfwcjiyUnQ/wm5wIJxy+UNaN5eaYM+7/CzhP/ddzLsc8lIFYxV1xXonu9s4DZqZpIFbewLOdw9MycHVWefbs2VUSkmi6srLymzSDwEAfFL6C3qU+Z4xDc32wFIvX6zQPvK4sVimXuUgKRE0f5lXjIyMjN+BmbVPZPj46a3BA2sRX8CRAdFjbL14y6dJTXxyZWCmji5tcYaZpMgsmTRgcAMDdwowyQa/jwSOs8gn4ffivcGKskEw62cjW0VnWj4nezWX1GTQv4Hj5wQI1WQKYNfTjHAsOk/R6mwG7M+p2LJ1sZCsfKxcNxPRzuTZBPq8ax8kN5q0OvxXvAEg7/U43KCAuMO4sKyvzLoCmpqZ0znkW4FWyg95C/4jy+Yw3SpJ7mM8R+ysO7+aSS2gL27YMQ5KcJtm1RrEWcOsZ3+caIptgvLe8vLyjqalpxNV1dXUtnZycbEa2Bb8KV4ffh8jeQXZIcsY/8sPF++eAaxfkcwI3N1Dng452TKIp+Df45b+zsbHxFysPo93d3VdPTEw8j+4pwJaF2UjG9cOSbDdi1idnqVAK2bZuhq0+QKDtnOZ0yZOzmYk9Q413MuEdxNaPhrDn7EbkKqGsLSdwPGtDvPuRbQOwW5shZuEiM9H1XMnpuPwi3f8BIQ8mpBu1woCzMl8RZEpbC/8JPCWY/AJacOMIq4k/yDN0O7SdHHer9EzOguPrlbeaWtf2FbUph3Llk+Qfubv9MbyNVYcAAAAASUVORK5CYII="
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAsCAYAAAAacYo8AAAAAXNSR0IArs4c6QAABEZJREFUWAnVmE9oFFccx+fN2yTtLqLgqQ1CSLNQqeBF7FV6jGtIhVhaUQT/QTEXQbShAUEpSA89iIK0l4qUEkXyb3MUr6InETyshELQQg+lpexo4r55fr/TPLKZ3dl5szOTxIHh/fv9ft/PvP3Nm/fWcXK6GpXKV7xzCu+4eQRWw8Nnte//zpv1PDQyB9fj431aiEkDyzr7TDurMnNwf3HxpNa63wCyzj7TzqoUWQViHD021qvq9RfacXY1x4XIkiyVhsTduyvN/Wnqmc6473knwtCEYx/H0oCGfTMD12fO9CAtvgsLmDbHaGPaacvMwNXLl8cxswNRQByjTdR40v5MwPXlywUIT1iIT6zaWph2NskEXD1+fBSpMNhZCrkOG9rG2dmMp15VsJLIhuc9B1XZRtARolYoFndjhVFW9hFGqWdced7X1tCEwAMGPhFAtt2pwJGvLn7+723FjB196Gva3ZRdpQqEhTMyssv3/SO+1j92I+wKccF13SlndnZJCIFFJ9nVEVyPjHwc/LSOU9ZKlSFQhkJZaD2E8oNkUu2tAfAG+5kXKGuYkJqQsiZR57sgZmdftfdynABcj44OqJWVAwhQRoeBY1mKctyIfrDUwVQLHgoPgwmryd7eh2J6+g+hK5W9yvefAJJr8Za/8BAN6br7XKX1J+8LNGeVrGR2ZbE4g9xd2PJTvQpIVjK7/BCg8iU6ZrY6PBkDVjAHayn3ybK/fwwD97YqPNkCxtU9PXJ97eLnGweB28ijb9Z6N78GyN9wEDnevE1Y9/UK0mb//mN4ul83H/d/ArJIMoX2Nutm3MDyy6gqlVsoT5u+zSgB/bOcnz+LEkmw/lo342aIhoGD49wwfRtdYkZvREGTpS04BwhfWFg4h8pPbG/oBU1qt5tpwxEJbgx6qtXzgL9m2rmX0Ao0Y4RiwemPQJcAfyUmVvphaARaFpGswBkHG5kpi3ipTJJoWIPjnLUnFZWFcxINa3CsR7mDJ9GwBsfylDt4Eg1rcJyEcgdPotH2yxlOR33oUBGHjf/wJbV/0HAQizbWbR+HhG1ibs6LM7cD8f3deUMTNNCAVhw0x63Ak7ztNqKdbGy1rMCTvO0GCjn4F2/Tti1ttazAk7ztsP0XQSflzp2DvFlnny24rZbdyd5iRcGL9Ro5eh0b/mvYO//dBHoVB5SbjXr9ImzGYfNh01hr1UKLTnjAzhdEt0P0nygrBHiLfcwvsq/virh//88oO/brw4c/UsvLk3gLTyElIv/kL5RKO/DwHX+l+FRZXm67fnPpwn1HCvFpoVr9Ng6a4LShLX3oyxjsb7k877OWvlBHLLhSaijkgwnGadtx9gLimKhWF8PjcW360JcxGCtsj5Ul9i/r2ByXUj5VjcZb/rRIiwcQm4Dwo7BYN23EeQa/UT08/Dlgf4DGF0w9anYTr8VHHzw4iK9n7M/X4piwgxrUsnF7B+9Rm0jSBl8wAAAAAElFTkSuQmCC"
+
+/***/ },
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -10889,207 +10873,6 @@
 	    return getParameterByName;
 	})
 
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(34);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-display-list.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-display-list.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "/*两格式列表*/\n.display-list ul {\n  overflow: hidden;\n}\n.display-list ul .item {\n  width: 4.93rem;\n  height: 7.2rem;\n  float: left;\n  margin-top: .267rem;\n  background: #fff;\n}\n.display-list ul .item:nth-child(2n) {\n  float: right;\n}\n.display-list ul .item img {\n  width: 100%;\n  height: 4.93rem;\n}\n.display-list ul .item .item-detail {\n  width: 100%;\n  height: 2.27rem;\n  background: #fff;\n  padding: .25rem .21rem;\n}\n.display-list ul .item .item-detail .title {\n  display: inline-block;\n  width: 4.49rem;\n  height: .96rem;\n  font-size: 26px;\n  color: #5c5c5c;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n.display-list ul .item .item-detail .price {\n  margin-top: .213rem;\n  color: #fb4a4a;\n  font-size: 24px;\n}\n/*流式列表*/\n.line-display-list ul .item {\n  width: 100%;\n  height: 2.93rem;\n  border-top: 1px solid #eee;\n  padding: .133rem;\n  background: #fff;\n}\n.line-display-list ul .item img {\n  width: 2.93rem;\n  height: 2.66rem;\n}\n.line-display-list ul .item .item-detail {\n  display: inline-block;\n  width: 6.5rem;\n  height: 2.66rem;\n  background: #fff;\n  padding: .2rem .4rem;\n  vertical-align: top;\n}\n.line-display-list ul .item .item-detail .title {\n  width: 4.49rem;\n  height: .96rem;\n  font-size: 26px;\n  color: #5c5c5c;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n.line-display-list ul .item .item-detail .price {\n  margin-top: .213rem;\n  font-size: 24px;\n  color: #fb4a4a;\n}\n.line-display-list ul .item .item-detail .more-info {\n  display: block;\n  font-size: 24px;\n  color: #bbb;\n  margin-top: .13rem;\n}\n.line-display-list ul .item .item-detail .more-info .buyers {\n  margin-left: .13rem;\n}\n#order-container,\n#collection-container {\n  width: 100%;\n}\n#order-container .order-item,\n#collection-container .order-item {\n  margin-bottom: .26rem;\n}\n#order-container .order-header,\n#collection-container .order-header,\n#order-container .order-footer,\n#collection-container .order-footer {\n  width: 100%;\n  height: .85rem;\n  line-height: .85rem;\n  padding: 0 .53rem;\n  font-size: 24px;\n  background: #fff;\n  border-top: 1px solid #bbb;\n  border-bottom: 1px solid #bbb;\n}\n#order-container .order-detail,\n#collection-container .order-detail {\n  width: 100%;\n  height: 2.93rem;\n  padding: .13rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-img,\n#collection-container .order-detail .order-img {\n  width: 2.93rem;\n  height: 2.66rem;\n  display: inline-block;\n}\n#order-container .order-detail .order-info,\n#collection-container .order-detail .order-info {\n  vertical-align: top;\n  display: inline-block;\n  position: relative;\n  width: 6.3rem;\n  height: 2.66rem;\n  margin-left: .26rem;\n}\n#order-container .order-detail .order-info .title,\n#collection-container .order-detail .order-info .title {\n  font-size: .32rem;\n  width: 4.17rem;\n  height: .96rem;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n#order-container .order-detail .order-info .price,\n#collection-container .order-detail .order-info .price {\n  font-size: .32rem;\n  height: .96rem;\n  line-height: .96rem;\n}\n#order-container .order-detail .order-info .size,\n#collection-container .order-detail .order-info .size,\n#order-container .order-detail .order-info .piece,\n#collection-container .order-detail .order-info .piece {\n  font-size: .32rem;\n  color: #b5b5b5;\n  height: .35rem;\n  line-height: .35rem;\n}\n#order-container .order-detail .order-info .conclu,\n#collection-container .order-detail .order-info .conclu {\n  width: 100%;\n  text-align: center;\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  font-size: .32rem;\n}\n#order-container .btn,\n#collection-container .btn {\n  width: 1.6rem;\n  height: .58rem;\n  line-height: .58rem;\n  text-align: center;\n  margin-left: .5rem;\n  margin-top: .12rem;\n  border: 1px solid #858585;\n  border-radius: .08rem;\n}\n#order-container .btn.important,\n#collection-container .btn.important {\n  color: #fb4a4a;\n  border-color: #fb4a4a;\n}\n#order-container .btn.comment:before,\n#collection-container .btn.comment:before {\n  content: '\\8BC4\\4EF7';\n}\n#order-container .btn.delivery:before,\n#collection-container .btn.delivery:before {\n  content: '\\67E5\\770B\\7269\\6D41';\n}\n#order-container .btn.pay:before,\n#collection-container .btn.pay:before {\n  content: '\\4ED8\\6B3E';\n}\n#order-container .btn.cancle:before,\n#collection-container .btn.cancle:before {\n  content: '\\53D6\\6D88\\8BA2\\5355';\n}\n#order-container .btn.confirm:before,\n#collection-container .btn.confirm:before {\n  content: '\\786E\\8BA4\\6536\\8D27';\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(36);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-divider.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-divider.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 36 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".common-divider {\n  width: 100%;\n  position: relative;\n  text-align: center;\n  font-size: 28px;\n  color: #858585;\n  letter-spacing: 0.56px;\n}\n.common-divider:before,\n.common-divider:after {\n  content: '';\n  position: absolute;\n  width: 3.2rem;\n  height: 1px;\n  left: .64rem;\n  top: 20px;\n  background: #d3d3d3;\n}\n.common-divider:after {\n  left: auto;\n  right: .64rem;\n}\n.common-divider#no-more {\n  display: none;\n  margin-bottom: .2rem;\n}\n.common-divider#loading {\n  display: none;\n}\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports === 'object') {
-	        module.exports = factory(require('jquery'));
-	    } else {
-	        root.times = factory(root.jQuery);
-	    }
-	}(this, function($) {
-	    var w = $(window);
-	
-	    function scrollToEnd(cb) {
-	        var timeout;
-	        w.on('scroll', function() {
-	                var scrollTop = w.scrollTop();
-	                var viewHeight = w.height();
-	                var pageHeight = $(document).height();
-	                if (scrollTop + viewHeight >= pageHeight - 2 && scrollTop !== 0) {
-	                    cb();
-	                    w.off('scroll');
-	                    timeout = setTimeout(scrollToEnd.bind(this, cb), 500);
-	                }
-	            })
-	            //return timeout;
-	    }
-	    return scrollToEnd;
-	})
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
-	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	    } else if (typeof exports === 'object') {
-	        module.exports = factory(require('jquery'));
-	    } else {
-	        root.noResult = factory(root.jQuery);
-	    }
-	}(this, function($) {
-	    function noResult(result, page,timeout) {
-	        var $nomore = $('#no-more');
-	        if (result == '') {
-	            if (page > 1) {
-	                $nomore.show();
-	                //$(window).off('scroll');
-	                //clearTimeout(timeout);
-	            }
-	            else $('body').append('<div class="nothing-alert">无相关数据</div>');
-	        }
-	    }
-	    return noResult;
-	})
-
-/***/ },
-/* 47 */,
-/* 48 */,
-/* 49 */,
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(62);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(4)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./order.less");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 62 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n}\n#order-status-container {\n  width: 100%;\n  height: .8rem;\n  position: fixed;\n  top: 1.17rem;\n  left: 0;\n  background: #fff;\n  z-index: 2;\n}\n#order-status-container div {\n  width: 20%;\n  display: inline-block;\n  text-align: center;\n  height: .8rem;\n  line-height: .8rem;\n}\n#order-status-container div .order-status {\n  color: #5c5c5c;\n  font-size: 24px;\n}\n#order-status-container div .order-status.active {\n  color: #fb4a4a;\n}\n#order-container {\n  margin-top: 1.97rem;\n}\n.weui_dialog_confirm .weui_dialog_hd .weui_dialog_title {\n  display: none;\n}\n.weui_dialog_confirm.confirm {\n  display: block;\n}\n.weui_dialog_confirm.confirm .weui_dialog_hd .weui_dialog_title.confirm {\n  display: inline-block;\n}\n.weui_dialog_confirm.cancle {\n  display: block;\n}\n.weui_dialog_confirm.cancle .weui_dialog_hd .weui_dialog_title.cancle {\n  display: inline-block;\n}\n", ""]);
-	
-	// exports
-
-
 /***/ }
 /******/ ]);
-//# sourceMappingURL=order.js.map
+//# sourceMappingURL=good.js.map

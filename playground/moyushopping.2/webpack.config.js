@@ -7,7 +7,10 @@ module.exports = {
         login:'./src/login.js',
         signup:'./src/signup.js',
         forgetPw:'./src/resetPw.js',
-        order:'./src/order.js'
+        order:'./src/order.js',
+        goodsType:'./src/goodsType.js',
+        searchPage:'./src/searchPage.js',
+        good:'./src/good.js'
     },
     output: {
         path: './dist',

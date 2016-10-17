@@ -24,19 +24,6 @@ var mySwiper2 = new S('.sale-container .swiper-container', {
     slidesPerView: '4',
     paginationClickable: true
 });
-/*
-require(['./lib/swiper.jquery.js', './lib/swiper.min.css'], function(S) {
-    //初始化swiper
-    var mySwiper1 = new S('.swiper-container.banner-container', {
-        pagination: '.swiper-pagination',
-        loop: true,
-        paginationClickable: true,
-        autoplay: 4000,
-        autoplayDisableOnInteraction: false
-    })
-    console.log(mySwiper1)
-   
-})*/
 scroll(function() {
     ajax({
         data: {

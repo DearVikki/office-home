@@ -47,14 +47,14 @@
 	__webpack_require__(1);
 	__webpack_require__(14);
 	__webpack_require__(17);
-	__webpack_require__(39);
+	__webpack_require__(58);
 	__webpack_require__(12);
 	__webpack_require__(5);
 	var ajax = __webpack_require__(13);
 	var $ = __webpack_require__(11);
 	var V = __webpack_require__(21);
 	var h = __webpack_require__(23);
-	var ls = __webpack_require__(41)
+	var ls = __webpack_require__(60)
 	var container = $('#main-container');
 	var btn = $('.common-btn');
 	new V('#main-container', [{
@@ -10776,6 +10776,10 @@
 	    function ajax(config) {
 	        config.url = 'http://mozhishi.com/shopping/php/PcApi';
 	        config.method = 'post';
+	        config.xhrFields = {
+	            withCredentials: true
+	        };
+	        config.crossDomain = true;
 	        $.ajax(config);
 	    }
 	    return ajax;
@@ -11043,13 +11047,32 @@
 /* 36 */,
 /* 37 */,
 /* 38 */,
-/* 39 */
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(40);
+	var content = __webpack_require__(59);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -11069,7 +11092,7 @@
 	}
 
 /***/ },
-/* 40 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -11083,7 +11106,7 @@
 
 
 /***/ },
-/* 41 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {

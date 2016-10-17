@@ -52,7 +52,7 @@
 	__webpack_require__(5);
 	var ajax = __webpack_require__(13);
 	var $ = __webpack_require__(11);
-	var R = __webpack_require__(51);
+	var R = __webpack_require__(67);
 	var V = __webpack_require__(21);
 	var S = __webpack_require__(22);
 	var C = __webpack_require__(24);
@@ -10917,6 +10917,10 @@
 	    function ajax(config) {
 	        config.url = 'http://mozhishi.com/shopping/php/PcApi';
 	        config.method = 'post';
+	        config.xhrFields = {
+	            withCredentials: true
+	        };
+	        config.crossDomain = true;
 	        $.ajax(config);
 	    }
 	    return ajax;
@@ -11300,7 +11304,23 @@
 /* 48 */,
 /* 49 */,
 /* 50 */,
-/* 51 */
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {

@@ -8,11 +8,41 @@ require('headerfooter');
 var ajax = require('ajax');
 var $ = require('jquery');
 var qs = require('./js/queryString');
+var scroll = require('./js/scroll.js');
+var noResult = require('./js/noResult');
 var $nomore = $('#no-more');
-var type = qs('type') || 0;
-var page = 0;
+var type = qs('type') || 1;
+var page = 1;
+var orderArr = [{}, {
+    text: '待付款',
+    app: '<a class = "fr btn important pay"></a><a class = "fr btn default cancle"></a>'
+}, {
+    text: '待发货'
+}, {
+    text: '待收货',
+    app: '<a class = "fr btn important confirm" href = ""></a><a class = "fr btn default delivery" href = "delivery.html"></a>'
+}, {
+    text: '待评价'
+}, {
+    text: '退款'
+}, {
+    text: '退货'
+}, {
+    text: '交易关闭'
+}, {
+    text: '交易成功',
+    app: '<a class = "fr btn important delivery" href = "delivey.html"></a>'
+}, {
+    text: '退款处理中'
+}, {
+    text: '退货处理中'
+}, {
+    text: '退款完成'
+}, {
+    text: '退货完成'
+}]
 
-function getOrder(type,page) {
+function getOrder() {
     ajax({
         data: {
             name: 'shopping.sys.order.info',
@@ -25,65 +55,23 @@ function getOrder(type,page) {
                 $('#order-container').append('<div class="order-item to-comment" data-order_id="' + this.order_info.order_id + '"><div class="order-header"><span class="fl order-shop">自营商城</span><span class="fr order-item-status"></span></div><a class="order-detail" href = "order-detail.html" ><img class="order-img" src ="' + this.goods_info.goods_pic + '" /><div class="order-info"><div class="fl title">' + this.goods_info.goods_name + '</div><div class="fr price">￥<span>' + this.goods_info.price + '</span></div><div class= "fl size">' + this.goods_info.description + '</div><div class = "fr piece">x<span>' + this.goods_info.goods_num + '</span></div><div class = "conclu">共<span class = "conclu-pi">' + this.order_info.goods_count + '</span>件商品 合计<span class = "conclu-pr">' + this.order_info.sum_price + '</span>（包运费<span class = "conclu-de">' + this.order_info.postage + '</span>）</div></div></a><div class = "order-footer"></div></div>');
                 var status = this.order_info.status;
                 var $thisOrder = $('.order-item').last();
-                switch (status) {
-                    case 1:
-                        $thisOrder.find('.order-item-status').text('待付款');
-                        $thisOrder.find('.order-footer').append('<a class = "fr btn important pay"></a><a class = "fr btn default cancle"></a>');
-                        break;
-                    case 2:
-                        $thisOrder.find('.order-item-status').text('待发货');
-                        break;
-                    case 3:
-                        $thisOrder.find('.order-item-status').text('待收货');
-                        $thisOrder.find('.order-footer').append('<a class = "fr btn important confirm" href = ""></a><a class = "fr btn default delivery" href = "delivery.html"></a>');
-                        break;
-                    case 4:
-                        $thisOrder.find('.order-item-status').text('待评价');
-                        $thisOrder.find('.order-footer').append('<a class = "fr btn default delivery" href = "delivery.html"></a>');
-                        break;
-                    case 5:
-                        $thisOrder.find('.order-item-status').text('退款');
-                        break;
-                    case 6:
-                        $thisOrder.find('.order-item-status').text('退货');
-                        break;
-                    case 7:
-                        $thisOrder.find('.order-item-status').text('交易关闭');
-                        break;
-                    case 8:
-                        $thisOrder.find('.order-item-status').text('交易成功');
-                        $thisOrder.find('.order-footer').append('<a class = "fr btn important delivery" href = "delivey.html"></a>');
-                        break;
-                    case 9:
-                        $thisOrder.find('.order-item-status').text('退款处理中');
-                        break;
-                    case 10:
-                        $thisOrder.find('.order-item-status').text('退货处理中');
-                        break;
-                    case 11:
-                        $thisOrder.find('.order-item-status').text('退款完成');
-                        break;
-                    case 12:
-                        $thisOrder.find('.order-item-status').text('退货完成');
-                        break;
-                }
+                $thisOrder.find('.order-item-status').text(orderArr[status].text);
+                $thisOrder.find('.order-footer').append(orderArr[status].app);
                 page++;
             })
-            if (allOrder == '' && page !== 0) {
-                $nomore.show();
-            } else {
-            	$('body').append('<div class="nothing-alert">无相关数据</div>');
-            }
+            noResult(allOrder, page);
         }
     })
 }
-
-$('.order-status').on('click',function(){
-	var $this = $(this);
-	type = $this.data('type');
-	page = 0;
-	$('.order-status.active').removeClass('active');
-	$this.addClass('active');
-	$('.nothing-alert,.order-item').remove();
-	getOrder(type,page);
+$('.order-status').on('click', function() {
+    var $this = $(this);
+    type = $this.data('type');
+    page = 1;
+    $('.order-status.active').removeClass('active');
+    $this.addClass('active');
+    $nomore.hide();
+    $('.nothing-alert,.order-item').remove();
+    getOrder();
 })
+scroll(getOrder);
+getOrder();

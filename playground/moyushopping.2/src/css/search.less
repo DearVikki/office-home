@@ -21,10 +21,10 @@ body {
             height: .66rem;
             background-size: 100%;
             margin: 0 .4rem;
-            &.pinterest {
+            &.display-list {
                 background: url(../image/home/classify_pinterest@2x.png) center no-repeat;
             }
-            &.list {
+            &.line-display-list {
                 background: url(../image/home/classify_list@2x.png) center no-repeat;
             }
         }
@@ -79,54 +79,5 @@ body {
 
 #search-result-container {
     margin-top: 2.34rem;
-}
-
-#search-result-container.list {
-    ul {
-        .item {
-            width: 100%;
-            height: 2.93rem;
-            border-top: 1px solid #eee;
-            padding: .133rem;
-            background: #fff;
-            img {
-                width: 2.93rem;
-                height: 2.66rem;
-            }
-            .item-detail {
-                display: inline-block;
-                width: 6.5rem;
-                height: 2.66rem;
-                background: #fff;
-                padding: .2rem .4rem;
-                vertical-align: top;
-                .title {
-                    width: 4.49rem;
-                    height: .96rem;
-                    font-size: 26px;
-                    color: #5c5c5c;
-                    line-height: .48rem;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                }
-                .price {
-                    margin-top: .213rem;
-                    font-size: 24px;
-                    color: #fb4a4a;
-                }
-                .more-info {
-                    display: block;
-                    font-size: 24px;
-                    color: #bbb;
-                    margin-top: .13rem;
-                    .buyers {
-                        margin-left: .13rem;
-                    }
-                }
-            }
-        }
-    }
+    margin-bottom: .2rem;
 }
