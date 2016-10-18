@@ -52,7 +52,7 @@
 	__webpack_require__(5);
 	var ajax = __webpack_require__(13);
 	var $ = __webpack_require__(11);
-	var R = __webpack_require__(67);
+	var R = __webpack_require__(73);
 	var V = __webpack_require__(21);
 	var S = __webpack_require__(22);
 	var C = __webpack_require__(24);
@@ -11182,7 +11182,9 @@
 	                else self.check(target);
 	            })
 	            this.allRules['v' + i] = r;
-	            this.inputs.push($el);
+	            for(var i=0;i<$el.length-1;i++){
+	                this.inputs.push($($el[i]));
+	            }
 	        }
 	    }
 	    return Validator;
@@ -11320,7 +11322,13 @@
 /* 64 */,
 /* 65 */,
 /* 66 */,
-/* 67 */
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {

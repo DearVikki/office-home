@@ -47,14 +47,14 @@
 	__webpack_require__(1);
 	__webpack_require__(14);
 	__webpack_require__(17);
-	__webpack_require__(58);
+	__webpack_require__(64);
 	__webpack_require__(12);
 	__webpack_require__(5);
 	var ajax = __webpack_require__(13);
 	var $ = __webpack_require__(11);
 	var V = __webpack_require__(21);
 	var h = __webpack_require__(23);
-	var ls = __webpack_require__(60)
+	var ls = __webpack_require__(66)
 	var container = $('#main-container');
 	var btn = $('.common-btn');
 	new V('#main-container', [{
@@ -11003,7 +11003,9 @@
 	                else self.check(target);
 	            })
 	            this.allRules['v' + i] = r;
-	            this.inputs.push($el);
+	            for(var i=0;i<$el.length-1;i++){
+	                this.inputs.push($($el[i]));
+	            }
 	        }
 	    }
 	    return Validator;
@@ -11066,13 +11068,19 @@
 /* 55 */,
 /* 56 */,
 /* 57 */,
-/* 58 */
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(59);
+	var content = __webpack_require__(65);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -11092,7 +11100,7 @@
 	}
 
 /***/ },
-/* 59 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -11106,7 +11114,7 @@
 
 
 /***/ },
-/* 60 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {

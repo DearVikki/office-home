@@ -11146,7 +11146,9 @@
 	                else self.check(target);
 	            })
 	            this.allRules['v' + i] = r;
-	            this.inputs.push($el);
+	            for(var i=0;i<$el.length-1;i++){
+	                this.inputs.push($($el[i]));
+	            }
 	        }
 	    }
 	    return Validator;

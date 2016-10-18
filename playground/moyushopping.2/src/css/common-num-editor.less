@@ -1,0 +1,30 @@
+.num-edit {
+    span {
+        width: .86rem;
+        height: .74rem;
+        display: inline-block;
+        background-color: #f5f5f5;
+        border-radius: 2px;
+        text-align: center;
+        line-height: .74rem;
+        font-size: 28px;
+        margin-right: 4px;
+        background-repeat: no-repeat;
+        background-position: center;
+        vertical-align: middle;
+        &.num-minus {
+            background-image: url(../image/purchase/Size_selection_reduce_normal.png);
+            &.disable {
+                background-image: url(../image/purchase/Size_selection_reduce_disable.png);
+                background-color: #fbfbfb;
+            }
+        }
+        &.num-add {
+            background-image: url(../image/purchase/Size_selection_add_normal.png);
+            &.disable {
+                background-image: url(../image/purchase/Size_selection_add_disable.png);
+                background-color: #fbfbfb;
+            }
+        }
+    }
+}

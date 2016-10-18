@@ -124,7 +124,9 @@
                 else self.check(target);
             })
             this.allRules['v' + i] = r;
-            this.inputs.push($el);
+            for(var j=0;j<$el.length;j++){
+                this.inputs.push($($el[j]));
+            }
         }
     }
     return Validator;
