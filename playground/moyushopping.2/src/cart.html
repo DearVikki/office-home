@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            购物车
+        </title>
+        <meta charset="utf-8"/>
+        <meta content="initial-scale=.5, maximum-scale=.5, minimum-scale=.5, user-scalable=no" name="viewport"/>
+    </head>
+    <body>
+        <!--header开始-->
+        <section id="second-header-container">
+            购物车
+            <label class="back fl">
+            </label>
+            <label class="edit">
+                编辑
+            </label>
+        </section>
+        <!--header结束-->
+        <!--购物车开始-->
+        <section id="cart-container">
+        </section>
+        <!--购物车结束-->
+        <!--购物车是空的开始-->
+        <section id="empty-container">
+            <img src="image/purchase/no_goods@2x.png" />
+            <p>购物车是空的~</p>
+            <a href="index.html">去看看</a>
+        </section>
+        <!--购物车是空的结束-->
+        <!--footer开始-->
+        <section id="cart-footer">
+            <div class="footer-item common-radio-group" style="width:30%">
+                <div class="radio" id="select-all">
+                </div>
+                全选
+            </div>
+            <div class="footer-item total-money" style="width:40%">
+                合计：￥
+                <span class="sum-price">
+                    0.00
+                </span>
+            </div>
+            <div class="footer-item go-pay" style="width:30%">
+                去结算
+            </div>
+            <div class="footer-item edit-part" style="width:50%">
+                <span class="collect">
+                    移入收藏夹
+                </span>
+                <span class="delete">
+                    删除
+                </span>
+            </div>
+        </section>
+        <!--footer结束-->
+        <!--cover层开始-->
+        <div class="weui_dialog_confirm">
+            <div class="weui_mask">
+            </div>
+            <div class="weui_dialog">
+                <div class="weui_dialog_hd">
+                    <strong class="weui_dialog_title">
+                    </strong>
+                </div>
+                <div class="weui_dialog_ft">
+                    <a class="weui_btn_dialog default" href="#">
+                        取消
+                    </a>
+                    <a class="weui_btn_dialog primary" href="#">
+                        确定
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--cover层结束-->
+    </body>
+    <script type="text/javascript" src="cart.js"></script>
+</html>

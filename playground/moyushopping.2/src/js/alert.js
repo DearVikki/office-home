@@ -18,5 +18,11 @@
             else $('body').append('<div class="nothing-alert">无相关数据</div>');
         }
     }
-    return noResult;
+    function myAlert(t){
+        $('body').append('<div class="my-alert">'+t+'</div>');
+        setTimeout(function(){
+            $('.my-alert').remove();
+        },1000)
+    }
+    return {noResult:noResult,myAlert:myAlert}
 })

@@ -7,7 +7,7 @@ require(css + 'common-divider.less');
 var $ = require('jquery');
 require('initial');
 var scroll = require('./js/scroll.js');
-var ajax = require('ajax');
+var ajax = require('ajax').visitorAjax;
 var page = 1;
 var $container = $('.recommend-container');
 require('./lib/swiper.min.css');

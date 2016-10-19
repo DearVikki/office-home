@@ -14,7 +14,7 @@
         var e = config.end;
         s();
         $p.text(--t);
-        var i = setInterval(function(cb) {
+        var i = setInterval(function() {
             $p.text(--t);
             if (t == 0) {
                 clearInterval(i);

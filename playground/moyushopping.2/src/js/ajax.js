@@ -14,7 +14,25 @@
             withCredentials: true
         };
         config.crossDomain = true;
+        var actualSuccessCb = config.success;
+        config.success = function(result) {
+            if (result.code === 1004) location.href = 'login.html';
+            else actualSuccessCb(result);
+        }
         $.ajax(config);
     }
-    return ajax;
+
+    function visitorAjax(config) {
+        config.url = 'http://mozhishi.com/shopping/php/PcApi';
+        config.method = 'post';
+        config.xhrFields = {
+            withCredentials: true
+        };
+        config.crossDomain = true;
+        $.ajax(config);
+    }
+    return {
+        ajax: ajax,
+        visitorAjax: visitorAjax
+    };
 })

@@ -6,10 +6,10 @@ require('./css/search.less');
 require('./css/common-alert.less');
 var $ = require('jquery');
 require('initial');
-var ajax = require('ajax');
+var ajax = require('ajax').ajax;
 var scroll = require('./js/scroll.js');
 var qs = require('./js/queryString.js');
-var noResult = require('./js/noResult.js');
+var noResult = require('./js/alert.js').noResult;
 require('./js/historyBack.js');
 require('./js/search.js')
 var cate = qs('cate');

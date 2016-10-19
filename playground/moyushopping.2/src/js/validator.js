@@ -117,9 +117,10 @@
                 checkEvent = r.checkEvent;
                 delete r.checkEvent;
             }
-            $el.on(checkEvent, function() {
-                var e = e || window.event;
-                var target = $(e.target);
+            $el.on(checkEvent, function(e) {
+                //注意这里的target不是$(e.target) 因为我们需要的是被监听事件的元素 而不是被触发事件的元素
+                var target = $(this);
+                if(typeof r.beforeCheck === 'function') r.beforeCheck(target, $(e.target));
                 if (r.checkAll) self.checkAll();
                 else self.check(target);
             })

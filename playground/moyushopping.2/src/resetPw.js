@@ -4,7 +4,7 @@ require('./css/common-btn.less');
 require('./css/signup.less');
 require('initial');
 require('headerfooter');
-var ajax = require('ajax');
+var ajax = require('ajax').ajax;
 var $ = require('jquery');
 var V = require('./js/validator');
 var S = require('./js/toggleSlides');

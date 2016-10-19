@@ -3,7 +3,7 @@ require('headerfooter');
 require('./css/category.less');
 var $ = require('jquery');
 require('initial');
-var ajax = require('ajax');
+var ajax = require('ajax').ajax;
 ajax({
     data: {
         name: 'shopping.sys.category.info'

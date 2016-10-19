@@ -257,9 +257,30 @@
             span {
                 display: inline-block;
                 vertical-align: middle;
+                width: .61rem;
+                height: .6rem;
+                position: relative;
+                &.cart {
+                    background: url('../image/purchase/common_cart@2x.png');
+                    background-size: 100%;
+                    .cart-num {
+                        position: absolute;
+                        right: -.15rem;
+                        top: -.05rem;
+                        width: .32rem;
+                        height: .32rem;
+                        background: #fb4a4a;
+                        line-height: .36rem;
+                        border-radius: 100%;
+                        color: #fff;
+                        font-size: .21rem;
+                        display: none;
+                        &.active {
+                            display: block;
+                        }
+                    }
+                }
                 &.collection {
-                    width: .61rem;
-                    height: .6rem;
                     background: url('../image/purchase/common_collection_normal@2x.png');
                     background-size: 100%;
                     vertical-align: -.1rem;

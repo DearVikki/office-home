@@ -10,7 +10,8 @@ module.exports = {
         order:'./src/order.js',
         goodsType:'./src/goodsType.js',
         searchPage:'./src/searchPage.js',
-        good:'./src/good.js'
+        good:'./src/good.js',
+        cart:'./src/cart.js'
     },
     output: {
         path: './dist',
