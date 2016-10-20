@@ -42,7 +42,7 @@ ajax({
                 num: '.num',
                 minus: '.num-minus'
             })
-            $('.num-edit').on('numCb', function(e, n, cb) {
+            $('.num-edit').on('numCb', function(e, msg) {
                 var $this = $(this);
                 var $cartItem = $this.parents('.cart-item');
                 var $storeWarn = $cartItem.find('.store-warn');
@@ -50,19 +50,17 @@ ajax({
                     data: {
                         name: 'shopping.sys.shopcart.num.change',
                         goods_id: $cartItem.data('goods_id'),
-                        goods_num: n,
+                        goods_num: msg.num,
                         is_selected: $cartItem.data('selected')
                     },
                     success: function(data) {
+                        console.log(msg.num) //undefined
+                        console.log(msg.clientChange) //undefined
                         var store = data.data.store;
-                        $this.data('max', store);
                         cb({
-                            max: 'xxx'
+                            max: store
                         })
-                        $this.numInitial();
                         //calPrice();
-                        console.log(store);
-                        console.log(n+3);
                         if (store < n + 3) $storeWarn.text('（库存仅' + store + '件）');
                         else $storeWarn.text('');
                     }

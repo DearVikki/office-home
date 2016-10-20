@@ -43,7 +43,14 @@
                 self.currentNum = self.currentNum + self.diff;
                 self.$num.text(self.currentNum);
                 self.afterEdit();
-                self.$el.trigger('numCb', self.currentNum, function (a) {console.log(a)});
+                self.$el.trigger('numCb', {num:self.currentNum, clientChange: function(change) {
+                    var max = change.max,
+                        min = change.min;
+                    if (Number(max) || max === 0) self.maxNum = max;
+                    if (Number(min) || min === 0) self.minNum = min;
+                    self.beforeEdit();
+                    self.afterEditEdit();
+                }});
             }
         });
         this.$minus.on('click', function() {
@@ -63,17 +70,7 @@
         var len = $this.length;
         for (var i = 0; i < len; i++) {
             var $el = $($this[i]);
-            $el.data('ne', new NumEdit($el, config));
+            new NumEdit($el, config);
         }
     }
-    $.fn.numInitial = function() {
-        var $this = $(this);
-        var len = $this.length;
-        for (var i = 0; i < len; i++) {
-            var $el = $($this[i]);
-            var ne = $el.data('ne');
-            ne.beforeEdit();
-            ne.afterEdit();
-        }
-    };
 })

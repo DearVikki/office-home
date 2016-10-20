@@ -7,7 +7,7 @@
         root.times = factory(root.jQuery);
     }
 }(this, function($) {
-    function ajaxFactory(isVistor) {
+    function ajaxFactory(noVistor) {
         return function (config) {
             config.url = 'http://mozhishi.com/shopping/php/PcApi';
             config.method = 'post';
@@ -15,7 +15,7 @@
                 withCredentials: true
             };
             config.crossDomain = true;
-            if (isVistor) {
+            if (noVistor) {
             var actualSuccessCb = config.success;
             config.success = function(result) {
                 if (result.code === 1004) location.href = 'login.html';
@@ -26,7 +26,7 @@
         }
     }
     return {
-        ajax: ajaxFactory(false),
-        visitorAjax: ajaxFactory(true)
+        ajax: ajaxFactory(true),
+        visitorAjax: ajaxFactory(false)
     };
 })
