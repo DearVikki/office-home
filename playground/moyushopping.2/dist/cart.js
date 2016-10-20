@@ -47,16 +47,73 @@
 	__webpack_require__(1);
 	__webpack_require__(5);
 	__webpack_require__(7);
-	__webpack_require__(9);
-	__webpack_require__(15);
-	__webpack_require__(17);
-	__webpack_require__(19);
-	var ajax = __webpack_require__(23).ajax;
-	__webpack_require__(24);
-	var $ = __webpack_require__(18);
-	var myAlert = __webpack_require__(25).myAlert;
+	__webpack_require__(10);
+	__webpack_require__(16);
+	__webpack_require__(18);
+	__webpack_require__(20);
+	var ajax = __webpack_require__(24).ajax;
+	var R = __webpack_require__(25);
 	__webpack_require__(26);
+	var $ = __webpack_require__(19);
+	var myAlert = __webpack_require__(27).myAlert;
+	__webpack_require__(28);
+	new R('body', '.radio', 'multi')
 	$('.back').back();
+	ajax({
+	    data: {
+	        name: 'shopping.sys.shop.cart'
+	    },
+	    success: function(data) {
+	        var item = data.data.shop_cart_info;
+	        if (item.length == 0) {
+	            $('#cart-container,#cart-footer,label.edit').remove();
+	            $('#empty-container').show();
+	        } else {
+	            $('#cart-container').append('<div class="cart"><div class="shop"><div class="common-radio-group"><div class="radio"></div></div><span class="shop-name">商城自营</span></div><div class="cart-cart"></div></div>')
+	            $.each(item, function() {
+	                $('.cart-cart').append('<div class="cart-item" data-goods_id="' + this.goods_id + '" data-pre_goods_id="' + this.pre_goods_id + '" data-selected=0><div class="common-radio-group"><div class="radio"></div></div><div class="goods-pic"><img src="' + this.goods_pic + '"/></div><div class="detail"><a href="good.html?id=' + this.pre_goods_id + '"><p class="name">' + this.goods_name + '</p><p>' + this.description + '</p></a><p class="price">￥' + this.price + '</p><div class="fr num-edit" data-max="' + this.stores + '" data-min=1><span class="num-minus"></span><span class="num">' + this.goods_num + '</span><span class="num-add"></span><p class="store-warn"></p></div></div></div>');
+	                //判断库存是否不足
+	                if (this.stores < this.goods_num) {
+	                    var $cartItem = $('.cart-item').last();
+	                    $cartItem.find('.num').text(this.goods.stores);
+	                    if (this.stores == 0) {
+	                        $cartItem.find('.goods-pic').append('<img class="no-storage" src="' + urlResourcePrefix + '/assets/resource/image/account/img_no_stock.png" />');
+	                        $cartItem.find('.num-add').addClass('disable');
+	                        $cartItem.find('.num-minus').addClass('disable');
+	                    }
+	                }
+	            })
+	            $('.num-edit').numEdit({
+	                plus: '.num-add',
+	                num: '.num',
+	                minus: '.num-minus'
+	            })
+	            $('.num-edit').on('numCb', function(e, n) {
+	                var $this = $(this);
+	                var $cartItem = $this.parents('.cart-item');
+	                var $storeWarn = $cartItem.find('.store-warn');
+	                ajax({
+	                    data: {
+	                        name: 'shopping.sys.shopcart.num.change',
+	                        goods_id: $cartItem.data('goods_id'),
+	                        goods_num: n,
+	                        is_selected: $cartItem.data('selected')
+	                    },
+	                    success: function(data) {
+	                        var store = data.data.store;
+	                        $this.data('max', store);
+	                        $this.numInitial();
+	                        //calPrice();
+	                        console.log(store);
+	                        console.log(n+3);
+	                        if (store < n + 3) $storeWarn.text('（库存仅' + store + '件）');
+	                        else $storeWarn.text('');
+	                    }
+	                })
+	            })
+	        }
+	    }
+	})
 
 /***/ },
 /* 1 */
@@ -462,8 +519,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -481,19 +538,25 @@
 	
 	
 	// module
-	exports.push([module.id, ".common-btn {\n  margin: 0 auto;\n  width: 9.2rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  border-radius: .08rem;\n  text-align: center;\n  font-size: 32px;\n  background: #eee;\n  color: #bbb;\n}\n.common-btn.active {\n  background: #fb4a4a;\n  color: #fff;\n}\n", ""]);
+	exports.push([module.id, ".common-input-group-A {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  padding-bottom: .32rem;\n  border-bottom: 2px solid #fb4a4a;\n  margin: 0 auto;\n  position: relative;\n}\n.common-input-group-A img {\n  width: .64rem;\n  vertical-align: middle;\n}\n.common-input-group-A input {\n  font-size: 32px;\n  border: none;\n  vertical-align: middle;\n  margin-left: .32rem;\n}\n.common-input-group-B {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  border: 2px solid #fb4a4a;\n  border-radius: 3px;\n}\n.common-input-group-B input {\n  width: 75%;\n  border: none;\n  font-size: 32px;\n  vertical-align: middle;\n  padding-left: .32rem;\n}\n.common-input-group-B label {\n  width: 25%;\n  height: 1.3rem;\n  display: inline-block;\n  vertical-align: middle;\n  border-left: 2px solid #fb4a4a;\n  font-size: 24px;\n  color: #fb4a4a;\n  text-align: center;\n  line-height: 1.3rem;\n}\n.common-input-group-B label span.resend {\n  display: none;\n}\n.common-radio-group {\n  height: 1.3rem;\n  line-height: 1.3rem;\n}\n.common-radio-group .radio {\n  width: .5rem;\n  height: .5rem;\n  border-radius: 100%;\n  border: 1px solid #aaa;\n  display: inline-block;\n  vertical-align: middle;\n}\n.common-radio-group .radio.active {\n  background: url(" + __webpack_require__(9) + ") center;\n  background-size: 100%;\n}\n.common-radio-group label {\n  font-size: 32px;\n  margin-left: .32rem;\n  vertical-align: middle;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
 /* 9 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAABQNJREFUWAnNmF9MW1Ucx8+5dwU6Nh1MIFkwc4a5JWiMAZc10UlCbW+vUYNO0yVzMQOMM0YffNvT5oOP+uD/P1tiTFz0RZI5bukKqw+kiUmXjA0nOhPCYFkAhRUshfb2+P1dvPXC2t5LR3Hnoff8+f359Hd+9/y5nJVQUqr6kJTNepkkeZgQeznnjXhuNUxxPicYm0B7BO2YSKf7KyORq2t1w50qXPd43A01NUfhsBMgjznVIzkhxBB+Tk1PTX21Ix5POtG1BTvBmHRcUbq5JJ2EwQYnRovITAPyZI+mffoyY3oROVYUbMHn2yXL8reI0P5iRtY6hqmOZ3U9WNXXd62QbkEw5NHTMmPfQ3FbIeU77J/Tdf0Q4M7lsyPl61xUlJdkIUihXFDkdqssST3wdTgfw20RSwUCPkTqR8a5K59CGfp0XYiOKk07a7W9Aizl9T4ou1wXAXWvVajsdSHmAddaFQrREmOU3FSewNsnVVSc2XAowuB8iyRJ311oa9tkUOEnB3ZcVY8hfPvMgY1+wvejT7jdb5t+jam80dKyua6+fhTkdebA//ScTQixc7umJYyI3dfQ0H0XQFEstt3D2DGqmFPZRY27oQjOO4mDL/r9zZIsXyk3FLYietuHuRBBPIsuRdgZHpe4LHvLDYUN/OzvY2Oeit7eI1nG3rfzx3FykaDksRO8w/Fzv42NHWweHl4iO3jbam3tce7ZhLDutRUsVUAIbZSxF02opUDgTRwIuu3MYSr3SJjzRjvBEsdDgOrYrWmLpL+kKG8A6kMnthDVRorY8snTiYZTGSHC4wsLHbuj0WUoVX0dAfjIqTqYqs3loriOEONC11syQrQjJ6eKC7MIoJ7fFY2mSA7T9xqgPoEzYzG30c0NU/LP5VoFKlhb+ir6+i66NW0gK4QXOn/mFRVi4ObMzHM5KFXtAs1na4WC7aSERJvI68TSCeMvpBRlD3VVhkJDIpv1oTprEaGDfXRqcvLZ+2OxBepHpI4iUl+UAAVTYlyC4q8rHORv1MicD6T8/iYapuhhav2wkKA2DP0EqGfMiwYS/VXM3JelQJE9BGKEpjJGDdvC+Q4cTQYWFOUBkgXcz0zXA9DX/tL1/6D8/ldwcTkFEWf5S8ZWF85jfFFVH4GFodVjhdqIzmhG1w9sDoevr5ahYzLgv0Z/6VBQRqrsQ9SMfLiC0DdT3UkB3LV0JvNU9fnzN0x5QB0C1Ddo42ReeoHtPyo0rWn5n+EyuhZT+BNNLperf7693bhnAiq4HlDEgEid/vfJ2GRb25Yat3sUybp9LYDIryksJVfx9j1ZaqKv8CfErbl0emdtJHLLiFh9NDqPEL67QshJAyde/MMD6wK17O89gqJqLkl7QqGPsabFnfCUQwaBuXxpcvID03YOjL4l0LUdA7Y7gam8js8kghJsjcfTps0cGHXQtwQ9mw0idzKmwAY84TJ7uFLTfrH6WgFGA7h09mI/PLJBcDrWrC5scz9YoahurGOrO6mNvVHFNkQXYFxcylCE+BvHbIpUTz7rBcFImPZGrE9nsG615lMutQ/5dElkMsHKcLjgPn3bVFqdUc7hI9t+vDFvoX/aOlZifQZ67wwmk63FoMh20YhZnd/0+aprZZkuxp1Qetg6ZldHhGgRPj2bSHxeNzjo6K13DGZ1TndR49pHNyxcZuC0Ec/lIzoOngCZwPSPILFjqPfTGc6q76T+D4xj7viYAxmzAAAAAElFTkSuQmCC"
+
+/***/ },
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(10);
+	var content = __webpack_require__(11);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -513,7 +576,7 @@
 	}
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -521,43 +584,43 @@
 	
 	
 	// module
-	exports.push([module.id, ".num-edit span {\n  width: .86rem;\n  height: .74rem;\n  display: inline-block;\n  background-color: #f5f5f5;\n  border-radius: 2px;\n  text-align: center;\n  line-height: .74rem;\n  font-size: 28px;\n  margin-right: 4px;\n  background-repeat: no-repeat;\n  background-position: center;\n  vertical-align: middle;\n}\n.num-edit span.num-minus {\n  background-image: url(" + __webpack_require__(11) + ");\n}\n.num-edit span.num-minus.disable {\n  background-image: url(" + __webpack_require__(12) + ");\n  background-color: #fbfbfb;\n}\n.num-edit span.num-add {\n  background-image: url(" + __webpack_require__(13) + ");\n}\n.num-edit span.num-add.disable {\n  background-image: url(" + __webpack_require__(14) + ");\n  background-color: #fbfbfb;\n}\n", ""]);
+	exports.push([module.id, ".num-edit span {\n  width: .86rem;\n  height: .74rem;\n  display: inline-block;\n  background-color: #f5f5f5;\n  border-radius: 2px;\n  text-align: center;\n  line-height: .74rem;\n  font-size: 28px;\n  margin-right: 4px;\n  background-repeat: no-repeat;\n  background-position: center;\n  vertical-align: middle;\n}\n.num-edit span.num-minus {\n  background-image: url(" + __webpack_require__(12) + ");\n}\n.num-edit span.num-minus.disable {\n  background-image: url(" + __webpack_require__(13) + ");\n  background-color: #fbfbfb;\n}\n.num-edit span.num-add {\n  background-image: url(" + __webpack_require__(14) + ");\n}\n.num-edit span.num-add.disable {\n  background-image: url(" + __webpack_require__(15) + ");\n  background-color: #fbfbfb;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAGCAYAAACrZDylAAAAAXNSR0IArs4c6QAAAGJJREFUKBXN0rENQCEIBNDD2DmJboD7x0ZrHcRY83OFfwW8BjpeLsje21prWGvhnAOPpJRQSoGqIhIzxvBw/DdZRO8dZobAZl4JLeEVzHWEnPPd3SctsdYKEcGc0/WpiaHlA+pBJzdjBLmRAAAAAElFTkSuQmCC"
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAGCAYAAACrZDylAAAAAXNSR0IArs4c6QAAAFBJREFUKBXN0rENwEAIA0AH0dOw/4RQ0CKkRC4+KzxegJPx091vRKCqMDO4EVWFmcHdocRk5g3Hf5NFHIOwmS2hRbZgjkP4uy2hRTkkZsuoP+NoJLtreSP/AAAAAElFTkSuQmCC"
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAATFJREFUWAntVk0KgkAUdircdYHWuvcAncNdXsNAKAqEvMa080q6rp0HaGPvxShSY29yQIWeMDjzvb+PjzfME47Fl+e5WxTFGVJEKo30ff8QhuFjaNrV0ECMK8vyBL+4kyMGgnjcd7CftoufvD+dG2VaixBi1x4GbKwI1XW9ea+pw959vp2tCH1LPNTGhCjlWCFWiFKAsnMPsUKUApRdNCMEPoq27xBVrM8OtW9gk57nHZdBEKRwwBFi3RcwAo61t1VVuXjLPkaIEQj0lYhmee1lH90JcLnAGRia6qIaawIOjqNqZy8uNgzSNK118UmSCB1ugs2yh0yIj+bDClFSs0KsEKUAZece+i+FdA+yDqNU6dqteghG3ms3mdpLDWYMWRHCcQEqZbDuamU4FxtX1zg+AUMIPIMupWsyAAAAAElFTkSuQmCC"
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAARRJREFUWAntWG0KgzAMXYfsELuCeCS9xvZrYx6lHkm8wg6xP10yWqhaG23wA5ZCoU3Sl/SR4kN1Yoyu6y7GmBogKgujlVKPPM8/qbBZ6kE8B8W8YN48DLe+e7ZFy/Oi6HGwY8b3lP5m6ZpVELBzHSYM2YYxsT2roBhwqk8KopgThoQhigHKLz0kDFEMUH7lSYiS+x2ikk35QbK8wYfS5ZlBETVMJxumzqxqt0SgZFH4ykISYtUCIuDVIZ+9jlS8tUtnqIEhq4FZ7dzUDdaiOBS0bYsXGY2iKJJxD9lDoxvuaRCGKPaFIWGIYoDySw/9F0NW6fUuHbL1AogNt4eaAL4O2GabWH/QrHTBZE51/nTx7OyBwC+xIkA8iVTQOgAAAABJRU5ErkJggg=="
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(16);
+	var content = __webpack_require__(17);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -577,7 +640,7 @@
 	}
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -585,18 +648,18 @@
 	
 	
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n}\n#second-header-container .edit {\n  position: absolute;\n  right: .4rem;\n  width: auto;\n  top: -0.2rem;\n  font-size: 32px;\n}\n#cart-container {\n  margin-top: 1.17rem;\n  background: #fff;\n  margin-bottom: 1.5rem;\n}\n#cart-container .cart .shop {\n  width: 10rem;\n  height: 1.17rem;\n}\n#cart-container .cart .shop .common-radio-group {\n  display: inline-block;\n  width: 1rem;\n  text-align: center;\n}\n#cart-container .cart .shop .shop-name {\n  display: inline-block;\n  width: 9rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  border-bottom: .026rem solid #b5b5b5;\n  font-size: 28px;\n  vertical-align: middle;\n}\n#cart-container .cart-item {\n  padding-top: .4rem;\n}\n#cart-container .cart-item .common-radio-group {\n  display: inline-block;\n  width: 1rem;\n  text-align: center;\n}\n#cart-container .cart-item img {\n  vertical-align: middle;\n  width: 1.86rem;\n  height: 1.86rem;\n}\n#cart-container .cart-item .detail {\n  vertical-align: top;\n  display: inline-block;\n  margin-left: .3rem;\n  padding-bottom: .4rem;\n  border-bottom: 1px solid #b5b5b5;\n  width: 6.8rem;\n}\n#cart-container .cart-item .detail p {\n  font-size: 28px;\n}\n#cart-container .cart-item .detail p.name {\n  width: 6.3rem;\n  height: .96rem;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n#cart-container .cart-item .detail p:nth-child(2) {\n  color: #b5b5b5;\n  margin-top: .1rem;\n}\n#cart-container .cart-item .detail p:nth-child(3) {\n  color: #fb4a4a;\n  margin-top: .4rem;\n}\n#cart-container .cart-item .detail .num-edit {\n  margin-top: -0.6rem;\n  margin-right: .4rem;\n  position: relative;\n}\n#cart-container .cart-item .detail .store-warn {\n  font-size: 15px;\n  color: #fb4a4a;\n  position: absolute;\n  left: .4rem;\n}\n#cart-footer {\n  width: 100%;\n  height: 1.5rem;\n  background: white;\n  border: 1px solid #fb4a4a;\n  font-size: 32px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n}\n#cart-footer .footer-item {\n  float: left;\n  width: 33.3%;\n  height: 1.5rem;\n  line-height: 1.5rem;\n  text-align: center;\n}\n#cart-footer .footer-item.common-radio-group .radio {\n  vertical-align: -6px;\n}\n#cart-footer .footer-item.go-pay {\n  background: #fb4a4a;\n  color: white;\n}\n#cart-footer .footer-item.edit-part {\n  display: none;\n  float: right;\n}\n#cart-footer .footer-item.edit-part span {\n  display: inline-block;\n  font-size: 28px;\n  width: 2.13rem;\n  line-height: .85rem;\n  height: .85rem;\n  color: #2f1f1f;\n  border: 1px solid #5c5c5c;\n  border-radius: .1rem;\n}\n#cart-footer .footer-item.edit-part span.delete {\n  color: #fb4a4a;\n  margin-left: .2rem;\n  border-color: #fb4a4a;\n}\n#cart-footer.editing {\n  border: none;\n  border-top: 1px solid #b5b5b5;\n}\n#cart-footer.editing .footer-item.total-money,\n#cart-footer.editing .footer-item.go-pay {\n  display: none;\n}\n#cart-footer.editing .footer-item.edit-part {\n  display: block;\n}\n#empty-container {\n  text-align: center;\n  display: none;\n  margin-top: 50%;\n}\n#empty-container p {\n  color: #858585;\n  font-size: 28px;\n  margin-top: .8rem;\n}\n#empty-container a {\n  margin: .26rem auto;\n  display: inline-block;\n  width: 2rem;\n  height: .85rem;\n  line-height: .85rem;\n  color: #fb4a4a;\n  font-size: 28px;\n  text-align: center;\n  border: 2px solid #fb4a4a;\n  border-radius: .1rem;\n}\n#empty-container a:focus {\n  background: #fb4a4a;\n  color: white;\n  outline: none;\n}\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n}\n#second-header-container .edit {\n  position: absolute;\n  right: .4rem;\n  width: auto;\n  top: -0.2rem;\n  font-size: 32px;\n}\n#cart-container {\n  margin-top: 1.17rem;\n  background: #fff;\n  margin-bottom: 1.5rem;\n}\n#cart-container .cart .shop {\n  width: 10rem;\n  height: 1.17rem;\n}\n#cart-container .cart .shop .common-radio-group {\n  display: inline-block;\n  width: 1rem;\n  text-align: center;\n}\n#cart-container .cart .shop .shop-name {\n  display: inline-block;\n  width: 9rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  border-bottom: .026rem solid #b5b5b5;\n  font-size: 28px;\n  vertical-align: middle;\n}\n#cart-container .cart-item {\n  padding-top: .4rem;\n}\n#cart-container .cart-item .common-radio-group {\n  display: inline-block;\n  width: 1rem;\n  text-align: center;\n}\n#cart-container .cart-item .goods-pic {\n  display: inline-block;\n}\n#cart-container .cart-item img {\n  vertical-align: middle;\n  width: 1.86rem;\n  height: 1.86rem;\n}\n#cart-container .cart-item .detail {\n  vertical-align: top;\n  display: inline-block;\n  margin-left: .3rem;\n  padding-bottom: .4rem;\n  border-bottom: 1px solid #b5b5b5;\n  width: 6.8rem;\n}\n#cart-container .cart-item .detail p {\n  font-size: 28px;\n}\n#cart-container .cart-item .detail p.name {\n  width: 6.3rem;\n  height: .96rem;\n  line-height: .48rem;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  display: -webkit-box;\n  -webkit-line-clamp: 2;\n  -webkit-box-orient: vertical;\n}\n#cart-container .cart-item .detail p:nth-child(2) {\n  color: #b5b5b5;\n  margin-top: .1rem;\n}\n#cart-container .cart-item .detail p:nth-child(3) {\n  color: #fb4a4a;\n  margin-top: .4rem;\n}\n#cart-container .cart-item .detail .num-edit {\n  margin-top: -0.6rem;\n  margin-right: .4rem;\n  position: relative;\n}\n#cart-container .cart-item .detail .store-warn {\n  font-size: 15px;\n  color: #fb4a4a;\n  position: absolute;\n  left: .4rem;\n}\n#cart-footer {\n  width: 100%;\n  height: 1.5rem;\n  background: white;\n  border: 1px solid #fb4a4a;\n  font-size: 32px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n}\n#cart-footer .footer-item {\n  float: left;\n  width: 33.3%;\n  height: 1.5rem;\n  line-height: 1.5rem;\n  text-align: center;\n}\n#cart-footer .footer-item.common-radio-group .radio {\n  vertical-align: -6px;\n}\n#cart-footer .footer-item.go-pay {\n  background: #fb4a4a;\n  color: white;\n}\n#cart-footer .footer-item.edit-part {\n  display: none;\n  float: right;\n}\n#cart-footer .footer-item.edit-part span {\n  display: inline-block;\n  font-size: 28px;\n  width: 2.13rem;\n  line-height: .85rem;\n  height: .85rem;\n  color: #2f1f1f;\n  border: 1px solid #5c5c5c;\n  border-radius: .1rem;\n}\n#cart-footer .footer-item.edit-part span.delete {\n  color: #fb4a4a;\n  margin-left: .2rem;\n  border-color: #fb4a4a;\n}\n#cart-footer.editing {\n  border: none;\n  border-top: 1px solid #b5b5b5;\n}\n#cart-footer.editing .footer-item.total-money,\n#cart-footer.editing .footer-item.go-pay {\n  display: none;\n}\n#cart-footer.editing .footer-item.edit-part {\n  display: block;\n}\n#empty-container {\n  text-align: center;\n  display: none;\n  margin-top: 50%;\n}\n#empty-container p {\n  color: #858585;\n  font-size: 28px;\n  margin-top: .8rem;\n}\n#empty-container a {\n  margin: .26rem auto;\n  display: inline-block;\n  width: 2rem;\n  height: .85rem;\n  line-height: .85rem;\n  color: #fb4a4a;\n  font-size: 28px;\n  text-align: center;\n  border: 2px solid #fb4a4a;\n  border-radius: .1rem;\n}\n#empty-container a:focus {\n  background: #fb4a4a;\n  color: white;\n  outline: none;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -624,7 +687,7 @@
 	})
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10850,13 +10913,13 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(20);
+	var content = __webpack_require__(21);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10876,7 +10939,7 @@
 	}
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10884,30 +10947,30 @@
 	
 	
 	// module
-	exports.push([module.id, "#header-container {\n  width: 100%;\n  height: 1.173rem;\n  background: #fb4a4a;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 2;\n}\n#header-container .search-container {\n  width: 100%;\n  height: .8rem;\n  text-align: center;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#header-container .search-container #search,\n#header-container .search-container #searchAll {\n  width: 90%;\n  height: .8rem;\n  border-radius: 6px;\n  border: none;\n  font-size: 24px;\n  padding: .06rem .33rem;\n  vertical-align: middle;\n}\n#header-container .search-container label {\n  display: inline-block;\n  font-size: 30px;\n  color: #fbfbfb;\n  margin-left: .27rem;\n  vertical-align: middle;\n}\n#footer-container {\n  margin-top: .026rem;\n  width: 100%;\n  height: 1.33rem;\n  background: #fbfbfb;\n  padding-top: 1px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  z-index: 2;\n}\n#footer-container ul {\n  width: 100%;\n  margin-top: .2rem;\n}\n#footer-container ul .footer-item {\n  width: 25%;\n  float: left;\n  text-align: center;\n}\n#footer-container ul .footer-item a {\n  width: 100%;\n  height: 100%;\n}\n#footer-container ul .footer-item img {\n  width: .587rem;\n}\n#footer-container ul .footer-item p {\n  font-size: 20px;\n  color: #858585;\n  margin-top: .08rem;\n}\n#footer-container ul .footer-item.active p {\n  color: #fb4a4a;\n}\n#second-header-container {\n  width: 10rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  text-align: center;\n  font-size: 36px;\n  color: #5c5c5c;\n  background: #fff;\n  position: relative;\n  border-bottom: 1px solid #bbb;\n  position: fixed;\n  z-index: 2;\n  top: 0;\n  left: 0;\n}\n#second-header-container label {\n  width: .66rem;\n  height: .66rem;\n  margin-top: .25rem;\n}\n#second-header-container label.back {\n  background: url(" + __webpack_require__(21) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n#second-header-container label.share {\n  background: url(" + __webpack_require__(21) + ") center no-repeat;\n  margin-right: .4rem;\n}\n#second-header-container label.cancle {\n  background: url(" + __webpack_require__(22) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n", ""]);
+	exports.push([module.id, "#header-container {\n  width: 100%;\n  height: 1.173rem;\n  background: #fb4a4a;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 2;\n}\n#header-container .search-container {\n  width: 100%;\n  height: .8rem;\n  text-align: center;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#header-container .search-container #search,\n#header-container .search-container #searchAll {\n  width: 90%;\n  height: .8rem;\n  border-radius: 6px;\n  border: none;\n  font-size: 24px;\n  padding: .06rem .33rem;\n  vertical-align: middle;\n}\n#header-container .search-container label {\n  display: inline-block;\n  font-size: 30px;\n  color: #fbfbfb;\n  margin-left: .27rem;\n  vertical-align: middle;\n}\n#footer-container {\n  margin-top: .026rem;\n  width: 100%;\n  height: 1.33rem;\n  background: #fbfbfb;\n  padding-top: 1px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  z-index: 2;\n}\n#footer-container ul {\n  width: 100%;\n  margin-top: .2rem;\n}\n#footer-container ul .footer-item {\n  width: 25%;\n  float: left;\n  text-align: center;\n}\n#footer-container ul .footer-item a {\n  width: 100%;\n  height: 100%;\n}\n#footer-container ul .footer-item img {\n  width: .587rem;\n}\n#footer-container ul .footer-item p {\n  font-size: 20px;\n  color: #858585;\n  margin-top: .08rem;\n}\n#footer-container ul .footer-item.active p {\n  color: #fb4a4a;\n}\n#second-header-container {\n  width: 10rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  text-align: center;\n  font-size: 36px;\n  color: #5c5c5c;\n  background: #fff;\n  position: relative;\n  border-bottom: 1px solid #bbb;\n  position: fixed;\n  z-index: 2;\n  top: 0;\n  left: 0;\n}\n#second-header-container label {\n  width: .66rem;\n  height: .66rem;\n  margin-top: .25rem;\n}\n#second-header-container label.back {\n  background: url(" + __webpack_require__(22) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n#second-header-container label.share {\n  background: url(" + __webpack_require__(22) + ") center no-repeat;\n  margin-right: .4rem;\n}\n#second-header-container label.cancle {\n  background: url(" + __webpack_require__(23) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAkCAYAAACJ8xqgAAAAAXNSR0IArs4c6QAAA5NJREFUSA2tlltIk3EUwHef2rRMgswMy4dtOGcPYZmloyLYY4GYlyC6UBEh+NCT4UNBEGgYRA8G9iCKQeCrBDJU1AfN8BbOivUgC0pQcuJsm/3O+DbyOr/ZgcP3v5zz2znnO///N63mP0hlZaXDaDSWrq2t9Rv2yquqqjqn1+tfwXGin/YErKmpuQKkBc1FNVqtNl0rg2QEmBu/N0COKP6TPB8mBayurq4A1IweFRi1m0FrOjo6RlWnDOyaTqd7AeewApuKRCL3Ojs7R2WuBqgjzVv4NKMWcSaqPvQ2sFmZi+wqZZfLZcjJyakjxUZ80qOeGs0gkV0nzW/KPPpIGGFFRUWqyWSqB9aAR4p4EVVPKBR60NXVtQ4mezsCFZjUS1KN2bYR2SNgvwSwUWJGG9c1brfbTPc/JbI7bOrEgMg6A4FAfXd398ImB2VhSyDFz2D/GXof1QIK82xdXl5u2AmGTTwNGUeFtsgkqiYgN3gKbJWNViJLCBPAugip2TEYUrOrPCVFgT2em5t76fF4VsQhkcSBHHIbDdsC6LLitML4STAYbAImKe9Kon1YW1trJZq3AM6IF+NFxo3t7e1y8FWJlhdQisdrAIWK53w4HL5L979XRVKMpR3a/oF9ZX4zWZgwdcBi14/MV6nZtAySFR1dX4fzTwVgN5vN7yhDLH3VXP3ExMRYYWHhJJFexFtukWy0nLXP7PkYqxK9WOP4xel0zvJ2ywGno4fQMqBe2VNDjALFYXx8fMbhcEwAOo8eYCkTLWNtEtl0q4jPVhIHyqY4FhQU9NHgxUyzAe9HLxUVFS3ygx+3AmxcWweUTaA/iGoEkINpLk+5UMsoyQLQMcZr6LayCSiW1M1vt9sHiNQKMJ+lFOrrAhqx2WxD09PT20K3BAp0ampqnvQHAJ5E81ATepaP+lJWVtaIz+eLiN1G2RYohqS/QEQ9BoNBPpdSAiN6ISMjIzUvL2/I6/X+Yb5OdgSKJekt0T4fGArUSZRyQ5VwADKJtJdIQ8zjkhAoltQ0SKS9pCuX7ylUjmyxxWJJY32QH5V7Myq7AoolTjHoPmDRa45nCeU4YbVah9n/LXa7BirQELXr57OaCuw0a3KfOoj8OK3moeYBVUCByosgTQ+RBWklOVV61I7m0xWDqoECJb0wn9hhXor8hZNTZVSgtqSAAvX7/RFeVh8d4GdaCjANPZg0UKAiQMc4699J34I+/wud5VrUQDZ94wAAAABJRU5ErkJggg=="
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAiBJREFUWAnF1jlPwzAUB/DGbb8AUITYQeUQEgvMvVYkpp5fr8fAghAbUD4ACAmkCrEgNsS906T8X4WrNHWTZ+eopdSJE/v94ri2rVardTIajXYcxznudruPqQWkRqOxIYQ4heNJ4OfQsqx8Op3u1+v1fNIewiD+NeJu4TgQtm0fAfWFi7WkURID0Dri/5DFwkmqVqvtA3OBG0u4fMWNQtyfz4sZDoeVXq93MwYljZqHIccElBTKDzMDihsVhFGC4kJxMHNBUaO4GF9QVCgdTCAoLEoXwwKZokwwFEvQT1DChHWHybLMndG9GKyTZZr0guLQfRaIHuSiqtXqJq1NcjkgTKfTuaU2OGlqYuRU8FtmCJPJZPqmGIqvDaJKKhR6wgmLMQapUBhfDvUM8m8cFZ3PRO3JZNRDsrKnp1JhMdQue1BLhDsH4Be9YrvKbCpzXWufGoMwgHez2ewVIuaA+ED+BtwKtqKX2HnuaUv+KxiBFJgiUIUoUNpjSIVpt9sP9ILNZnMbvdTH6Sr1Gv54Jew87+keN2mB/DAyYFgUG8TBRIFigXQwYVGBg9qNQbB3HEU5ZmRwVY5nBiYD3beHvBgEKHEwbqDumJoLigIjYTooJShKjC5qBhQHRgc1BYoTw0VNQElgOKgxKEmMCoWyT+zZi7TMWIvA+KEEtp1neCCH491knpGNm+TuyRP1l7F1ORdYnWlGfUkaI1/AhXpG2eAPO2V4zAARfRoAAAAASUVORK5CYII="
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -10945,12 +11008,45 @@
 	})
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    } else if (typeof exports === 'object') {
+	        module.exports = factory(require('jquery'));
+	    } else {
+	        root.times = factory(root.jQuery);
+	    }
+	}(this, function($) {
+	    function Radio(containerClass, radioClass, type, cb) {
+	        var container = $(containerClass);
+	
+	        function bind(e) {
+	            var radio = $(e).find(radioClass);
+	            radio.on('click', function() {
+	                if (type === 'multi') {
+	                    $(this).toggleClass('active');
+	                } else {
+	                    radio.removeClass('active');
+	                    $(this).addClass('active');
+	                }
+	                if (typeof cb === 'function') cb();
+	            })
+	        }
+	        Array.prototype.slice.call(container).forEach(bind);
+	    }
+	    return Radio;
+	})
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -10965,12 +11061,12 @@
 	})
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -10998,73 +11094,87 @@
 	})
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
 	        root.numEdit = factory(root.jQuery);
 	    }
 	}(this, function($) {
-	    $.fn.numEdit = function(config) {
-	        var $this = $(this);
-	        var $num = $this.find(config.num);
-	        var $plus = $this.find(config.plus);
-	        var $minus = $this.find(config.minus);
-	        var diff = config.diff || 1;
-	        var currentNum, minNum, maxNum;
-	
-	        function beforeEdit() {
-	            currentNum = Number($num.text());
+	    function NumEdit(el, config) {
+	        var self = this;
+	        this.$el = el;
+	        this.$num = el.find(config.num);
+	        this.$plus = el.find(config.plus);
+	        this.$minus = el.find(config.minus);
+	        this.diff = config.diff || 1;
+	        NumEdit.prototype.beforeEdit = function() {
+	            this.currentNum = Number(this.$num.text());
 	            //有可能min为0 那么不能直接||了
-	            minNum = (Number($this.data('min')) || $this.data('min') === 0) ? $this.data('min') : 0;
-	            maxNum = (Number($this.data('max')) || $this.data('max') === 0) ? $this.data('max') : Infinity;
+	            this.minNum = (Number(this.$el.data('min')) || this.$el.data('min') === 0) ? this.$el.data('min') : 0;
+	            this.maxNum = (Number(this.$el.data('max')) || this.$el.data('max') === 0) ? this.$el.data('max') : Infinity;
 	            //console.log('beforeEdit currentNum:' + currentNum)
 	        };
-	
-	        function afterEdit() {
-	            if (minNum === maxNum) currentNum = minNum;
-	            if (currentNum > minNum) $minus.removeClass('disable');
+	        NumEdit.prototype.afterEdit = function() {
+	            if (this.minNum > this.maxNum) this.maxNum = this.minNum;
+	            if (this.minNum === this.maxNum) this.currentNum = this.minNum;
+	            if (this.currentNum > this.minNum) this.$minus.removeClass('disable');
 	            else {
-	                $minus.addClass('disable');
-	                currentNum = minNum;
+	                this.$minus.addClass('disable');
+	                this.currentNum = this.minNum;
 	            };
-	            if (currentNum < maxNum) $plus.removeClass('disable');
+	            if (this.currentNum < this.maxNum) this.$plus.removeClass('disable');
 	            else {
-	                $plus.addClass('disable');
-	                currentNum = maxNum;
+	                this.$plus.addClass('disable');
+	                this.currentNum = this.maxNum;
 	            };
-	            $num.text(currentNum);
+	            this.$num.text(this.currentNum);
 	            //console.log('afterEdit currentNum:' + currentNum)
 	        };
-	        $.fn.numInitial = function() {
-	            beforeEdit();
-	            afterEdit();
-	        };
-	        $this.numInitial();
-	        $plus.on('click', function() {
+	        this.$plus.on('click', function() {
 	            if (!$(this).hasClass('disable')) {
-	                beforeEdit();
-	                currentNum = currentNum + diff;
-	                $num.text(currentNum);
-	                afterEdit();
-	                $this.trigger('numCb', currentNum);
+	                self.beforeEdit();
+	                self.currentNum = self.currentNum + self.diff;
+	                self.$num.text(self.currentNum);
+	                self.afterEdit();
+	                self.$el.trigger('numCb', self.currentNum);
 	            }
 	        });
-	        $minus.on('click', function() {
+	        this.$minus.on('click', function() {
 	            if (!$(this).hasClass('disable')) {
-	                beforeEdit();
-	                currentNum = currentNum - diff;
-	                $num.text(currentNum);
-	                afterEdit();
-	                $this.trigger('numCb', currentNum);
+	                self.beforeEdit();
+	                self.currentNum = self.currentNum - self.diff;
+	                self.$num.text(self.currentNum);
+	                self.afterEdit();
+	                self.$el.trigger('numCb', self.currentNum);
 	            }
 	        });
+	        self.beforeEdit();
+	        self.afterEdit();
 	    }
+	    $.fn.numEdit = function(config) {
+	        var $this = $(this);
+	        var len = $this.length;
+	        for (var i = 0; i < len; i++) {
+	            var $el = $($this[i]);
+	            $el.data('ne', new NumEdit($el, config));
+	        }
+	    }
+	    $.fn.numInitial = function() {
+	        var $this = $(this);
+	        var len = $this.length;
+	        for (var i = 0; i < len; i++) {
+	            var $el = $($this[i]);
+	            var ne = $el.data('ne');
+	            ne.beforeEdit();
+	            ne.afterEdit();
+	        }
+	    };
 	})
 
 /***/ }

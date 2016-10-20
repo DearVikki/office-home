@@ -54,16 +54,18 @@ visitorAjax({
         $('.good-rate').text(goodsInfo.feedback_rate + '%');
         $('.comment-num').text(goodsInfo.comment_num);
         commentInfo.forEach(function(e) {
-            $commentUl.append('<li class="comment-item"><div style="margin-top:.2rem"><span class="star"></span><span class="fr name">' + e.comment_user_nickname + '</span></div><div class="text">' + e.content + '</div></li>')
+            $commentUl.append('<li class="comment-item">' +
+                '<div style="margin-top:.2rem">' +
+                    '<span class="star"></span><span class="fr name">' + e.comment_user_nickname + '</span></div><div class="text">' + e.content + '</div></li>')
             var $li = $commentUl.find('li').last();
             for (var i = 1; i < e.star_num; i++) {
                 $li.find('.star').append('<img src="image/purchase/common_star_selected@2x.png"/>');
             }
-            if (is_picture) $li.append('<div class="show"></show>');
+            if (goodsInfo.is_picture) $li.append('<div class="show"></show>');
             e.comment_pic.forEach(function(p) {
                 $li.find('.show').append('<img src="' + p + '"/>')
             });
-            if (is_reply) $li.append('<div class="fr reply"><span>商家回复：' + e.reply_comment.content + '</span></div>');
+            if (goodsInfo.is_reply) $li.append('<div class="fr reply"><span>商家回复：' + e.reply_comment.content + '</span></div>');
         })
         if (commentInfo.length === 0) {
             $commentUl.append('<p class="no-comment">暂无评价</p>')

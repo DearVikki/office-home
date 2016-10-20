@@ -45,17 +45,17 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	__webpack_require__(29);
 	__webpack_require__(7);
-	__webpack_require__(68);
-	__webpack_require__(17);
-	__webpack_require__(19);
-	var ajax = __webpack_require__(23).ajax;
-	var $ = __webpack_require__(18);
-	var V = __webpack_require__(34);
-	var h = __webpack_require__(36);
-	var ls = __webpack_require__(70);
-	var href = __webpack_require__(71);
+	__webpack_require__(31);
+	__webpack_require__(69);
+	__webpack_require__(18);
+	__webpack_require__(20);
+	var ajax = __webpack_require__(24).ajax;
+	var $ = __webpack_require__(19);
+	var V = __webpack_require__(35);
+	var h = __webpack_require__(37);
+	var ls = __webpack_require__(71);
+	var href = __webpack_require__(72);
 	var container = $('#main-container');
 	var btn = $('.common-btn');
 	new V('#main-container', [{
@@ -472,8 +472,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -491,13 +491,18 @@
 	
 	
 	// module
-	exports.push([module.id, ".common-btn {\n  margin: 0 auto;\n  width: 9.2rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  border-radius: .08rem;\n  text-align: center;\n  font-size: 32px;\n  background: #eee;\n  color: #bbb;\n}\n.common-btn.active {\n  background: #fb4a4a;\n  color: #fff;\n}\n", ""]);
+	exports.push([module.id, ".common-input-group-A {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  padding-bottom: .32rem;\n  border-bottom: 2px solid #fb4a4a;\n  margin: 0 auto;\n  position: relative;\n}\n.common-input-group-A img {\n  width: .64rem;\n  vertical-align: middle;\n}\n.common-input-group-A input {\n  font-size: 32px;\n  border: none;\n  vertical-align: middle;\n  margin-left: .32rem;\n}\n.common-input-group-B {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  border: 2px solid #fb4a4a;\n  border-radius: 3px;\n}\n.common-input-group-B input {\n  width: 75%;\n  border: none;\n  font-size: 32px;\n  vertical-align: middle;\n  padding-left: .32rem;\n}\n.common-input-group-B label {\n  width: 25%;\n  height: 1.3rem;\n  display: inline-block;\n  vertical-align: middle;\n  border-left: 2px solid #fb4a4a;\n  font-size: 24px;\n  color: #fb4a4a;\n  text-align: center;\n  line-height: 1.3rem;\n}\n.common-input-group-B label span.resend {\n  display: none;\n}\n.common-radio-group {\n  height: 1.3rem;\n  line-height: 1.3rem;\n}\n.common-radio-group .radio {\n  width: .5rem;\n  height: .5rem;\n  border-radius: 100%;\n  border: 1px solid #aaa;\n  display: inline-block;\n  vertical-align: middle;\n}\n.common-radio-group .radio.active {\n  background: url(" + __webpack_require__(9) + ") center;\n  background-size: 100%;\n}\n.common-radio-group label {\n  font-size: 32px;\n  margin-left: .32rem;\n  vertical-align: middle;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 9 */,
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAABQNJREFUWAnNmF9MW1Ucx8+5dwU6Nh1MIFkwc4a5JWiMAZc10UlCbW+vUYNO0yVzMQOMM0YffNvT5oOP+uD/P1tiTFz0RZI5bukKqw+kiUmXjA0nOhPCYFkAhRUshfb2+P1dvPXC2t5LR3Hnoff8+f359Hd+9/y5nJVQUqr6kJTNepkkeZgQeznnjXhuNUxxPicYm0B7BO2YSKf7KyORq2t1w50qXPd43A01NUfhsBMgjznVIzkhxBB+Tk1PTX21Ix5POtG1BTvBmHRcUbq5JJ2EwQYnRovITAPyZI+mffoyY3oROVYUbMHn2yXL8reI0P5iRtY6hqmOZ3U9WNXXd62QbkEw5NHTMmPfQ3FbIeU77J/Tdf0Q4M7lsyPl61xUlJdkIUihXFDkdqssST3wdTgfw20RSwUCPkTqR8a5K59CGfp0XYiOKk07a7W9Aizl9T4ou1wXAXWvVajsdSHmAddaFQrREmOU3FSewNsnVVSc2XAowuB8iyRJ311oa9tkUOEnB3ZcVY8hfPvMgY1+wvejT7jdb5t+jam80dKyua6+fhTkdebA//ScTQixc7umJYyI3dfQ0H0XQFEstt3D2DGqmFPZRY27oQjOO4mDL/r9zZIsXyk3FLYietuHuRBBPIsuRdgZHpe4LHvLDYUN/OzvY2Oeit7eI1nG3rfzx3FykaDksRO8w/Fzv42NHWweHl4iO3jbam3tce7ZhLDutRUsVUAIbZSxF02opUDgTRwIuu3MYSr3SJjzRjvBEsdDgOrYrWmLpL+kKG8A6kMnthDVRorY8snTiYZTGSHC4wsLHbuj0WUoVX0dAfjIqTqYqs3loriOEONC11syQrQjJ6eKC7MIoJ7fFY2mSA7T9xqgPoEzYzG30c0NU/LP5VoFKlhb+ir6+i66NW0gK4QXOn/mFRVi4ObMzHM5KFXtAs1na4WC7aSERJvI68TSCeMvpBRlD3VVhkJDIpv1oTprEaGDfXRqcvLZ+2OxBepHpI4iUl+UAAVTYlyC4q8rHORv1MicD6T8/iYapuhhav2wkKA2DP0EqGfMiwYS/VXM3JelQJE9BGKEpjJGDdvC+Q4cTQYWFOUBkgXcz0zXA9DX/tL1/6D8/ldwcTkFEWf5S8ZWF85jfFFVH4GFodVjhdqIzmhG1w9sDoevr5ahYzLgv0Z/6VBQRqrsQ9SMfLiC0DdT3UkB3LV0JvNU9fnzN0x5QB0C1Ddo42ReeoHtPyo0rWn5n+EyuhZT+BNNLperf7693bhnAiq4HlDEgEid/vfJ2GRb25Yat3sUybp9LYDIryksJVfx9j1ZaqKv8CfErbl0emdtJHLLiFh9NDqPEL67QshJAyde/MMD6wK17O89gqJqLkl7QqGPsabFnfCUQwaBuXxpcvID03YOjL4l0LUdA7Y7gam8js8kghJsjcfTps0cGHXQtwQ9mw0idzKmwAY84TJ7uFLTfrH6WgFGA7h09mI/PLJBcDrWrC5scz9YoahurGOrO6mNvVHFNkQXYFxcylCE+BvHbIpUTz7rBcFImPZGrE9nsG615lMutQ/5dElkMsHKcLjgPn3bVFqdUc7hI9t+vDFvoX/aOlZifQZ67wwmk63FoMh20YhZnd/0+aprZZkuxp1Qetg6ZldHhGgRPj2bSHxeNzjo6K13DGZ1TndR49pHNyxcZuC0Ec/lIzoOngCZwPSPILFjqPfTGc6q76T+D4xj7viYAxmzAAAAAElFTkSuQmCC"
+
+/***/ },
 /* 10 */,
 /* 11 */,
 /* 12 */,
@@ -505,12 +510,13 @@
 /* 14 */,
 /* 15 */,
 /* 16 */,
-/* 17 */
+/* 17 */,
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -538,7 +544,7 @@
 	})
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10764,13 +10770,13 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(20);
+	var content = __webpack_require__(21);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10790,7 +10796,7 @@
 	}
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10798,30 +10804,30 @@
 	
 	
 	// module
-	exports.push([module.id, "#header-container {\n  width: 100%;\n  height: 1.173rem;\n  background: #fb4a4a;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 2;\n}\n#header-container .search-container {\n  width: 100%;\n  height: .8rem;\n  text-align: center;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#header-container .search-container #search,\n#header-container .search-container #searchAll {\n  width: 90%;\n  height: .8rem;\n  border-radius: 6px;\n  border: none;\n  font-size: 24px;\n  padding: .06rem .33rem;\n  vertical-align: middle;\n}\n#header-container .search-container label {\n  display: inline-block;\n  font-size: 30px;\n  color: #fbfbfb;\n  margin-left: .27rem;\n  vertical-align: middle;\n}\n#footer-container {\n  margin-top: .026rem;\n  width: 100%;\n  height: 1.33rem;\n  background: #fbfbfb;\n  padding-top: 1px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  z-index: 2;\n}\n#footer-container ul {\n  width: 100%;\n  margin-top: .2rem;\n}\n#footer-container ul .footer-item {\n  width: 25%;\n  float: left;\n  text-align: center;\n}\n#footer-container ul .footer-item a {\n  width: 100%;\n  height: 100%;\n}\n#footer-container ul .footer-item img {\n  width: .587rem;\n}\n#footer-container ul .footer-item p {\n  font-size: 20px;\n  color: #858585;\n  margin-top: .08rem;\n}\n#footer-container ul .footer-item.active p {\n  color: #fb4a4a;\n}\n#second-header-container {\n  width: 10rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  text-align: center;\n  font-size: 36px;\n  color: #5c5c5c;\n  background: #fff;\n  position: relative;\n  border-bottom: 1px solid #bbb;\n  position: fixed;\n  z-index: 2;\n  top: 0;\n  left: 0;\n}\n#second-header-container label {\n  width: .66rem;\n  height: .66rem;\n  margin-top: .25rem;\n}\n#second-header-container label.back {\n  background: url(" + __webpack_require__(21) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n#second-header-container label.share {\n  background: url(" + __webpack_require__(21) + ") center no-repeat;\n  margin-right: .4rem;\n}\n#second-header-container label.cancle {\n  background: url(" + __webpack_require__(22) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n", ""]);
+	exports.push([module.id, "#header-container {\n  width: 100%;\n  height: 1.173rem;\n  background: #fb4a4a;\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 2;\n}\n#header-container .search-container {\n  width: 100%;\n  height: .8rem;\n  text-align: center;\n  position: absolute;\n  top: 50%;\n  transform: translateY(-50%);\n}\n#header-container .search-container #search,\n#header-container .search-container #searchAll {\n  width: 90%;\n  height: .8rem;\n  border-radius: 6px;\n  border: none;\n  font-size: 24px;\n  padding: .06rem .33rem;\n  vertical-align: middle;\n}\n#header-container .search-container label {\n  display: inline-block;\n  font-size: 30px;\n  color: #fbfbfb;\n  margin-left: .27rem;\n  vertical-align: middle;\n}\n#footer-container {\n  margin-top: .026rem;\n  width: 100%;\n  height: 1.33rem;\n  background: #fbfbfb;\n  padding-top: 1px;\n  position: fixed;\n  bottom: 0;\n  left: 0;\n  z-index: 2;\n}\n#footer-container ul {\n  width: 100%;\n  margin-top: .2rem;\n}\n#footer-container ul .footer-item {\n  width: 25%;\n  float: left;\n  text-align: center;\n}\n#footer-container ul .footer-item a {\n  width: 100%;\n  height: 100%;\n}\n#footer-container ul .footer-item img {\n  width: .587rem;\n}\n#footer-container ul .footer-item p {\n  font-size: 20px;\n  color: #858585;\n  margin-top: .08rem;\n}\n#footer-container ul .footer-item.active p {\n  color: #fb4a4a;\n}\n#second-header-container {\n  width: 10rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  text-align: center;\n  font-size: 36px;\n  color: #5c5c5c;\n  background: #fff;\n  position: relative;\n  border-bottom: 1px solid #bbb;\n  position: fixed;\n  z-index: 2;\n  top: 0;\n  left: 0;\n}\n#second-header-container label {\n  width: .66rem;\n  height: .66rem;\n  margin-top: .25rem;\n}\n#second-header-container label.back {\n  background: url(" + __webpack_require__(22) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n#second-header-container label.share {\n  background: url(" + __webpack_require__(22) + ") center no-repeat;\n  margin-right: .4rem;\n}\n#second-header-container label.cancle {\n  background: url(" + __webpack_require__(23) + ") center no-repeat;\n  position: absolute;\n  left: .4rem;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAkCAYAAACJ8xqgAAAAAXNSR0IArs4c6QAAA5NJREFUSA2tlltIk3EUwHef2rRMgswMy4dtOGcPYZmloyLYY4GYlyC6UBEh+NCT4UNBEGgYRA8G9iCKQeCrBDJU1AfN8BbOivUgC0pQcuJsm/3O+DbyOr/ZgcP3v5zz2znnO///N63mP0hlZaXDaDSWrq2t9Rv2yquqqjqn1+tfwXGin/YErKmpuQKkBc1FNVqtNl0rg2QEmBu/N0COKP6TPB8mBayurq4A1IweFRi1m0FrOjo6RlWnDOyaTqd7AeewApuKRCL3Ojs7R2WuBqgjzVv4NKMWcSaqPvQ2sFmZi+wqZZfLZcjJyakjxUZ80qOeGs0gkV0nzW/KPPpIGGFFRUWqyWSqB9aAR4p4EVVPKBR60NXVtQ4mezsCFZjUS1KN2bYR2SNgvwSwUWJGG9c1brfbTPc/JbI7bOrEgMg6A4FAfXd398ImB2VhSyDFz2D/GXof1QIK82xdXl5u2AmGTTwNGUeFtsgkqiYgN3gKbJWNViJLCBPAugip2TEYUrOrPCVFgT2em5t76fF4VsQhkcSBHHIbDdsC6LLitML4STAYbAImKe9Kon1YW1trJZq3AM6IF+NFxo3t7e1y8FWJlhdQisdrAIWK53w4HL5L979XRVKMpR3a/oF9ZX4zWZgwdcBi14/MV6nZtAySFR1dX4fzTwVgN5vN7yhDLH3VXP3ExMRYYWHhJJFexFtukWy0nLXP7PkYqxK9WOP4xel0zvJ2ywGno4fQMqBe2VNDjALFYXx8fMbhcEwAOo8eYCkTLWNtEtl0q4jPVhIHyqY4FhQU9NHgxUyzAe9HLxUVFS3ygx+3AmxcWweUTaA/iGoEkINpLk+5UMsoyQLQMcZr6LayCSiW1M1vt9sHiNQKMJ+lFOrrAhqx2WxD09PT20K3BAp0ampqnvQHAJ5E81ATepaP+lJWVtaIz+eLiN1G2RYohqS/QEQ9BoNBPpdSAiN6ISMjIzUvL2/I6/X+Yb5OdgSKJekt0T4fGArUSZRyQ5VwADKJtJdIQ8zjkhAoltQ0SKS9pCuX7ylUjmyxxWJJY32QH5V7Myq7AoolTjHoPmDRa45nCeU4YbVah9n/LXa7BirQELXr57OaCuw0a3KfOoj8OK3moeYBVUCByosgTQ+RBWklOVV61I7m0xWDqoECJb0wn9hhXor8hZNTZVSgtqSAAvX7/RFeVh8d4GdaCjANPZg0UKAiQMc4699J34I+/wud5VrUQDZ94wAAAABJRU5ErkJggg=="
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAAAXNSR0IArs4c6QAAAiBJREFUWAnF1jlPwzAUB/DGbb8AUITYQeUQEgvMvVYkpp5fr8fAghAbUD4ACAmkCrEgNsS906T8X4WrNHWTZ+eopdSJE/v94ri2rVardTIajXYcxznudruPqQWkRqOxIYQ4heNJ4OfQsqx8Op3u1+v1fNIewiD+NeJu4TgQtm0fAfWFi7WkURID0Dri/5DFwkmqVqvtA3OBG0u4fMWNQtyfz4sZDoeVXq93MwYljZqHIccElBTKDzMDihsVhFGC4kJxMHNBUaO4GF9QVCgdTCAoLEoXwwKZokwwFEvQT1DChHWHybLMndG9GKyTZZr0guLQfRaIHuSiqtXqJq1NcjkgTKfTuaU2OGlqYuRU8FtmCJPJZPqmGIqvDaJKKhR6wgmLMQapUBhfDvUM8m8cFZ3PRO3JZNRDsrKnp1JhMdQue1BLhDsH4Be9YrvKbCpzXWufGoMwgHez2ewVIuaA+ED+BtwKtqKX2HnuaUv+KxiBFJgiUIUoUNpjSIVpt9sP9ILNZnMbvdTH6Sr1Gv54Jew87+keN2mB/DAyYFgUG8TBRIFigXQwYVGBg9qNQbB3HEU5ZmRwVY5nBiYD3beHvBgEKHEwbqDumJoLigIjYTooJShKjC5qBhQHRgc1BYoTw0VNQElgOKgxKEmMCoWyT+zZi7TMWIvA+KEEtp1neCCH491knpGNm+TuyRP1l7F1ORdYnWlGfUkaI1/AhXpG2eAPO2V4zAARfRoAAAAASUVORK5CYII="
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -10859,18 +10865,19 @@
 	})
 
 /***/ },
-/* 24 */,
 /* 25 */,
 /* 26 */,
 /* 27 */,
 /* 28 */,
-/* 29 */
+/* 29 */,
+/* 30 */,
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(30);
+	var content = __webpack_require__(32);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -10879,8 +10886,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less", function() {
-				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-input.less");
+			module.hot.accept("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less", function() {
+				var newContent = require("!!./../../node_modules/.npminstall/css-loader/0.25.0/css-loader/index.js!./../../node_modules/.npminstall/less-loader/2.2.3/less-loader/index.js!./common-btn.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -10890,7 +10897,7 @@
 	}
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -10898,26 +10905,20 @@
 	
 	
 	// module
-	exports.push([module.id, ".common-input-group-A {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  padding-bottom: .32rem;\n  border-bottom: 2px solid #fb4a4a;\n  margin: 0 auto;\n  position: relative;\n}\n.common-input-group-A img {\n  width: .64rem;\n  vertical-align: middle;\n}\n.common-input-group-A input {\n  font-size: 32px;\n  border: none;\n  vertical-align: middle;\n  margin-left: .32rem;\n}\n.common-input-group-B {\n  width: 9.2rem;\n  height: 1.3rem;\n  line-height: 1.3rem;\n  border: 2px solid #fb4a4a;\n  border-radius: 3px;\n}\n.common-input-group-B input {\n  width: 75%;\n  border: none;\n  font-size: 32px;\n  vertical-align: middle;\n  padding-left: .32rem;\n}\n.common-input-group-B label {\n  width: 25%;\n  height: 1.3rem;\n  display: inline-block;\n  vertical-align: middle;\n  border-left: 2px solid #fb4a4a;\n  font-size: 24px;\n  color: #fb4a4a;\n  text-align: center;\n  line-height: 1.3rem;\n}\n.common-input-group-B label span.resend {\n  display: none;\n}\n.common-radio-group {\n  height: 1.3rem;\n  line-height: 1.3rem;\n}\n.common-radio-group .radio {\n  width: .5rem;\n  height: .5rem;\n  border-radius: 100%;\n  border: 1px solid #aaa;\n  display: inline-block;\n  vertical-align: middle;\n}\n.common-radio-group .radio.active {\n  background: url(" + __webpack_require__(31) + ") center;\n  background-size: 100%;\n}\n.common-radio-group label {\n  font-size: 32px;\n  margin-left: .32rem;\n  vertical-align: middle;\n}\n", ""]);
+	exports.push([module.id, ".common-btn {\n  margin: 0 auto;\n  width: 9.2rem;\n  height: 1.17rem;\n  line-height: 1.17rem;\n  border-radius: .08rem;\n  text-align: center;\n  font-size: 32px;\n  background: #eee;\n  color: #bbb;\n}\n.common-btn.active {\n  background: #fb4a4a;\n  color: #fff;\n}\n", ""]);
 	
 	// exports
 
 
 /***/ },
-/* 31 */
-/***/ function(module, exports) {
-
-	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAABQNJREFUWAnNmF9MW1Ucx8+5dwU6Nh1MIFkwc4a5JWiMAZc10UlCbW+vUYNO0yVzMQOMM0YffNvT5oOP+uD/P1tiTFz0RZI5bukKqw+kiUmXjA0nOhPCYFkAhRUshfb2+P1dvPXC2t5LR3Hnoff8+f359Hd+9/y5nJVQUqr6kJTNepkkeZgQeznnjXhuNUxxPicYm0B7BO2YSKf7KyORq2t1w50qXPd43A01NUfhsBMgjznVIzkhxBB+Tk1PTX21Ix5POtG1BTvBmHRcUbq5JJ2EwQYnRovITAPyZI+mffoyY3oROVYUbMHn2yXL8reI0P5iRtY6hqmOZ3U9WNXXd62QbkEw5NHTMmPfQ3FbIeU77J/Tdf0Q4M7lsyPl61xUlJdkIUihXFDkdqssST3wdTgfw20RSwUCPkTqR8a5K59CGfp0XYiOKk07a7W9Aizl9T4ou1wXAXWvVajsdSHmAddaFQrREmOU3FSewNsnVVSc2XAowuB8iyRJ311oa9tkUOEnB3ZcVY8hfPvMgY1+wvejT7jdb5t+jam80dKyua6+fhTkdebA//ScTQixc7umJYyI3dfQ0H0XQFEstt3D2DGqmFPZRY27oQjOO4mDL/r9zZIsXyk3FLYietuHuRBBPIsuRdgZHpe4LHvLDYUN/OzvY2Oeit7eI1nG3rfzx3FykaDksRO8w/Fzv42NHWweHl4iO3jbam3tce7ZhLDutRUsVUAIbZSxF02opUDgTRwIuu3MYSr3SJjzRjvBEsdDgOrYrWmLpL+kKG8A6kMnthDVRorY8snTiYZTGSHC4wsLHbuj0WUoVX0dAfjIqTqYqs3loriOEONC11syQrQjJ6eKC7MIoJ7fFY2mSA7T9xqgPoEzYzG30c0NU/LP5VoFKlhb+ir6+i66NW0gK4QXOn/mFRVi4ObMzHM5KFXtAs1na4WC7aSERJvI68TSCeMvpBRlD3VVhkJDIpv1oTprEaGDfXRqcvLZ+2OxBepHpI4iUl+UAAVTYlyC4q8rHORv1MicD6T8/iYapuhhav2wkKA2DP0EqGfMiwYS/VXM3JelQJE9BGKEpjJGDdvC+Q4cTQYWFOUBkgXcz0zXA9DX/tL1/6D8/ldwcTkFEWf5S8ZWF85jfFFVH4GFodVjhdqIzmhG1w9sDoevr5ahYzLgv0Z/6VBQRqrsQ9SMfLiC0DdT3UkB3LV0JvNU9fnzN0x5QB0C1Ddo42ReeoHtPyo0rWn5n+EyuhZT+BNNLperf7693bhnAiq4HlDEgEid/vfJ2GRb25Yat3sUybp9LYDIryksJVfx9j1ZaqKv8CfErbl0emdtJHLLiFh9NDqPEL67QshJAyde/MMD6wK17O89gqJqLkl7QqGPsabFnfCUQwaBuXxpcvID03YOjL4l0LUdA7Y7gam8js8kghJsjcfTps0cGHXQtwQ9mw0idzKmwAY84TJ7uFLTfrH6WgFGA7h09mI/PLJBcDrWrC5scz9YoahurGOrO6mNvVHFNkQXYFxcylCE+BvHbIpUTz7rBcFImPZGrE9nsG615lMutQ/5dElkMsHKcLjgPn3bVFqdUc7hI9t+vDFvoX/aOlZifQZ67wwmk63FoMh20YhZnd/0+aprZZkuxp1Qetg6ZldHhGgRPj2bSHxeNzjo6K13DGZ1TndR49pHNyxcZuC0Ec/lIzoOngCZwPSPILFjqPfTGc6q76T+D4xj7viYAxmzAAAAAElFTkSuQmCC"
-
-/***/ },
-/* 32 */,
 /* 33 */,
-/* 34 */
+/* 34 */,
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -11051,13 +11052,13 @@
 	})
 
 /***/ },
-/* 35 */,
-/* 36 */
+/* 36 */,
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {
@@ -11073,7 +11074,6 @@
 	})
 
 /***/ },
-/* 37 */,
 /* 38 */,
 /* 39 */,
 /* 40 */,
@@ -11104,13 +11104,14 @@
 /* 65 */,
 /* 66 */,
 /* 67 */,
-/* 68 */
+/* 68 */,
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(69);
+	var content = __webpack_require__(70);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(4)(content, {});
@@ -11130,7 +11131,7 @@
 	}
 
 /***/ },
-/* 69 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(3)();
@@ -11144,7 +11145,7 @@
 
 
 /***/ },
-/* 70 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
@@ -11165,12 +11166,12 @@
 	})
 
 /***/ },
-/* 71 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;! function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === 'object') {
 	        module.exports = factory(require('jquery'));
 	    } else {

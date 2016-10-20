@@ -42,7 +42,7 @@ ajax({
                 num: '.num',
                 minus: '.num-minus'
             })
-            $('.num-edit').on('numCb', function(e, n) {
+            $('.num-edit').on('numCb', function(e, n, cb) {
                 var $this = $(this);
                 var $cartItem = $this.parents('.cart-item');
                 var $storeWarn = $cartItem.find('.store-warn');
@@ -56,6 +56,9 @@ ajax({
                     success: function(data) {
                         var store = data.data.store;
                         $this.data('max', store);
+                        cb({
+                            max: 'xxx'
+                        })
                         $this.numInitial();
                         //calPrice();
                         console.log(store);

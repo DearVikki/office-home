@@ -43,7 +43,7 @@
                 self.currentNum = self.currentNum + self.diff;
                 self.$num.text(self.currentNum);
                 self.afterEdit();
-                self.$el.trigger('numCb', self.currentNum);
+                self.$el.trigger('numCb', self.currentNum, function (a) {console.log(a)});
             }
         });
         this.$minus.on('click', function() {
