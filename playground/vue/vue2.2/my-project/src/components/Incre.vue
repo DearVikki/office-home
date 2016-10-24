@@ -3,7 +3,9 @@
 	{{n}}
 	<button @click="plus">+</button>
 	<div>{{computedaA}}</div>
-	<input :id="randomId" :value="value" @input="onInput" />
+	<slot name="slot2"></slot>
+	<input :id="randomId" v-model="value" />
+	<slot name="slot1"></slot>
 	</div>
 </template>
 <script type="text/javascript">
@@ -12,16 +14,14 @@
 		data(){
 			return {
 				n:0,
-				randomId:'input-'+Math.random()
+				randomId:'input-'+Math.random(),
+				value:'3'
 			}
 		},
 		methods:{
 			plus(){
 				this.n++;
-				this.$emit('toParent');
-			},
-			onInput(event){
-				this.$emit('input',event.target.value);
+				//bus.$emit('toSib');
 			}
 		},
 		computed:{
@@ -29,6 +29,6 @@
 				return this.aA+2;
 			}
 		},
-		props:['aA','value']
+		props:['aA']
 	}
 </script>

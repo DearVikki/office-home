@@ -2,13 +2,14 @@
 	<div id="a-input">
 		<input type="" name="" v-model="msg" />
 		<div>{{msg}}</div>
-		<incre :aA="msg" v-model="msg"></incre>
-		<incre :aA='11'></incre>
+		<incre :aA="msg" v-model="msg" ref="profile"><p slot="slot2">about slot</p></incre>
+		<component :is="hello"></component>
 	</div>
 </template>
 
 <script type="text/javascript">
 	import Incre from './components/Incre'
+	import Hello from './components/Hello'
 	export default{
 		name:'aInput',
 		data(){
@@ -18,12 +19,7 @@
 			}
 		},
 		components:{
-			Incre
-		},
-		methods:{
-			toParent(){
-				this.msg = 'get it!';
-			}
+			Incre, Hello
 		}
 	}
 </script>

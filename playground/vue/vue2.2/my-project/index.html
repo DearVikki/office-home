@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>my-project</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <div id="app2"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    <head>
+        <meta charset="utf-8">
+            <title>
+                my-project
+            </title>
+        </meta>
+    </head>
+    <body>
+        <div id='app1'></div>
+        <div id="app2">
+            <router-link to="/first">
+                Go to First
+            </router-link>
+            <router-link to="/foo/123">
+                Go to foo123
+            </router-link>
+            <router-link to="/foo/456">
+                Go to foo456
+            </router-link>
+            <router-view name="a">
+            </router-view>
+            <router-view>
+            </router-view>
+        </div>
+    </body>
 </html>

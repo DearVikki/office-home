@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1 @toSib="hh">{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -10,12 +10,9 @@
       <br>
       <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
     </ul>
-    <h2>Ecosystem</h2>
+    <h2>From Douban</h2>
     <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
+      <li v-for="list in lists">{{list.title}}</li>
     </ul>
   </div>
 </template>
@@ -25,10 +22,36 @@ export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      lists:[]
+    }
+  },
+  mounted: function() {
+    this.$http.jsonp('https://api.douban.com/v2/movie/top250?count=10', {}, {
+        headers: {
+        },
+        emulateJSON: true
+    }).then(function(response) {
+        // 这里是处理正确的回调
+        this.lists = response.data.subjects
+    }, function(response) {
+        // 这里是处理错误的回调
+        console.log(response)
+    });
+  },
+  /*watch:{
+    '$route'(to,from){
+      console.log('to: ',to,',from: ',from)
+    }
+  },*/
+  methods:{
+    hh(){
+      this.msg='From Sibling!'
     }
   }
-}
+
+  }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
