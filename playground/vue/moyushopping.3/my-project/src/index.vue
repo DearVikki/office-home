@@ -1,8 +1,7 @@
 <template>
   <div>
     <firstHeader></firstHeader>
-  </div>
-   <div id="content_container">
+    <div id="content_container">
       <!--banner板块开始-->
       <div class="banner-container swiper-container">
           <div class="swiper-wrapper" v-for="bannerItem in bannerItems">
@@ -14,6 +13,7 @@
           </div>
       </div>
    </div>
+  </div>
 </template>
 
 <script>
@@ -22,10 +22,14 @@ import firstHeader from './components/firstHeader'
 export default {
   name: 'index',
   data(){
-    bannerItems:[]
+    return {
+      bannerItems:[]
+    }
   },
   mounted(){
-    
+    this.$http.post('',{name:'shopping.sys.homepage.info'}).then((response)=>{
+      console.log(response)
+    })
   },
   components: {
     firstHeader
