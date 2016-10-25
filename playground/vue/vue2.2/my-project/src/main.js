@@ -2,14 +2,20 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
-/* eslint-disable no-new */
 Vue.config.debug = true;
+/* eslint-disable no-new */
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 //import Incre from './components/Incre'
 import Hello from './components/Hello'
 const Incre = {
-	template:'<div>{{$route.params.id}}<router-view></router-view></div>'
+	template:'<div>{{$route.params.id}}<router-view></router-view></div>',
+    watch:{
+    '$route'(to,from){
+      console.log('to: ',to,',from: ',from)
+    }
+}
 }
 const Profile = {
 	template:'<div>This is a profile</div>'
@@ -20,6 +26,7 @@ const Foo2 = {
 const Hello2 = {
 	template:'<transition name="fade"><p>Hello!!</p></transition>'
 }
+
 const router = new VueRouter({
     routes: [{
         path: '/first',

@@ -8,8 +8,9 @@
 </template>
 
 <script type="text/javascript">
-	import Incre from './components/Incre'
-	import Hello from './components/Hello'
+	import Incre from './components/Incre';
+	import Hello from './components/Hello';
+	//const bus = new Vue();
 	export default{
 		name:'aInput',
 		data(){
@@ -19,7 +20,8 @@
 			}
 		},
 		components:{
-			Incre, Hello
+			Incre: Incre,
+			Hello: Hello
 		}
 	}
 </script>
