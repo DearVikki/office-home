@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>platform</title>
+  </head>
+  <body>
+    <div id="app" class="ui grid" style="margin:10px 5px">
+    		<div class="ui secondary pointing menu blue" style="border-right:none">
+			  <router-link to='/' class="item" :class="{active:allActive}">
+			    总览
+			  </router-link>
+			  <router-link to='/add' class="item" :class="{active:!allActive}">
+			    新增
+			  </router-link>
+    	</div>
+	    <router-view></router-view>
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
