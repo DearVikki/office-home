@@ -10,25 +10,9 @@
       <input type="text" v-model='title'>
     </div>
     <div class="field">
-      <label>Content/Text</label>
-      <textarea rows="2" v-model='text'></textarea>
+      <label>Content</label>
+      <ueditor v-model="content"></ueditor>
     </div>
-    <div class="field">
-      <label>Content/Image</label>
-      <div>
-        <div class="ui small image" v-for="pic in pics">
-          <a class="ui right corner label">
-            <i class="close icon" @click='removeImage($key)'></i>
-          </a>
-          <img :src="pic">
-        </div>
-        <div class="ui small image upload" @click='upload' @drop.prevent='fileChange($event)' @dragover.prevent>
-           <i class="add icon big grey"></i>
-        </div>
-      </div>
-      <input type="file" multiple="multiple" style="display:none" accept="image/*" @change='fileChange($event)'>
-    </div>
-  </div>
   <div id="save">
     <transition name="fade">
        <div v-show='saveAlert' class="ui pointing below basic blue label">
@@ -41,7 +25,7 @@
 </template>
 
 <script>
-
+import Ueditor from "./components/Ueditor";
 export default {
   name: 'add',
   data(){
@@ -50,7 +34,8 @@ export default {
       grade:'',
       title:'',
       text:'',
-      saveAlert:false
+      saveAlert:false,
+      content:'This is ueditor'
     }
   },
   mounted(){
@@ -91,7 +76,13 @@ export default {
         this.saveAlert = false
       },1000)
     }
-  }
+  },
+  watch: {
+    content: function (val) {
+      console.log(val)
+    }
+  },
+  components:{Ueditor}
 }
 </script>
 

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+            <title>
+                ueditor demo
+            </title>
+        </meta>
+    </head>
+    <body>
+        <div>
+            Can I have my own space here?
+        </div>
+        <button>
+            Click
+        </button>
+        <div class="content">
+        </div>
+        <!-- 加载编辑器的容器 -->
+        <script id="container" name="content" type="text/plain">
+            <p>好大的字喔</p>
+        </script>
+        <!-- 配置文件 -->
+        <script src="ueditor.config.js" type="text/javascript">
+        </script>
+        <!-- 编辑器源码文件 -->
+        <script src="ueditor.all.js" type="text/javascript">
+        </script>
+        <!-- 实例化编辑器 -->
+        <script src="_parse/parse.js" type="text/javascript">
+        </script>
+        <script charset="utf-8" src="./kityformula-plugin/addKityFormulaDialog.js" type="text/javascript">
+        </script>
+        <script charset="utf-8" src="./kityformula-plugin/getKfContent.js" type="text/javascript">
+        </script>
+        <script charset="utf-8" src="./kityformula-plugin/defaultFilterFix.js" type="text/javascript">
+        </script>
+        <script type="text/javascript">
+            var ue = UE.getEditor('container', {
+                toolbars: [[
+                    'fullscreen', 'source', '|',
+                    'bold', 'italic', 'underline', '|', 'fontsize', '|', 'kityformula', 'preview'
+                ]]
+            });
+            UE.getEditor('container').ready(function() {
+                //ue.setDisabled();
+                uParse('.content', {
+                    rootPath: '../'
+                })
+            })
+        </script>
+    </body>
+    <script type="text/javascript">
+        document.querySelector('button').onclick = function() {
+            console.log(ue.getContent())
+        }
+    </script>
+</html>
