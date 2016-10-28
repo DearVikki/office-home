@@ -1,8 +1,7 @@
 <template>
  <div class="ui zoom modal">
-  <i class="close icon"></i>
   <div class="header">
-    {{activeList.id}}（{{activeList.grade}}）
+    <p>{{activeList.title}}（{{activeList.grade}}）</p>
   </div>
   <div class="image content">
     <span class="ui medium image" v-for="pic in activeList.content.pics">

@@ -12,10 +12,12 @@ Vue.use(VueRouter);
 Vue.use(VueResource);
 /* eslint-disable no-new */
 const router = new VueRouter({
-	routes:[{
-		path:'',
-		component: App
-	},{
+	routes:[
+  {
+    path:'',
+    component: App
+  },
+  {
 		path:'/add',
 		component:Add
 	}],
@@ -33,14 +35,16 @@ new Vue({
   },
   methods:{
   	navClass(){
-  		if(location.href.slice(-3,-1)==='ad') this.allActive = false;
+  		if(this.$route.path.slice(1) === 'add') this.allActive = false;
   		else this.allActive = true;
   	}
   },
   mounted(){
-  	//this.navClass()
+  	this.navClass()
   },
   watch: {
-    //this.navClass()
+    '$route' (to) {
+      this.navClass();
+    }
  }
 })

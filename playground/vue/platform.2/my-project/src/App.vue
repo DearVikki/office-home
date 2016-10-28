@@ -45,14 +45,16 @@
         </tr>
       </tbody>
       <tfoot>
-        <tr><th colspan="6">
-          <pagination></pagination>
-        </th>
+        <tr>
+          <th>共{{allData}}条数据</th>
+          <th colspan="5" style="border-left:none">
+            <pagination :pageNum='allPage'></pagination>
+          </th>
       </tr>
       </tfoot>
     </table>
-    <zoomModal :activeList='activeList'></zoomModal>
-    <!--<editModal :activeList='activeList'></editModal>-->
+    <ZoomModal :activeList='activeList'></ZoomModal>
+    <EditModal v-model='activeList'></EditModal>
   </div>
 </template>
 
@@ -65,11 +67,11 @@ import Pagination from './components/Pagination'
 //import tablesort from 'jquery-tablesort'
 const Random = Mock.Random;
 const data = Mock.mock({
-  'data|4':[{
+  'data|50':[{
     'id|+1':100000000,
     'pid|0-100':2,
     'grade|1':['九上','九下','七上','七下','八上',''],
-    'title|1':Random.cparagraph(30),
+    'title|1':['三角函数知识','几何','不等式','二元二次方程'],
     'content':{
       'text':Random.cparagraph(),
       'pics|4':[Random.dataImage('200x100')]
@@ -81,14 +83,16 @@ export default {
   data(){
     return{
       lists:[],
-      activeList:''
+      activeList:'',
+      allPage:'',
+      allData:''
     }
   },
   mounted(){
-    console.log($(document).width())
-    this.lists = data.data;
-    console.log(this.lists)
-    //$('table').tablesort();
+    this.allPage = Math.ceil(data.data.length/5);
+    this.displayList();
+    this.allData = data.data.length;
+    //   $('table').tablesort();
   },
   methods:{
     zoom(list){
@@ -96,12 +100,23 @@ export default {
       this.activeList = list;
     },
     edit(list){
-      console.log('hey')
       $('.edit.modal').modal('show');
+      this.activeList = list;
     },
     deleteList(list){
       console.log(list)
       this.lists.$remove(list);
+    },
+    displayList(){
+      const page = this.$route.query.page||1;
+      const start = (page-1)*5;
+      const end = start+5;
+      this.lists = data.data.slice(start,end);
+    }
+  },
+  watch: {
+    '$route' (to) {
+      this.displayList();
     }
   },
   components:{ZoomModal,EditModal,Pagination}

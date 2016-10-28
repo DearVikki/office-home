@@ -1,14 +1,13 @@
 <template>
-<div style="display:block;width:80%">
-
-  <div class="ui form" style="display:block">
+<div style="display:block;width:100%">
+  <div class="ui form" style="display:block;max-width:95%">
     <div class="field">
       <label>Grade</label>
-      <input type="text" name="first-name" v-model='grade'>
+      <input type="text" v-model='grade'>
     </div>
     <div class="field">
       <label>Title</label>
-      <input type="text" name="first-name" v-model='title'>
+      <input type="text" v-model='title'>
     </div>
     <div class="field">
       <label>Content/Text</label>
@@ -55,7 +54,7 @@ export default {
     }
   },
   mounted(){
-    console.log($(document).width())
+    console.log('Add Component has mounted')
   },
   methods:{
    upload(){
@@ -84,6 +83,7 @@ export default {
       Vue.delete(this.pic,key);
     },
     save(){
+      console.log(this.grade);
       this.grade = this.title = this.text = '';
       this.pics = [];
       this.saveAlert = true;
