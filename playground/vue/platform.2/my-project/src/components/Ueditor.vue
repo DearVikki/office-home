@@ -33,6 +33,9 @@
                     this.$emit('ready', this.editor)
                 }.bind(this))
             })
+        },
+        beforeDestroy:function(){
+            this.editor.destroy();
         }
     }
 </script>

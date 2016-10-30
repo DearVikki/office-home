@@ -53,7 +53,14 @@ export default {
   computed:{
     showPage(){
       let pageArr = [];
-      if(this.currentPage<=3) pageArr = [1,2,3,4,5];
+      if(this.currentPage<=3) {
+        if(this.pageNum>=5) pageArr = [1,2,3,4,5];
+        else {
+          for(let i = 1; i<=this.pageNum; i++){
+            pageArr.push(i);
+          }
+        }
+      }
       else if(this.currentPage >= this.pageNum - 2) {
         for(let i=this.pageNum-4; i <= this.pageNum; i++) {
           pageArr.push(i);
@@ -65,6 +72,11 @@ export default {
         }
       }
       return pageArr;
+    }
+  },
+  watch:{
+    pageNum(){
+      this.currentPage = 1;
     }
   },
   props:['pageNum']

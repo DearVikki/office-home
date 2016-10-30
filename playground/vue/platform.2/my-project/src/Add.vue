@@ -11,7 +11,7 @@
     </div>
     <div class="field">
       <label>Content</label>
-      <ueditor v-model="content"></ueditor>
+      <ueditor v-model="content" :config='editorConfig'></ueditor>
     </div>
   <div id="save">
     <transition name="fade">
@@ -35,7 +35,13 @@ export default {
       title:'',
       text:'',
       saveAlert:false,
-      content:'This is ueditor'
+      content:'This is ueditor',
+      editorConfig:{
+        toolbars: [[
+                    'fullscreen', 'source', '|',
+                    'bold', 'italic', 'underline', '|', 'fontsize', '|', 'kityformula', 'preview'
+                ]]
+      }
     }
   },
   mounted(){

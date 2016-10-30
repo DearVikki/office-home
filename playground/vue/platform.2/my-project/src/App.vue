@@ -6,6 +6,12 @@
             初中习题库
           </div>
         </h2>-->
+    <select class="ui dropdown" v-model="pageListAmount">
+      <option value=5>每页5条</option>
+      <option value=10>每页10条</option>
+      <option value=50>每页50条</option>
+      <option :value="allData">全部</option>
+    </select>
     <table class="ui celled table blue striped fixed single line sortable">
       <thead>
         <tr>
@@ -18,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for='list in lists'>
+        <tr v-for='(list,index) in lists'>
           <td>
             {{list.id}}
           </td>
@@ -67,7 +73,7 @@ import Pagination from './components/Pagination'
 //import tablesort from 'jquery-tablesort'
 const Random = Mock.Random;
 const data = Mock.mock({
-  'data|50':[{
+  'data|52':[{
     'id|+1':100000000,
     'pid|0-100':2,
     'grade|1':['九上','九下','七上','七下','八上',''],
@@ -85,13 +91,20 @@ export default {
       lists:[],
       activeList:'',
       allPage:'',
-      allData:''
+      allData:'',
+      pageListAmount:5
     }
   },
   mounted(){
-    this.allPage = Math.ceil(data.data.length/5);
+    this.allPage = Math.ceil(data.data.length/this.pageListAmount);
     this.displayList();
     this.allData = data.data.length;
+    /*this.$http.get('/single_manage/php/knowledge/get_list').then((response) => {
+        console.log(response)
+    }, (response) => {
+        // 响应错误回调
+    });*/
+
     //   $('table').tablesort();
   },
   methods:{
@@ -103,19 +116,25 @@ export default {
       $('.edit.modal').modal('show');
       this.activeList = list;
     },
-    deleteList(list){
-      console.log(list)
-      this.lists.$remove(list);
+    deleteList(index){
+      //console.log(list)
+      this.lists.splice(index,1);
     },
     displayList(){
       const page = this.$route.query.page||1;
-      const start = (page-1)*5;
-      const end = start+5;
+      const start = (page-1)*this.pageListAmount;
+      const end = start+parseFloat(this.pageListAmount);
       this.lists = data.data.slice(start,end);
     }
   },
   watch: {
     '$route' (to) {
+      this.displayList();
+    },
+    pageListAmount(){
+      //this.$route.query.page = 1;
+      this.allPage = Math.ceil(data.data.length/this.pageListAmount);
+      this.$router.push({query: { page:1 }});
       this.displayList();
     }
   },
