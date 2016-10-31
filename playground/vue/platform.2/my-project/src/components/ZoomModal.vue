@@ -3,13 +3,8 @@
   <div class="header">
     <p>{{activeList.title}}（{{activeList.grade}}）</p>
   </div>
-  <div class="image content">
-    <span class="ui medium image" v-for="pic in activeList.content.pics">
-      <img :src="pic">
-    </span>
-    <div class="description">
-      <p>{{activeList.content.text}}</p>
-    </div>
+  <div class="content">
+      <div class="description" v-html="activeList.content"></div>
   </div>
   <div class="actions">
     <div class="ui black right deny button">

@@ -3,7 +3,6 @@
 </template>
 
 <script>
-    //<ueditor v-model="str" :config="config"></ueditor>
     module.exports = {
         props: {
             value: {
@@ -39,3 +38,5 @@
         }
     }
 </script>
+<style scoped>
+</style>
