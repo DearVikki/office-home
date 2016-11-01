@@ -1,6 +1,18 @@
 <template>
 <div style="display:block;width:100%">
   <div class="ui form" style="display:block;max-width:95%">
+     <div class="field">
+      <label>Id</label>
+      <input type="text" v-model='id'>
+    </div>
+     <div class="field">
+      <label>Pid</label>
+      <input type="text" v-model='pid'>
+    </div>
+     <div class="field">
+      <label>Relation-id</label>
+      <input type="text" v-model='relation_id'>
+    </div>
     <div class="field">
       <label>Grade</label>
       <input type="text" v-model='grade'>
@@ -31,6 +43,9 @@ export default {
   data(){
     return{
       pics:[],
+      id:'',
+      pid:'',
+      relation_id:''
       grade:'',
       title:'',
       text:'',
@@ -45,7 +60,7 @@ export default {
     }
   },
   mounted(){
-    console.log('Add Component has mounted')
+    console.log(this.$route)
   },
   methods:{
    upload(){
@@ -74,13 +89,18 @@ export default {
       Vue.delete(this.pic,key);
     },
     save(){
-      console.log(this.grade);
-      this.grade = this.title = this.text = '';
-      this.pics = [];
-      this.saveAlert = true;
-      setTimeout(()=>{
-        this.saveAlert = false
-      },1000)
+      this.$http.get('../knowledge/add',{
+        id:this.id,pid:this.pid,grade:this.grade,
+        title:this.title,content:this.content,relation_id:this.relation_id
+      }).then((response) => {
+        console.log(response)
+        this.id = this.pid = this.relation_id = this.grade = this.title = this.text = '';
+        this.pics = [];
+        this.saveAlert = true;
+        setTimeout(()=>{
+          this.saveAlert = false
+        },1000)
+    })
     }
   },
   watch: {

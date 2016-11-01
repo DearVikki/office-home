@@ -90,20 +90,17 @@ export default {
     }
   },
   mounted(){
-    this.allData = data.data;
-    this.displayList();
-    this.allPage = Math.ceil(data.data.length/this.pageListAmount);
-    this.allDataLen = data.data.length;
-    console.log(data)
-    //   $('table').tablesort();
+    this.getData();
   },
   methods:{
     getData(){
-      /*this.$http.get('/single_manage/php/knowledge/get_list').then((response) => {
-        console.log(response)
-    }, (response) => {
-        // 响应错误回调
-    });*/
+      this.$http.get('../knowledge/get_list').then((response) => {
+        console.log(response.data.data)
+        this.allData = response.data.data;
+        this.displayList();
+        this.allPage = Math.ceil(this.allData.length/this.pageListAmount);
+        this.allDataLen = this.allData.length;
+    })
     },
     zoom(list){
       $('.zoom.modal').modal('show');

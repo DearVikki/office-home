@@ -11,6 +11,11 @@ import '../node_modules/semantic-ui-css/semantic.min.js'
 Vue.config.debug = true;
 Vue.use(VueRouter);
 Vue.use(VueResource);
+const href = location.href.split('//')[1].split('/');
+href.splice(0,1);
+if(href[href.length] !== '') href.splice(-1,1);
+
+const baseHref = '/'+href.join('/')+'/';
 /* eslint-disable no-new */
 const router = new VueRouter({
 	routes:[
@@ -21,13 +26,10 @@ const router = new VueRouter({
   {
 		path:'/add',
 		component:Add
-	},
-  {
-    path:'/ueditor',
-    component: UeditorTest
-  }
+	}
   ],
-	mode:'history'
+	mode:'history',
+  base:baseHref
 })
 /* eslint-disable no-new */
 new Vue({
