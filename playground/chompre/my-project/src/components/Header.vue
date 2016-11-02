@@ -4,7 +4,7 @@
 			<img src="../assets/img/index/index_logo.png" />
 			<div id='header_search_container'>
 				<div id='header_search_type'></div>
-				<input type="text" />
+				<input type="text" :value='value' @input="onInput"/>
 				<span id='header_search_btn'></span>
 			</div>
 		</div>
@@ -12,7 +12,13 @@
 </template>
 <script>
 	export default{
-		name:'myheader'
+		name:'myheader',
+		props:['value'],
+		methods: {
+			onInput(event) {
+				this.$emit('input', event.target.value)
+			}
+		}
 	}
 </script>
 <style scoped lang='less'>
@@ -24,10 +30,10 @@
 	#header_container_part1{
 		max-width: 1200px;
 	}
-	#header_search_container{
+	/*#header_search_container{
 		width:100%;
 		#header_search_type:{
 			max-width:100%;
 		};
-	}
+	}*/
 </style>

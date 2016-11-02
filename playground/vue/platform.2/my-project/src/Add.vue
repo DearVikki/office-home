@@ -37,15 +37,16 @@
 </template>
 
 <script>
+import Mock from 'Mockjs'
+//Mock.mock(/\.json/,{'msg':'hs'})
 import Ueditor from "./components/Ueditor";
 export default {
   name: 'add',
   data(){
     return{
-      pics:[],
       id:'',
       pid:'',
-      relation_id:''
+      relation_id:'',
       grade:'',
       title:'',
       text:'',
@@ -63,39 +64,12 @@ export default {
     console.log(this.$route)
   },
   methods:{
-   upload(){
-    $('input').click();
-   },
-   fileChange(e){
-    var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      var vm = this;
-      for(let i=0; i<files.length; i++){
-        vm.createImage(files[i]);
-      }
-   },
-   createImage(file){
-    console.log(file)
-      var image = new Image();
-      var reader = new FileReader();
-      var vm = this;
-      reader.readAsDataURL(file);
-      reader.onload = (e) => {
-        vm.pics.push(e.target.result);
-        //console.log(vm.pics)
-      }
-    },
-    removeImage(key){
-      Vue.delete(this.pic,key);
-    },
     save(){
-      this.$http.get('../knowledge/add',{
-        id:this.id,pid:this.pid,grade:this.grade,
-        title:this.title,content:this.content,relation_id:this.relation_id
-      }).then((response) => {
+      this.$http.get('../knowledge/add?id='+this.id+'&pid='+this.pid+'&grade='+this.grade+
+        '&title='+this.title+'&content='+this.content+'&relation_id='+this.relation_id
+      ).then((response) => {
         console.log(response)
         this.id = this.pid = this.relation_id = this.grade = this.title = this.text = '';
-        this.pics = [];
         this.saveAlert = true;
         setTimeout(()=>{
           this.saveAlert = false

@@ -3,12 +3,24 @@
  <div class="ui content">
    <div class="ui form" style="display:block">
     <div class="field">
+      <label>Id</label>
+      <input type="text" :value='value.id'>
+    </div>
+     <div class="field">
+      <label>Pid</label>
+      <input type="text" :value='value.pid'>
+    </div>
+     <div class="field">
+      <label>Relation-id</label>
+      <input type="text" :value='value.relation_id'>
+    </div>
+    <div class="field">
       <label>Grade</label>
-      <input type="text" :value='value.grade' @input='setGrade'>
+      <input type="text" v-model='value.grade'>
     </div>
     <div class="field">
       <label>Title</label>
-      <input type="text" :value='value.title' @input='setTitle'>
+      <input type="text" v-model='value.title'>
     </div>
     <div class="field">
       <label>Content</label>
@@ -20,7 +32,7 @@
     <div class="ui black right deny button">
       关闭
     </div>
-    <div class="ui blue right button">
+    <div class="ui blue right button" @click='save'>
       保存
     </div>
   </div>
@@ -33,6 +45,9 @@ export default {
   name: 'EditModal',
   data () {
     return {
+      id:'',
+      pid:'',
+      relation_id:'',
       grade:'',
       title:'',
       content:'',
@@ -46,19 +61,22 @@ export default {
       }
     },
   mounted(){
+    this.id = this.value.id;
+    this.pid = this.value.pid;
+    this.relation_id = this.relation_id;
     this.title = this.value.title;
     this.grade = this.value.grade;
     this.content = this.value.content;
   },
   methods:{
-    setTitle(event){
-      this.value.title = event.target.value;
-    },
-    setGrade(){
-      this.value.grade = event.target.value;
-    },
-    setContentText(){
-      this.content = event.target.value;
+    save(){
+       this.$http.get('../knowledge/update?id='+this.id+'&pid='+this.pid+'&grade='+this.grade+
+        '&title='+this.title+'&content='+this.content+'&relation_id='+this.relation_id
+      ).then(response => {
+        $('.edit.modal').modal('hide');
+      }).catch(err => {
+        console.error(err.stack)
+      });
     }
   },
   props:['value'],
