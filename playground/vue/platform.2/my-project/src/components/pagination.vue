@@ -31,7 +31,10 @@ export default {
   },
   methods:{
     isCurrentPage(page){
-      return page === this.currentPage;
+      console.log(this.currentPage)
+      console.log(page)
+      console.log(page === this.currentPage)
+      return parseInt(page) === parseInt(this.currentPage);
     },
     clickPage(page){
       this.currentPage = page;
@@ -76,7 +79,8 @@ export default {
   },
   watch:{
     pageNum(){
-      this.currentPage = 1;
+      this.currentPage = this.$route.query.page||1;
+      console.log('currentPage:'+this.currentPage);
     }
   },
   props:['pageNum']

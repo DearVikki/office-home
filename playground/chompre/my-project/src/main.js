@@ -9,6 +9,7 @@ Vue.use(VueResource);
 
 import './assets/lib/public.less'
 import Myheader from './components/Header'
+import Myfooter from './components/Footer'
 const router = new VueRouter({
 	routes:[{
 		path:'',
@@ -23,5 +24,5 @@ new Vue({
   	msg:'xxxx'
   },
   router: router,
-  components:{Myheader}
+  components:{Myheader,Myfooter}
 })

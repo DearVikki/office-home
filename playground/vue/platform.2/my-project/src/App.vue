@@ -7,9 +7,9 @@
           </div>
         </h2>-->
     <select class="ui dropdown" v-model="pageListAmount">
-      <option value=5>每页5条</option>
-      <option value=10>每页10条</option>
+      <option value=20>每页20条</option>
       <option value=50>每页50条</option>
+      <option value=100>每页100条</option>
       <option :value="allDataLen">全部</option>
     </select>
     <table class="ui celled table blue striped fixed single line sortable">
@@ -86,7 +86,7 @@ export default {
       allPage:'',
       allData:'',
       allDataLen:'',
-      pageListAmount:5
+      pageListAmount:20
     }
   },
   mounted(){
@@ -129,7 +129,7 @@ export default {
     },
     pageListAmount(){
       //this.$route.query.page = 1;
-      this.allPage = Math.ceil(data.data.length/this.pageListAmount);
+      this.allPage = Math.ceil(this.allData.length/this.pageListAmount);
       this.$router.push({query: { page:1 }});
       this.displayList();
     }

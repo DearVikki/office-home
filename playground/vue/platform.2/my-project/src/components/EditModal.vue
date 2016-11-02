@@ -4,27 +4,27 @@
    <div class="ui form" style="display:block">
     <div class="field">
       <label>Id</label>
-      <input type="text" :value='value.id'>
+      <input type="text" v-model='editValue.id'>
     </div>
      <div class="field">
       <label>Pid</label>
-      <input type="text" :value='value.pid'>
+      <input type="text" v-model='editValue.pid'>
     </div>
      <div class="field">
       <label>Relation-id</label>
-      <input type="text" :value='value.relation_id'>
+      <input type="text" v-model='editValue.relation_id'>
     </div>
     <div class="field">
       <label>Grade</label>
-      <input type="text" v-model='value.grade'>
+      <input type="text" v-model='editValue.grade'>
     </div>
     <div class="field">
       <label>Title</label>
-      <input type="text" v-model='value.title'>
+      <input type="text" v-model='editValue.title'>
     </div>
     <div class="field">
       <label>Content</label>
-      <ueditor v-model="value.content" :config='editorConfig'></ueditor>
+      <ueditor v-model="editValue.content" :config='editorConfig'></ueditor>
     </div>
   </div>
  </div>
@@ -45,38 +45,49 @@ export default {
   name: 'EditModal',
   data () {
     return {
-      id:'',
-      pid:'',
-      relation_id:'',
-      grade:'',
-      title:'',
-      content:'',
       editorConfig:{
         toolbars: [[
                     'fullscreen', 'source', '|',
                     'bold', 'italic', 'underline', '|', 'fontsize', '|', 'kityformula', 'preview'
                 ]],
          autoHeightEnabled: true
+      },
+      editValue:{
+        id:'',
+        pid:'',
+        relation_id:'',
+        grade:'',
+        title:'',
+        content:''
       }
-      }
-    },
-  mounted(){
-    this.id = this.value.id;
-    this.pid = this.value.pid;
-    this.relation_id = this.relation_id;
-    this.title = this.value.title;
-    this.grade = this.value.grade;
-    this.content = this.value.content;
+    }
   },
   methods:{
     save(){
-       this.$http.get('../knowledge/update?id='+this.id+'&pid='+this.pid+'&grade='+this.grade+
-        '&title='+this.title+'&content='+this.content+'&relation_id='+this.relation_id
+       this.$http.get('../knowledge/update?id='+this.editValue.id+'&pid='+this.editValue.pid+'&grade='+this.editValue.grade+
+        '&title='+this.editValue.title+'&content='+this.editValue.content+'&relation_id='+this.editValue.relation_id
       ).then(response => {
         $('.edit.modal').modal('hide');
+        this.value.id = this.editValue.id;
+        this.value.pid = this.editValue.pid;
+        this.value.relation_id = this.editValue.relation_id;
+        this.value.grade = this.editValue.grade;
+        this.value.title = this.editValue.title;
+        this.value.content = this.editValue.content;
       }).catch(err => {
         console.error(err.stack)
       });
+    }
+  },
+  watch:{
+    value(newVal){
+      console.log(newVal);
+      this.editValue.id = newVal.id;
+      this.editValue.pid = newVal.pid;
+      this.editValue.relation_id = newVal.relation_id;
+      this.editValue.grade = newVal.grade;
+      this.editValue.title= newVal.title;
+      this.editValue.content = newVal.content;
     }
   },
   props:['value'],

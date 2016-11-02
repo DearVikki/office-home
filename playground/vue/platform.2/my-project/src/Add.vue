@@ -51,7 +51,7 @@ export default {
       title:'',
       text:'',
       saveAlert:false,
-      content:'This is ueditor',
+      content:'',
       editorConfig:{
         toolbars: [[
                     'fullscreen', 'source', '|',
@@ -69,11 +69,14 @@ export default {
         '&title='+this.title+'&content='+this.content+'&relation_id='+this.relation_id
       ).then((response) => {
         console.log(response)
-        this.id = this.pid = this.relation_id = this.grade = this.title = this.text = '';
+        this.id = this.pid = this.relation_id = this.grade =
+        this.content = this.title = this.text = '';
         this.saveAlert = true;
         setTimeout(()=>{
           this.saveAlert = false
         },1000)
+    },(response) => {
+      alert('提交失败！')
     })
     }
   },

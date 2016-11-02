@@ -23,7 +23,7 @@
                 this.editor = UE.getEditor(id, this.config)
 
                 this.editor.ready(function () {
-                    this.editor.setContent(this.value)
+                    this.editor.setContent(this.value);
 
                     this.editor.addListener("contentChange", function () {
                         this.$emit('input', this.editor.getContent())
@@ -32,6 +32,11 @@
                     this.$emit('ready', this.editor)
                 }.bind(this))
             })
+        },
+        watch:{
+            value(newVal){
+                this.editor.setContent(newVal);
+            }
         },
         beforeDestroy:function(){
             this.editor.destroy();
