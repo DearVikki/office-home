@@ -13,7 +13,7 @@
 		<!--促销商品开始-->
 		<div id='sale_container'>
 			<div class="sub-header">促销商品<span class="more fr">更多 ></span></div>
-			<div id='sale' class="swiper-container">
+			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<router-link class='banner swiper-slide common-goods-item' to='' v-for="saleItem in saleItems">
 	               		<img :src="saleItem.cover_pic"/>
@@ -28,7 +28,7 @@
 		<!--热门商品开始-->
 		<div id='hot_goods_container'>
 			<div class="sub-header">推荐商品<span class="more fr">更多 ></span></div>
-			<div id='sale' class="swiper-container">
+			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<router-link class='banner swiper-slide common-goods-item' to='' v-for="hotgoodsItem in hotgoodsItems">
 	               		<img :src="hotgoodsItem.cover_pic"/>
@@ -53,16 +53,6 @@
 	</div>
 </template>
 <script>
-	import Mock from 'mockjs';
-	const Random = Mock.Random;
-	const mm = Mock.mock({
-		'list1|5':[{
-			'path':Random.image('720x300', '#e2b3c2', '♥')
-		}],
-		'list2|10':[{
-			'cover_pic':Random.image('125x125', '#e2b3c2', '♥')
-		}],
-	})
 	import Swiper from './assets/lib/swiper.js';
 	export default{
 		name:'Index',
@@ -82,7 +72,7 @@
 				console.log(response.body.data.hot_dealer)
 				//const className = 'mypagi';
 				this.$nextTick(()=>{
-				  //初始化第一部分banner板块
+				  	 //初始化第一部分banner板块
 		          new Swiper('#activity_banner_container',{
 			          pagination: '#activity_banner_container .swiper-pagination',
 			          slidesPerView: 1,
@@ -93,20 +83,21 @@
 					      return '<span class="' + className + '">' + (index + 1) + '</span>';
 					  }*/
 			      })
-			      //初始化第三部分热门商品板块
-			      new Swiper('#hot_goods_container',{
+			      //初始化第三部分推荐商品板块
+			      new Swiper('#hot_goods_container > .swiper-container',{
 			          nextButton: '#hot_goods_container .swiper-button-next',
 				      prevButton: '#hot_goods_container .swiper-button-prev',
 				      slidesPerView:5,
 				      slidesPerGroup:5,
 				      spaceBetween:25
 			      })
+				 
 		      })
 			  //初始化第二部分促销商品板块
 			  this.$http.post('',{name:'zl.shopping.sys.banner.info',banner_homepage_id:response.body.data.sale_banner.banner_homepage_id,type:1}).then((response)=>{
 				  this.saleItems = response.body.data.goods_list;
 				  this.$nextTick(()=>{
-				  new Swiper('#sale',{
+				  new Swiper('#sale_container > .swiper-container',{
 			          nextButton: '#sale_container .swiper-button-next',
 				      prevButton: '#sale_container .swiper-button-prev',
 				      slidesPerView:5,
