@@ -1,9 +1,13 @@
 <template>
+	<!--header-->
 	<div id='header_container'>
 		<div id='header_part1'>
 			<img src="../assets/img/index/index_logo.png" />
+			<!--搜索框-->
 			<div id='header_search_container'>
-				<div id='header_search_type'>Productos</div>
+				<div id='header_search_type'>
+					<simpleDropdown id=''>Productos</simpleDropdown>
+				</div>
 				<input type="text" :value='value' @input="onInput"/>
 				<span id='header_search_btn'></span>
 			</div>
@@ -25,6 +29,7 @@
 	</div>
 </template>
 <script>
+	import SimpleDropdown from './SimpleDropdown'
 	export default{
 		name:'myheader',
 		data(){
@@ -37,7 +42,8 @@
 			onInput(event) {
 				this.$emit('input', event.target.value)
 			}
-		}
+		},
+		components:{SimpleDropdown}
 	}
 </script>
 <style scoped lang='less'>

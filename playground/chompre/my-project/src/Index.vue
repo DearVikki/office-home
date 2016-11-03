@@ -1,37 +1,66 @@
 <template>
 	<div id='index_container'>
+		<!--首页banner开始-->
 		<div id='activity_banner_container' class="swiper-container">
 		   <div class="swiper-wrapper">
-               <router-link class='banner swiper-slide' to='' v-for="activityItem in activityItems">
+               <router-link class='banner swiper-slide common-goods-item' to='' v-for="activityItem in activityItems">
                		<img :src="activityItem.path"/>
                </router-link>
           </div>
           <div class="banner swiper-pagination">
           </div>
 		</div>
+		<!--促销商品开始-->
 		<div id='sale_container'>
 			<div class="sub-header">促销商品<span class="more fr">更多 ></span></div>
 			<div id='sale' class="swiper-container">
 			 	<div class="swiper-wrapper">
-					<router-link class='banner swiper-slide' to='' v-for="saleItem in saleItems">
-	               		<img :src="saleItem.path"/>
+					<router-link class='banner swiper-slide common-goods-item' to='' v-for="saleItem in saleItems">
+	               		<img :src="saleItem.cover_pic"/>
+	               		<p>{{saleItem.description}}</p>
+	               		<p>${{saleItem.price}}</p>
 	                </router-link>
 	            </div>
-                <div class="swiper-button-next"></div>
-        		<div class="swiper-button-prev"></div>
 			</div>
+			<div class="swiper-button-next"></div>
+        	<div class="swiper-button-prev"></div>
+		</div>
+		<!--热门商品开始-->
+		<div id='hot_goods_container'>
+			<div class="sub-header">推荐商品<span class="more fr">更多 ></span></div>
+			<div id='sale' class="swiper-container">
+			 	<div class="swiper-wrapper">
+					<router-link class='banner swiper-slide common-goods-item' to='' v-for="hotgoodsItem in hotgoodsItems">
+	               		<img :src="hotgoodsItem.cover_pic"/>
+	               		<p>{{hotgoodsItem.description}}</p>
+	               		<p>${{hotgoodsItem.price}}</p>
+	                </router-link>
+	            </div>
+			</div>
+			<div class="swiper-button-next"></div>
+        	<div class="swiper-button-prev"></div>
+		</div>
+		<!--优秀商家开始-->
+		<div id='hot_shop_container'>
+			<div class="sub-header">优秀商家</div>
+			<ul>
+				<router-link class='hot-shop' v-for='hotshopItem in hotshopItems' to=''>
+					<img :src="hotshopItem.dealer_logo">
+					<p>{{hotshopItem.dealer_name}}</p>
+				</router-link>
+			</ul>
 		</div>
 	</div>
 </template>
 <script>
 	import Mock from 'mockjs';
 	const Random = Mock.Random;
-	const data = Mock.mock(/\.json/,{
+	const mm = Mock.mock({
 		'list1|5':[{
 			'path':Random.image('720x300', '#e2b3c2', '♥')
 		}],
 		'list2|10':[{
-			'path':Random.image('125x125', '#e2b3c2', '♥')
+			'cover_pic':Random.image('125x125', '#e2b3c2', '♥')
 		}],
 	})
 	import Swiper from './assets/lib/swiper.js';
@@ -40,29 +69,56 @@
 		data(){
 			return{
 				activityItems:[],
-				saleItems:[]
+				saleItems:[],
+				hotgoodsItems:[],
+				hotshopItems:[]
 			}
 		},
 		mounted(){
-			this.$http.get('sss.json').then((response)=>{
-				this.activityItems = JSON.parse(response.data).list1;
-				this.saleItems = JSON.parse(response.data).list2;
+			this.$http.post('',{name:'zl.shopping.sys.homepage.info'}).then((response)=>{
+				this.activityItems = response.body.data.other_banner;
+				this.hotgoodsItems = response.body.data.hot_goods;
+				this.hotshopItems = response.body.data.hot_dealer;
+				console.log(response.body.data.hot_dealer)
+				//const className = 'mypagi';
 				this.$nextTick(()=>{
+				  //初始化第一部分banner板块
 		          new Swiper('#activity_banner_container',{
 			          pagination: '#activity_banner_container .swiper-pagination',
 			          slidesPerView: 1,
 			          paginationClickable: true,
+			          autoplay: 5000,
 			          loop:true
+			          /*paginationBulletRender: function (swiper, index, clssName) {
+					      return '<span class="' + className + '">' + (index + 1) + '</span>';
+					  }*/
 			      })
-			      new Swiper('#sale_container',{
-			          nextButton: '#sale_container .swiper-button-next',
-				      prevButton: '#sale_container .swiper-button-prev',
-				      slidesPerView:5
+			      //初始化第三部分热门商品板块
+			      new Swiper('#hot_goods_container',{
+			          nextButton: '#hot_goods_container .swiper-button-next',
+				      prevButton: '#hot_goods_container .swiper-button-prev',
+				      slidesPerView:5,
+				      slidesPerGroup:5,
+				      spaceBetween:25
 			      })
 		      })
+			  //初始化第二部分促销商品板块
+			  this.$http.post('',{name:'zl.shopping.sys.banner.info',banner_homepage_id:response.body.data.sale_banner.banner_homepage_id,type:1}).then((response)=>{
+				  this.saleItems = response.body.data.goods_list;
+				  this.$nextTick(()=>{
+				  new Swiper('#sale',{
+			          nextButton: '#sale_container .swiper-button-next',
+				      prevButton: '#sale_container .swiper-button-prev',
+				      slidesPerView:5,
+				      slidesPerGroup:5,
+				      spaceBetween:25
+			      })
+				})
+			})
 			},(response)=>{
 
 			})
+			
 		}
 	}
 </script>
@@ -76,6 +132,7 @@
 		max-width: 1200px;
 		margin:0 auto;
 	}
+	/*第一部分banner板块*/
 	#activity_banner_container{
 		width: 100%;
 		height: 370px;
@@ -99,18 +156,49 @@
 			background: @baseColor !important;
 		}
 	}
-	#sale_container{
+	/*第二三部分促销板块 热门商品板块*/
+	#sale_container,#hot_goods_container{
 		width: 100%;
 		margin-top: 70px;
-		height: 304px;
-		#sale{
+		position: relative;
+		.swiper-slide{
+			width:220px;
+			height: 300px;
+		}
+		.swiper-button-prev, .swiper-container-rtl .swiper-button-next{
+			background: url(./assets/img/index/icon_left.png) no-repeat center;
+			left:-30px;
+			margin-top: -6px;
+		}
+		.swiper-button-next, .swiper-container-rtl .swiper-button-prev{
+			background: url(./assets/img/index/icon_right.png) no-repeat center;
+			right:-30px;
+			margin-top:-6px;
+		}
+	}
+	/*第四部分优秀商家板块*/
+	#hot_shop_container{
+		margin-bottom: 100px;
+		ul{
+			margin-top:24px;
+			display: flex;
+		    flex-flow: row wrap;
+		    justify-content: space-between;
+		}
+		.hot-shop{
+			width:384px;
+			text-align: center;
+			font-size: 16px;
+			color: @bla;
+			display: inline-block;
+			margin-bottom: 20px;
+			max-width: 384px;
+			min-width: 200px;
+    		width: 32%;
 			img{
-				width: 220px;
-				height: 220px;
-			}
-			.swiper-slide{
-				width:220px;
-				height: 300px;
+				width:100%;
+				height: 170px;
+				border-radius: 3px;
 			}
 		}
 	}
