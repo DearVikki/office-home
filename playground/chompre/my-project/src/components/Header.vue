@@ -6,10 +6,10 @@
 			<!--搜索框-->
 			<div id='header_search_container'>
 				<div id='header_search_type'>
-					<simpleDropdown id=''>Productos</simpleDropdown>
+					<simpleDropdown :sDropdown='sDropdown'></simpleDropdown>
 				</div>
 				<input type="text" :value='value' @input="onInput"/>
-				<span id='header_search_btn'></span>
+				<span id='header_search_btn' @click='xx'></span>
 			</div>
 			<div id='login_container' v-if='!logged'>
 				<span id='login'>ingresar</span>
@@ -34,13 +34,34 @@
 		name:'myheader',
 		data(){
 			return{
-				logged:false
+				logged:false,
+				sDropdown:{
+					headerStyle:{
+						lineHeight:'33px',
+						borderBottom: '1px solid #d42b1e'
+					},
+					options:[{name:'productos',value:1},{name:'tiendas',value:2}],
+					optionStyle:{
+						width:'100%',
+						fontSize:'10px',
+						textAlign:'center',
+						lineHeight:'25px',
+						height:'25px',
+						background:'#fff7f7',
+						border:'1px solid #d42b1e',
+						borderTop:'none'
+					},
+					selectedValue:2
+				}
 			}
 		},
 		props:['value'],
 		methods: {
 			onInput(event) {
 				this.$emit('input', event.target.value)
+			},
+			xx(){
+				console.log(this.sDropdown.selectedValue)
 			}
 		},
 		components:{SimpleDropdown}
@@ -72,8 +93,8 @@
 			border-radius: 2px;
 			#header_search_type{
 				display: inline-block;
-				width: 82px;
-				height: 100%;
+				width: 90px;
+				height: 34px;
 				border-right:1px solid @baseColor;
 				text-align: center;
 				vertical-align: middle;
@@ -87,7 +108,7 @@
 			}
 			#header_search_btn{
 				width: 44px;
-				height:35px;
+				height:33px;
 				float: right;
 				background: url(../assets/img/index/index_search.png) center no-repeat;
 				background-color: @baseColor;
