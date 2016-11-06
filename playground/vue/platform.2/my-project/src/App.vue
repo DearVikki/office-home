@@ -94,8 +94,8 @@ export default {
   },
   methods:{
     getData(){
-      this.$http.get('../knowledge/get_list').then((response) => {
-        this.allData = response.data.data;
+      this.$http.get('../knowledge/get_list.json').then((response) => {
+        this.allData = JSON.parse(response.data).data//response.data.data;
         this.displayList();
         this.allPage = Math.ceil(this.allData.length/this.pageListAmount);
         this.allDataLen = this.allData.length;
