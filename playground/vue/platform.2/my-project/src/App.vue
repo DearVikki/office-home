@@ -13,14 +13,14 @@
       <option :value="allDataLen">全部</option>
     </select>
     <table class="ui celled table blue striped fixed single line sortable">
-      <thead>
+      <thead :class='{fixed:fixedHeader.state}'>
         <tr>
-          <th class="two wide center aligned">id</th>
-          <th class="two wide center aligned">pid</th>
-          <th class="one wide grade center aligned">grade</th>
-          <th class="two wide center aligned">title</th>
-          <th class="three wide center aligned no-sort">content</th>
-          <th class="two wide center aligned no-sort">action</th>
+          <th class="two wide center aligned"  ref='id' :style='{width:fixedHeader.idWidth}'>id</th>
+          <th class="two wide center aligned" ref='pid' :style='{width:fixedHeader.pidWidth}'>pid</th>
+          <th class="one wide grade center aligned" :style='{width:fixedHeader.gradeWidth}'>grade</th>
+          <th class="two wide center aligned" :style='{width:fixedHeader.titleWidth}'>title</th>
+          <th class="three wide center aligned no-sort" :style='{width:fixedHeader.contentWidth}'>content</th>
+          <th class="two wide center aligned no-sort" :style='{width:fixedHeader.actionWidth}'>action</th>
         </tr>
       </thead>
       <tbody>
@@ -86,11 +86,27 @@ export default {
       allPage:'',
       allData:'',
       allDataLen:'',
-      pageListAmount:20
+      pageListAmount:20,
+      fixedHeader:{
+        state:false,
+        idWidth:'',
+        pidWidth:'',
+        contentWidth:'',
+        gradeWidth:'',
+        titleWidth:'',
+        actionWidth:''
+      }
     }
   },
   mounted(){
+    window.addEventListener('scroll',this.handleScroll);
+      console.log(this.$refs.id.getBoundingClientRect())
+    //console.log(this.$refs.pid.getBoundingClientRect())
+    //this.fixedHeader.idWidth = this.$refs.id.getBoundingClientRect().width;
     this.getData();
+  },
+  beforeDestroy(){
+    window.removeEventListener('scroll',this.handleScroll);
   },
   methods:{
     getData(){
@@ -121,6 +137,10 @@ export default {
       const start = (page-1)*this.pageListAmount;
       const end = start+parseFloat(this.pageListAmount);
       this.lists = this.allData.slice(start,end);
+    },
+    handleScroll(){
+      if(window.scrollY > 120) {this.fixedHeader.state = true;console.log(this.fixedHeader.idWidth)}
+      else this.fixedHeader.state = false;
     }
   },
   watch: {
@@ -138,5 +158,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+thead.fixed{
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+thead.fixed tr{
+  width: 100%;
+}
 </style>
