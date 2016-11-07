@@ -4,7 +4,28 @@
 	<title>table</title>
 </head>
 <body>
-	<caption>{{msg}}</caption>
+	<div id='app'>
+		<table>
+			<caption>Table Example</caption>
+			<colgroup><col></col><col></col><col></col><col></col></colgroup>
+			<thead>
+				<tr>
+					<th>Animal</th>
+					<th>Legs</th>
+					<th>Food</th>
+					<th>Cute?</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for='item in items'>
+					<td>{{item.animal}}</td>
+					<td>{{item.legs}}</td>
+					<td>{{item.food}}</td>
+					<td>{{item.cute}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </body>
-<script src='bundle.js'></script>
+<script src='index.js'></script>
 </html>

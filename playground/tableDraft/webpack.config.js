@@ -1,10 +1,14 @@
 module.exports = {
   entry: {
-    bundle1:'./src/app.js'
+    index:'./src/index.js'
   },
   output: {
     path: './dist',
     filename: '[name].js'
+  },
+  devtool:'source-map',
+  resolve: {
+    alias: {vue: 'vue/dist/vue.js'}
   },
   module: {
     loaders: [

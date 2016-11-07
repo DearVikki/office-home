@@ -1,0 +1,17 @@
+table{
+	border: 2px solid skyblue;
+	/*width: 100%;*/
+	 
+}
+tr{
+	border: 1px solid pink;
+}
+th,td{
+	border: 1px solid tomato;
+}
+/*td {
+  width: 150px;
+}
+td+td {
+  width: auto;
+}*/
