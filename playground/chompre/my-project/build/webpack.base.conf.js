@@ -28,7 +28,6 @@ function getEntry(globPath){
   });
   return entries;
   //entries是'module/*'与'./src/module/**/*.js'对应的对象
-  console.log(entries)
 }
 
 module.exports = {

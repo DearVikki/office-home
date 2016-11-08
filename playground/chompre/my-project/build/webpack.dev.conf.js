@@ -57,8 +57,8 @@ for(var pathname in pages){
     filename: pathname +'.html', //'module/index.html'
     template: pages[pathname], //'./src/module/index/index.html'
     inject: true,
-    chunks: Object.keys(pages).filter(item => {
-      return (item == pathname)
+    excludeChunks: Object.keys(pages).filter(item => {
+      return (item !== pathname)
     })
   }
   module.exports.plugins.push(new HtmlWebpackPlugin(conf));
