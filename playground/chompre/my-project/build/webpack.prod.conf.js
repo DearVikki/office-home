@@ -95,4 +95,34 @@ if (config.build.productionGzip) {
   )
 }
 
+//新加多页面部分
+var glob = require('glob');
+function getEntry(globPath) {
+  var entries = {},
+    basename, tmp, pathname;
+
+  glob.sync(globPath).forEach(function (entry) {
+    basename = path.basename(entry, path.extname(entry));
+    tmp = entry.split('/').splice(-3);
+    pathname = tmp.splice(0, 1) + '/' + basename;
+    entries[pathname] = entry;
+  });
+  console.log(entries);
+  return entries;
+}
+
+var pages = getEntry('./src/module/**/*.html');
+
+for (var pathname in pages) {
+  var conf = {
+    filename: pathname + '.html',
+    template: pages[pathname],
+    inject: true,
+    chunks: Object.keys(pages).filter(item => {
+      return (item == pathname)
+    })
+  };
+  webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
+}
+
 module.exports = webpackConfig

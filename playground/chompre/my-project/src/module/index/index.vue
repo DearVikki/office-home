@@ -53,7 +53,7 @@
 	</div>
 </template>
 <script>
-	import Swiper from './assets/lib/swiper.js';
+	import Swiper from '../../assets/lib/swiper.js';
 	export default{
 		name:'Index',
 		data(){
@@ -114,7 +114,7 @@
 	}
 </script>
 <style scoped lang='less'>
-	@import './assets/lib/swiper.min.css';
+	@import '../../assets/lib/swiper.min.css';
 	@baseColor: #d42b1e;
 	@backColor: #fff7f7;
 	@bla: #5c5c5c;
@@ -157,12 +157,12 @@
 			height: 300px;
 		}
 		.swiper-button-prev, .swiper-container-rtl .swiper-button-next{
-			background: url(./assets/img/index/icon_left.png) no-repeat center;
+			background: url(../../assets/img/index/icon_left.png) no-repeat center;
 			left:-30px;
 			margin-top: -6px;
 		}
 		.swiper-button-next, .swiper-container-rtl .swiper-button-prev{
-			background: url(./assets/img/index/icon_right.png) no-repeat center;
+			background: url(../../assets/img/index/icon_right.png) no-repeat center;
 			right:-30px;
 			margin-top:-6px;
 		}

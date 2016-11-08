@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import index from './Index'
+import index from './index.vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
@@ -8,12 +8,12 @@ Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.http.options.root = 'http://121.40.91.157/zl_shopping/php/index.php/PcApi';
 Vue.http.options.emulateJSON = true;
-import './assets/lib/public.less'
-import Myheader from './components/Header'
-import Myfooter from './components/Footer'
+import '../../assets/lib/public.less'
+import Myheader from '../../components/Header'
+import Myfooter from '../../components/Footer'
 const router = new VueRouter({
 	routes:[{
-		path:'',
+		path:'*/index.html',
 		component: index
 	}],
 	mode:'history'
