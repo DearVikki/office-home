@@ -8,12 +8,12 @@
 		<table>
 			<caption>Table Example</caption>
 			<colgroup><col></col><col></col><col></col><col></col></colgroup>
-			<thead>
+			<thead ref='thead' :class='{fix:fix}'>
 				<tr>
-					<th>Animal</th>
-					<th>Legs</th>
-					<th>Food</th>
-					<th>Cute?</th>
+					<th ref='animal' :style='{width:width1}'>Animal</th>
+					<th ref='legs' :style='{width:width2}'>Legs</th>
+					<th ref='food' :style='{width:width3}'>Food</th>
+					<th ref='cute' :style='{width:width4}'>Cute?</th>
 				</tr>
 			</thead>
 			<tbody>
