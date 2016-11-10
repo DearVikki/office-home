@@ -23,13 +23,6 @@ var v = new Vue({
 		width4:''
 	},
 	mounted(){
-		this.width1 = this.$refs.animal.getBoundingClientRect().width+'px';
-		this.width2 = this.$refs.legs.getBoundingClientRect().width+'px';
-		this.width3 = this.$refs.food.getBoundingClientRect().width+'px';
-		this.width4 = this.$refs.cute.getBoundingClientRect().width+'px';
-		this.left = this.$refs.thead.getBoundingClientRect().left;
-		this.top = this.$refs.thead.getBoundingClientRect().top;
-		window.addEventListener('scroll',this.handleScroll);
 	},
 	methods:{
 		handleScroll(){

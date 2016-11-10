@@ -1,31 +1,102 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>table</title>
-</head>
-<body>
-	<div id='app'>
-		<table>
-			<caption>Table Example</caption>
-			<colgroup><col></col><col></col><col></col><col></col></colgroup>
-			<thead ref='thead' :class='{fix:fix}'>
-				<tr>
-					<th ref='animal' :style='{width:width1}'>Animal</th>
-					<th ref='legs' :style='{width:width2}'>Legs</th>
-					<th ref='food' :style='{width:width3}'>Food</th>
-					<th ref='cute' :style='{width:width4}'>Cute?</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for='item in items'>
-					<td>{{item.animal}}</td>
-					<td>{{item.legs}}</td>
-					<td>{{item.food}}</td>
-					<td>{{item.cute}}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</body>
-<script src='index.js'></script>
+    <head>
+        <title>
+            table
+        </title>
+    </head>
+    <body>
+        <div id="app">
+            <table style="width: 50%;">
+            <colgroup><col><col><col><col></colgroup>
+                <tr>
+                    <td style="width: 10%;">
+                        td1
+                    </td>
+                    <td style="width: 40%;">
+                        td2
+                    </td>
+                    <td style="width: 10%;">
+                        td3
+                    </td>
+                    <td style="width: 40%;">
+                        td4
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        第二行
+                    </th>
+                    <td>
+                        第二行td
+                    </td>
+                    <td>
+                        第二行td
+                    </td>
+                    <td>
+                        第二行td
+                    </td>
+                </tr>
+                <tr>
+                	<th>
+                        第三行
+                    </th>
+                    <td>
+                        第三行td
+                    </td>
+                    <td>
+                        第三行td
+                    </td>
+                    <td>
+                        第三行td
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        第四行
+                    </th>
+                    <td>
+                        第四行td
+                    </td>
+                    <td>
+                        第四行td
+                    </td>
+                    <td>
+                        第四行td
+                    </td>
+                </tr>
+            </table>
+            <table style="width: 50%;margin-top:40px">
+                <tr>
+                    <td style="width: 100px;">
+                        td1
+                    </td>
+                    <td colspan="2">
+                        td2
+                    </td>
+                    <td style="width: 100px;">
+                        td3
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="width: 120px;">
+                        th3
+                    </th>
+                    <td colspan="2">
+                        td3
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2" style="width: 120px;">
+                        th4
+                    </th>
+                    <td colspan="1">
+                        td4
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    <script src="index.js">
+    </script>
 </html>
