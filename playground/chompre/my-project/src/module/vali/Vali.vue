@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<validate name="validation1">
+		<validation name="validation1">
 	      <div class="username-field">
 	        <label for="username">username:</label>
 	        <validity field="username" :validators="['required']">
@@ -18,11 +18,11 @@
 	        <p v-if="commentLong">Your comment is too long.</p>
 	      </div>
 	      <input type="submit" value="send" v-if="allPass">
-	  </validate>
+	  </validation>
 	</div>
 </template>
 <script>
-	import validate from 'vue-validator';
+	import {Components, mapValidation} from 'vue-validator';
 	export default{
 		name:'Vali',
 		data(){
@@ -30,7 +30,7 @@
 				msg:'If you see this, then congrats!!'
 			}
 		},
-		computed: validate.mapValidation({
+		computed: mapValidation({
 			usernameRequire: '$validation.validation1.username.required',
 			commentLong: '$validation.validation1.comment.maxlength',
 			allPass:'$validation.validation1.valid'
@@ -38,6 +38,6 @@
 		mounted(){
 			//console.log(validate)
 		},
-		components:{validate}
+		components: Components()
 	}
 </script>
