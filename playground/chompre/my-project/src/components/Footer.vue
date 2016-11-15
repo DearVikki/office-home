@@ -1,5 +1,5 @@
 <template>
-	<div id='footer_container' :class='{fullPage: fullPage}'>
+	<div id='footer_container' :class='{onepage: onepage}'>
 		<div id='footer_part1'>
 			<table>
 				<caption>Chompre用户指南</caption>
@@ -19,7 +19,11 @@
 			return {
 			}
 		},
-		props:['fullPage']
+		props:{
+			onepage:{
+				default:false
+			}
+		}
 	}
 </script>
 <style scoped lang='less'>
@@ -29,7 +33,8 @@
 	#footer_container{
 		width: 100%;
 		border-top:6px solid @baseColor;
-		&.fullPage{
+		background: #fff;
+		&.onepage{
 			position: absolute;
 			bottom: 0;
 			left: 0;

@@ -10,7 +10,8 @@ html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pr
     vertical-align: baseline;
     background: transparent;
 }
-*{
+
+* {
     box-sizing: border-box;
 }
 
@@ -75,57 +76,15 @@ body {
 .inLine {
     display: inline-block;
 }
-.cd{
-	cursor: default;
-}
-.cp{
-	cursor: pointer;
+
+.cd {
+    cursor: default;
 }
 
-.j-box {
-    position: relative;
-    overflow: hidden;
+.cp {
+    cursor: pointer;
 }
 
-
-/*按钮样式*/
-
-.rt_btn {
-    display: block;
-    width: 120px;
-    height: 35px;
-    line-height: 35px;
-    text-align: center;
-    font-size: 14px;
-    color: #fff;
-    background: #00a5e3;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.rt_btn.w85 {
-    width: 85px;
-}
-
-.rt_btn.w60 {
-    width: 60px;
-}
-
-.rt_btn.w280 {
-    width: 280px;
-    height: 52px;
-    line-height: 52px;
-    font-size: 16px;
-    letter-spacing: 15px;
-}
-
-.rt_btn:hover {
-    background: #00b5fc;
-}
-
-.rt_btn:active {
-    background: #009edd;
-}
 
 /*自定义样式*/
 
@@ -134,35 +93,107 @@ body {
     cursor: default;
     font-size: 0px;
 }
-.goods-name{
+
+
+/*首页板块*/
+
+.goods-name {
     font-size: 12px;
-    color:@bla;
+    color: @bla;
 }
-.goods-price{
+
+.goods-price {
     font-size: 14px;
-    color:@baseColor;
-    margin-top:10px;
+    color: @baseColor;
+    margin-top: 10px;
 }
-.common-goods-item{
-    margin-top:20px;
+
+.common-goods-item {
+    margin-top: 20px;
     width: 220px;
-    img{
+    img {
         width: 100%;
     }
-    p{
+    p {
         font-size: 12px;
-        color:@bla;
-        margin-top:8px;
+        color: @bla;
+        margin-top: 8px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-
     }
-    p:last-child{
+    p:last-child {
         font-size: 14px;
-        color:@baseColor;
-        margin-top:10px;
+        color: @baseColor;
+        margin-top: 10px;
+    }
+}
+
+
+/*注册登录板块*/
+
+.bla30 {
+    color: #323232;
+    font-size: 30px;
+}
+
+.grey24 {
+    color: #666;
+    font-size: 24px;
+}
+
+.account_btn {
+    background: @baseColor;
+    color: #fff;
+}
+
+.account-container {
+    margin: 57px auto;
+    h3 {
+        color: #323232;
+        font-size: 30px;
+    }
+    .form-container {
+        border: 1px solid #d3d3d3;
+        background: #fff;
+        border-radius: 3px;
+        width: 100%;
+        margin-top: 30px;
+        position: relative;
+        .common-field {
+            margin-top: 6px;
+            height: 97px;
+            label {
+                color: #666;
+                font-size: 24px;
+            }
+            .input-container {
+                width: 355px;
+                height: 30px;
+                margin-top: 20px;
+                border-bottom: 1px solid #979797;
+                input {
+                    font-size: 20px;
+                    color: #666;
+                    border: none;
+                }
+            }
+        }
+        .account-btn{
+            font-size: 24px;
+            color: #fff;
+            background: @baseColor;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+            border-radius: 4px;
+            margin-top: 38px;
+        }
+        .error{
+            font-size: 12px;
+            color: @baseColor;
+        }
     }
 }
