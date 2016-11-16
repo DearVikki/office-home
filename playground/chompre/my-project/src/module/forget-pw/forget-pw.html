@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html style="height:100%;">
+  <head>
+    <meta charset="utf-8">
+    <title>Forget-pw</title>
+  </head>
+  <body style="height:100%;padding-top:.1px;background: #f2f2f2">
+    <div id="app">
+    <emptyHeader></emptyHeader>
+    <div id='forget_container' class="account-container">
+      <h3>找回密码</h3>
+      <!--大框开始-->
+      <div class="form-container">
+        <!--包住form表单的-->
+        <router-view></router-view>
+      </div>
+    </div>
+    <myFooter></myFooter>
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+<style type="text/css">
+  #forget_container{
+    max-width: 726px;
+    width: 100%;
+  }
+</style>
