@@ -126,6 +126,11 @@
 		overflow: hidden;
 		text-align: center;
 	}
+	.form-group{
+		max-width: 355px;
+		min-width: 180px;
+    	width: 100%;
+	}
 	select{
 		width: 100%;
 		border: none;

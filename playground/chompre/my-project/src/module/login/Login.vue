@@ -11,16 +11,18 @@
 							<label :for="field.id">{{field.name}}</label>
 							<div class="input-container">
 								<validity :ref="field.id" :field="field.id" :validators="field.validator">
-									<input id="account" type="text" @input="handleValidate" :placeholder="field.placeholder">
+									<input id="account" type="text" @blur="handleValidate" :placeholder="field.placeholder">
 								</validity>
 							</div>
-							<p class="error" v-if="field.error">xxx</p>
+							<p class="error" v-if="accErr">xxx</p>
 						</div>
 						<pre style="font-size:12px">{{$validation}}</pre>
 						<div class="account-btn" @click="login">Ingresar</div>
-				</validation>
+					</validation>
 				<!--<a class="login-opt">找回密码</a>
 				<a class="login-opt">Registrarme</a>-->
+				<p>{{accErr}}</p>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -51,28 +53,27 @@
 		          }]
 			}
 		},
-		computed: a.mapValidation({
-			accountRequire: '$validation.validation1.account.required',
-			pwInvalid: '$validation.validation1.pw.invalid',
-			pwShort: '$validation.validation1.pw.minlength',
-			pwLong: '$validation.validation1.pw.maxlength',
-			allPass:'$validation.validation1.valid'
-		}),
-		watch:{
-			pwInvalid(newVal){
-				/*this.fields.forEach((e) => {
-					if(e.id === 'pw') {
-						e.error = newVal;
-					}
-				})*/
-			}
+		computed: {
+			accErr(){
+				try {
+					console.log(this.$validation.validation1.account.errors[0].validator)
+					if(!this.$validation.validation1.account.valid) return '账号不能为空';
+				}catch(err) {}
+			},
+			...a.mapValidation({
+				accountRequire: '$validation.validation1.account.required',
+				pwInvalid: '$validation.validation1.pw.invalid',
+				pwShort: '$validation.validation1.pw.minlength',
+				pwLong: '$validation.validation1.pw.maxlength',
+				allPass:'$validation.validation1.valid'
+			})
 		},
 		methods: {
 			handleValidate(e) {
 				e.target.$validity.validate();
 			},
 			login(e){
-				//this.$activateValidator();
+				this.$validation.activateValidator();
 				var self = this;
 				console.log(this);
 			      this.$validate(true, function () {
@@ -87,7 +88,7 @@
 <style scoped lang='less'>
 	@baseColor: #d42b1e;
 	#login_container{
-		width: 714px;
+		max-width: 714px;
 	}
 	#form_wrapper{
 		margin:40px 84px;
@@ -101,5 +102,9 @@
 		&:nth-of-type(2){
 			bottom: 52px;
 		}
+	}
+	.account-btn{
+		display: block;
+		max-width: 173px;
 	}
 </style>
