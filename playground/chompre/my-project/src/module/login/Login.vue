@@ -9,19 +9,18 @@
 					<validation name="validation1">
 						<div class="common-field" v-for="field in fields" :class="field.class">
 							<label :for="field.id">{{field.name}}</label>
-							<div class="input-container">
+							<div class="input-container" :class="{active:status[field.id].active, warn:status[field.id].result}">
 								<validity :ref="field.id" :field="field.id" :validators="field.validator">
-									<input id="account" type="text" @blur="handleValidate" :placeholder="field.placeholder">
+									<input :id="field.id" type="text"  :placeholder="field.placeholder" @blur="handleValidate(field.id)" @focus="hideMsg">
 								</validity>
 							</div>
-							<p class="error" v-if="accErr">xxx</p>
+							<p class="error" v-if="status[field.id].result">{{status[field.id].msg}}</p>
 						</div>
-						<pre style="font-size:12px">{{$validation}}</pre>
+						<!--<pre style="font-size:12px">{{$validation}}</pre>-->
 						<div class="account-btn" @click="login">Ingresar</div>
 					</validation>
-				<!--<a class="login-opt">找回密码</a>
-				<a class="login-opt">Registrarme</a>-->
-				<p>{{accErr}}</p>
+					<a class="login-opt">找回密码</a>
+					<a class="login-opt">Registrarme</a>
 				</div>
 			</div>
 		</div>
@@ -41,7 +40,8 @@
 		            class: 'account-field',
 		            name: '账号',
 		            placeholder: '请输入邮箱或身份证',
-		            error: '',
+		            error: this.accErr,
+		            msg: this.accMsg,
 		            validator: { required: true}
 		          }, {
 		            id: 'pw',
@@ -54,33 +54,50 @@
 			}
 		},
 		computed: {
-			accErr(){
-				try {
-					console.log(this.$validation.validation1.account.errors[0].validator)
-					if(!this.$validation.validation1.account.valid) return '账号不能为空';
-				}catch(err) {}
+			status(){
+				var status = {};
+				this.fields.forEach((field)=>{
+					status[field.id] = {result: false, msg: '', active:false};
+				})
+				try{
+					if(this.$validation.validation1.account.invalid) {
+						status.account.result = true;
+						status.account.msg = '账号不能为空';
+					}
+					if(this.$validation.validation1.pw.invalid) {
+						status.pw.result = true;
+						var err0 = this.$validation.validation1.pw.errors[0].validator;
+						if(err0 === 'required') status.pw.msg = '密码不能为空';
+						else if(err0 === 'minlength') status.pw.msg = '密码长度最小为6位';
+					}
+				} catch(err) {}
+				return status;
 			},
 			...a.mapValidation({
-				accountRequire: '$validation.validation1.account.required',
-				pwInvalid: '$validation.validation1.pw.invalid',
-				pwShort: '$validation.validation1.pw.minlength',
-				pwLong: '$validation.validation1.pw.maxlength',
+				accountInvalid: 'this.$validation.validation1.account.invalid',
+				pwInvalid: 'this.$validation.validation1.pw.invalid',
 				allPass:'$validation.validation1.valid'
 			})
 		},
 		methods: {
-			handleValidate(e) {
-				e.target.$validity.validate();
+			handleValidate(validity) {
+				this.$refs[validity][0].validate();
+
 			},
-			login(e){
-				this.$validation.activateValidator();
-				var self = this;
-				console.log(this);
-			      this.$validate(true, function () {
-			        if (self.$validation.invalid) {
-			          e.preventDefault()
-			        }
-			      })
+			hideMsg(e){
+				var field = e.target.id;
+				this.status[field].result = false;
+				this.status[field].active = true;
+				console.log(this.status.pw)
+			},
+			//是否接触过input框 结果有差
+			login(){
+				for (var validity in this.$refs){
+					this.$refs[validity][0].validate();
+				}
+				console.log(this.$validation.validation1)
+				if(this.$validation.validation1.invalid) return;
+				else console.log('hey')
 			}
 		}
 	}
@@ -106,5 +123,8 @@
 	.account-btn{
 		display: block;
 		max-width: 173px;
+	}
+	.input-container.active,.input-container.warn{
+		border-bottom: 2px solid @baseColor !important;
 	}
 </style>
