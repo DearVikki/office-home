@@ -9,9 +9,11 @@
 					<validation name="validation1">
 						<div class="common-field" v-for="field in fields" :class="field.class">
 							<label :for="field.id">{{field.name}}</label>
+							<a v-if="field.id==='pw'" class="forget-pw">Recuperar contraseña?</a>
 							<div class="input-container" :class="{active:status[field.id].active, warn:status[field.id].result}">
 								<validity :ref="field.id" :field="field.id" :validators="field.validator">
-									<input :id="field.id" type="text"  :placeholder="field.placeholder" @blur="handleValidate(field.id)" @focus="hideMsg">
+									<input v-if="field.id === 'account'" :id="field.id" type="text"  :placeholder="field.placeholder" @blur="handleValidate(field.id)" @focus="hideMsg" v-model='values[field.id]'>
+									<input v-else :id="field.id" type="password"  :placeholder="field.placeholder" @blur="handleValidate(field.id)" @focus="hideMsg" v-model='values[field.id]'>
 								</validity>
 							</div>
 							<p class="error" v-if="status[field.id].result">{{status[field.id].msg}}</p>
@@ -19,8 +21,7 @@
 						<!--<pre style="font-size:12px">{{$validation}}</pre>-->
 						<div class="account-btn" @click="login">Ingresar</div>
 					</validation>
-					<a class="login-opt">找回密码</a>
-					<a class="login-opt">Registrarme</a>
+					<a class="signup">Registrarme</a>
 				</div>
 			</div>
 		</div>
@@ -35,18 +36,23 @@
 		},
 		data(){
 			return{
+				values:{
+					account: '',
+					pw: ''
+				},
 				fields:[{
 		            id: 'account',
 		            class: 'account-field',
-		            name: 'nombre de usuario',
+		            name: 'Nombre de usuario',
 		            placeholder: '请输入邮箱或身份证',
+		            type: 'text',
 		            error: this.accErr,
 		            msg: this.accMsg,
 		            validator: { required: true}
 		          }, {
 		            id: 'pw',
 		            class: 'pw-field',
-		            name: 'contraseña',
+		            name: 'Contraseña',
 		            placeholder: '请输入6-20位密码',
 		            error: '',
 		            validator: { required: true, minlength: 6, maxlength: 20}
@@ -80,7 +86,7 @@
 			})
 		},
 		validators:{
-			numeric: function(val){
+			numeric(val){
 				return /^[-+]?[0-9]+$/.test(val)
 			}
 		},
@@ -101,7 +107,6 @@
 						/*if(this.$validation.validation1.invalid) return;
 						else {
 							this.$http.post('',{name:'zl.shopping.sys.login',account:'',password:''}).then((response)=>{
-							 
 						})}*/
 					});
 				}
@@ -116,16 +121,24 @@
 	}
 	#form_wrapper{
 		margin:40px 84px;
+		.common-field{
+			margin:6px auto;
+			max-width: 400px;
+		}
 	}
-	.login-opt{
+	.forget-pw{
+		font-size: 14px;
+		position: absolute;
+		right: 0;
+		top: 11px;
+		color: @baseColor;
+	}
+	.signup{
 		font-size: 20px;
 		position: absolute;
-		right: 87px;
+		right: 57px;
 		color: @baseColor;
-		bottom:144px;
-		&:nth-of-type(2){
-			bottom: 52px;
-		}
+		bottom:52px;
 	}
 	.account-btn{
 		display: block;
