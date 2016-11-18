@@ -91,7 +91,6 @@
 				      slidesPerGroup:5,
 				      spaceBetween:25
 			      })
-				 
 		      })
 			  //初始化第二部分促销商品板块
 			  this.$http.post('',{name:'zl.shopping.sys.banner.info',banner_homepage_id:response.body.data.sale_banner.banner_homepage_id,type:1}).then((response)=>{
@@ -109,7 +108,6 @@
 			},(response)=>{
 
 			})
-			
 		}
 	}
 </script>

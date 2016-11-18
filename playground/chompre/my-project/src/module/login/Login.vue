@@ -38,7 +38,7 @@
 				fields:[{
 		            id: 'account',
 		            class: 'account-field',
-		            name: '账号',
+		            name: 'nombre de usuario',
 		            placeholder: '请输入邮箱或身份证',
 		            error: this.accErr,
 		            msg: this.accMsg,
@@ -46,7 +46,7 @@
 		          }, {
 		            id: 'pw',
 		            class: 'pw-field',
-		            name: '密码',
+		            name: 'contraseña',
 		            placeholder: '请输入6-20位密码',
 		            error: '',
 		            validator: { required: true, minlength: 6, maxlength: 20}
@@ -79,10 +79,14 @@
 				allPass:'$validation.validation1.valid'
 			})
 		},
+		validators:{
+			numeric: function(val){
+				return /^[-+]?[0-9]+$/.test(val)
+			}
+		},
 		methods: {
 			handleValidate(validity) {
 				this.$refs[validity][0].validate();
-
 			},
 			hideMsg(e){
 				var field = e.target.id;
@@ -93,11 +97,14 @@
 			//是否接触过input框 结果有差
 			login(){
 				for (var validity in this.$refs){
-					this.$refs[validity][0].validate();
+					this.$refs[validity][0].validate(() => {
+						/*if(this.$validation.validation1.invalid) return;
+						else {
+							this.$http.post('',{name:'zl.shopping.sys.login',account:'',password:''}).then((response)=>{
+							 
+						})}*/
+					});
 				}
-				console.log(this.$validation.validation1)
-				if(this.$validation.validation1.invalid) return;
-				else console.log('hey')
 			}
 		}
 	}

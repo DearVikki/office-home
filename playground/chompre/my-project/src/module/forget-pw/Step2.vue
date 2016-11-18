@@ -55,6 +55,7 @@
 </template>
 <script>
     import a from 'vue-validator';
+    import countdown from '../../assets/js/countdown.js'
 	export default{
 		name: 'step1',
 		data(){
@@ -65,6 +66,9 @@
 				question:'你喜欢什么颜色',
 				xx: false
 			}
+		},
+		mounted(){
+			countdown({text: '.send-code', time:60});
 		},
 		methods: {
 			handleValidate: function (e) {
