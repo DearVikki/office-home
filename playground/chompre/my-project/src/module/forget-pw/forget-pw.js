@@ -13,6 +13,7 @@ import Emptyheader from '../../components/EmptyHeader'
 import Myfooter from '../../components/Footer'
 import Step1 from './Step1.vue'
 import Step2 from './Step2.vue'
+import Step3 from './Step3.vue'
 
 import VueValidator from 'vue-validator'
 Vue.use(VueValidator);
@@ -24,6 +25,9 @@ const router = new VueRouter({
   },{
   	path: '/Step2',
   	component:Step2
+  },{
+    path: '/Step3',
+    component: Step3
   }]
 })
 new Vue({
