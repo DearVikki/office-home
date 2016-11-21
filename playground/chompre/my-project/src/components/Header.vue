@@ -74,6 +74,7 @@
 	#header_container{
 		width: 100%;
 		border-bottom: 2px solid @baseColor;
+		background: #fff;
 	}
 	#header_part1{
 		width:100%;
