@@ -2,18 +2,23 @@
 	<!--包住form表单的-->
 	<div id='form_wrapper' style="font-size:20px">
 		<validation name="validation1">
-			<div class="common-field account">
+			<div class="common-field account-field">
 				<label for="account">账号</label>
-				<div class="input-container">
-					<validity field="account" validators="{required: true}">
-						<input id="account" type="text" @input="handleValidate" placeholder="请输入邮箱或者身份证号">
+				<div class="input-container" :class="{warn: account.error || account.focus}">
+					<validity ref="account" field="account" :validators="{required:true}">
+						<input
+						id="account"
+						type="text"
+						placeholder="请输入邮箱或者身份证号"
+						@blur="handleValidate"
+						@focus="focusing">
 					</validity>
 				</div>
-				<p class="error" v-if="accountRequire">xxx</p>
+				<p class="error" v-if="account.error && !account.focus">{{account.msg}}</p>
 			</div>
 			<!--<pre style="font-size:12px">{{$validation}}</pre>-->
 		</validation>
-		<div class="account-btn">下一步</div>
+		<div class="account-btn" @click="nextStep">下一步</div>
 	</div>
 </template>
 <script>
@@ -22,15 +27,38 @@
 		name: 'step1',
 		data(){
 			return{
-
+				account:{
+					id: 'account',
+					error: false,
+					focus: false,
+					msg: '账号不能为空'
+				}
 			}
 		},
-		computed: a.mapValidation({
-			accountRequire: '$validation.validation1.account.required'
-		}),
+		watch:{
+			$validation(){
+				var va1 = this.$validation.validation1;
+				try{
+					if(va1.account.invalid){
+						this.account.error = true;
+					} else{
+						this.account.error = false;
+					}
+				}catch(e){}
+			}
+		},
 		methods: {
-			handleValidate: function (e) {
-				e.target.$validity.validate()
+			handleValidate() {
+				this.$refs.account.validate();
+				this.account.focus = false;
+			},
+			focusing(){
+				this.account.focus = true;
+			},
+			nextStep(){
+				this.$refs.account.validate(()=>{
+					if(this.$validation.validation1.valid) this.$router.push({path: 'Step2'});
+				});
 			}
 		}
 	}
@@ -44,5 +72,7 @@
 		font-size: 20px;
 	    display: inline-block;
 	    margin: 40px auto;
+	    width: 100%;
+	    max-width: 355px;
 	}
 </style>

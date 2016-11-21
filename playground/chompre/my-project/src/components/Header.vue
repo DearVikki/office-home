@@ -5,11 +5,18 @@
 			<img src="../assets/img/index/index_logo.png" />
 			<!--搜索框-->
 			<div id='header_search_container'>
-				<div id='header_search_type'>
-					<simpleDropdown :sDropdown='sDropdown'></simpleDropdown>
+				<div id='header_search_type' @click='clickHeaderType'>
+					{{searchActive.name}}
+					<div id='header_search_dropdown' v-show='headerDpActive'>
+						<div
+						v-for="(value, option) in searchOptions"
+						class="dropdown-item"
+						:class="{active: searchOptions[option].active}"
+						@click="clickHeaderDp(searchOptions[option].name)">{{searchOptions[option].name}}</div>
+					</div>
 				</div>
 				<input type="text" :value='value' @input="onInput"/>
-				<span id='header_search_btn' @click='xx'></span>
+				<span id='header_search_btn'></span>
 			</div>
 			<div id='login_container' v-if='!logged'>
 				<span id='login'>ingresar</span>
@@ -29,42 +36,51 @@
 	</div>
 </template>
 <script>
-	import SimpleDropdown from './SimpleDropdown'
 	export default{
 		name:'myheader',
 		data(){
 			return{
 				logged:false,
-				sDropdown:{
-					headerStyle:{
-						lineHeight:'33px',
-						borderBottom: '1px solid #d42b1e'
+				headerDpActive: false,
+				searchOptions:{
+					Productos: {
+					name: 'Productos',
+					type: 1,
+					active: true
 					},
-					options:[{name:'productos',value:1},{name:'tiendas',value:2}],
-					optionStyle:{
-						width:'100%',
-						fontSize:'10px',
-						textAlign:'center',
-						lineHeight:'25px',
-						height:'25px',
-						background:'#fff7f7',
-						border:'1px solid #d42b1e',
-						borderTop:'none'
-					},
-					selectedValue:2
+					Tiendas: {
+					name: 'Tiendas',
+					type: 2,
+					active: false
+					}
+				},
+				searchActive:{
+					name: 'Productos',
+					type: 1
 				}
 			}
 		},
 		props:['value'],
+		computed:{
+		},
 		methods: {
 			onInput(event) {
 				this.$emit('input', event.target.value)
 			},
-			xx(){
-				console.log(this.sDropdown.selectedValue)
+			clickHeaderType(){
+				this.headerDpActive = true;
+			},
+			clickHeaderDp(name){
+				for (var i in this.searchOptions){
+					this.searchOptions[i].active = false;
+				}
+				this.searchOptions[name].active = true;
+				this.searchActive.name = name;
+				this.searchActive.type = this.searchOptions[name].type;
+				this.headerDpActive = false;
+				console.log(this.headerDpActive )
 			}
-		},
-		components:{SimpleDropdown}
+		}
 	}
 </script>
 <style scoped lang='less'>
@@ -94,13 +110,55 @@
 			border-radius: 2px;
 			#header_search_type{
 				display: inline-block;
-				width: 90px;
+				width: 105px;
 				height: 34px;
+				position: relative;
 				border-right:1px solid @baseColor;
+				border-bottom: 1px solid @baseColor;
 				text-align: center;
 				vertical-align: middle;
 				color: @baseColor;
 				background: @backColor;
+				font-size: 12px;
+				line-height: 34px;
+				cursor: pointer;
+				/*小下拉三角*/
+				&:after{
+					content:'';
+					position: absolute;
+					border: 5px solid transparent;
+					border-top-color: @baseColor;
+					right: 5px;
+					top:15px;
+					z-index: 1;
+				};
+				#header_search_dropdown{
+					position: absolute;
+					width: 103%;
+					right: -2px;
+					top: -2px;
+					background: #fff;
+					z-index: 2;
+					.dropdown-item{
+						text-align: right;
+						font-size: 12px;
+						padding: 0 14px;
+						border: 1px solid #eee;
+						height: 26px;
+						line-height: 26px;
+						cursor: pointer;
+						position: relative;
+						/*下拉菜单的勾*/
+						&.active:after{
+							content: '\2713';
+							color: @baseColor;
+							position: absolute;
+							top: 0px;
+							left: 10px;
+							font-weight: bold;
+						}
+					}
+				}
 			}
 			input{
 				vertical-align: middle;

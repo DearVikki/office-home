@@ -10,9 +10,26 @@
 							<li class="common-field" v-for="(value, field) in fieldsA" :class="fieldsA[field].class">
 								<label :for="fieldsA[field].id">{{fieldsA[field].name}}</label>
 								<div class="input-container" :class="{ warn: fieldsA[field].error || fieldsA[field].focus}">
-									<validity :ref='fieldsA[field].id' :field='fieldsA[field].id' :validators="fieldsA[field].validator">
-										<input type="password" :id="fieldsA[field].id" :placeholder="fieldsA[field].placeholder" @blur="handleValidate(fieldsA[field].id)" @focus="focusing(fieldsA[field].id)" v-model="fieldsA[field].val" v-if="fieldsA[field].id === ('pw' || 'repw')">
-										<input :id="fieldsA[field].id" type="text" :placeholder="fieldsA[field].placeholder" @blur="handleValidate(fieldsA[field].id)" @focus="focusing(fieldsA[field].id)" v-model="fieldsA[field].val" v-else>
+									<validity
+									:ref='fieldsA[field].id'
+									:field='fieldsA[field].id'
+									:validators="fieldsA[field].validator">
+										<input
+										type="password"
+										:id="fieldsA[field].id"
+										:placeholder="fieldsA[field].placeholder"
+										@blur="handleValidate(fieldsA[field].id)"
+										@focus="focusing(fieldsA[field].id)"
+										v-model="fieldsA[field].val"
+										v-if="fieldsA[field].id === ('pw' || 'repw')">
+										<input
+										 type="text"
+										:id="fieldsA[field].id"
+										:placeholder="fieldsA[field].placeholder"
+										@blur="handleValidate(fieldsA[field].id)"
+										@focus="focusing(fieldsA[field].id)"
+										v-model="fieldsA[field].val"
+										v-else>
 									</validity>
 								</div>
 								<p class="error" v-if="fieldsA[field].error && !fieldsA[field].focus">{{fieldsA[field].msg}}</p>
@@ -23,9 +40,20 @@
 								<label :for="fieldsB[field].id">{{fieldsB[field].name}}</label>
 								<div class="input-container" :class="{ warn: fieldsB[field].error || fieldsB[field].focus}">
 									<validity :ref='fieldsB[field].id' :field='fieldsB[field].id' :validators="fieldsB[field].validator">
-										<input :id="fieldsB[field].id" type="text"  :placeholder="fieldsB[field].placeholder" @blur="handleValidate(fieldsB[field].id)" @focus="focusing(fieldsB[field].id)" v-model="fieldsB[field].val" v-if="fieldsB[field].isSelect">
-										<select :id="field.id" v-else v-model='values[field.id]'>
-											<option v-for="option in fieldsB[field].options">{{option}}</option>
+										<input
+										type="text"
+										:id="fieldsB[field].id"
+										:placeholder="fieldsB[field].placeholder"
+										@blur="handleValidate(fieldsB[field].id)"
+										@focus="focusing(fieldsB[field].id)"
+										v-model="fieldsB[field].val"
+										v-if="!fieldsB[field].isSelect">
+										<select
+										:id="field.id"
+										v-model='fieldsB[field].val'
+										value=''
+										v-else>
+											<option v-for="option in fieldsB[field].options" :value="option.register_question_id">{{option.content}}</option>
 										</select>
 									</validity>
 								</div>
@@ -35,7 +63,7 @@
 						<div class="clear"></div>
 						<!--<pre style="font-size:12px">{{$validation}}</pre>-->
 				</validation>
-				<div class="account-btn">Registrarme</div>
+				<div class="account-btn" @click='register'>Registrarme</div>
 			</div>
 		</div>
 	</div>
@@ -45,28 +73,32 @@
 	export default{
 		name: 'signup',
 		mounted(){
-			console.log(this.fieldsA)
+			//拉取问题
+			this.$http.post('',{name:'zl.shopping.sys.register.question'}).then((response)=>{
+					this.fieldsB.question.options = response.body.data;
+					this.fieldsB.question.options.unshift({register_question_id:'', content: '嘿！请选择一个问题'})
+				})
 		},
 		data(){
 			return{
 				fieldsA: {
+					remail: {
+		            id: 'remail',
+		            class: 'remail-field',
+		            name: 'Confimar su correo',
+		            placeholder: '',
+		            validator: { required: true, equalTo: 'email'},
+		            error: '',
+		            msg:'',
+		            val:'',
+		            focus: false
+		          },
 					email: {
 		            id: 'email',
 		            class: 'email-field',
 		            name: 'Correo',
 		            placeholder: '',
 		            validator: { required: true, isEmail: true},
-		            error: '',
-		            msg:'',
-		            val:'',
-		            focus: false
-		          },
-		          remail: {
-		            id: 'remail',
-		            class: 'remail-field',
-		            name: 'Confimar su correo',
-		            placeholder: '',
-		            validator: { required: true, equalTo: 'email'},
 		            error: '',
 		            msg:'',
 		            val:'',
@@ -125,7 +157,16 @@
 		            placeholder: '请选择问题',
 		            validator: { required: true},
 		            isSelect: true,
-		            options:['问题A','问题B'],
+		            options:[{
+		            	text: '请选择一个问题',
+		            	val: ''
+		            },{
+		            	text: '问题A',
+		            	val: 'A'
+		            },{
+		            	text: '问题B',
+		            	val: 'B'
+		            }],
 		            error: '',
 		            msg:'',
 		            val:'',
@@ -156,6 +197,7 @@
 					} else {
 						this.fields.email.error = false;
 					}
+					console.log(va1.remail.invalid)
 					if(va1.remail.invalid) {
 						this.fieldsA.remail.error = true;
 						var err0 = va1.remail.errors[0].validator;
@@ -195,6 +237,12 @@
 					} else {
 						this.fieldsB.id.error = false;
 					}
+					if(va1.question.invalid){
+						this.fieldsB.question.error = true;
+						this.fieldsB.question.msg = '请选择一个问题';
+					} else {
+						this.fieldsB.question.error = false;
+					}
 					if(va1.answer.invalid){
 						this.fieldsB.answer.error = true;
 						this.fieldsB.answer.msg = '答案不能为空';
@@ -223,6 +271,29 @@
 			focusing(field){
 				if(this.fieldsA[field]) this.fieldsA[field].focus = true;
 				else this.fieldsB[field].focus = true;
+			},
+			register(){
+				let n = 13;
+				for (var validity in this.$refs){
+					this.$refs[validity][0].validate(() => {
+						n--;
+						if(n>0) return;
+						if(this.$validation.validation1.invalid) {
+							console.log(this.fieldsB.question.val)
+							return;}
+						else {
+							console.log('allPass')
+							/*this.$http.post('',{name:'zl.shopping.sys.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
+								if(response.body.code === 1000){
+									console.log('login success!')
+								} else if(response.body.code === 1011) {
+									this.fields.account.error = true;
+									this.fields.account.msg = '该账号未注册'
+								}
+							})*/
+						}
+					});
+				}
 			}
 		}
 	}
