@@ -32,7 +32,7 @@
 		   </validation>
 		</div>
 		<!--邮箱找回密码-->
-		<div id='e_body' v-if='emailActive'>
+		<div id='e_body' v-show='emailActive'>
 		 	<validation name="validation2">
 				<div class="common-field" v-for="(value, field) in fieldsB" :class="fieldsB[field].class">
 					<label :for="fieldsB[field].id">{{fieldsB[field].name}}</label>
@@ -177,14 +177,12 @@
 					//if(this.$validation.validation2.email.invalid || i > 0) return;
 					if(i>0) return;
 					let t = 60;
-					let cd = setTimeout(() => {
-						console.log(t)
+					let cd = setInterval(() => {
 						t--;
-						this.countdown = t;
+						this.countdown = t+'秒重新发送';
 						this.scDisabled = true;
 						if(t <= 1){
-							console.log('hey')
-							clearTimeout(cd);
+							clearInterval(cd);
 							this.scDisabled = false;
 						}
 					},1000)

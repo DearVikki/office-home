@@ -12,7 +12,7 @@
 						v-for="(value, option) in searchOptions"
 						class="dropdown-item"
 						:class="{active: searchOptions[option].active}"
-						@click="clickHeaderDp(searchOptions[option].name)">{{searchOptions[option].name}}</div>
+						@click.stop="clickHeaderDp(searchOptions[option].name)">{{searchOptions[option].name}}</div>
 					</div>
 				</div>
 				<input type="text" :value='value' @input="onInput"/>

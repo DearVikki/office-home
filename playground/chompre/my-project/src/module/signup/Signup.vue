@@ -51,7 +51,7 @@
 										<select
 										:id="field.id"
 										v-model='fieldsB[field].val'
-										value=''
+										@click="handleValidate(fieldsB[field].id)"
 										v-else>
 											<option v-for="option in fieldsB[field].options" :value="option.register_question_id">{{option.content}}</option>
 										</select>
@@ -82,23 +82,23 @@
 		data(){
 			return{
 				fieldsA: {
-					remail: {
-		            id: 'remail',
-		            class: 'remail-field',
-		            name: 'Confimar su correo',
-		            placeholder: '',
-		            validator: { required: true, equalTo: 'email'},
-		            error: '',
-		            msg:'',
-		            val:'',
-		            focus: false
-		          },
 					email: {
 		            id: 'email',
 		            class: 'email-field',
 		            name: 'Correo',
 		            placeholder: '',
 		            validator: { required: true, isEmail: true},
+		            error: '',
+		            msg:'',
+		            val:'',
+		            focus: false
+		          },
+		          remail: {
+		            id: 'remail',
+		            class: 'remail-field',
+		            name: 'Confimar su correo',
+		            placeholder: '',
+		            validator: { required: true, equalTo: 'email'},
 		            error: '',
 		            msg:'',
 		            val:'',
@@ -189,15 +189,15 @@
 			$validation(){
 				var va1 = this.$validation.validation1;
 				try{
+					console.log('hey')
 					if(va1.email.invalid) {
 						this.fieldsA.email.error = true;
 						var err0 = va1.email.errors[0].validator;
 						if(err0 === 'required') this.fieldsA.email.msg = '邮箱不能为空';
 						else if(err0 === 'isEmail') this.fieldsA.email.msg = '邮箱无效';
 					} else {
-						this.fields.email.error = false;
+						this.fieldsA.email.error = false;
 					}
-					console.log(va1.remail.invalid)
 					if(va1.remail.invalid) {
 						this.fieldsA.remail.error = true;
 						var err0 = va1.remail.errors[0].validator;
@@ -321,6 +321,7 @@
 	select{
 		width: 100%;
 		border: none;
+		font-size: 20px;
 	}
 	@media all and (min-width: 840px){
 		.form-group{

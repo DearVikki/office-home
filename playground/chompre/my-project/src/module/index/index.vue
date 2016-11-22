@@ -3,9 +3,9 @@
 		<!--首页banner开始-->
 		<div id='activity_banner_container' class="swiper-container">
 		   <div class="swiper-wrapper">
-               <router-link class='banner swiper-slide common-goods-item' to='' v-for="activityItem in activityItems">
+               <a class='banner swiper-slide common-goods-item' v-for="activityItem in activityItems">
                		<img :src="activityItem.path"/>
-               </router-link>
+               </a>
           </div>
           <div class="banner swiper-pagination">
           </div>
@@ -15,11 +15,11 @@
 			<div class="sub-header">促销商品<span class="more fr">更多 ></span></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
-					<router-link class='banner swiper-slide common-goods-item' to='' v-for="saleItem in saleItems">
+					<a class='banner swiper-slide common-goods-item' v-for="saleItem in saleItems">
 	               		<img :src="saleItem.cover_pic"/>
 	               		<p>{{saleItem.description}}</p>
 	               		<p>${{saleItem.price}}</p>
-	                </router-link>
+	                </a>
 	            </div>
 			</div>
 			<div class="swiper-button-next"></div>
@@ -30,11 +30,11 @@
 			<div class="sub-header">推荐商品<span class="more fr">更多 ></span></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
-					<router-link class='banner swiper-slide common-goods-item' to='' v-for="hotgoodsItem in hotgoodsItems">
+					<a class='banner swiper-slide common-goods-item' v-for="hotgoodsItem in hotgoodsItems">
 	               		<img :src="hotgoodsItem.cover_pic"/>
 	               		<p>{{hotgoodsItem.description}}</p>
 	               		<p>${{hotgoodsItem.price}}</p>
-	                </router-link>
+	                </a>
 	            </div>
 			</div>
 			<div class="swiper-button-next"></div>
