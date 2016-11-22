@@ -1,17 +1,6 @@
-import Vue from 'vue'
+import common from '../../assets/js/common.js'
 import index from './index.vue'
-import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
-
-Vue.config.debug = true;
-Vue.use(VueRouter);
-Vue.use(VueResource);
-Vue.http.options.root = 'http://121.40.91.157/zl_shopping/php/index.php/PcApi';
-Vue.http.options.emulateJSON = true;
-import '../../assets/lib/public.less'
-import Myheader from '../../components/Header'
-import Myfooter from '../../components/Footer'
-const router = new VueRouter({
+const router = new common.VueRouter({
 	routes:[{
 		path:'*/index.html',
 		component: index
@@ -19,11 +8,13 @@ const router = new VueRouter({
 	mode:'history'
 })
 /* eslint-disable no-new */
-new Vue({
+const myHeader = common.myHeader;
+const myFooter = common.myFooter;
+new common.Vue({
   el: '#app',
   data: {
   	msg:'xxxx'
   },
   router: router,
-  components:{Myheader,Myfooter}
+  components:{myHeader, myFooter}
 })

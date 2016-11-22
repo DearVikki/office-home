@@ -25,13 +25,38 @@
 			<div id='name_container' v-if='logged'>DearVikki</div>
 		</div>
 		<div id='header_part2'>
-			<div id='cate_container'>商品分类</div>
+			<div id='cate_container'
+			@mouseenter='productTypeActive.status=true'
+			>
+				商品分类
+				<!--一级分类-->
+				<ul id='cate_ul'
+				v-show='productTypeActive.status'
+				@mouseleave='productTypeActive.status=false'>
+					<li class="cate-item"
+					v-for="(value, cate) in productType"
+					@mouseenter="enterCate(productType[cate].id)"
+					@mouseleave="leaveCate(productType[cate].id)">
+						<span>{{productType[cate].name}}</span>
+						<!--二级分类-->
+						<ul class="subcate-ul">
+							<a class="cate-item"
+							v-for="subcate in productType[cate].sub"
+							v-show="productType[cate].active"
+							:href="'category.html?name='+productType[cate].name+'&id='+productType[cate].id+'&subid='+subcate.id">
+								<span>{{subcate.name}}</span>
+							</a>
+						</ul>
+					</li>
+				</ul>
+			</div>
 			<ul id='user_container'>
 				<li>mi chompres</li>
 				<li>购物车</li>
 				<li>misfavoritos</li>
 				<li>我的店铺</li>
 			</ul>
+			<div class="clear"></div>
 		</div>
 	</div>
 </template>
@@ -57,12 +82,29 @@
 				searchActive:{
 					name: 'Productos',
 					type: 1
+				},
+				productType:{
+					1:{	name: '一级1',
+						id: 1,
+						active: false,
+						sub:[{
+							name: 'Chalecos',
+							id:12
+						},{
+							name: 'Tapados'
+						},{
+							name: 'Chaquedas'
+						}]
+					}
+				},
+				productTypeActive:{
+					first:'',
+					sub:'',
+					status: false
 				}
 			}
 		},
 		props:['value'],
-		computed:{
-		},
 		methods: {
 			onInput(event) {
 				this.$emit('input', event.target.value)
@@ -78,8 +120,39 @@
 				this.searchActive.name = name;
 				this.searchActive.type = this.searchOptions[name].type;
 				this.headerDpActive = false;
-				console.log(this.headerDpActive )
+			},
+			enterCate(cateId){
+				this.productType[cateId].active = true;
+			},
+			leaveCate(cateId){
+				this.productType[cateId].active = false;
 			}
+		},
+		mounted(){
+			//拉取一级分类
+			this.$http.post('',{name:'zl.shopping.sys.category.info'}).then((response)=>{
+				let data = response.body.data.CategoryInfo;
+				let productType = {};
+				//拉取二级分类
+				data.forEach((e)=>{
+					productType[e.class_id] = {
+						id: e.class_id,
+						name: e.class_name,
+						active: false,
+						sub:[]
+					}
+					this.$http.post('',{name:'zl.shopping.sys.subcatalog.info', class_id:e.class_id}).then((response)=>{
+						response.body.data.forEach((g)=>{
+							productType[e.class_id].sub.push({
+								id: g.class_append_id,
+								name: g.class_name
+							})
+						})
+						this.productType = productType;
+					})
+				})
+			})
+			//拉取分类结束
 		}
 	}
 </script>
@@ -110,12 +183,13 @@
 			border-radius: 2px;
 			#header_search_type{
 				display: inline-block;
-				width: 105px;
+				width: 95px;
 				height: 34px;
 				position: relative;
 				border-right:1px solid @baseColor;
 				border-bottom: 1px solid @baseColor;
 				text-align: center;
+				padding-right: 12px;
 				vertical-align: middle;
 				color: @baseColor;
 				background: @backColor;
@@ -126,10 +200,10 @@
 				&:after{
 					content:'';
 					position: absolute;
-					border: 5px solid transparent;
+					border: 4px solid transparent;
 					border-top-color: @baseColor;
-					right: 5px;
-					top:15px;
+					right: 8px;
+					top:16px;
 					z-index: 1;
 				};
 				#header_search_dropdown{
@@ -197,16 +271,69 @@
 	#header_part2{
 		width:100%;
 		max-width: 1200px;
-		overflow: hidden;
 		margin:42px auto 16px auto;
+		margin-bottom: 0;
 		font-weight: bold;
 		#cate_container{
 			font-size: 16px;
-			color: @baseColor;
+			color: #fff;
+			background: @baseColor;
 			float: left;
+			width: 212px;
+		    height: 40px;
+		    line-height: 40px;
+		    padding-left: 10px;
+		    border-radius: 4px 4px 0 0;
+		    position: relative;
+		    /*一级分类ul*/
+		    #cate_ul{
+		    	position: absolute;
+		    	z-index: 3;
+			    left: 0;
+			    top: 43px;
+			    width: 100%;
+		    }
+		    /*分类条目*/
+		    .cate-item{
+		    	color: #fff;
+				background: @baseColor;
+				height: 30px;
+				line-height: 30px;
+				padding-left: 10px;
+				font-weight: normal;
+				margin-top: 1px;
+				position: relative;
+				cursor: pointer;
+				/*display: inline-block;会出现莫名白条 为什么?!*/
+				float: left;
+				width: 100%;
+				&:hover{
+					background: #a62116;
+				}
+				&:first-child{
+					margin-top:0;
+				};
+				span{
+					display: inline-block;
+					width: 100%;
+					height: 100%;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+		    }
+		    /*二级分类ul*/
+		    .subcate-ul{
+		    	position: absolute;
+			    top: 0;
+			    left: 100%;
+			    margin-left: 1px;
+			    width: 100%;
+		    }
 		}
 		#user_container{
 			float: right;
+			margin-top: 10px;
 			li{
 				color: @bla;
 				font-size: 12px;

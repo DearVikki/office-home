@@ -3,11 +3,11 @@
 		<!--首页banner开始-->
 		<div id='activity_banner_container' class="swiper-container">
 		   <div class="swiper-wrapper">
-               <a class='banner swiper-slide common-goods-item' v-for="activityItem in activityItems">
+               <a class='swiper-slide' v-for="activityItem in activityItems">
                		<img :src="activityItem.path"/>
                </a>
           </div>
-          <div class="banner swiper-pagination">
+          <div class="swiper-pagination">
           </div>
 		</div>
 		<!--促销商品开始-->
@@ -15,11 +15,9 @@
 			<div class="sub-header">促销商品<span class="more fr">更多 ></span></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
-					<a class='banner swiper-slide common-goods-item' v-for="saleItem in saleItems">
-	               		<img :src="saleItem.cover_pic"/>
-	               		<p>{{saleItem.description}}</p>
-	               		<p>${{saleItem.price}}</p>
-	                </a>
+					<div class='swiper-slide' v-for="saleItem in saleItems">
+	               		<goodsitem :item='saleItem'></goodsitem>
+	                </div>
 	            </div>
 			</div>
 			<div class="swiper-button-next"></div>
@@ -29,13 +27,13 @@
 		<div id='hot_goods_container'>
 			<div class="sub-header">推荐商品<span class="more fr">更多 ></span></div>
 			<div class="swiper-container">
-			 	<div class="swiper-wrapper">
-					<a class='banner swiper-slide common-goods-item' v-for="hotgoodsItem in hotgoodsItems">
+			 	<!--<div class="swiper-wrapper">
+					<a class='swiper-slide common-goods-item' v-for="hotgoodsItem in hotgoodsItems">
 	               		<img :src="hotgoodsItem.cover_pic"/>
 	               		<p>{{hotgoodsItem.description}}</p>
 	               		<p>${{hotgoodsItem.price}}</p>
 	                </a>
-	            </div>
+	            </div>-->
 			</div>
 			<div class="swiper-button-next"></div>
         	<div class="swiper-button-prev"></div>
@@ -54,6 +52,7 @@
 </template>
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
+	import GoodsItem from '../../components/GoodsItem.vue';
 	export default{
 		name:'Index',
 		data(){
@@ -125,6 +124,7 @@
 	#activity_banner_container{
 		width: 100%;
 		height: 370px;
+		margin-top: 20px;
 		img{
 			width: 100%;
 			height: 100%;
