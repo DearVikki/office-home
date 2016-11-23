@@ -67,7 +67,7 @@
 			this.$http.post('',{name:'zl.shopping.sys.homepage.info'}).then((response)=>{
 				this.activityItems = response.body.data.other_banner;
 				this.hotgoodsItems = response.body.data.hot_goods;
-				this.hotshopItems = response.body.data.hot_dealer;
+				this.hotshoprItems = response.body.data.hot_dealer;
 				console.log(response.body.data.hot_dealer)
 				//const className = 'mypagi';
 				this.$nextTick(()=>{

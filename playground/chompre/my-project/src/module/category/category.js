@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Category from './Category.vue'
+import category from './Category.vue'
 
 import VueResource from 'vue-resource'
 Vue.use(VueResource);
@@ -15,5 +15,5 @@ Vue.use(VueValidator);
 
 new Vue({
   el: '#app',
-  components:{Category,Myheader,Myfooter}
+  components:{category,Myheader,Myfooter}
 })

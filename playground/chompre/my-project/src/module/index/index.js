@@ -8,13 +8,13 @@ const router = new common.VueRouter({
 	mode:'history'
 })
 /* eslint-disable no-new */
-const myHeader = common.myHeader;
-const myFooter = common.myFooter;
+const myheader = common.myHeader;
+const myfooter = common.myFooter;
 new common.Vue({
   el: '#app',
   data: {
   	msg:'xxxx'
   },
   router: router,
-  components:{myHeader, myFooter}
+  components:{myheader, myfooter}
 })
