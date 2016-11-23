@@ -1,13 +1,16 @@
 <template>
-	<a class='banner swiper-slide common-goods-item'>
-	    <img :src="goodsItem.cover_pic"/>
-	    <p>{{goodsItem.description}}</p>
-	    <p>${{goodsItem.price}}</p>
+	<a class='banner common-goods-item'>
+	    <img :src="item.cover_pic"/>
+	    <p>{{item.description}}</p>
+	    <p>${{item.price}}</p>
 	</a>
 </template>
 <script>
 	export default{
 		name:'goodsitem',
+        mounted(){
+            console.log(this.item)
+        },
 		data(){
 			return{
 
@@ -23,6 +26,7 @@
 	.common-goods-item {
     margin-top: 20px;
     width: 220px;
+    display: inline-block;
     img {
         width: 100%;
     }

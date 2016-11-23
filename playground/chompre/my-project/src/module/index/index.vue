@@ -27,13 +27,11 @@
 		<div id='hot_goods_container'>
 			<div class="sub-header">推荐商品<span class="more fr">更多 ></span></div>
 			<div class="swiper-container">
-			 	<!--<div class="swiper-wrapper">
-					<a class='swiper-slide common-goods-item' v-for="hotgoodsItem in hotgoodsItems">
-	               		<img :src="hotgoodsItem.cover_pic"/>
-	               		<p>{{hotgoodsItem.description}}</p>
-	               		<p>${{hotgoodsItem.price}}</p>
-	                </a>
-	            </div>-->
+			 	<div class="swiper-wrapper">
+					<div class='swiper-slide' v-for="hotgoodsItem in hotgoodsItems">
+	               		<goodsitem :item='hotgoodsItem'></goodsitem>
+	                </div>
+	            </div>
 			</div>
 			<div class="swiper-button-next"></div>
         	<div class="swiper-button-prev"></div>
@@ -42,17 +40,17 @@
 		<div id='hot_shop_container'>
 			<div class="sub-header">优秀商家</div>
 			<ul>
-				<router-link class='hot-shop' v-for='hotshopItem in hotshopItems' to=''>
+				<a class='hot-shop' v-for='hotshopItem in hotshopItems'>
 					<img :src="hotshopItem.dealer_logo">
 					<p>{{hotshopItem.dealer_name}}</p>
-				</router-link>
+				</a>
 			</ul>
 		</div>
 	</div>
 </template>
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
-	import GoodsItem from '../../components/GoodsItem.vue';
+	import goodsitem from '../../components/GoodsItem.vue';
 	export default{
 		name:'Index',
 		data(){
@@ -67,7 +65,7 @@
 			this.$http.post('',{name:'zl.shopping.sys.homepage.info'}).then((response)=>{
 				this.activityItems = response.body.data.other_banner;
 				this.hotgoodsItems = response.body.data.hot_goods;
-				this.hotshoprItems = response.body.data.hot_dealer;
+				this.hotshopItems = response.body.data.hot_dealer;
 				console.log(response.body.data.hot_dealer)
 				//const className = 'mypagi';
 				this.$nextTick(()=>{
@@ -107,7 +105,8 @@
 			},(response)=>{
 
 			})
-		}
+		},
+		components:{goodsitem}
 	}
 </script>
 <style scoped lang='less'>
@@ -152,7 +151,6 @@
 		position: relative;
 		.swiper-slide{
 			width:220px;
-			height: 300px;
 		}
 		.swiper-button-prev, .swiper-container-rtl .swiper-button-next{
 			background: url(../../assets/img/index/icon_left.png) no-repeat center;
@@ -167,6 +165,7 @@
 	}
 	/*第四部分优秀商家板块*/
 	#hot_shop_container{
+		margin-top: 70px;
 		margin-bottom: 100px;
 		ul{
 			margin-top:24px;

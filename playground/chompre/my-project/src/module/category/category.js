@@ -1,19 +1,14 @@
-import Vue from 'vue'
+import common from '../../assets/js/common.js'
 import category from './Category.vue'
 
-import VueResource from 'vue-resource'
-Vue.use(VueResource);
-Vue.http.options.root = 'http://121.40.91.157/zl_shopping/php/index.php/PcApi';
-Vue.http.options.emulateJSON = true;
+const myheader = common.myHeader;
+const myfooter = common.myFooter;
+new common.Vue({
+  el: '#app',
+  components:{category,myheader, myfooter}
+})
 
-import '../../assets/lib/public.less'
-import Myheader from '../../components/Header'
-import Myfooter from '../../components/Footer'
-
-import VueValidator from 'vue-validator'
-Vue.use(VueValidator);
-
-new Vue({
+/*new Vue({
   el: '#app',
   components:{category,Myheader,Myfooter}
-})
+})*/
