@@ -9,7 +9,9 @@
 					<validation name="validation1">
 						<div class="common-field" v-for="(value, field) in fields" :class="fields[field].class">
 							<label :for="fields[field].id">{{fields[field].name}}</label>
-							<a v-if="fields[field].id==='pw'" class="forget-pw">Recuperar contraseña?</a>
+							<a class="forget-pw"
+							href="./forget-pw.html#/Step1"
+							 v-if="fields[field].id==='pw'">Recuperar contraseña?</a>
 							<div class="input-container" :class="{ warn: fields[field].error || fields[field].focus}">
 								<validity :ref='fields[field].id' :field='fields[field].id' :validators="fields[field].validator">
 									<input v-if="fields[field].id === 'account'" :id="fields[field].id" type="text"  :placeholder="fields[field].placeholder" @blur="handleValidate(fields[field].id)" @focus="focusing(fields[field].id)" v-model="fields[field].val">
@@ -21,7 +23,7 @@
 						<!--<pre style="font-size:12px">{{$validation}}</pre>-->
 						<div class="account-btn" @click="login">Ingresar</div>
 					</validation>
-					<a class="signup">Registrarme</a>
+					<a class="signup" href="./signup.html">Registrarme</a>
 				</div>
 			</div>
 		</div>
@@ -103,7 +105,6 @@
 						if(n>0) return;
 						if(this.$validation.validation1.invalid) return;
 						else {
-							console.log('allPass')
 							this.$http.post('',{name:'zl.shopping.sys.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
 								if(response.body.code === 1000){
 									console.log('login success!')

@@ -8,9 +8,6 @@
 <script>
 	export default{
 		name:'goodsitem',
-        mounted(){
-            console.log(this.item)
-        },
 		data(){
 			return{
 

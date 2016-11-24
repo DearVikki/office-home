@@ -33,17 +33,20 @@
 				<input type="text" placeholder="max"
 				v-model="filter.max"
 				@input="checkPrice">
+				<span class="text" id="all_price" @click="allPrice">全部价格</span>
 				<div id="filter_price" class="fr"
-				:class="{active:filterPriceActive}">GO</div>
+				:class="{active:filterPriceActive}"
+				@click="clickPrice">GO</div>
 			</div>
 			<div class="divider"></div>
 			<!--评分区间-->
 			<div>
 				<h5>评分</h5>
-				<label v-for="star in stars">
-					<input type="radio" :checked="star.checked" @click.prevent="clickRadio(star)">
+				<label v-for="(value,key) in stars" :key="stars[key].order">
+					<input type="radio" :checked="stars[key].checked" @click.prevent="clickRadio(stars[key])">
 					<span class="radio-input"></span>
-					<star :activeNum="star.num"></star>
+					<star :activeNum="stars[key].num"></star>
+					<span class="star-size">（{{items.goods_num[key]}}）</span>
 				</label>
 			</div>
 		</div>
@@ -54,7 +57,7 @@
 				<span>{{cateName}}/{{types[subid].name}}</span>
 				<div class="order-container fr">
 					<span style="vertical-align:top">排序方式:</span>
-					<div style="display:inline-block">
+					<div style="display:inline-block; position:relative;">
 						<div class="order-header" @click="orderShow = !orderShow">{{filter.order.name}}</div>
 						<ul v-show="orderShow">
 							<li class="order-option"
@@ -71,6 +74,7 @@
 					<goodsitem :item='item'></goodsitem>
 				</div>
 			</div>
+			<pagination :allPage="allPage"></pagination>
 		</div>
 	</div>
 </template>
@@ -78,6 +82,7 @@
     import {getParameterByName} from '../../assets/js/queryString.js';
     import star from '../../components/Stars.vue';
     import goodsitem from '../../components/GoodsItem.vue';
+    import pagination from '../../components/Pagination.vue';
 	export default{
 		name:'category',
 		data(){
@@ -93,22 +98,37 @@
 					brand_id:''
 				}],
 				filterPriceActive: false,
-				stars:[{
+				stars:{
+				5:{
 					num:5,
-					checked: false
-				},{
+					size:0,
+					checked: false,
+					order:1
+				},
+				4:{
 					num:4,
-					checked: true
-				},{
+					size:0,
+					checked: true,
+					order:2
+				},
+				3:{
 					num:3,
-					checked: false
-				},{
+					size:0,
+					checked: false,
+					order:3
+				},
+				2:{
 					num:2,
-					checked: false
-				},{
+					size:0,
+					checked: false,
+					order:4
+				},
+				1:{
 					num:1,
-					checked: false
-				}],
+					size:0,
+					checked: false,
+					order:5
+				}},
 				orders:[{
 					name:'销量',
 					id:2
@@ -134,7 +154,8 @@
 					goods_count:0,
 					goods_list:[],
 					goods_num:{}
-				}
+				},
+				allPage:1
 			}
 		},
 		mounted(){
@@ -180,6 +201,7 @@
 				this.filter.order.name = order.name;
 				this.filter.order.id = order.id;
 				this.orderShow = false;
+				this.getProducts();
 			},
 			//拉取商品数据
 			getProducts(){
@@ -194,8 +216,8 @@
 					star_num:0
 				}
 				this.$http.post('',obj).then((response)=>{
-					console.log(response.body.data);
 					this.items = response.body.data;
+					this.allPage = Math.ceil(response.body.data.goods_count/20);
 				})
 			},
 			//点击其他二级分类条目
@@ -208,6 +230,16 @@
 				let index = this.filter.brand.indexOf(id);
 				if(index === -1) this.filter.brand.push(id);
 				else this.filter.brand.splice(index,1);
+				this.getProducts();
+			},
+			//点击价格
+			clickPrice(){
+				if(!this.filterPriceActive) return;
+				this.getProducts();
+			},
+			//全部价格
+			allPrice(){
+				this.filter.min = this.filter.max = '';
 				this.getProducts();
 			}
 		},
@@ -230,7 +262,7 @@
 				this.getProducts();
 			}
 		},
-		components:{star,goodsitem}
+		components:{star,goodsitem,pagination}
 	}
 </script>
 <style scoped lang='less'>
@@ -314,6 +346,11 @@
 			background: @bla;
 			margin: 4px auto;
 		}
+		#all_price{
+			margin-top: 20px;
+			cursor: pointer;
+			display: inline-block;
+		}
 		#filter_price{
 			width: 36px;
 			height: 30px;
@@ -328,6 +365,12 @@
 				background: @baseColor;
 				cursor: pointer;
 			}
+		}
+		/*小星星商品数*/
+		.star-size{
+			color: @baseColor;
+			font-size: 14px;
+			vertical-align: 3px;
 		}
 	}
 	/*商品展示区*/
@@ -355,6 +398,7 @@
 			.order-container{
 				font-size: 12px;
 				color: #666;
+				position: relative;
 				.order-header,.order-option{
 					border:2px solid #eee;
 					width: 100px;
@@ -376,16 +420,23 @@
 						right: 3px;
 						top: 8px;
 					}
-					ul{
-						margin-top:-8px;
-						.order-option{
-							border-top: none;
-						}
+				}
+				ul{
+					margin-top:-8px;
+					position: absolute;
+					top: 40px;
+					left: 0;
+					.order-option{
+						border-top: none;
 					}
 				}
 			}
 		}
 		#display_body{
+			display: flex;
+		    width: 100%;
+		    flex-flow: row wrap;
+		    justify-content: space-between;
 			.item{
 				display: inline-block;
 			}

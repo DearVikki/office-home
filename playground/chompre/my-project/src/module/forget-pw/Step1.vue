@@ -10,6 +10,7 @@
 						id="account"
 						type="text"
 						placeholder="请输入邮箱或者身份证号"
+						v-model="account.val"
 						@blur="handleValidate"
 						@focus="focusing">
 					</validity>
@@ -31,7 +32,8 @@
 					id: 'account',
 					error: false,
 					focus: false,
-					msg: '账号不能为空'
+					msg: '账号不能为空',
+					val:''
 				}
 			}
 		},
@@ -57,7 +59,14 @@
 			},
 			nextStep(){
 				this.$refs.account.validate(()=>{
-					if(this.$validation.validation1.valid) this.$router.push({path: 'Step2'});
+					if(!this.$validation.validation1.valid) return;
+					this.$http.post('',{name:'zl.shopping.sys.pc.user.question',account:this.account.val}).then((response)=>{
+						if(response.body.code === 1000) this.$router.push({path: 'Step2'});
+						else{
+							this.account.error = true;
+							this.account.msg = response.body.msg;
+						}
+					})
 				});
 			}
 		}

@@ -21,7 +21,7 @@
 										@blur="handleValidate(fieldsA[field].id)"
 										@focus="focusing(fieldsA[field].id)"
 										v-model="fieldsA[field].val"
-										v-if="fieldsA[field].id === ('pw' || 'repw')">
+										v-if="(fieldsA[field].id === 'pw') ||(fieldsA[field].id === 'repw')">
 										<input
 										 type="text"
 										:id="fieldsA[field].id"
@@ -160,12 +160,6 @@
 		            options:[{
 		            	text: '请选择一个问题',
 		            	val: ''
-		            },{
-		            	text: '问题A',
-		            	val: 'A'
-		            },{
-		            	text: '问题B',
-		            	val: 'B'
 		            }],
 		            error: '',
 		            msg:'',
@@ -189,7 +183,6 @@
 			$validation(){
 				var va1 = this.$validation.validation1;
 				try{
-					console.log('hey')
 					if(va1.email.invalid) {
 						this.fieldsA.email.error = true;
 						var err0 = va1.email.errors[0].validator;
@@ -257,8 +250,8 @@
 				return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(val);
 			},
 			equalTo(val, data){
-				if(this.fieldsA[data]) var val0 = this.fieldsA[data];
-				else var val0 = this.fieldsB[data];
+				if(this.fieldsA[data]) var val0 = this.fieldsA[data].val;
+				else var val0 = this.fieldsB[data].val;
 				return val === val0 ? true : false;
 			}
 		},
@@ -282,15 +275,35 @@
 							console.log(this.fieldsB.question.val)
 							return;}
 						else {
-							console.log('allPass')
-							/*this.$http.post('',{name:'zl.shopping.sys.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
+							let request = {
+								name: 'zl.shopping.sys.pc.register',
+								mail: this.fieldsA.email.val,
+								password: this.fieldsA.pw.val,
+								nickname: this.fieldsB.name.val,
+								idcard: this.fieldsB.id.val,
+								register_question_id: this.fieldsB.question.val,
+								answer: this.fieldsB.answer.val
+							}
+							this.$http.post('',request).then((response)=>{
 								if(response.body.code === 1000){
-									console.log('login success!')
-								} else if(response.body.code === 1011) {
-									this.fields.account.error = true;
-									this.fields.account.msg = '该账号未注册'
+									console.log('signup success!')
+								} else {
+									let field, key;
+									console.log(response.body)
+									switch(response.body.code){
+										case 1008:
+											field = 'fieldsB';
+											key = 'id';
+											break;
+										case 1010:
+											field = 'fieldsA';
+											key = 'email';
+											break;
+									}
+									this[field][key].error = true;
+									this[field][key].msg = response.body.msg;
 								}
-							})*/
+							})
 						}
 					});
 				}

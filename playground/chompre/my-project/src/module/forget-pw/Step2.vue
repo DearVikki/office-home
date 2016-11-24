@@ -61,7 +61,7 @@
 <script>
     import a from 'vue-validator';
 	export default{
-		name: 'step1',
+		name: 'step2',
 		data(){
 			return{
 				emailActive: true,
@@ -174,8 +174,10 @@
 				if(this.scDisabled) return;
 				this.$refs.email[0].validate(()=>{
 					i--;
-					//if(this.$validation.validation2.email.invalid || i > 0) return;
-					if(i>0) return;
+					if(this.$validation.validation2.email.invalid || i > 0) return;
+					this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
+						console.log(response.body)
+					})
 					let t = 60;
 					let cd = setInterval(() => {
 						t--;

@@ -7,8 +7,3 @@ new common.Vue({
   el: '#app',
   components:{category,myheader, myfooter}
 })
-
-/*new Vue({
-  el: '#app',
-  components:{category,Myheader,Myfooter}
-})*/
