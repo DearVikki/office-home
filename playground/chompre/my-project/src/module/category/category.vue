@@ -42,8 +42,8 @@
 			<!--评分区间-->
 			<div>
 				<h5>评分</h5>
-				<label v-for="(value,key) in stars" :key="stars[key].order">
-					<input type="radio" :checked="stars[key].checked" @click.prevent="clickRadio(stars[key])">
+				<label v-for="key in Object.keys(stars).reverse()">
+					<input name="star" type="radio" v-model="stars[key].checked">
 					<span class="radio-input"></span>
 					<star :activeNum="stars[key].num"></star>
 					<span class="star-size">（{{items.goods_num[key]}}）</span>
@@ -74,7 +74,7 @@
 					<goodsitem :item='item'></goodsitem>
 				</div>
 			</div>
-			<pagination :allPage="allPage"></pagination>
+			<pagination :allPage="30"></pagination>
 		</div>
 	</div>
 </template>
@@ -102,30 +102,35 @@
 				5:{
 					num:5,
 					size:0,
+					defaultChecked: false,
 					checked: false,
 					order:1
 				},
 				4:{
 					num:4,
 					size:0,
-					checked: true,
+					defaultChecked: true,
+					checked: false,
 					order:2
 				},
 				3:{
 					num:3,
 					size:0,
+					defaultChecked: false,
 					checked: false,
 					order:3
 				},
 				2:{
 					num:2,
 					size:0,
+					defaultChecked: false,
 					checked: false,
 					order:4
 				},
 				1:{
 					num:1,
 					size:0,
+					defaultChecked: false,
 					checked: false,
 					order:5
 				}},
@@ -188,13 +193,6 @@
 				if(Number(min)<Number(max))
 					this.filterPriceActive = true;
 				else this.filterPriceActive = false;
-			},
-			//选择评星
-			clickRadio(star){
-				/*this.stars.forEach((e)=>{
-					e.checked = false;
-				})*/
-				star.checked = true;
 			},
 			//选择排序方式
 			selectOrder(order){
