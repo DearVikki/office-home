@@ -42,12 +42,17 @@
 			<!--评分区间-->
 			<div>
 				<h5>评分</h5>
-				<label v-for="key in Object.keys(stars).reverse()">
-					<input name="star" type="radio" v-model="stars[key].checked">
+				<label v-for="star in stars">
+					<input name="star" type="radio"
+					:value="star.num"
+					v-model="filter.star"
+					@change="clickStar">
 					<span class="radio-input"></span>
-					<star :activeNum="stars[key].num"></star>
-					<span class="star-size">（{{items.goods_num[key]}}）</span>
+					<star :activeNum="star.num"></star>
+					<span class="star-size">（{{star.size}}）</span>
 				</label>
+				<p class="text">{{filter.star}}</p>
+				<span class="text" id="all_stars" @click="clickStar('all')">全部评分</span>
 			</div>
 		</div>
 		<!--商品展示框-->
@@ -70,11 +75,10 @@
 				</div>
 			</div>
 			<div id="display_body">
-				<div class="item" v-for="item in items.goods_list">
-					<goodsitem :item='item'></goodsitem>
-				</div>
+				<goodsitem :item='item' v-for="item in items.goods_list"></goodsitem>
+				<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
 			</div>
-			<pagination :allPage="30"></pagination>
+			<pagination :allPage="allPage"></pagination>
 		</div>
 	</div>
 </template>
@@ -98,42 +102,33 @@
 					brand_id:''
 				}],
 				filterPriceActive: false,
-				stars:{
-				5:{
+				stars:[
+				{
 					num:5,
 					size:0,
 					defaultChecked: false,
-					checked: false,
-					order:1
-				},
-				4:{
+					checked: false
+				},{
 					num:4,
 					size:0,
 					defaultChecked: true,
-					checked: false,
-					order:2
-				},
-				3:{
+					checked: false
+				},{
 					num:3,
 					size:0,
 					defaultChecked: false,
-					checked: false,
-					order:3
-				},
-				2:{
+					checked: false
+				},{
 					num:2,
 					size:0,
 					defaultChecked: false,
-					checked: false,
-					order:4
-				},
-				1:{
+					checked: false
+				},{
 					num:1,
 					size:0,
 					defaultChecked: false,
-					checked: false,
-					order:5
-				}},
+					checked: false
+				}],
 				orders:[{
 					name:'销量',
 					id:2
@@ -150,6 +145,7 @@
 					min:'',
 					max:'',
 					brand:[],
+					star:0,
 					order:{
 						name:'销量',
 						id:2
@@ -211,11 +207,19 @@
 					brand_id: this.filter.brand.toString(),
 					min_price: this.filter.min||-1,
 					max_price: this.filter.max||-1,
-					star_num:0
+					star_num:this.filter.star
 				}
 				this.$http.post('',obj).then((response)=>{
 					this.items = response.body.data;
+					//总页数
 					this.allPage = Math.ceil(response.body.data.goods_count/20);
+					//各小星星的size
+					let stars = response.body.data.goods_num;
+					let starNumArr = [];
+					for(var i in stars)
+						starNumArr.unshift(stars[i]);
+					for(let j = 0; j<5; j++)
+						this.stars[j].size = starNumArr[j];
 				})
 			},
 			//点击其他二级分类条目
@@ -225,6 +229,7 @@
 			},
 			//点击品牌
 			clickBrand(id){
+				console.log(this.filter.brand)
 				let index = this.filter.brand.indexOf(id);
 				if(index === -1) this.filter.brand.push(id);
 				else this.filter.brand.splice(index,1);
@@ -238,6 +243,12 @@
 			//全部价格
 			allPrice(){
 				this.filter.min = this.filter.max = '';
+				this.getProducts();
+			},
+			//点击星星
+			clickStar(a){
+				if(a === 'all') this.filter.star = 0;
+				console.log(this.filter.star)
 				this.getProducts();
 			}
 		},
@@ -258,6 +269,10 @@
 		watch:{
 			'$router'(){
 				this.getProducts();
+			},
+			filter(){
+				console.log('filter有变!')
+				console.log(this.filter.star)
 			}
 		},
 		components:{star,goodsitem,pagination}
@@ -316,6 +331,7 @@
 				border: 1px solid @bla;
 				margin-right: 6px;
 				position: relative;
+				cursor: pointer;
 			}
 			input[type=radio]+.radio-input{
 				vertical-align: 4px;
@@ -369,6 +385,11 @@
 			color: @baseColor;
 			font-size: 14px;
 			vertical-align: 3px;
+		}
+		#all_stars{
+			margin-top: 10px;
+			cursor: pointer;
+			display: inline-block;
 		}
 	}
 	/*商品展示区*/
@@ -435,8 +456,18 @@
 		    width: 100%;
 		    flex-flow: row wrap;
 		    justify-content: space-between;
+		    &:after{
+		    	    content: '';
+			    	flex: auto;
+			}
 			.item{
-				display: inline-block;
+				/*flex-grow: 1;
+				max-width: 25%;
+				min-width: 20%;*/
+			}
+			.empty-space-filling-item{
+				width: 220px;
+				height: 0;
 			}
 		}
 	}

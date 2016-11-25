@@ -46,11 +46,13 @@
 				</a>
 			</ul>
 		</div>
+		<icontop></icontop>
 	</div>
 </template>
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
 	import goodsitem from '../../components/GoodsItem.vue';
+	import icontop from '../../components/ScrollToTop.vue';
 	export default{
 		name:'Index',
 		data(){
@@ -106,7 +108,7 @@
 
 			})
 		},
-		components:{goodsitem}
+		components:{goodsitem, icontop}
 	}
 </script>
 <style scoped lang='less'>
