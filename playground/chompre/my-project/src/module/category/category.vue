@@ -80,12 +80,14 @@
 			</div>
 			<pagination :allPage="allPage"></pagination>
 		</div>
+		<icontop></icontop>
 	</div>
 </template>
 <script>
     import {getParameterByName} from '../../assets/js/queryString.js';
     import star from '../../components/Stars.vue';
     import goodsitem from '../../components/GoodsItem.vue';
+    import icontop from '../../components/ScrollToTop.vue';
     import pagination from '../../components/Pagination.vue';
 	export default{
 		name:'category',
@@ -229,7 +231,6 @@
 			},
 			//点击品牌
 			clickBrand(id){
-				console.log(this.filter.brand)
 				let index = this.filter.brand.indexOf(id);
 				if(index === -1) this.filter.brand.push(id);
 				else this.filter.brand.splice(index,1);
@@ -275,7 +276,7 @@
 				console.log(this.filter.star)
 			}
 		},
-		components:{star,goodsitem,pagination}
+		components:{star,goodsitem,pagination,icontop}
 	}
 </script>
 <style scoped lang='less'>
