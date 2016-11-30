@@ -1,5 +1,5 @@
 <template>
-	<a class='banner common-goods-item'>
+	<a class='common-goods-item' :href="'./product.html?id='+item.pre_goods_id">
 	    <img :src="item.cover_pic"/>
 	    <p>{{item.description}}</p>
 	    <p>${{item.price}}</p>

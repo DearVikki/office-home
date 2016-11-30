@@ -18,11 +18,13 @@
 				<input type="text" :value='value' @input="onInput"/>
 				<span id='header_search_btn'></span>
 			</div>
+			<!--非登录状态-->
 			<div id='login_container' v-if='!logged'>
-				<span id='login'>ingresar</span>
-				<span id='signup'>crear cuenta</span>
+				<a id='login' href="./login.html">ingresar</a>
+				<a id='signup' href="./signup.html">crear cuenta</a>
 			</div>
-			<div id='name_container' v-if='logged'>DearVikki</div>
+			<!--登录状态-->
+			<div id='name_container' v-else>DearVikki</div>
 		</div>
 		<div id='header_part2'>
 			<div id='cate_container'

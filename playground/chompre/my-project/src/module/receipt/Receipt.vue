@@ -144,27 +144,35 @@
 			    table:{
 				    	cols:[{
 						name:'名称',
+						key:'company_name',
 						width:'10%'
 					},{
 						name:'税号',
+						key:'company_taxid',
 						width:'10%'
 					},{
 						name:'详细地址',
+						key:'company_address',
 						width:'20%'
 					},{
 						name:'地区',
+						key:'company_area',
 						width:'20%'
 					},{
 						name:'城市',
+						key:'company_city',
 						width:'15%'
 					},{
 						name:'电话号码',
+						key:'company_tel',
 						width:'10%'
 					},{
 						name:'经营范围',
+						key:'business_scope',
 						width:'10%'
 					},{
 						name:'操作',
+						key:'is_default',
 						width:'15%'
 					}],
 					tds:{

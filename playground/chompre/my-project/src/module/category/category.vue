@@ -84,7 +84,7 @@
 	</div>
 </template>
 <script>
-    import {getParameterByName} from '../../assets/js/queryString.js';
+    import {getParameterByName} from '../../assets/js/utils.js';
     import star from '../../components/Stars.vue';
     import goodsitem from '../../components/GoodsItem.vue';
     import icontop from '../../components/ScrollToTop.vue';

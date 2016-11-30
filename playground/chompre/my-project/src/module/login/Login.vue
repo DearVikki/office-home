@@ -35,7 +35,6 @@
 	export default{
 		name:'Vali',
 		mounted(){
-			console.log( Object.keys(this.fields))
 		},
 		data(){
 			return{
@@ -105,12 +104,15 @@
 						if(n>0) return;
 						if(this.$validation.validation1.invalid) return;
 						else {
-							this.$http.post('',{name:'zl.shopping.sys.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
+							this.$http.post('',{name:'zl.shopping.sys.pc.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
 								if(response.body.code === 1000){
 									console.log('login success!')
 								} else if(response.body.code === 1011) {
 									this.fields.account.error = true;
-									this.fields.account.msg = '该账号未注册'
+									this.fields.account.msg = response.body.msg;
+								} else if(response.body.code === 1014){
+									this.fields.pw.error = true;
+									this.fields.pw.msg = response.body.msg;
 								}
 							})
 						}

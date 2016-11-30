@@ -38,7 +38,7 @@
 				</validation>
 				<div class="table-container">
 					<personaltable
-					tableWid="800px"
+					tableWid="913px"
 					:cols="table.cols"
 					:tds="table.tds"
 					@editar="editar"></personaltable>
@@ -51,6 +51,7 @@
 	import a from 'vue-validator';
 	import personalside from '../../components/PersonalSide.vue'
 	import personaltable from '../../components/Table.vue'
+	import {myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'receipt',
 		data(){
@@ -133,27 +134,35 @@
 			    table:{
 				    	cols:[{
 						name:'名字',
+						key:'receive_name',
 						width:'10%'
 					},{
 						name:'R.U.T',
+						key:'idcard',
 						width:'10%'
 					},{
 						name:'手机号',
+						key:'receive_mobile',
 						width:'20%'
 					},{
 						name:'地区',
+						key:'receive_address',
 						width:'20%'
 					},{
 						name:'城市',
+						key:'receive_city',
 						width:'15%'
 					},{
 						name:'详细地址',
+						key:'receive_address',
 						width:'20%'
 					},{
 						name:'操作',
+						key:'selected',
 						width:'15%'
 					}],
 					tds:{
+					//这里用了对象是为了考虑到修改地址后保存应该更新对应地址
 					1:{
 						address_id: 1,
 		                user_id: 100093,
@@ -173,13 +182,17 @@
 		                receive_city: "杭州市",
 		                receive_area: "西湖区",
 		                receive_address: "三墩镇三墩人民公园东门",
-		                selected: 0,
+		                selected: 1,
 		                idcard: ""
 					}}
 			    }
 			}
 		},
 		mounted(){
+			//拉取地址列表
+			this.$http.post('',{name:'zl.shopping.sys.address.list'}).then((response)=>{
+				console.log(response)
+			})
 			//if编辑地址
 			if(location.hash === '#editar') {
 				let addressInfo = JSON.parse(localStorage.getItem('address'));
@@ -290,6 +303,7 @@
 							} else {
 								this.table.tds[request.address_id] = request;
 							}
+							myAlert('保存成功');
 						}
 					});
 				}

@@ -6,16 +6,12 @@
 			</th>
 		</tr>
 		<tr v-for="(val, td) in tds">
-			<td>{{tds[td].company_name}}</td>
-			<td>{{tds[td].company_taxid}}</td>
-			<td>{{tds[td].company_address}}</td>
-			<td>{{tds[td].company_area}}</td>
-			<td>{{tds[td].company_city}}</td>
-			<td>{{tds[td].company_tel}}</td>
-			<td>{{tds[td].business_scope}}</td>
+			<td v-for="sCol in spliceCols">
+				{{tds[td][sCol.key]}}
+			</td>
 			<td class="action">
 				<span><a @click="editar(tds[td])">editar</a><a>eliminar</a></span>
-				<span :class="{active:tds[td].is_default}"></span>
+				<span :class="{active:tds[td][cols[cols.length-1].key]}"></span>
 			</td>
 		</tr>
 	</table>
@@ -28,11 +24,15 @@
 			}
 		},
 		mounted(){
-			console.log(this.cols)
 		},
 		methods:{
 			editar(td){
 				this.$emit('editar',td);
+			}
+		},
+		computed:{
+			spliceCols(){
+				return this.cols.slice(0,-1);
 			}
 		},
 		props:['tableWid','cols','tds']

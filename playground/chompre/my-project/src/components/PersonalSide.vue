@@ -16,23 +16,23 @@
 			return{
 					items:[{
 					name:'我的订单',
-					href:'../order.html',
+					href:'./order.html',
 					id:1
 				},{
 					name:'收货地址管理',
-					href:'../address.html',
+					href:'./address.html',
 					id:2
 				},{
 					name:'发票管理',
-					href:'../receipt.html',
+					href:'./receipt.html',
 					id:3
 				},{
 					name:'修改密码',
-					href:'../reset-pw.html',
+					href:'./reset-pw.html',
 					id:4
 				},{
 					name:'个人安全信息完善',
-					href:'../info.html',
+					href:'./info.html',
 					id:5
 				}]
 			}
