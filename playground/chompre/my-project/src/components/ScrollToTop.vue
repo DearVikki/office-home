@@ -6,7 +6,17 @@
 		name:'icon-top',
 		methods:{
 			toTop(){
-				window.scrollTo(0,0);
+				let speed = 10;
+				let time = 300;
+				let run = Math.ceil(time/speed);
+				let start = window.scrollY;
+				let runLen = start/run;
+				let goScroll = setInterval(()=>{
+					run--;
+					let top = runLen*run;
+					window.scrollTo(0,top);
+					if(run === 0) clearInterval(goScroll);
+				},speed)
 			}
 		}
 	}

@@ -94,6 +94,27 @@ body {
     font-size: 0px;
 }
 
+.my-alert{
+    font-size: 16px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-50%,0,0);
+    background: #d42b1e;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 5px;
+    animation: back 1s ease-in;
+    animation-fill-mode: forwards
+}
+@keyframes back {
+    50%{
+        transform: translate3d(-50%,0,0);
+    }
+    100%{
+        transform: translate3d(-50%,-100%,0);
+    }
+}
 
 /*首页板块*/
 
@@ -152,6 +173,7 @@ body {
 .account_btn {
     background: @baseColor;
     color: #fff;
+    cursor: pointer;
 }
 
 .account-container {
