@@ -1,9 +1,14 @@
 <template>
-	<div></div>
+	<div @click="toTop"></div>
 </template>
 <script>
 	export default{
-		name:'icon-top'
+		name:'icon-top',
+		methods:{
+			toTop(){
+				window.scrollTo(0,0);
+			}
+		}
 	}
 </script>
 <style scoped>
