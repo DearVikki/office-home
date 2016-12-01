@@ -34,14 +34,6 @@
 				else if(this.numEditorData.num < this.numEditorData.min) this.numEditorData.num = this.numEditorData.min;
 			}
 		},
-		watch:{
-			numEditorData(){
-				console.log('有change喔！')
-				if(isNaN(this.numEditorData.num)) this.numEditorData.num = 1;
-				else if(this.numEditorData.num > this.numEditorData.max) this.numEditorData.num = this.numEditorData.max;
-				else if(this.numEditorData.num < this.numEditorData.min) this.numEditorData.num = this.numEditorData.min;
-			}
-		},
 		props:['numEditorStyle','numEditorData']
 	}
 </script>
@@ -54,9 +46,9 @@
 	.minus,.plus{
 		cursor: pointer;
 	}
-	.minus.disabled,.plus.disabled{
+	.minus.disabled,.plus.disabled,input.disabled{
 		opacity: .5;
-		border-style: dashed;
-		cursor: default;
+		border-style: dashed !important;
+		cursor: not-allowed;
 	}
 </style>

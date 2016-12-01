@@ -210,8 +210,9 @@
 			}
 		},
 		watch:{
-			numEditorData(){
-				console.log('hey')
+			['numEditorData.max'](){
+				if(this.numEditorData.num === 0) this.numEditorData.num = 1;
+				if(this.numEditorData.num > this.numEditorData.max) this.numEditorData.num = this.numEditorData.max;
 			}
 		},
 		components:{numeditor}

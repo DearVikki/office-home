@@ -2,7 +2,7 @@
 	<!--header-->
 	<div id='header_container'>
 		<div id='header_part1'>
-			<img src="../assets/img/index/index_logo.png" />
+			<a href="./index.html"><img src="../assets/img/index/index_logo.png"></a>
 			<!--搜索框-->
 			<div id='header_search_container'>
 				<div id='header_search_type' @click='clickHeaderType'>
@@ -67,7 +67,7 @@
 		name:'myheader',
 		data(){
 			return{
-				logged:false,
+				logged:true,
 				headerDpActive: false,
 				searchOptions:{
 					Productos: {
