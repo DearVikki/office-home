@@ -58,13 +58,17 @@
 						<!--数量框-->
 						<numeditor
 						:numEditorStyle="numEditorStyle"
+						:numEditorClass="numEditorClass"
 						:numEditorData="numEditorData"></numeditor>
-						<span class="name">数量: {{stock}}件</span>
+						<span class="name">库存: {{stock}}件</span>
 					</div>
 				</div>
+				<div id="product_select_tip">
+					<p v-show="selectTip.show">{{selectTip.msg}}</p>
+				</div>
 				<!--立即购买与加入购物车-->
-				<div class="add">立即购买</div>
-				<div class="add">加入购物车</div>
+				<div class="add" @click="toBuy">立即购买</div>
+				<div class="add" @click="toAdd">加入购物车</div>
 			</div>
 		</div>
 		<!--第二部分-->
@@ -94,7 +98,26 @@
 				</div>
 				<!--商品评价-->
 				<div id="comment_container"
-				v-show="isComment"></div>
+				v-show="isComment">
+					<div id="comment_header">
+						<!--全部评价-->
+						<label>
+							<input name="star" type="radio">
+							<span class="radio-input"></span>
+							<span class="radio-tip">全部评价</span>
+						</label>
+						<label v-for="n in 5">
+							<input name="star" type="radio" value=0>
+							<span class="radio-input"></span>
+							<span class="radio-tip star">
+								<star :activeNum="6-n" :starType=0></star>
+							</span>
+						</label>
+					</div>
+					<ul id="comment_main">
+						<li></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -102,11 +125,11 @@
 <script>
     import {getParameterByName} from '../../assets/js/utils.js';
     import numeditor from '../../components/NumEditor.vue';
+    import star from '../../components/Stars.vue';
 	export default{
 		name:'product',
 		data(){
 			return {
-				comment_info:'',
 				dealer_info:{
 					dealer_name:'',
 					connect:[]
@@ -142,15 +165,46 @@
 						display:'inline-block', height:'30px', border:'1px solid #808080'
 					}
 				},
+				numEditorClass:{
+					input:[]
+				},
 				numEditorData:{
 					num:1,
 					max:5,
 					min:1
 				},
-				//有无点开商品评价
-				isComment:false,
+				//选择提示
+				selectTip:{
+					show:false,
+					msg:''
+				},
+				//有无点开商品评价（默认false）
+				isComment:true,
 				//商品详情の大图
-				detail_pic:[]
+				detail_pic:[],
+				//评论部分
+				comment:{
+					star_num:0,
+					page:1,
+					comment_info:[
+						{
+		                comment_id: "151",
+		                user_id: "100093",
+		                content: "这是一件好好好好好好好好好好好产品",
+		                comment_pic: [
+		                    "http://121.40.91.157/shopping/php/assets/test/3.jpg"
+		                ],
+		                star_num: 1,
+		                time: 1477627108,
+		                is_reply: 0,
+		                comment_user_nickname: "9**************m",
+		                comment_user_head: "http://121.40.91.157/upload/pic/default_avatar_rectangle-1.jpg",
+		                is_picture: 1,
+		                reply_comment: {
+		                    content: ""
+		                }
+		            }]
+				}
 			}
 		},
 		computed:{
@@ -180,12 +234,11 @@
 			.then((response)=>{
 				this.detail_pic = response.body.data.detail_pic;
 			})
+			//拉取商品全部评论
 		},
 		methods:{
-			//选择商品属性
-			selectAttr(s,id){
-				s.id = id;
-				//检测是否所有选项都已选择
+			//检测是否所有选项都已选择
+			checkAttr(){
 				let allSelect = true;
 				let idArray = [];
 				this.attribute_info.forEach((e)=>{
@@ -194,8 +247,15 @@
 						return;
 					} else idArray.push(e.id);
 				})
-				if(!allSelect) return;
-				console.log(idArray)
+				if(!allSelect) return false;
+				else return idArray;
+			},
+			//选择商品属性
+			selectAttr(s,id){
+				s.id = id;
+				this.selectTip.show = false;
+				let idArray = this.checkAttr();
+				if(!idArray) return;
 				//发送商品详细属性 获得对应图片库存
 				this.$http.post('',{name:'zl.shopping.sys.goods.detail',
 					pre_goods_id:this.pre_goods_id,
@@ -207,15 +267,53 @@
 					this.stock = response.body.data.goods_info.stores;
 					this.numEditorData.max = this.stock;
 				})
+			},
+			//立即购买or加入购物车前的检测
+			beforeBuy(){
+				let idArray = this.checkAttr();
+				if(!idArray) {
+					this.selectTip.show = true;
+					this.selectTip.msg = '请选择商品属性';
+					return false;
+				}
+				if(this.numEditorData.num === 0){
+					this.selectTip.show = true;
+					this.selectTip.msg = '商品暂无库存';
+					return false;
+				}
+				return true;
+			},
+			//立即购买
+			toBuy(){
+				if(!this.beforeBuy()) return;
+			},
+			//加入购物车
+			toAdd(){
+				if(!this.beforeBuy()) return;
+			},
+			//拉取商品评论
+			getComment(){
+				let data = {
+					name: 'zl.shopping.sys.goods.comment',
+					pre_goods_id: this.pre_goods_id,
+					star_num:this.star_num,
+					page:this.page
+				}
+				this.$http.post('',data).then((response)=>{
+
+				})
 			}
 		},
 		watch:{
 			['numEditorData.max'](){
-				if(this.numEditorData.num === 0) this.numEditorData.num = 1;
+				if(this.numEditorData.num === 0) {
+					this.numEditorData.num = 1;
+					this.numEditorClass.input = [];}
 				if(this.numEditorData.num > this.numEditorData.max) this.numEditorData.num = this.numEditorData.max;
+				if(this.numEditorData.num === 0) this.numEditorClass.input = ['disabled'];
 			}
 		},
-		components:{numeditor}
+		components:{numeditor,star}
 	}
 </script>
 <style scoped lang='less'>
@@ -342,6 +440,14 @@
 					}
 				}
 			}
+			/*选择部分的提示*/
+			#product_select_tip{
+				color: @baseColor;
+				font-size: 14px;
+				margin-top: 10px;
+				width: 100%;
+				height: 19px;
+			}
 			/*立即购买与加入购物车*/
 			.add{
 				padding: 10px 20px;
@@ -349,7 +455,7 @@
 				display: inline-block;
 				font-size: 18px;
 				color:#fff;
-				margin-top:50px;
+				margin-top:30px;
 				margin-right: 30px;
 				cursor:pointer;
 			}
@@ -392,6 +498,7 @@
 		#product_part2_main_container{
 			width: 960px;
 			float: right;
+			/*商品详情/商品评价navbar*/
 			#part2_nav_container{
 				width: 100%;
 				background: #f5f5f5;
@@ -407,6 +514,59 @@
 					&.active{
 						background: @baseColor;
 						color: #fff;
+					}
+				}
+			}
+			/*评价部分*/
+			#comment_container{
+				width: 100%;
+				/*选择星星部分*/
+				#comment_header{
+					width: 100%;
+					height: 40px;
+					line-height: 40px;
+					border-bottom: 1px solid #cbcbcb;
+					label{
+						margin-right: 15px;
+						input{
+							display: none;
+						}
+						.radio-input{
+							width: 12px;
+							height: 12px;
+							border-radius:100%;
+							border:1px solid #cbcbcb;
+							display: inline-block;
+							vertical-align: middle;
+							margin-right: 5px;
+							cursor: pointer;
+							position: relative;
+						}
+						input:checked+.radio-input{
+							background: @baseColor;
+							border-color: @baseColor;
+							&:after{
+								content:'';
+								width:4px;
+								height: 4px;
+								border-radius: 100%;
+								background: #fff;
+								position: absolute;
+								left: 50%;
+								top: 50%;
+								transform: translate3d(-50%,-50%,0);
+							}
+						}
+						.radio-tip{
+							font-size: 12px;
+							color: @baseColor;
+							vertical-align: middle;
+							cursor: pointer;
+							&.star{
+								padding-top: 3px;
+								display: inline-block;
+							}
+						}
 					}
 				}
 			}

@@ -42,7 +42,7 @@
 			<!--评分区间-->
 			<div>
 				<h5>评分</h5>
-				<label v-for="star in stars">
+				<label class="star" v-for="star in stars">
 					<input name="star" type="radio"
 					:value="star.num"
 					v-model="filter.star"
@@ -322,6 +322,9 @@
 		/*伪多/单选框*/
 		label{
 			display: block;
+			&.star{
+				margin-top: 6px;
+			}
 			input[type=checkbox],input[type=radio]{
 				display: none;
 			}

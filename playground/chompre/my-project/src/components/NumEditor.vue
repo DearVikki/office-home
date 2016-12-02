@@ -6,6 +6,7 @@
 		:style="numEditorStyle.minus"
 		@click="minus">-</span>
 		<input
+		:class="numEditorClass.input"
 		:style="numEditorStyle.input"
 		v-model="numEditorData.num"
 		@blur="inputNum">
@@ -34,7 +35,7 @@
 				else if(this.numEditorData.num < this.numEditorData.min) this.numEditorData.num = this.numEditorData.min;
 			}
 		},
-		props:['numEditorStyle','numEditorData']
+		props:['numEditorStyle','numEditorData','numEditorClass']
 	}
 </script>
 <style lang='less' scoped>
