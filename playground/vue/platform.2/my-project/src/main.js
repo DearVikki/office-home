@@ -20,11 +20,11 @@ const baseHref = '/'+href.join('/')+'/';
 const router = new VueRouter({
 	routes:[
   {
-    path:'*/',
+    path:'/',
     component: App
   },
   {
-		path:'*/add',
+		path:'/add',
 		component:Add
 	}
   ],

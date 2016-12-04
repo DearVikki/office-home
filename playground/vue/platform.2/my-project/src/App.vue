@@ -99,7 +99,7 @@ export default {
     }
   },
   mounted(){
-    window.addEventListener('scroll',this.handleScroll);
+    //window.addEventListener('scroll',this.handleScroll);
       console.log(this.$refs.id.getBoundingClientRect())
     //console.log(this.$refs.pid.getBoundingClientRect())
     //this.fixedHeader.idWidth = this.$refs.id.getBoundingClientRect().width;

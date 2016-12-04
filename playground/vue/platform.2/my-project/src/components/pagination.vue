@@ -3,13 +3,13 @@
             <div class="icon item">
               <i class="step backward icon" @click='firstPage'></i>
             </div>
-            <div class="icon item">
+            <div class="icon item" :class='{disabled: Number(currentPage)===1}'>
               <i class="left chevron icon" @click='prevPage'></i>
             </div>
             <span class="page-wrapper" v-for='page in showPage'>
               <div class="item" :class="{active:isCurrentPage(page)}" @click='clickPage(page)'>{{page}}</div>
             </span>
-            <div class="icon item">
+            <div class="icon item" :class='{disabled: Number(currentPage)===pageNum}'>
               <i class="right chevron icon" @click='nextPage'></i>
             </div>
             <div class="icon item">
@@ -23,7 +23,7 @@ export default {
   name: 'pagination',
   data () {
     return {
-      currentPage:''
+      currentPage: 1
     }
   },
   mounted(){
@@ -31,9 +31,6 @@ export default {
   },
   methods:{
     isCurrentPage(page){
-      console.log(this.currentPage)
-      console.log(page)
-      console.log(page === this.currentPage)
       return parseInt(page) === parseInt(this.currentPage);
     },
     clickPage(page){
@@ -47,9 +44,11 @@ export default {
       this.clickPage(this.pageNum);
     },
     prevPage(){
+      if(this.currentPage === 1) return;
       this.clickPage(this.currentPage-1);
     },
     nextPage(){
+      if(this.currentPage === this.pageNum) return;
       this.clickPage(this.currentPage+1);
     }
   },
@@ -95,5 +94,8 @@ export default {
   }
   .item{
     cursor: pointer;
+  }
+  .item.disabled{
+    opacity: .5;
   }
 </style>

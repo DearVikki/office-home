@@ -22,6 +22,21 @@
       <input type="text" v-model='title'>
     </div>
     <div class="field">
+      <label>File</label>
+      <input type="file" ref='file' multiple="multiple" @change='fileChange($event)'>
+      <div id='file_input'
+      @click='$refs.file.click()'
+      @drop.prevent='fileChange($event)'
+      @dragover.prevent>+</div>
+      <label>Selected Files:</label>
+      <div v-for="(file,index) in selectedFiles"
+      @mouseenter="file.cross=true"
+      @mouseleave="file.cross=false">
+        {{file.name}}
+        <i class="remove icon" v-show="file.cross" @click=deleteFile(index)></i>
+      </div>
+    </div>
+    <div class="field">
       <label>Content</label>
       <ueditor v-model="content" :config='editorConfig'></ueditor>
     </div>
@@ -57,13 +72,31 @@ export default {
                     'fullscreen', 'source', '|',
                     'bold', 'italic', 'underline', '|', 'fontsize', '|', 'kityformula', 'preview'
                 ]]
-      }
+      },
+      selectedFiles:[],
+      files:[]
     }
   },
   mounted(){
     console.log(this.$route)
   },
   methods:{
+    fileChange(e){
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      for(let i=0; i<files.length; i++){
+        this.selectedFiles.push({
+          name:files[i].name,
+          cross:false
+        })
+        this.files.push(files[i]);
+      }
+    },
+    deleteFile(index){
+      this.selectedFiles.splice(index,1);
+      this.files.splice(index,1);
+      console.log(this.files)
+    },
     save(){
       this.$http.get('../knowledge/add?id='+this.id+'&pid='+this.pid+'&grade='+this.grade+
         '&title='+this.title+'&content='+this.content+'&relation_id='+this.relation_id
@@ -118,5 +151,20 @@ export default {
   }
   .fade-enter, .fade-leave-active {
     opacity: 0
+  }
+  input[type=file]{
+    display: none;
+  }
+  #file_input{
+    width: 200px;
+    height: 100px;
+    border: 2px dashed rgba(34,36,38,.15);
+    font-size: 30px;
+    line-height: 100px;
+    text-align: center;
+    border-radius: 2px;
+  }
+  i{
+    cursor: pointer;
   }
 </style>

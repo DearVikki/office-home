@@ -23,6 +23,10 @@
       <input type="text" v-model='editValue.title'>
     </div>
     <div class="field">
+      <label>File</label>
+      <input type="file" value='editValue.file'>
+    </div>
+    <div class="field">
       <label>Content</label>
       <ueditor v-model="editValue.content" :config='editorConfig'></ueditor>
     </div>
