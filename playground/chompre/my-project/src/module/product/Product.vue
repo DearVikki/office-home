@@ -115,7 +115,13 @@
 						</label>
 					</div>
 					<ul id="comment_main">
-						<li></li>
+						<li class="comment-item"
+						v-for="comment in comment.comment_info">
+							<div class="commemt-part1">
+								<star :activeNum=comment.star_num></star>
+								<span class="fr comment-user">comment.comment_user_nickname</span>
+							</div>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -566,6 +572,15 @@
 								padding-top: 3px;
 								display: inline-block;
 							}
+						}
+					}
+				}
+				#comment_main{
+					.comment-item{
+						padding: 10px 15px;
+						.comment-user{
+							font-size: 12px;
+							color: #5c5c5c;
 						}
 					}
 				}
