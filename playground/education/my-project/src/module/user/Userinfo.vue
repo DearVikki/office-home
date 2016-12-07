@@ -1,7 +1,7 @@
 <template>
-	<div id="userinfo_container">
+	<div id="userinfo_container" class="user-common-container">
 		<!--头像-->
-		<div id="avatar_container">
+		<div id="avatar_container" class="user-common-avatar-container">
 			<img :src="user.avatar">
 			<p>{{user.name}}</p>
 		</div>
@@ -122,25 +122,11 @@
 <style scoped lang='less'>
 	@baseColor: #55b7f8;
 	#userinfo_container{
-		width: 744px;
-		height:880px;
-		float:right;
-		background: url(../../assets/img/user/bg.png) top no-repeat;
-		background-size:100%;
-		padding:57px 50px;
+		/*已移至public.less*/
 	}
 	/*头像*/
 	#avatar_container{
-		width: 100%;
-		text-align: center;
-		font-size:16px;
-		color:#4d4d4d;
-		img{
-			width:98px;
-			height: 98px;
-			margin-bottom: 10px;
-			border-radius: 100%;
-		}
+		/*已移至public.less*/
 	}
 	/*个人信息展示*/
 	.table-info{

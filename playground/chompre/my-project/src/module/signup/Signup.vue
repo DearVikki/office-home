@@ -32,7 +32,7 @@
 										v-else>
 									</validity>
 								</div>
-								<p class="error" v-if="fieldsA[field].error && !fieldsA[field].focus">{{fieldsA[field].msg}}</p>
+								<p class="error" v-show="fieldsA[field].error && !fieldsA[field].focus">{{fieldsA[field].msg}}</p>
 							</li>
 						</ul>
 						<ul class="form-group">
