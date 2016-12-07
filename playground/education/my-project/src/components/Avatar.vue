@@ -1,8 +1,9 @@
 <template>
 	<div id="change_avatar">
 		<div id="avatar_container">
-			<div class="btn" id="upload">本地上传</div>
-			<div id="img_holder"></div>
+			<div class="btn" id="avatar_upload">本地上传</div>
+			<div id="avatar_img_holder"></div>
+			<div id="avatar_btn_container"></div>
 		</div>
 	</div>
 </template>
@@ -27,13 +28,13 @@
 		background: #fff;
 		margin: 80px auto;
 		padding-top: .1px;
-		#upload{
+		#avatar_upload{
 			width: 80px;
 			height: 26px;
 			line-height: 26px;
 			margin: 24px;
 		}
-		#img_holder{
+		#avatar_img_holder{
 			width: 240px;
 			height: 180px;
 			background: skyblue;
