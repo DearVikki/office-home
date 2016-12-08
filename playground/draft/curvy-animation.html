@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>动画波浪</title>
+</head>
+<body>
+	<div class="out">
+		<div class="in"></div>
+		<div class="cover"></div>
+	</div>
+</body>
+</html>
+<style type="text/css">
+	.out{
+		width: 1000px;
+		height: 100px;
+		overflow: hidden;
+		position: relative;
+	}
+	.in{
+		width: 1000px;
+		height: 100px;
+		background: url(./line.png) center;
+	}
+	.cover{
+		width: 1000px;
+		height: 100px;
+		background: #fff;
+		position: absolute;
+		left: 0;
+		top:0;
+		animation: Show 5s;
+		animation-fill-mode: forwards;
+	}
+	@keyframes Show{
+		to{
+			left:100%;
+		}
+	}
+</style>
