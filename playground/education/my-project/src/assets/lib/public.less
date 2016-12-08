@@ -95,6 +95,9 @@ body {
 }
 
 input,select{ font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;}
+input[type=file]{
+    display: none;
+}
 select,option{cursor: pointer;}
 
 .my-alert{
@@ -127,6 +130,7 @@ select,option{cursor: pointer;}
     background: url(../../assets/img/user/bg.png) top no-repeat;
     background-size:100%;
     padding:57px 50px;
+    position: relative;
 }
 /*统一的展示头像区*/
 .user-common-avatar-container{
@@ -149,6 +153,10 @@ select,option{cursor: pointer;}
     border: 1px solid @baseColor;
     border-radius: 4px;
     cursor: pointer;
+    &.disabled{
+        border-color:#949494;
+        color:#949494;
+    }
 }
 
 /*自定义select*/

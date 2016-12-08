@@ -1,0 +1,120 @@
+@baseColor: #55b7f8;
+@warn: #f12323;
+#userinfoEdit_container {
+    position: relative;
+}
+
+/*表单部分*/
+
+#form_container {
+    margin-top: 40px;
+    .common-field {
+        font-size: 16px;
+        margin-top: 5px;
+        label {
+            color: #4d4d4d;
+            text-align: right;
+            display: inline-block;
+            vertical-align: 5px;
+            width: 100px;
+            margin-right: 16px;
+        }
+        .input-container {
+            width: 400px;
+            display: inline-block;
+            vertical-align: middle;
+            height: 48px;
+            /*输入框*/
+            input, select {
+                width: 400px;
+                height: 32px;
+                border: 1px solid #f1f1f1;
+                padding-left: 10px;
+                color: #949494;
+                &.warn {
+                    border-color: @warn;
+                }
+                &.active {
+                    border-color: @baseColor;
+                }
+            }
+            /*下拉框*/
+            select {
+                background-position: 365px;
+            }
+            /*checkbox框*/
+            .checkbox-container {
+                .checkbox-group {
+                    display: inline-block;
+                    width: 100%;
+                    text-align: left;
+                    margin-bottom: 5px;
+                    span {
+                        vertical-align: middle;
+                    }
+                    label {
+                        width: auto;
+                        margin-right: 0;
+                        vertical-align: middle;
+                    }
+                }
+                input[type=checkbox] {
+                    display: none;
+                }
+                .checkbox-input {
+                    width: 24px;
+                    height: 24px;
+                    position: relative;
+                    display: inline-block;
+                    border: 1px solid #f1f1f1;
+                    cursor: pointer;
+                }
+                input[type=checkbox]:checked + .checkbox-input:after {
+                    content: '\2713';
+                    position: absolute;
+                    color: @baseColor;
+                    right: 4px;
+                    top: 0px;
+                    font-size: 18px;
+                }
+                .checkbox-title {
+                    color: #949494;
+                    margin: 0 10px;
+                }
+                .goal {
+                    position: relative;
+                    width: 120px;
+                    height: 32px;
+                    border: 1px solid #f1f1f1;
+                    display: inline-block;
+                    color: #949494;
+                    input {
+                        display: inline-block;
+                        border: none;
+                        width: 50px;
+                        height: 20px;
+                        margin-top: 5px;
+                        font-size: 16px;
+                    }
+                    .fullMark {
+                        position: absolute;
+                        right: 5px;
+                        top: 5px;
+                    }
+                }
+            }
+            .error {
+                font-size: 12px;
+                color: @warn;
+            }
+        }
+        &.subject-field {
+            &>label {
+                vertical-align: 35px;
+            }
+            .input-container {
+                height: auto;
+            }
+        }
+    }
+}
