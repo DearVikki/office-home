@@ -18,7 +18,7 @@
 	</div>
 </template>
 <script>
-	import Swiper from '../../assets/swiper.js';;
+	import Swiper from '../../assets/swiper.js';
 	export default{
 		name:'index',
 		mounted(){
