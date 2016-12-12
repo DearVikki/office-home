@@ -34,12 +34,13 @@
 </template>
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
+	import head from '../../assets/img/index/head.png';
 	export default{
 		name:'part7Teacher',
 		data(){
 			return{
 				teachers:[{
-					head:'../../../static/img/head.png',
+					head:head,
 					point:72.1,
 					name:'吴速玲',
 					title:'数学竞赛无敌手',
@@ -47,7 +48,7 @@
 					major:'金融系',
 					tags:['竞赛','函数','几何']
 				},{
-					head:'../../../static/img/head.png',
+					head:head,
 					name:'徐敏',
 					point:80.1,
 					title:'数学竞赛无敌手',
@@ -55,7 +56,7 @@
 					major:'金融系',
 					tags:['竞赛','函数','几何']
 				},{
-					head:'../../../static/img/head.png',
+					head:head,
 					point:77.1,
 					name:'王奥',
 					title:'嘟嘟',
@@ -63,7 +64,7 @@
 					major:'不知道系',
 					tags:['竞赛','几何','可爱']
 				},{
-					head:'../../../static/img/head.png',
+					head:head,
 					point:65,
 					name:'陈华',
 					title:'六六六六',
@@ -77,7 +78,10 @@
 			this.$nextTick(()=>{
 				new Swiper('#teacher_inner', {
 			     	slidesPerView:3,
-			     	spaceBetween:60
+			     	spaceBetween:60,
+			     	loop:true,
+			     	autoplay:2500,
+			     	autoplayDisableOnInteraction:false
 			    });
 			})
 		}

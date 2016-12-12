@@ -3,7 +3,7 @@
 		<div class="item"
 		v-for="item in sideItems"
 		:class="{active:sideType === item.type}"
-		v-if="item.type !== 1 || userType === 2">{{item.name}}</div>
+		v-if="item.type !== 3 || userType === 2">{{item.name}}</div>
 	</div>
 </template>
 <script>
@@ -11,21 +11,25 @@
 		name:'sider',
 		data(){
 			return{
-				userType:1,
+				userType:2,
 				sideItems:[{
 					type:1,
+					link:'/course',
 					name:'我的课程'
 				},{
 					type:2,
+					link:'/freetime',
 					name:'空余时间'
 				},{
 					type:3,
+					link:'/doc',
 					name:'课件中心'
 				},{
 					type:4,
+					link:'/usercenter',
 					name:'个人中心'
 				}],
-				sideType:4
+				sideType:1
 			}
 		}
 	}

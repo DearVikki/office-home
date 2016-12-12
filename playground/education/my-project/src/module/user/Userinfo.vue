@@ -50,13 +50,14 @@
 	</div>
 </template>
 <script>
+	import avaImg from '../../assets/img/index/icon_head.png';
 	export default{
 		name:'userinfo',
 		data(){
 			return{
 				usertype:1,
 				user:{
-					avatar:'../../static/img/icon_head.png',
+					avatar:avaImg,
 					name:'我不要再叫李慧慧了!'
 				},
 				infos1:[{

@@ -7,7 +7,12 @@
 			<input placeholder="请输入您的手机">
 			<div id="book_btn">
 				立即预约
-				<img src="~assets/img/index/hand.png">
+				<div id="book_img_container">
+					<img src="~assets/img/index/hand.png">
+					<img class="star" src="~assets/img/index/star1.png">
+					<img class="star" src="~assets/img/index/star1.png">
+					<img class="star" src="~assets/img/index/star1.png">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -62,12 +67,36 @@
 				margin-left: 30px;
 				position: relative;
 				cursor: pointer;
-				img{
+				#book_img_container{
 					position: absolute;
 					right: -40px;
     				top: 10px;
+    				.star{
+    					position: absolute;
+    					animation: shine 2s infinite;
+    					&:nth-of-type(2){
+    						top: 0;
+    						right: -5px;
+    					}
+    					&:nth-of-type(3){
+    						top: -10px;
+    						right: 10px;
+    					}
+    					&:nth-of-type(4){
+    						bottom: 5px;
+    						left: 0;
+    					}
+    				}
 				}
 			}
+		}
+	}
+	@keyframes shine{
+		50%{
+			transform:scale(.8);
+		}
+		100%{
+			transform: scale(1.2);
 		}
 	}
 </style>

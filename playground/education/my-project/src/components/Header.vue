@@ -39,7 +39,8 @@
 		#header_logo{
 			width:140px;
 			height: 100%;
-			background: @baseColor;
+			background: url(../assets/img/index/logo.png) center no-repeat;
+			background-size: contain;
 			float: left;
 		}
 		#header_nav{

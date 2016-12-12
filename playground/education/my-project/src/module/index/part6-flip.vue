@@ -94,9 +94,11 @@
 						width: 100%;
 						height: 269px;
 						position: relative;
-    					webkit-perspective: 1000;
+						perspective: 1000;
+    					-webkit-perspective: 1000;
+    					-moz-perspective: 1000;
     					transform-style: preserve-3d;
-    					transition: 0.6s;
+    					transition: 1s;
     					cursor: pointer;
     					&:hover{
     						transform:rotateY(-180deg);

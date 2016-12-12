@@ -5,7 +5,11 @@
 			<div class="hand"
 			:class="{animated:active, tada:active}"
 			@mouseenter="addClass"
-			@mouseleave="removeClass"></div>
+			@mouseleave="removeClass">
+				<img class="star" src="~assets/img/index/star1.png">
+				<img class="star" src="~assets/img/index/star1.png">
+				<img class="star" src="~assets/img/index/star1.png">
+			</div>
 		</div>
 	</div>
 </template>
@@ -54,6 +58,22 @@
 				left: 100px;
 				position: absolute;
 				z-index: 2;
+				.star{
+    				position: absolute;
+    				animation: shine 2s infinite;
+    				&:nth-of-type(1){
+    					top: 0;
+    					right: 25px;
+    				}
+    				&:nth-of-type(2){
+    					top: -10px;
+    					right: 40px;
+    				}
+    				&:nth-of-type(3){
+	    				bottom: 15px;
+    					left: 5px;
+    				}
+    			}
 			}
 		}
 	}

@@ -23,6 +23,7 @@
 	</div>
 </template>
 <script>
+	import avaImg from '../../assets/img/index/icon_head.png';
 	import changeavatar from '../../components/Avatar.vue';
 	import studentUserinfoEdit from '../../components/StudentUserinfoEdit.vue';
 	import teacherUserinfoEdit from '../../components/teacherUserinfoEdit.vue';
@@ -32,7 +33,7 @@
 			return{
 				usertype:2,
 				user:{
-					avatar:'../../static/img/icon_head.png',
+					avatar:avaImg,
 					name:'我不要再叫李慧慧了!'
 				},
 				changeAva: false,
