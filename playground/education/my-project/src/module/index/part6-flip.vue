@@ -26,29 +26,39 @@
 	</div>
 </template>
 <script>
+	import f11 from 'assets/img/index/11.png';
+	import f21 from 'assets/img/index/21.png';
+	import f12 from 'assets/img/index/12.png';
+	import f22 from 'assets/img/index/22.png';
+	import f13 from 'assets/img/index/13.png';
+	import f23 from 'assets/img/index/23.png';
+	import f14 from 'assets/img/index/14.png';
+	import f24 from 'assets/img/index/24.png';
+	import f15 from 'assets/img/index/15.png';
+	import f25 from 'assets/img/index/25.png';
 	export default{
 		name:'part6Flip',
 		data(){
 			return{
 				flips:[{
-					front:'../../../static/img/11.png',
-					back:'../../../static/img/21.png',
+					front: f11,
+					back: f21,
 					text:'听课'
 				},{
-					front:'../../../static/img/12.png',
-					back:'../../../static/img/22.png',
+					front: f12,
+					back: f22,
 					text:'师资'
 				},{
-					front:'../../../static/img/13.png',
-					back:'../../../static/img/23.png',
+					front: f13,
+					back: f23,
 					text:'评估'
 				},{
-					front:'../../../static/img/14.png',
-					back:'../../../static/img/24.png',
+					front: f14,
+					back: f24,
 					text:'学习'
 				},{
-					front:'../../../static/img/15.png',
-					back:'../../../static/img/25.png',
+					front: f15,
+					back: f25,
 					text:'收费'
 				}]
 			}

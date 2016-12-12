@@ -13,7 +13,7 @@
 		name:'part2Banner',
 		mounted(){
 			this.$nextTick(()=>{
-				new Swiper('.swiper-container', {
+				new Swiper('#banner_container', {
 			        loop:true,
 			        pagination: '.swiper-pagination',
         			paginationClickable: true

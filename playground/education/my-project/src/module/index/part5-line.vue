@@ -26,14 +26,15 @@
 			}
 		},
 		mounted(){
-			this.dotActive = this.lineCoverActive = true;
 		},
 		computed:{
-			classObj(){
-				return {
-				}
+		},
+		watch:{
+			animaStart(val){
+				this.dotActive = this.lineCoverActive = true;
 			}
-		}
+		},
+		props:['animaStart']
 	}
 </script>
 <style scoped lang='less'>

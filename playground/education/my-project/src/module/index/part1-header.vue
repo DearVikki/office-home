@@ -5,10 +5,10 @@
 			<div id="header_inner">
 				<!--左侧咨询-->
 				<div id="header_inner_left">
-					<span class="header-left-group">
+					<a class="header-left-group" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=965562425&site=qq&menu=yes">
 						<span class="icon icon1"></span>
 						<span class="text">QQ咨询</span>
-					</span>
+					</a>
 					<span class="header-left-group">
 						<span class="icon icon2"></span>
 						<span class="text">咨询热线: 82882828</span>
@@ -38,22 +38,27 @@
 	</div>
 </template>
 <script>
+	import {scrollTo} from '../../assets/js/scrollTo.js';
 	export default{
 		name:'part1Header',
 		data(){
 			return{
 				navs:[{
 					name:'首页',
-					active:true
+					active:true,
+					to:0
 				},{
 					name:'教学优势',
-					active:false
+					active:false,
+					to:700
 				},{
 					name:'名师风采',
-					active:false
+					active:false,
+					to:3274
 				},{
 					name:'关于我们',
-					active:false
+					active:false,
+					to:4122
 				}]
 			}
 		},
@@ -64,8 +69,18 @@
 					e.active = false;
 				})
 				nav.active = true;
+				scrollTo(nav.to,0);
 			}
-		}
+		},
+		watch:{
+			navActive(val){
+				this.navs.forEach((e)=>{
+					e.active = false;
+				})
+				return this.navs[val].active = true;
+			}
+		},
+		props:['navActive']
 	}
 </script>
 <style scoped lang='less'>
