@@ -1,9 +1,10 @@
 <template>
 	<div id="sider_container">
-		<div class="item"
+		<router-link class="item"
 		v-for="item in sideItems"
 		:class="{active:sideType === item.type}"
-		v-if="item.type !== 3 || userType === 2">{{item.name}}</div>
+		:to="item.link"
+		v-if="item.type !== 3 || userType === 2">{{item.name}}</router-link>
 	</div>
 </template>
 <script>

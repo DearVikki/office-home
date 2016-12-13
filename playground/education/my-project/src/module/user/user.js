@@ -15,5 +15,6 @@ const router = new common.VueRouter({
 })
 new common.Vue({
   el: '#app',
+  router,
   components:{user, myheader, sider}
 })

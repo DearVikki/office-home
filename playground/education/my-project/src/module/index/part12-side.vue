@@ -32,17 +32,23 @@
 		top:50%;
 		z-index: 1000;
 		.side-item{
-			display: block;
+			display: flex;
 			width: 72px;
 			height: 72px;
 			position: relative;
+			img{
+				margin:auto;
+			}
 			&:nth-child(1) img{
 				position: absolute;
 				bottom: 0;
 				left: 0;
 			}
 			&:nth-child(2),&:nth-child(3){
-				background: #d1d1d1;
+				background: rgba(160,160,160,.4);
+			}
+			&:nth-child(2):hover img,&:nth-child(3):hover img{
+				transform: rotate(-30deg);
 			}
 		}
 	}
