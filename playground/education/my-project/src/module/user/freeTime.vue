@@ -73,8 +73,21 @@
 					13:{time:'20:00-21:00',
 					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
 					}
-				}
+				},
+				daySwitcher:{Mon:1, Tues:2, Wed:3, Thurs:4, Fri:5, Sat:6, Sun:7}
 			}
+		},
+		mounted(){
+			this.$http.get('?name=education.sys.free.time').then((response)=>{
+				if(response.body.code === 1000){
+					let data = response.body.data.list;
+					data.forEach((e)=>{
+						let day = this.daySwitcher[e.day];
+						this.trs[e.stage+1].schedule[day].free = e.is_free;
+						this.trs[e.stage+1].schedule[day].full = e.having_class;
+					})
+				}
+			})
 		},
 		methods:{
 			changeFree(td){

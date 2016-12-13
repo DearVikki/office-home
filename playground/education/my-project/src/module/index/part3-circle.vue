@@ -46,8 +46,8 @@
 <style scoped lang='less'>
 	#circle_container{
 		width: 100%;
-		height: 670px;
 		padding-top:.1px;
+		padding-bottom: 40px;
 		#circle_slogan{
 			width: 554px;
 			height: 37px;
@@ -55,15 +55,15 @@
 			margin: 120px auto 90px auto;
 		}
 		#circle_inner{
-			max-width: 1200px;
+			max-width: 1240px;
+			padding: 0 40px;
 			width: 100%;
-			height: 300px;
 			margin: 0 auto;
 			display: flex;
 			justify-content: space-between;
 			.item{
 				width: 170px;
-				height: 160px;
+				height: 200px;
 				font-size: 20px;
 				color:#5c5c5c;
 				background-position: top center;
@@ -89,6 +89,15 @@
 					background-image: url(../../assets/img/index/5.png);
 				}
 			}
+		}
+	}
+	@media screen and (max-width: 1000px){
+		#circle_container #circle_inner{
+			justify-content: space-around;
+    		flex-wrap: wrap;
+		}
+		#circle_container #circle_inner .item{
+			margin-top: 0 !important;
 		}
 	}
 </style>

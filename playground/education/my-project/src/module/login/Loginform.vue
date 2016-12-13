@@ -101,26 +101,47 @@
 			//发送验证码
 			clickSendCode(){
 				if(!this.checkphone()) return;
-				if(this.sendCode.disabled) return
-				let t = 5;
-				let countDown = setInterval(()=>{
-					t--;
-					this.sendCode.txt = t+'秒后再发送';
-					this.sendCode.disabled = true;
-					if(t===0) {
-						clearInterval(countDown);
-						this.sendCode.disabled = false;
-						this.sendCode.txt = '重新发送';
+				if(this.sendCode.disabled) return;
+				this.$http.get('?name=education.sys.reg.login.sms.send&mobile='+this.phone.val).then((response)=>{
+					if(response.body.code === 1000){
+						let t = 60;
+						let countDown = setInterval(()=>{
+							t--;
+							this.sendCode.txt = t+'秒后再发送';
+							this.sendCode.disabled = true;
+							if(t===0) {
+								clearInterval(countDown);
+								this.sendCode.disabled = false;
+								this.sendCode.txt = '重新发送';
+							}
+						},1000)
 					}
-				},1000)
+					else {
+						this.phone.error = true;
+						this.phone.msg = response.body.msg;
+					}
+				})
 			},
 			//登录
 			login(){
 				this.checkphone();
 				this.checkcode();
 				if(this.phone.error || this.code.error) return;
+				let name;
+				if(this.userType === 1) name='education.student.register.login';
+				else name='education.teacher.register.login';
+				this.$http.get('?name='+name+'&mobile='+this.phone.val+'&code='+this.code.val).then((response)=>{
+						if(response.body.code === 1000){
+							//登录成功
+						}
+						else {
+							this.code.error = true;
+							this.code.msg = response.body.msg;
+						}
+				})
 			}
-		}
+		},
+		props:['userType']
 	}
 </script>
 <style scoped lang='less'>

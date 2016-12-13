@@ -1,10 +1,10 @@
 <template>
 	<div id="sider_container">
-		<router-link class="item"
+		<div class="item"
 		v-for="item in sideItems"
 		:class="{active:sideType === item.type}"
-		:to="item.link"
-		v-if="item.type !== 3 || userType === 2">{{item.name}}</router-link>
+		@click="clickItem(item)"
+		v-if="item.type !== 3 || userType === 2">{{item.name}}</div>
 	</div>
 </template>
 <script>
@@ -15,25 +15,39 @@
 				userType:2,
 				sideItems:[{
 					type:1,
-					link:'/course',
+					link:'course',
 					name:'我的课程'
 				},{
 					type:2,
-					link:'/freetime',
+					link:'freetime',
 					name:'空余时间'
 				},{
 					type:3,
-					link:'/doc',
+					link:'doc',
 					name:'课件中心'
 				},{
 					type:4,
-					link:'/usercenter',
+					link:'usercenter',
 					name:'个人中心'
 				}],
 				sideType:1
 			}
+		},
+		methods:{
+			clickItem(item){
+				this.sideType = item.type;
+				this.$router.push(item.link);
+			}
+		},
+		watch:{
+			$route(){
+				console.log('hey')
+			}
+		},
+		beforeRouteEnter (to, from, next) {
+		    console.log('enter')
+		  },
 		}
-	}
 </script>
 <style scoped lang='less'>
 	@baseColor: #55b7f8;
@@ -48,6 +62,7 @@
 			font-size:14px;
 			padding-left: 47px;
 			cursor: pointer;
+			display: block;
 			&.active{
 				background: @baseColor;
 				color:#fff;

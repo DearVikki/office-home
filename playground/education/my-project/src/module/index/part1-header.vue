@@ -26,8 +26,16 @@
 			<div id="big_header_inner">
 				<!--左侧logo-->
 				<span id="big_header_left"></span>
+				<!--右侧三行按钮-->
+				<div id="nav_collapse"
+				@click="media.navActive = !media.navActive">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</div>
 				<!--右侧navbar-->
-				<span id="big_header_right">
+				<span id="big_header_right"
+				:class="{active:media.navActive}">
 					<span class="nav"
 					v-for="nav in navs"
 					:class="{active:nav.active}"
@@ -59,7 +67,10 @@
 					name:'关于我们',
 					active:false,
 					to:4122
-				}]
+				}],
+				media:{
+					navActive:false
+				}
 			}
 		},
 		methods:{
@@ -69,6 +80,8 @@
 					e.active = false;
 				})
 				nav.active = true;
+				//如果是小窗口须折叠起来
+				this.media.navActive = false;
 				scrollTo(nav.to,0);
 			}
 		},
@@ -92,10 +105,11 @@
 		border-bottom: 1px solid #dadada;
 		padding-top: .1px;
 		#header_inner{
-			max-width: 1196px;
+			max-width: 1240px;
 			width: 100%;
 			overflow: hidden;
 			margin:18px auto 0 auto;
+			padding: 0 40px;
 			#header_inner_left{
 				float: left;
 				.header-left-group{
@@ -139,13 +153,14 @@
 	/*第二部分导航栏大header*/
 	#big_header_container{
 		width: 100%;
-		height: 134px;
 		padding-top: .1px;
+		position: relative;
 		#big_header_inner{
-			max-width: 1196px;
+			max-width: 1240px;
 			width: 100%;
 			height: 50px;
-			margin: 42px auto;
+			margin: 22px auto;
+			padding: 0 40px;
 			#big_header_left{
 				width: 248px;
 				height: 50px;
@@ -159,7 +174,8 @@
 				float: right;
 				justify-content:flex-end;
 				.nav{
-					font-size: 24px;
+					font-size: 20px;
+					font-weight: bolder;
 					color: #5c5c5c;
 					padding: 5px 10px;
 					border-bottom: 2px solid transparent;
@@ -172,6 +188,57 @@
 					}
 				}
 			}
+			/*折叠区*/
+			#nav_collapse{
+				float: right;
+				width: 35px;
+				height: 35px;
+				text-align: center;
+				padding-top:4px;
+				cursor: pointer;
+				border-radius: 2px;
+				margin-top: 10px;
+				display: none;
+				.icon-bar{
+					width: 20px;
+					height: 3px;
+					background: @baseColor;
+					margin-top:5px;
+					display: inline-block;
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 1020px){
+		/*qq咨询的字样*/
+		#header_container #header_inner #header_inner_left .header-left-group .text{
+			display: none;
+		}
+		/*navbar*/
+		#big_header_container #big_header_inner #big_header_right{
+			    position: absolute;
+			    top: 100px;
+			    left: 0;
+			    width: 100%;
+			    background: #fff;
+			    z-index: 10;
+			    height: auto;
+			    padding: 0 40px;
+			    display: none;
+		}
+		#big_header_container #big_header_inner #big_header_right.active{
+			display: block;
+		}
+		#big_header_container #big_header_inner #big_header_right .nav{
+			   	float: none;
+			   	display: block;
+			   	width: 100%;
+			    margin: 0 auto;
+    			border-bottom: 1px solid #eee;
+    			font-size: 18px;
+		}
+		#big_header_container #big_header_inner #nav_collapse{
+			display: block;
 		}
 	}
 </style>
