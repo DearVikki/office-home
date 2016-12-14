@@ -23,7 +23,9 @@
 			@clickPagination="clickPagination"></pagination>
 		</div>
 		<!--弹窗-->
-		<coursepop></coursepop>
+		<coursepop
+		v-show="popShow"
+		@close="popShow = false"></coursepop>
 	</div>
 </template>
 <script>
@@ -117,8 +119,8 @@
 					currentPage:1,
 					start:0,
 					end:0
-				}
-				
+				},
+				popShow:true
 			}
 		},
 		mounted(){

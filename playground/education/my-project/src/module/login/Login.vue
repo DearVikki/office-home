@@ -128,6 +128,29 @@
 		background-size:100%;
 		padding: 50px 100px;
 	}
+	/*
+	#login_container{
+        width: 515px;
+        height: 461px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate3d(-50%,-60%,0);
+        border:1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        background: #fff;
+        &:before{
+            content:'';
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top:0;
+            right:0;
+            background: url(../../assets/img/index/mini.png) no-repeat;
+        }
+    }*/
+
 	/*切换用户*/
 	.login-nav{
 		width: 150px;
