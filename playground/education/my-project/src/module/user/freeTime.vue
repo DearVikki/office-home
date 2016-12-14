@@ -24,7 +24,8 @@
 				<span class="text">已安排课程时段</span>
 			</div>
 		</div>
-		<div class="btn reverse">保存</div>
+		<div class="btn reverse"
+		@click="updateFreetime">保存</div>
 	</div>
 </template>
 <script>
@@ -87,11 +88,34 @@
 						this.trs[e.stage+1].schedule[day].full = e.having_class;
 					})
 				}
+				else if(response.body.code===1004){
+					location.href='./login.html';
+				}
 			})
 		},
 		methods:{
 			changeFree(td){
 				td.free = !td.free;
+			},
+			updateFreetime(){
+				let updateData = {
+					Mon:{stage:[],is_free:[]},
+					Tues:{stage:[],is_free:[]},
+					Wed:{stage:[],is_free:[]},
+					Thurs:{stage:[],is_free:[]},
+					Fri:{stage:[],is_free:[]},
+					Sat:{stage:[],is_free:[]},
+					Sun:{stage:[],is_free:[]}
+				};
+				for(var day in updateData){
+					console.log(day)
+					for(var stage in this.trs){
+						updateData[day].stage.push(stage-1);
+						updateData[day].is_free.push(this.trs[stage].schedule[this.daySwitcher[day]].free);
+					}
+				}
+				console.log(updateData)
+				//this.$http.get('?name=education.sys.update.free.time&')
 			}
 		}
 	}
