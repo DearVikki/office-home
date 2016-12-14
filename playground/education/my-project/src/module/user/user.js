@@ -1,4 +1,5 @@
 import common from '../../assets/js/common.js'
+import course from './Course.vue'
 import freetime from './freeTime.vue'
 import doc from './Doc.vue'
 import user from './Userinfo.vue'
@@ -10,6 +11,12 @@ const myheader = common.myHeader;
 const sider = common.sider;
 const router = new common.VueRouter({
 	routes:[{
+		path:'/',
+		component:course
+	},{
+		path:'/course',
+		component:course
+	},{
 		path:'/freetime',
 		component:freetime
 	},{

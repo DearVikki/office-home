@@ -49,7 +49,7 @@
 			line-height: 53px;
 			a{
 				margin-left:30px;
-				font-size:18px;
+				font-size:16px;
 				color:#4d4d4d;
 				&:nth-of-type(3){
 					color: @baseColor;

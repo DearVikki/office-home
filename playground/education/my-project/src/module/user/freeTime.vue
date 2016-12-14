@@ -1,17 +1,17 @@
 <template>
 	<div id="freeTime_container" class="user-common-container">
 		<table>
-			<caption>时间安排</caption>
+			<caption>空余时间（未来七天）</caption>
 			<tr>
 				<th style="width:16%"></th>
 				<th style="width:12%"
-				v-for="th in ths">{{th}}</th>
+				v-for="th in ths">{{th.date}}日</th>
 			</tr>
 			<tr v-for="tr in trs">
 				<td>{{tr.time}}</td>
-				<td v-for="td in tr.schedule"
-				:class="{free:td.free, full:td.full}"
-				@click="changeFree(td)"></td>
+				<td v-for="th in ths"
+				:class="{free:tr.schedule[th.day].free, full:tr.schedule[th.day].full}"
+				@click="changeFree(tr.schedule[th.day])"></td>
 			</tr>
 		</table>
 		<div id="freeTime_note">
@@ -33,13 +33,13 @@
 		name:'freeTime',
 		data(){
 			return{
-				ths:['星期一','星期二','星期三','星期四','星期五','星期六','星期日'],
+				ths:[],
 				trs:{
 					1:{time:'8:00-9:00',
-					   schedule:{1:{free:true,full:false},2:{free:false, full:true},3:{free:true, full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:true,full:true},7:{free:false,full:false}}
+					   schedule:{1:{free:false,full:false},2:{free:false, full:false},3:{free:false, full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:true},7:{free:false,full:true}}
 					},
 					2:{time:'9:00-10:00',
-					   schedule:{1:{free:true,full:false},2:{free:true,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:true},7:{free:false,full:false}}
+					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
 					},
 					3:{time:'10:00-11:00',
 					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
@@ -69,16 +69,25 @@
 					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
 					},
 					12:{time:'19:00-20:00',
-					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
+					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:true},7:{free:false,full:true}}
 					},
 					13:{time:'20:00-21:00',
-					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
+					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:true},7:{free:false,full:true}}
 					}
 				},
 				daySwitcher:{Mon:1, Tues:2, Wed:3, Thurs:4, Fri:5, Sat:6, Sun:7}
 			}
 		},
 		mounted(){
+			let today = new Date().getDay(); //周几
+			let todate = new Date().getDate(); //几号
+			for(var i = 0; i<7; i++){
+				let day = (today + i)>7 ? (today+i-7) : (today+i);
+				this.ths.push({
+					date: todate+i,
+					day: day
+				})
+			}
 			this.$http.get('?name=education.sys.free.time').then((response)=>{
 				if(response.body.code === 1000){
 					let data = response.body.data.list;
@@ -87,6 +96,7 @@
 						this.trs[e.stage+1].schedule[day].free = e.is_free;
 						this.trs[e.stage+1].schedule[day].full = e.having_class;
 					})
+					console.log(this.trs)
 				}
 				else if(response.body.code===1004){
 					location.href='./login.html';
