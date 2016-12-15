@@ -8,18 +8,19 @@
 		<!--学生部分-->
 		<!--学生展示信息-->
 		<div class="table-info"
-		v-if="usertype===1">
+		v-if="usertype===0">
 			<div class="info-item" v-for="info in infos1">
 				<span class="title">{{info.title}}</span>
 				<span class="value"
 				:class="{active:info.name==='subject'}">{{info.value}}</span>
 			</div>
 			<!--编辑按钮-->
-			<div class="edit"></div>
+			<div class="edit"
+			@click="editInfo"></div>
 		</div>
 		<!--学生购买课程-->
 		<div class="course-container"
-		v-if="usertype===1">
+		v-if="usertype===0">
 			<div class="course-header">购买课程</div>
 			<table>
 				<tr>
@@ -38,7 +39,7 @@
 		<!--教师部分-->
 		<!--教师展示信息-->
 		<div class="table-info"
-		v-if="usertype===2">
+		v-if="usertype===1">
 			<div class="info-item" v-for="info in infos2">
 				<span class="title">{{info.title}}</span>
 				<span class="value"
@@ -116,6 +117,18 @@
 					teacher:'陈六',
 					left:100
 				}]
+			}
+		},
+		mounted(){
+			let user = JSON.parse(localStorage.getItem('user'));
+			this.userType = user.user_type;
+			this.user.avatar = user.head;
+			this.user.name = user.user_name;
+		},
+		methods:{
+			editInfo(){
+				//this.$router.push('usercenter/edit')
+				this.$router.push('usercenterEdit');
 			}
 		}
 	}

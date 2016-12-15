@@ -2,7 +2,8 @@ import common from '../../assets/js/common.js'
 import course from './Course.vue'
 import freetime from './freeTime.vue'
 import doc from './Doc.vue'
-import user from './Userinfo.vue'
+import userinfo from './Userinfo.vue'
+import edit from './userinfoEdit.vue'
 
 import VueValidator from 'vue-validator'
 common.Vue.use(VueValidator);
@@ -24,7 +25,14 @@ const router = new common.VueRouter({
 		component:doc
 	},{
 		path:'/usercenter',
-		component:user
+		component:userinfo,
+		children:[{
+			path:'edit',
+			component:edit
+		}]
+	},{
+		path:'/usercenterEdit',
+		component:edit
 	}]
 	//mode:'history'
 })
@@ -32,5 +40,5 @@ console.log(router)
 new common.Vue({
   el: '#app',
   router,
-  components:{user, myheader, sider}
+  components:{userinfo, myheader, sider}
 })

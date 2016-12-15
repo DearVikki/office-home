@@ -1,7 +1,7 @@
 <template>
 	<div class="dropdown-container"
 	@click="optionShow = !optionShow">
-		<div class="selected">{{dropdownData.selected.text}}</div>
+		<div class="selected" ref="xxx">{{dropdownData.selected.text}}</div>
 		<div class="option-container">
 			<div class="option"
 			v-show="optionShow"
@@ -19,11 +19,17 @@
 				optionShow:false
 			}
 		},
+		mounted(){
+			document.body.onclick = (e)=>{
+				//console.log(e)
+			}
+		},
 		methods:{
 			clickOption(option){
 				this.dropdownData.selected.id = option.id;
 				this.dropdownData.selected.text = option.text;
 				this.optionShow = false;
+				this.$emit('clickOption',option)
 			}
 		},
 		props:['dropdownData']
@@ -37,6 +43,7 @@
 		height: 30px;
 		font-size: 14px;
 		cursor: pointer;
+		z-index: 100;
 		.selected,.option{
 			position: relative;
 			padding-left: 10px;
@@ -53,9 +60,10 @@
 				position: absolute;
 				right: 5px;
 				top: 10px;
-				width: 10px;
+				width: 12px;
 				height: 10px;
-				background: @baseColor;
+				background: url(../assets/img/user/path2.png) center no-repeat;
+				background-size: 100%;
 			}
 		}
 		.option-container{

@@ -9,14 +9,22 @@
 		@click="isNow = false">历史课程</div>
 		<!--本周课程-->
 		<div v-show="isNow === true">
-			<courseform :tableData="now.tableData"></courseform>
+			<div class="courseform-wrapper">
+				<courseform
+				:tableData="now.tableData"
+				@formCb="formCb"></courseform>
+			</div>
 			<pagination
 			v-if="now.allPage>1"
 			:allPage="now.allPage"></pagination>
 		</div>
 		<!--历史课程-->
 		<div v-show="isNow === false">
-			<courseform :tableData="history.tableData"></courseform>
+			<div class="courseform-wrapper">
+				<courseform
+				:tableData="history.tableData"
+				@formCb="formCb"></courseform>
+			</div>
 			<pagination
 			v-if="history.allPage>1"
 			:allPage="history.allPage"
@@ -30,9 +38,11 @@
 </template>
 <script>
 	import Mock from 'mockjs';
+	import 'animate.css';
 	import courseform from './CourseForm.vue';
 	import pagination from '../../components/Pagination.vue';
 	import coursepop from './CoursePop.vue';
+	//actionType:1 评价; 2 回看录像; 3 已评价
 	var data = Mock.mock({
 		'ths':[{name:'date',title:'上课日期',width:'20%'},
 				{name:'time',title:'上课时间',width:'15%'},
@@ -48,7 +58,7 @@
 			teacher:{content:'王王'},
 			subject:{content:'数学'},
 			chapter:{content:'线代'},
-			action:{content:'评价', class:'active'}
+			action:{content:'评价', class:'active', actionType:1}
 		}
 	]
 })
@@ -120,7 +130,7 @@
 					start:0,
 					end:0
 				},
-				popShow:true
+				popShow:false
 			}
 		},
 		mounted(){
@@ -129,6 +139,9 @@
 			this.dataPage();
 		},
 		methods:{
+			formCb(td){
+				if(td.actionType === 1) this.popShow = true;
+			},
 			dataPage(){
 				if(this.isNow) {
 					this.now.start = (this.now.currentPage-1)*15;
@@ -182,5 +195,8 @@
 				bottom:-.4px;
 			}
 		}
+	}
+	.courseform-wrapper{
+		height: 600px;
 	}
 </style>

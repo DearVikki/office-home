@@ -4,7 +4,7 @@
 		v-for="item in sideItems"
 		:class="{active:sideType === item.type}"
 		@click="clickItem(item)"
-		v-if="item.type !== 3 || userType === 2">{{item.name}}</div>
+		v-if="item.type !== 3 || userType === 1">{{item.name}}</div>
 	</div>
 </template>
 <script>
@@ -12,7 +12,7 @@
 		name:'sider',
 		data(){
 			return{
-				userType:2,
+				userType:1,
 				sideItems:[{
 					type:1,
 					link:'course',
@@ -32,6 +32,10 @@
 				}],
 				sideType:1
 			}
+		},
+		mounted(){
+			this.userType = JSON.parse(localStorage.getItem('user')).user_type;
+			//要做些什么来匹配对应的nav呢？要自己用href.location取尾数吗？
 		},
 		methods:{
 			clickItem(item){

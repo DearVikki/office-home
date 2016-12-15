@@ -105,6 +105,7 @@
 		},
 		methods:{
 			changeFree(td){
+				if(td.full) return;
 				td.free = !td.free;
 			},
 			updateFreetime(){
@@ -118,14 +119,15 @@
 					Sun:{stage:[],is_free:[]}
 				};
 				for(var day in updateData){
-					console.log(day)
 					for(var stage in this.trs){
 						updateData[day].stage.push(stage-1);
 						updateData[day].is_free.push(this.trs[stage].schedule[this.daySwitcher[day]].free);
 					}
+					this.$http.get('?name=education.sys.update.free.time&stage='+updateData[day].stage+'&day='+day+'&is_free='+updateData[day].is_free).then((response)=>{
+
+					})
 				}
-				console.log(updateData)
-				//this.$http.get('?name=education.sys.update.free.time&')
+				console.log(updateData);
 			}
 		}
 	}
@@ -138,19 +140,15 @@
 			border-collapse: collapse;
 			table-layout: fixed;
 			color: #4d4d4d;
-			font-size: 16px;
+			font-size: 14px;
 			caption{
 				font-size: 20px;
 				color: #4d4d4d;
 				text-align: center;
-				width: 500px;
-				height: 48px;
-				line-height: 48px;
-				border-bottom: 1px solid #ebebeb;
-				margin:0 auto;
+				margin: -10px auto 15px auto;
 			}
 			th,td{
-				height: 54px;
+				height: 38px;
 				text-align: center;
 				vertical-align: middle;
 				border:2px solid #f1f1f1;
@@ -164,7 +162,6 @@
 			td{cursor: pointer;}
 		}
 		#freeTime_note{
-			float: left;
 			div:nth-of-type(2){
 				margin-top: 10px;
 			}
@@ -188,6 +185,7 @@
 			width: 120px;
 			height: 40px;
 			line-height: 40px;
+			margin-top:20px;
 		}
 	}
 </style>

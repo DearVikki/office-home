@@ -133,6 +133,7 @@
 				this.$http.get('?name='+name+'&mobile='+this.phone.val+'&code='+this.code.val).then((response)=>{
 						if(response.body.code === 1000){
 							//登录成功
+							localStorage.setItem('user',JSON.stringify(response.body.data));
 							location.href='./user.html';
 						}
 						else {

@@ -79,7 +79,6 @@
 	@baseColor:#55b7f8;
 	#pagination_container{
 		display:inline-block;
-		margin-top: 100px;
 	    margin-left: 50%;
 	    transform: translate3d(-50%,0,0);
 	}

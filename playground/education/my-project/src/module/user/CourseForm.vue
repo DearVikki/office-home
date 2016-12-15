@@ -9,7 +9,8 @@
 			v-for="tr in tableData.trs">
 				<td v-for="th in tableData.ths"
 				:title="tr[th.name].content">
-					<span :class="tr[th.name].class">{{tr[th.name].content}}</span>
+					<span :class="tr[th.name].class"
+					@click="clickTd(tr[th.name])">{{tr[th.name].content}}</span>
 				</td>
 			</tr>
 		</table>
@@ -20,6 +21,12 @@
 		name:'courseForm',
 		mounted(){
 			console.log(this.tableData)
+		},
+		methods:{
+			clickTd(td){
+				if(td.actionType === 3 || !td.actionType) return;
+				this.$emit('formCb',td);
+			}
 		},
 		props:['tableData']
 	}

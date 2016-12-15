@@ -8,7 +8,7 @@
 		</div>
 		<!--学生表单-->
 		<studentUserinfoEdit
-		v-if="usertype === 1"
+		v-if="usertype === 0"
 		:checkAll = "checkAll"></studentUserinfoEdit>
 		<!--教师表单-->
 		<teacherUserinfoEdit
@@ -31,7 +31,7 @@
 		name:'userinfoedit',
 		data(){
 			return{
-				usertype:2,
+				usertype:1,
 				user:{
 					avatar:avaImg,
 					name:'我不要再叫李慧慧了!'
@@ -39,6 +39,12 @@
 				changeAva: false,
 				checkAll: false
 			}
+		},
+		mounted(){
+			let user = JSON.parse(localStorage.getItem('user'));
+			this.userType = user.user_type;
+			this.user.avatar = user.head;
+			this.user.name = user.user_name;
 		},
 		methods: {
 			/*保存头像*/

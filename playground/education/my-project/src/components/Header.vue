@@ -20,6 +20,10 @@
 					name:'李慧慧'
 				}
 			}
+		},
+		mounted(){
+			let user = JSON.parse(localStorage.getItem('user'));
+			this.user.name = user.user_name;
 		}
 	}
 </script>
@@ -30,7 +34,7 @@
 		height: 53px;
 		background: #f8f8f8;
 		border-bottom: 1px solid #ebebeb;
-		margin-bottom: 40px;
+		margin-bottom: 30px;
 	}
 	#header_main{
 		width:1026px;

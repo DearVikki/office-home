@@ -39,7 +39,7 @@
 				width: 100%;
 				height: 48px;
 				line-height: 48px;
-				font-size: 18px;
+				font-size: 16px;
 				color:#55b7f8;
 				background: #f8f8f8;
 				padding-left: 37px;
@@ -61,9 +61,10 @@
 				}
 				&:after{
 					content: '';
-					width: 20px;
-					height: 20px;
+					width: 15px;
+					height: 15px;
 					background: url(../../assets/img/user/icon_more.png) center no-repeat;
+					background-size: auto 100%;
 					position: absolute;
 					top: 15px;
 					right: 20px;
