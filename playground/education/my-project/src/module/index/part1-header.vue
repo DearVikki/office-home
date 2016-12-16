@@ -16,8 +16,8 @@
 				</div>
 				<!--右侧注册登录-->
 				<div id="header_inner_right">
-					<span class="btn">注册账号</span>
-					<span class="btn reverse">立即登录</span>
+					<a href="./login.html" class="btn">注册账号</a>
+					<a href="./login.html" class="btn reverse">立即登录</a>
 				</div>
 			</div>
 		</div>
@@ -101,14 +101,14 @@
 	/*第一部分注册账号header条*/
 	#header_container{
 		width: 100%;
-		height: 80px;
+		height: 60px;
 		border-bottom: 1px solid #dadada;
 		padding-top: .1px;
 		#header_inner{
 			max-width: 1240px;
 			width: 100%;
 			overflow: hidden;
-			margin:18px auto 0 auto;
+			margin:15px auto 0 auto;
 			padding: 0 40px;
 			#header_inner_left{
 				float: left;
@@ -118,9 +118,11 @@
 					}
 					.icon{
 						display: inline-block;
-						width: 45px;
-						height: 45px;
+						width: 35px;
+						height: 35px;
 						margin-right:10px;
+						background-size: 100% 100%;
+						border-radius: 100%;
 						&.icon1{
 							background: url(../../assets/img/index/Share_qq.png) center no-repeat;
 						}
@@ -129,7 +131,7 @@
 						}
 					}
 					.text{
-						font-size: 20px;
+						font-size: 16px;
 						color: #8a8a8a;
 						margin-right: 36px;
 					}
@@ -138,11 +140,11 @@
 			#header_inner_right{
 				float: right;
 				.btn{
-					font-size: 20px;
+					font-size: 16px;
 					display: inline-block;
-					width: 138px;
-					height: 42px;
-					line-height: 42px;
+					width: 110px;
+					height: 30px;
+					line-height: 30px;
 					&.reverse{
 						margin-left: 40px;
 					}
@@ -217,7 +219,7 @@
 		/*navbar*/
 		#big_header_container #big_header_inner #big_header_right{
 			    position: absolute;
-			    top: 100px;
+			    top: 80px;
 			    left: 0;
 			    width: 100%;
 			    background: #fff;

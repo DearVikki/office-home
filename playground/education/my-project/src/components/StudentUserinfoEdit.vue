@@ -12,16 +12,16 @@
 						:validators="fields[field].validator">
 							<input
 							type="text"
-							v-if="(fields[field].id !== 'sex') && (fields[field].id !=='subject')"
+							v-if="((fields[field].id !== 'sex') && (fields[field].id !=='subject')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
 							:id="fields[field].id"
 							:placeholder="fields[field].placeholder"
 							:class="{ warn: fields[field].error, active: fields[field].focus}"
 							@blur="handleValidate(fields[field].id)"
 							@focus="focusing(fields[field].id)"
 							v-model="fields[field].val">
-							<!--性别下拉框-->
+							<!--性别/分科/年级下拉框-->
 							<select
-							v-if="fields[field].id === 'sex'"
+							v-if="(fields[field].id === 'sex' ||fields[field].id === 'learningType') || (fields[field].id === 'grade')"
 							v-model="fields[field].val">
 								<option
 								v-for="option in fields[field].options"
@@ -71,17 +71,6 @@
 			            id: 'phone',
 			            class: 'phone-field',
 			            name: '手机',
-			            placeholder: '',
-			            validator: { required: true, isPhone:true},
-			            error: false,
-			            msg:'',
-			            val:'',
-			            focus: false
-		        	},
-		        	phone2: {
-			            id: 'phone2',
-			            class: 'phone2-field',
-			            name: '家长手机',
 			            placeholder: '',
 			            validator: { required: true, isPhone:true},
 			            error: false,
@@ -146,6 +135,23 @@
 		        			mark:''
 		        		}]
 		        	},
+		        	learningType: {
+		        		id: 'learningType',
+		        		class: 'learningType-field',
+		        		name: '分科',
+		        		val:'B',
+		        		validator: {},
+		        		options:[{
+		        			title:'理科',
+		        			value: '理科'
+		        		},{
+		        			title:'文科',
+		        			value:'文科'
+		        		},{
+		        			title:'其他',
+		        			value:'其他'
+		        		}]
+		        	},
 		        	school: {
 			            id: 'school',
 			            class: 'school-field',
@@ -162,11 +168,17 @@
 			            class: 'grade-field',
 			            name: '年级',
 			            placeholder: '',
-			            validator: { required: true},
-			            error: false,
-			            msg:'',
-			            val:'',
-			            focus: false
+			            validator: {},
+			           options:[{
+		        			title:'高一',
+		        			value: '高一'
+		        		},{
+		        			title:'高二',
+		        			value:'高二'
+		        		},{
+		        			title:'高三',
+		        			value:'高三'
+		        		}]
 		        	}
 		        }
 			}
@@ -227,7 +239,7 @@
 				}catch(err){}
 			}*///,
 			checkAll(){
-					let n = 10;
+					let n = 9;
 					for (var validity in this.$refs){
 						this.$refs[validity][0].validate(() => {
 							this.watchValidation();
@@ -265,14 +277,14 @@
 					} else {
 						this.fields.phone.error = false;
 					}
-					if(va1.phone2.invalid) {
+					/*if(va1.phone2.invalid) {
 						this.fields.phone2.error = true;
 						var err0 = va1.phone2.errors[0].validator;
 						if(err0 === 'required') this.fields.phone2.msg = '家长手机不能为空喔';
 						else if(err0 === 'isPhone') this.fields.phone2.msg = '家长手机号不合法喔'
 					} else {
 						this.fields.phone2.error = false;
-					}
+					}*/
 					if(va1.qq.invalid) {
 						this.fields.qq.error = true;
 						var err0 = va1.qq.errors[0].validator;

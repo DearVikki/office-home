@@ -30,11 +30,19 @@
 		</div>
 		<div class="clear"></div>
 		<!--登录-->
-		<div class="login-btn"
-		@click="login">登 录</div>
+		<!--<div class="login-btn smart-btn text loading"
+		@click="login">登 录</div>-->
+		<div class="smartBtn-container">
+			<smartBtn
+			@clickBtn="login"
+			:stage="btnSet.stage"
+			:style="btnSet.style"></smartBtn>
+		</div>
 	</div>
 </template>
 <script>
+	//import smartBtn from '../../assets/js/smartBtn.js';
+	import smartBtn from '../../components/SmartBtn.vue';
 	export default{
 		name:'loginform',
 		data(){
@@ -65,7 +73,20 @@
 				sendCode:{
 					txt:'发送验证码',
 					disabled:false
+				},
+				btnSet:{
+					stage:{
+						type:0,
+						txt:'登 录'
+					},
+					style:{
+						height: '48px',
+						lineHeight: '48px',
+						color: '#fff',
+						fontSize:'18px'
+					}
 				}
+
 			}
 		},
 		methods:{
@@ -123,27 +144,56 @@
 				})
 			},
 			//登录
-			login(){
+			login(){console.log('click log in')
+				/*this.btnSet.stage = {
+					type:1,
+					txt:'登录中...'
+				}
+				setTimeout(()=>{
+					this.btnSet.stage = {
+						type:2,
+						txt:'登录成功'
+					}
+				},1000)*/
 				this.checkphone();
 				this.checkcode();
 				if(this.phone.error || this.code.error) return;
 				let name;
 				if(this.userType === 1) name='education.student.register.login';
 				else name='education.teacher.register.login';
-				this.$http.get('?name='+name+'&mobile='+this.phone.val+'&code='+this.code.val).then((response)=>{
+				this.$http.get('?name='+name+'&mobile='+this.phone.val+'&code='+this.code.val,{
+					timeout:30000,
+					before: function() {
+						this.btnSet.stage = {
+							type:1,
+							txt:'登录中...'
+						}
+					}
+				}).then((response)=>{
 						if(response.body.code === 1000){
 							//登录成功
 							localStorage.setItem('user',JSON.stringify(response.body.data));
 							location.href='./user.html';
+							this.btnSet.stage = {
+								type:2,
+								txt:'登录成功'
+							}
 						}
 						else {
 							this.code.error = true;
 							this.code.msg = response.body.msg;
+							this.btnSet.stage = {
+								type:0,
+								txt:'登录'
+							}
 						}
 				})
+				//smartBtn.initial(document.querySelector('.login-btn'), '#55b7f8');
+				//smartBtn.loading(document.querySelector('.login-btn'));
 			}
 		},
-		props:['userType']
+		props:['userType'],
+		components:{smartBtn}
 	}
 </script>
 <style scoped lang='less'>
@@ -199,7 +249,7 @@
 		color:red;
 	}
 	/*登录*/
-	.login-btn{
+	/*.login-btn{
 		width:300px;
 		height: 48px;
 		line-height: 48px;
@@ -210,5 +260,13 @@
 		border-radius: 2px;
 		margin: 40px auto;
 		cursor: pointer;
+		position: relative;
+	}*/
+	.smartBtn-container{
+		width:300px;
+		height: 48px;
+		margin: 40px auto;
+		cursor: pointer;
+		position: relative;
 	}
 </style>

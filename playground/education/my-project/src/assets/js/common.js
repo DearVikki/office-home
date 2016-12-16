@@ -5,10 +5,11 @@ import VueResource from 'vue-resource'
 Vue.config.debug = true;
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.http.options.root = 'http://121.40.91.157/education/php/index.php/PcApi';
+Vue.http.options.root = 'http://www.hzchuangxiangzhe.cn/PcApi';
 Vue.http.options.emulateJSON = true;
 Vue.http.options.credentials = true;
 import '../lib/public.less'
+//import '../lib/smartBtn.less'
 import Myheader from '../../components/Header'
 import sider from '../../components/Sider'
 

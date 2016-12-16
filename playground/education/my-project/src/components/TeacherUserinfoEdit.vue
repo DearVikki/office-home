@@ -12,16 +12,17 @@
 						:validators="fields[field].validator">
 							<input
 							type="text"
-							v-if="((fields[field].id !== 'sex') && (fields[field].id !=='subject')) && (fields[field].id !=='scores')"
+							v-if="((fields[field].id !== 'sex') && (fields[field].id !=='subject')) &&
+							((fields[field].id !=='scores') && (fields[field].id !=='learningType')) && (fields[field].id !=='grade')"
 							:id="fields[field].id"
 							:placeholder="fields[field].placeholder"
 							:class="{ warn: fields[field].error, active: fields[field].focus}"
 							@blur="handleValidate(fields[field].id)"
 							@focus="focusing(fields[field].id)"
 							v-model="fields[field].val">
-							<!--性别下拉框-->
+							<!--性别/文理科/年级下拉框-->
 							<select
-							v-if="fields[field].id === 'sex'"
+							v-if="(fields[field].id === 'sex' || fields[field].id === 'learningType') || (fields[field].id === 'grade')"
 							v-model="fields[field].val">
 								<option
 								v-for="option in fields[field].options"
@@ -32,7 +33,7 @@
 							v-if="fields[field].id === 'subject'">
 								<div class="checkbox-group"
 								v-for="checkbox in fields[field].checkboxes">
-									<label><input type="checkbox">
+									<label><input type="checkbox" :value="checkbox.value">
 									<span class="checkbox-input"></span></label>
 									<span class="checkbox-title">{{checkbox.title}}</span>
 								</div>
@@ -97,14 +98,14 @@
 		        		id: 'sex',
 		        		class: 'sex-field',
 		        		name: '性别',
-		        		val:'B',
+		        		val:'男',
 		        		validator: {},
 		        		options:[{
 		        			title:'男',
-		        			value: 'A'
+		        			value: '男'
 		        		},{
 		        			title:'女',
-		        			value:'B'
+		        			value:'女'
 		        		}]
 		        	},
 		        	qq: {
@@ -129,6 +130,20 @@
 			            val:'',
 			            focus: false
 		        	},
+		        	learningType: {
+		        		id: 'learningType',
+		        		class: 'learningType-field',
+		        		name: '分科',
+		        		val:'理科',
+		        		validator: {},
+		        		options:[{
+		        			title:'理科',
+		        			value: '理科'
+		        		},{
+		        			title:'文科',
+		        			value:'文科'
+		        		}]
+		        	},
 		        	subject:{
 		        		id:'subject',
 		        		class: 'subject-field',
@@ -138,15 +153,15 @@
 		        		msg:'',
 		        		checkboxes:[{
 		        			title:'数学',
-		        			value:'A',
+		        			value:'数学',
 		        			mark:''
 		        		},{
 		        			title:'物理',
-		        			value:'B',
+		        			value:'物理',
 		        			mark:''
 		        		},{
 		        			title:'化学',
-		        			value:'C',
+		        			value:'化学',
 		        			mark:''
 		        		}]
 		        	},
@@ -203,30 +218,57 @@
 			            val:'',
 			            focus: false
 		        	},
-		        	grade: {
-			            id: 'grade',
-			            class: 'grade-field',
-			            name: '年级',
-			            placeholder: '',
-			            validator: { required: true},
-			            error: false,
-			            msg:'',
-			            val:'',
-			            focus: false
+		        	grade:{
+		        		id:'grade',
+		        		class: 'grade-field',
+		        		name: '年级',
+		        		validator:{},
+		        		val:'大一',
+		        		options:[{
+		        			title:'大一',
+		        			value:'大一'
+		        		},{
+		        			title:'大二',
+		        			value:'大二'
+		        		},{
+		        			title:'大三',
+		        			value:'大三'
+		        		},{
+		        			title:'研一',
+		        			value:'研一'
+		        		},{
+		        			title:'研二',
+		        			value:'研二'
+		        		},{
+		        			title:'研三',
+		        			value:'研三'
+		        		},{
+		        			title:'博一',
+		        			value:'博一'
+		        		},{
+		        			title:'博二',
+		        			value:'博二'
+		        		},{
+		        			title:'博三',
+		        			value:'博三'
+		        		}]
 		        	}
-				}
+		        }
 			}
 		},
 		watch:{
 			checkAll(){
-					let n = 9;
+					let n = 8;
 					for (var validity in this.$refs){
 						this.$refs[validity][0].validate(() => {
 							this.watchValidation();
 							n--;
 							if(n>0) return;
 							if(this.$validation.validation1.invalid) return;
-							else console.log('allCheck')
+							else {
+								console.log('allCheck');
+								this.$emit('allCheck',this.fields);
+							}
 						});
 					}
 			}
@@ -283,12 +325,12 @@
 					} else {
 						this.fields.major.error = false;
 					}
-					if(va1.grade.invalid) {
+					/*if(va1.grade.invalid) {
 						this.fields.grade.error = true;
 						this.fields.grade.msg = '年级不能为空喔';
 					} else {
 						this.fields.grade.error = false;
-					}
+					}*/
 				}catch(err){}
 			},
 			handleValidate(field) {
