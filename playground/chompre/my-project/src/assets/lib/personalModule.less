@@ -1,0 +1,122 @@
+@baseColor: #d42b1e;
+@bla: #666;
+#personal_container{
+	width: 100%;
+	background: #f2f2f2;
+	padding-top: .1px;
+	padding-bottom: .1px;
+}
+#personal_main_container{
+	max-width: 1200px;
+	width:100%;
+	overflow: hidden;
+	margin: 20px auto;
+}
+#personal_right_container{
+	width: 100%;
+	max-width: 952px;
+	float: right;
+	background: #fff;
+	padding: 10px 0 80px 20px;
+	h1{
+		font-size: 30px;
+		color: @baseColor;
+		font-weight: bold;
+	}
+	h3{
+		font-size: 20px;
+		color: @baseColor;
+		margin: 30px 62px;
+	}
+}
+.input-group{
+	margin-bottom: 15px;
+	label{
+		display: inline-block;
+		width: 100px;
+		height: 40px;
+		line-height: 40px;
+		color: @bla;
+		text-align: right;
+		font-size: 18px;
+		vertical-align: top;
+	}
+	.input-container{
+		display: inline-block;
+		margin-left: 16px;
+		height: 56px;
+		&.big{
+			height: 163px;
+		}
+		input,textarea{
+			width: 546px;
+			border: 1px solid #d3d3d3;
+			height: 40px;
+			padding-left: 10px;
+			font-size: 18px;
+			color: @bla;
+			&.active{
+				border-color: @baseColor;
+			}
+		}
+		textarea{
+			height: 150px;
+			padding-top: 10px;
+			resize: none;
+		}
+		.error{
+			font-size: 12px;
+			color: @baseColor;
+		}
+	}
+}
+.check-container{
+		cursor: pointer;
+		margin-left: 115px;
+		input{
+			display: none;
+		}
+		.radio-input{
+			width: 14px;
+			height: 14px;
+			display: inline-block;
+			position: relative;
+			border: 1px solid #b0b0b0;
+			vertical-align: middle;
+		}
+		input:checked + .radio-input:after{
+			content: '\2713';
+			position:absolute;
+			color: @baseColor;
+			font-size: 16px;
+			top: -7px;
+			left: 0;
+			font-weight: bold;
+		}
+		span:nth-of-type(2){
+			font-size: 14px;
+			color: #666;
+			vertical-align: middle;
+			margin-left: 10px;
+		}
+	}
+.side-btn{
+	width: 172px;
+	height: 49px;
+	line-height: 49px;
+	text-align: center;
+	background: @baseColor;
+	border-radius: 4px;
+	cursor: pointer;
+	color:#fff;
+	font-size: 24px;
+	margin-left: 115px;
+	margin-top: 40px;
+}
+.table-container{
+	width: 913px;
+	overflow-x: scroll;
+	margin-top: 60px;
+	font-size: 16px;
+	color: #666;
+}

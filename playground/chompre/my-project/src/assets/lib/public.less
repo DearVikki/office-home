@@ -1,0 +1,238 @@
+@baseColor: #d42b1e;
+@backColor: #fff7f7;
+@bla: #5c5c5c;
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strike, strong, sub, sup, tt, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    border: 0px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: normal;
+}
+
+input, select, textarea {
+    outline: none;
+}
+
+body {
+    position: relative;
+}
+
+.clear {
+    clear: both
+}
+
+.margauto {
+    width: 1190px;
+    margin: 0 auto;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.textLeft {
+    text-align: left !important;
+}
+
+.textCenter {
+    text-align: center !important;
+}
+
+.inLine {
+    display: inline-block;
+}
+
+.cd {
+    cursor: default;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+
+/*自定义样式*/
+
+body {
+    font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;
+    cursor: default;
+    font-size: 0px;
+}
+
+.my-alert{
+    font-size: 16px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-50%,0,0);
+    background: #d42b1e;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 5px;
+    animation: back 1s ease-in;
+    animation-fill-mode: forwards
+}
+@keyframes back {
+    50%{
+        transform: translate3d(-50%,0,0);
+    }
+    100%{
+        transform: translate3d(-50%,-100%,0);
+    }
+}
+
+/*首页板块*/
+
+.goods-name {
+    font-size: 12px;
+    color: @bla;
+}
+
+.goods-price {
+    font-size: 14px;
+    color: @baseColor;
+    margin-top: 10px;
+}
+
+.common-goods-item {
+    margin-top: 20px;
+    width: 220px;
+    img {
+        width: 100%;
+    }
+    p {
+        font-size: 12px;
+        color: @bla;
+        margin-top: 8px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    p:last-child {
+        font-size: 14px;
+        color: @baseColor;
+        margin-top: 10px;
+    }
+}
+
+
+/*注册登录板块*/
+
+.bla30 {
+    color: #323232;
+    font-size: 30px;
+}
+
+.grey24 {
+    color: #666;
+    font-size: 24px;
+}
+
+.grey20{
+    color: #666;
+    font-size: 20px;
+}
+
+.account_btn {
+    background: @baseColor;
+    color: #fff;
+    cursor: pointer;
+}
+
+.account-container {
+    margin: 57px auto;
+    h3 {
+        color: #323232;
+        font-size: 30px;
+    }
+    .form-container {
+        border: 1px solid #d3d3d3;
+        background: #fff;
+        border-radius: 3px;
+        width: 100%;
+        margin-top: 30px;
+        position: relative;
+        text-align: center;
+        min-width: 300px;
+        .common-field {
+            margin-top: 6px;
+            height: 97px;
+            text-align: left;
+            position: relative;
+            max-width: 355px;
+            min-width: 180px;
+            width: 100%;
+            label {
+                color: #666;
+                font-size: 24px;
+            }
+            .input-container {
+                width: 100%;
+                height: 30px;
+                margin-top: 15px;
+                border-bottom: 1px solid #979797;
+                &.active, &.warn{
+                    border-bottom: 2px solid @baseColor;
+                }
+                input {
+                    font-size: 20px;
+                    color: #666;
+                    border: none;
+                }
+            }
+        }
+        .account-btn{
+            display: inline-block;
+            font-size: 24px;
+            color: #fff;
+            background: @baseColor;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+            border-radius: 4px;
+            margin-top: 38px;
+            padding: 0 40px;
+        }
+        .error{
+            font-size: 12px;
+            color: @baseColor;
+        }
+    }
+}
