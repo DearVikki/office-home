@@ -29,7 +29,7 @@
 								:value="option.value">{{option.title}}</option>
 							</select>
 							<!--擅长学科选择框-->
-							<div class="checkbox-container"
+							<div class="checkbox-container" style=",margin-top:10px"
 							v-if="fields[field].id === 'subject'">
 								<div class="checkbox-group"
 								v-for="checkbox in fields[field].checkboxes">

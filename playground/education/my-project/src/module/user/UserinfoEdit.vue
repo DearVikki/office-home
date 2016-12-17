@@ -7,14 +7,15 @@
 			@click="changeAva = true">编辑头像</div>
 		</div>
 		<!--学生表单-->
-		<!--哈哈哈以下是诡异的部分 checkAll代表告诉组件去检查 allCheck代表组件返回全部通过-->
+		<!--哈哈哈以下是诡异命名的部分 checkAll代表告诉组件去检查 allCheck代表组件返回全部通过-->
+		<!--本来用的是v-if v-if又有问题唉!-->
 		<studentUserinfoEdit
-		v-if="usertype === 0"
+		v-show="usertype === 0"
 		:checkAll = "checkAll"
 		@allCheck = "allCheck"></studentUserinfoEdit>
 		<!--教师表单-->
 		<teacherUserinfoEdit
-		v-else
+		v-show="usertype === 1"
 		:checkAll = "checkAll"
 		@allCheck = "allCheck"></teacherUserinfoEdit>
 		<div class="btn save"
@@ -68,7 +69,6 @@
 					user_name:fields.name.val,
 					sex:fields.sex.val,
 					qq:fields.qq.val,
-					alipay:fields.alipay.val,
 					learning_type:fields.learningType.val,
 					subject:[],
 					chinese:fields.scores.subs[0].val || 0,
@@ -77,22 +77,29 @@
 					multiple_l:0,
 					multiple_w:0,
 					university:fields.school.val,
-					major:fields.major.val,
+					school:fields.school.val,
 					grade:fields.grade.val
 				};
 				//理综/文综成绩
 				if(fields.scores.subs[3].id==='D') updateData.multiple_l = fields.scores.subs[3].val || 0;
 				else updateData.multiple_w = fields.scores.subs[3].val || 0;
-				//擅长科目
-				let checkboxes = document.querySelectorAll('.subject-field input');
-				for (var i=0; i<checkboxes.length; i++) {
-				     if (checkboxes[i].checked) {
-				        updateData.subject.push(checkboxes[i].value);
-				     }
-			  	}
+				if(this.userType === 1) {
+					//老师
+					updateData.alipay = fields.alipay.val;
+					updateData.major = fields.major.val;
+					let checkboxes = document.querySelectorAll('.subject-field input');
+					for (var i=0; i<checkboxes.length; i++) {
+					     if (checkboxes[i].checked) {
+					        updateData.subject.push(checkboxes[i].value);
+					     }
+				  	}
+				}
 			  	console.log(updateData)
-			  	if(this.userType === 0) {
+			  	if(this.usertype === 0) {
 			  		updateData.name = 'education.student.update.info';
+			  		this.$http.get('?name='+updateData.name+'&user_name='+updateData.user_name+'&sex='+updateData.sex+'&qq='+updateData.qq+'&learning_type='+updateData.learning_type+'&chinese='+updateData.chinese+'&math='+updateData.math+'&english='+updateData.english+'&multiple_l='+updateData.multiple_l+'&multiple_w='+updateData.multiple_w+'&school='+updateData.school+'&grade='+updateData.grade).then((response)=>{
+							console.log(response)
+					})
 			  	}
 			  	else {
 			  		updateData.name = 'education.teacher.update.info'

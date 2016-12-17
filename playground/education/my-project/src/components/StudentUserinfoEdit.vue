@@ -12,7 +12,7 @@
 						:validators="fields[field].validator">
 							<input
 							type="text"
-							v-if="((fields[field].id !== 'sex') && (fields[field].id !=='subject')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
+							v-if="((fields[field].id !== 'sex') && (fields[field].id !=='scores')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
 							:id="fields[field].id"
 							:placeholder="fields[field].placeholder"
 							:class="{ warn: fields[field].error, active: fields[field].focus}"
@@ -29,17 +29,17 @@
 							</select>
 							<!--补习学科选择框-->
 							<div class="checkbox-container"
-							v-if="fields[field].id === 'subject'">
+							v-if="fields[field].id === 'scores'">
 								<div class="checkbox-group"
-								v-for="checkbox in fields[field].checkboxes">
+								v-for="checkbox in fields[field].subs">
 									<label><input type="checkbox">
 									<span class="checkbox-input"></span></label>
 									<span class="checkbox-title">{{checkbox.title}}</span>
 									<span class="goal">
 										<input maxlength="3"
-										v-model="checkbox.mark"
+										v-model="checkbox.val"
 										@blur="fillMark(checkbox)">
-										<span class="fullMark">/150</span>
+										<span class="fullMark">/{{checkbox.fullMark}}</span>
 									</span>
 								</div>
 							</div>
@@ -82,14 +82,14 @@
 		        		id: 'sex',
 		        		class: 'sex-field',
 		        		name: '性别',
-		        		val:'B',
+		        		val:'男',
 		        		validator: {},
 		        		options:[{
 		        			title:'男',
-		        			value: 'A'
+		        			value: '男'
 		        		},{
 		        			title:'女',
-		        			value:'B'
+		        			value:'女'
 		        		}]
 		        	},
 		        	qq: {
@@ -103,7 +103,7 @@
 			            val:'',
 			            focus: false
 		        	},
-		        	alipay: {
+		        	/*alipay: {
 			            id: 'alipay',
 			            class: 'alipay-field',
 			            name: '支付宝',
@@ -113,33 +113,46 @@
 			            msg:'',
 			            val:'',
 			            focus: false
-		        	},
-		        	subject:{
-		        		id:'subject',
-		        		class: 'subject-field',
+		        	},*/
+		        	scores:{
+		        		id:'scores',
+		        		class: 'scores-field',
 		        		name: '补习学科',
 		        		validator:{},
 		        		error:false,
 		        		msg:'',
-		        		checkboxes:[{
-		        			title:'数学',
+		        		subs:[{
+		        			title:'语文',
 		        			value:'A',
-		        			mark:''
+		        			val:'',
+		        			fullMark:150
 		        		},{
-		        			title:'物理',
+		        			title:'数学',
 		        			value:'B',
-		        			mark:''
+		        			val:'',
+		        			fullMark:150
 		        		},{
-		        			title:'化学',
+		        			title:'英语',
 		        			value:'C',
-		        			mark:''
+		        			val:'',
+		        			fullMark:150
+		        		},{
+		        			title:'理综',
+		        			value:'D',
+		        			val:'',
+		        			fullMark:300
+		        		},{
+		        			title:'文综',
+		        			value:'F',
+		        			val:'',
+		        			fullMark:300
 		        		}]
 		        	},
 		        	learningType: {
 		        		id: 'learningType',
 		        		class: 'learningType-field',
 		        		name: '分科',
-		        		val:'B',
+		        		val:'理科',
 		        		validator: {},
 		        		options:[{
 		        			title:'理科',
@@ -169,6 +182,7 @@
 			            name: '年级',
 			            placeholder: '',
 			            validator: {},
+			            val:'高一',
 			           options:[{
 		        			title:'高一',
 		        			value: '高一'
@@ -178,6 +192,9 @@
 		        		},{
 		        			title:'高三',
 		        			value:'高三'
+		        		},{
+		        			title:'复读',
+		        			value:'复读'
 		        		}]
 		        	}
 		        }
@@ -239,14 +256,14 @@
 				}catch(err){}
 			}*///,
 			checkAll(){
-					let n = 9;
+					let n = 6;
 					for (var validity in this.$refs){
 						this.$refs[validity][0].validate(() => {
 							this.watchValidation();
 							n--;
 							if(n>0) return;
 							if(this.$validation.validation1.invalid) return;
-							else console.log('allCheck')
+							else this.$emit('allCheck',this.fields);
 						});
 					}
 			}
@@ -293,24 +310,24 @@
 					} else {
 						this.fields.qq.error = false;
 					}
-					if(va1.alipay.invalid) {
+					/*if(va1.alipay.invalid) {
 						this.fields.alipay.error = true;
 						this.fields.alipay.msg = '支付宝号不能为空喔';
 					} else {
 						this.fields.alipay.error = false;
-					}
+					}*/
 					if(va1.school.invalid) {
 						this.fields.school.error = true;
 						this.fields.school.msg = '学校不能为空喔';
 					} else {
 						this.fields.school.error = false;
 					}
-					if(va1.grade.invalid) {
+					/*if(va1.grade.invalid) {
 						this.fields.grade.error = true;
 						this.fields.grade.msg = '年级不能为空喔';
 					} else {
 						this.fields.grade.error = false;
-					}
+					}*/
 				}catch(err){}
 			},
 			handleValidate(field) {
