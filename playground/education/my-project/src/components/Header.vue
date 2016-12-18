@@ -6,7 +6,7 @@
 				<a>留言反馈</a>
 				<a>联系教务</a>
 				<a>{{user.name}}</a>
-				<a>退出</a>
+				<a @click="exit">退出</a>
 			</div>
 		</div>
 	</div>
@@ -24,6 +24,13 @@
 		mounted(){
 			let user = JSON.parse(localStorage.getItem('user'));
 			this.user.name = user.user_name;
+		},
+		methods:{
+			exit(){
+				this.$http.get('?name=').then((response)=>{
+					location.href = './login.html';
+				})
+			}
 		}
 	}
 </script>
@@ -57,6 +64,9 @@
 				color:#4d4d4d;
 				&:nth-of-type(3){
 					color: @baseColor;
+				}
+				&:nth-of-type(4){
+					cursor:pointer;
 				}
 			}
 		}

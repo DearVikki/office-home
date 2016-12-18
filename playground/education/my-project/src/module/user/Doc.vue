@@ -4,34 +4,67 @@
 		v-for="doc in docs">
 			<div class="title"
 			:class="{active:doc.active}"
-			@click="doc.active=!doc.active">{{doc.name}}</div>
+			@click="doc.active=!doc.active">{{doc.grade}} {{doc.title}}</div>
 			<div class="doc"
 			v-show="doc.active">
 				<div class="doc-item"
-				v-for="img in doc.imgs"></div>
+				v-for="list in doc.lists"
+				@click="clickPpt(list)">
+					<img :src="list.banner">
+				</div>
 			</div>
 		</div>
+		<galleryPop
+		v-show="gallery.show"
+		:imgs="gallery.imgs"
+		@closePop="gallery.show=false"></galleryPop>
 	</div>
 </template>
 <script>
+	import galleryPop from '../../components/GalleryPop.vue';
 	export default{
 		name:'doc',
 		data(){
 			return{
 				docs:[{
-					name:'高二 物理 力',
-					imgs:['','','','','',''],
+					id:100000,
+					grade: "高一上",
+                	title: "函数",
+					lists:[{
+		                id: 1,
+		                subject_id: 100000,
+		                banner: "http://www.hzchuangxiangzhe.cn/upload/banner/1.jpg",
+		                ppt: ["http://www.hzchuangxiangzhe.cn/upload/banner/1.jpg","http://www.hzchuangxiangzhe.cn/upload/banner/2.jpg","http://www.hzchuangxiangzhe.cn/upload/banner/3.jpg"]
+		            }],
 					active:false
-				},{
-					name:'高一 数学 函数',
-					imgs:['',''],
-					active:false
-				}]
+				}],
+				gallery:{
+					show:false,
+					imgs:[]
+				}
 			}
-		}
+		},
+		mounted(){
+			this.$http.get('?name=education.sys.subject.list').then((response)=>{
+				console.log(response)
+			})
+			this.docs.forEach((e)=>{
+				this.$http.get('?name=education.sys.ppt.list&subject_id='+e.id).then((response)=>{
+					//e.lists = response.body.data.list;
+				})
+			})
+		},
+		methods:{
+			clickPpt(list){
+				this.gallery.show = true;
+				this.gallery.imgs = list.ppt;
+			}
+		},
+		components:{galleryPop}
 	}
 </script>
 <style scoped lang='less'>
+	@baseColor: #55b7f8;
 	#doc_container{
 		.doc-group{
 			margin-bottom:20px;
@@ -83,7 +116,15 @@
 					float: left;
 					margin-left: 15px;
 					margin-bottom: 15px;
-					background: pink;
+					cursor: pointer;
+					border:1px solid transparent;
+					&:hover{
+						border-color:@baseColor;
+					}
+					img{
+						width: 100%;
+						height: 100%;
+					}
 				}
 			}
 		}

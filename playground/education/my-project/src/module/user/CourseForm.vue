@@ -3,11 +3,13 @@
 		<table>
 			<tr>
 				<th v-for="th in tableData.ths"
+				v-if="(th.name!=='student'||userType===1) && (th.name!=='teacher'||userType===0)"
 				:style="{width:th.width}">{{th.title}}</th>
 			</tr>
 			<tr class="row"
 			v-for="tr in tableData.trs">
 				<td v-for="th in tableData.ths"
+				v-if="(th.name!=='student'||userType===1) && (th.name!=='teacher'||userType===0)"
 				:title="tr[th.name].content">
 					<span :class="tr[th.name].class"
 					@click="clickTd(tr[th.name])">{{tr[th.name].content}}</span>
@@ -19,7 +21,14 @@
 <script>
 	export default{
 		name:'courseForm',
+		data(){
+			return{
+				userType:0
+			}
+		},
 		mounted(){
+			let user = JSON.parse(localStorage.getItem('user'));
+			this.userType = user.user_type;
 			console.log(this.tableData)
 		},
 		methods:{

@@ -56,6 +56,7 @@
 			time:{content:'9:00-10:00'},
 			amount:{content:'2'},
 			teacher:{content:'王王'},
+			student:{conetn:'xx'},
 			subject:{content:'数学'},
 			chapter:{content:'线代'},
 			action:{content:'评价', class:'active', actionType:1}
@@ -66,7 +67,7 @@
 		name:'course',
 		data(){
 			return{
-				isNow:false,
+				isNow:true,
 				tableDataT:data,
 				now:{
 					tableData:{
@@ -74,6 +75,7 @@
 							{name:'time',title:'上课时间',width:'20%'},
 							{name:'amount',title:'课时数量',width:'15%'},
 							{name:'teacher',title:'任课老师',width:'15%'},
+							{name:'student',title:'学生姓名',width:'15%'},
 							{name:'subject',title:'科目',width:'10%'},
 							{name:'chapter',title:'章节内容',width:'20%'}],
 						trs:[{
@@ -81,10 +83,12 @@
 							time:{content:'9:00-10:00'},
 							amount:{content:'2'},
 							teacher:{content:'王王'},
+							student:{content:'学生'},
 							subject:{content:'数学'},
 							chapter:{content:'线代'}
 						}]
 					},
+					allData:[],
 					allPage:1,
 					currentPage:1,
 					start:0,
@@ -96,6 +100,7 @@
 							{name:'time',title:'上课时间',width:'15%'},
 							{name:'amount',title:'课时数量',width:'10%'},
 							{name:'teacher',title:'任课老师',width:'15%'},
+							{name:'student',title:'学生姓名',width:'15%'},
 							{name:'subject',title:'科目',width:'10%'},
 							{name:'chapter',title:'章节内容',width:'15%'},
 							{name:'action',title:'',width:'15%'}],
@@ -104,27 +109,13 @@
 							time:{content:'9:00-10:00'},
 							amount:{content:'2'},
 							teacher:{content:'王王'},
+							student:{content:'学生'},
 							subject:{content:'数学'},
 							chapter:{content:'线代'},
 							action:{content:'评价', class:'active'}
-						},{
-							date:{content:'2016/11/28'},
-							time:{content:'19:00-20:100'},
-							amount:{content:'2'},
-							teacher:{content:'Jason'},
-							subject:{content:'物理'},
-							chapter:{content:'电磁场'},
-							action:{content:'查看录像',class:'active'}
-						},{
-							date:{content:'2016/11/28'},
-							time:{content:'19:00-20:100'},
-							amount:{content:'2'},
-							teacher:{content:'Jason'},
-							subject:{content:'物理'},
-							chapter:{content:'电磁场'},
-							action:{content:'已评价',class:'disabled'}
 						}]
 					},
+					allData:[],
 					allPage:1,
 					currentPage:1,
 					start:0,
@@ -134,9 +125,30 @@
 			}
 		},
 		mounted(){
-			console.log(this.tableDataT)
+			console.log('hey')
+			this.$http.get('?name=education.sys.this.week.course.list').then((response)=>{
+				console.log(response)
+				response.body.data.list.forEach((e)=>{
+					this.now.allData.push({
+						id:e.id,
+						date:{content:e.date},
+						time:{content:e.plan_start_time+'-'+e.plan_end_time},
+						amount:{content:e.plan_hour},
+						teacher:{content:e.teacher_name},
+						student:{content:e.student_name},
+						subject:{content:e.subject},
+						chapter:{content:e.subject_content}
+					})
+				})
+				this.now.allPage = Math.ceil(this.now.allData.length/15);
+				this.now.start = (this.now.currentPage-1)*15;
+				this.now.end = this.now.currentPage*15
+				this.now.tableData.trs = this.now.allData.slice(this.now.start, this.now.end);
+			})
 			this.history.allPage = Math.ceil(this.tableDataT.trs.length/15);
-			this.dataPage();
+			this.history.start = (this.history.currentPage-1)*15;
+			this.history.end = this.history.currentPage*15
+			this.history.tableData.trs = this.tableDataT.trs.slice(this.history.start, this.history.end);
 		},
 		methods:{
 			formCb(td){
@@ -146,7 +158,7 @@
 				if(this.isNow) {
 					this.now.start = (this.now.currentPage-1)*15;
 					this.now.end = this.now.currentPage*15
-					this.now.tableData.trs = this.tableDataT.trs.slice(this.now.start, this.now.end);
+					this.now.tableData.trs = this.now.allData.slice(this.now.start, this.now.end);
 				} else {
 					this.history.start = (this.history.currentPage-1)*15;
 					this.history.end = this.history.currentPage*15

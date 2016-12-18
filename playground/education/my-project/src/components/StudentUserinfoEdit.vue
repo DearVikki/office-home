@@ -1,52 +1,58 @@
 <template>
 	<div id="form_container">
 			<validation name="validation1">
-				<div class="common-field"
-			v-for="(value, field) in fields"
-			:class="fields[field].class">
-					<label :for="fields[field].id">{{fields[field].name}}</label>
-					<div class="input-container">
+				
+				
 						<validity
+						v-for="(value, field) in fields"
 						:ref='fields[field].id'
 						:field='fields[field].id'
 						:validators="fields[field].validator">
-							<input
-							type="text"
-							v-if="((fields[field].id !== 'sex') && (fields[field].id !=='scores')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
-							:id="fields[field].id"
-							:placeholder="fields[field].placeholder"
-							:class="{ warn: fields[field].error, active: fields[field].focus}"
-							@blur="handleValidate(fields[field].id)"
-							@focus="focusing(fields[field].id)"
-							v-model="fields[field].val">
-							<!--性别/分科/年级下拉框-->
-							<select
-							v-if="(fields[field].id === 'sex' ||fields[field].id === 'learningType') || (fields[field].id === 'grade')"
-							v-model="fields[field].val">
-								<option
-								v-for="option in fields[field].options"
-								:value="option.value">{{option.title}}</option>
-							</select>
-							<!--补习学科选择框-->
-							<div class="checkbox-container"
-							v-if="fields[field].id === 'scores'">
-								<div class="checkbox-group"
-								v-for="checkbox in fields[field].subs">
-									<label><input type="checkbox">
-									<span class="checkbox-input"></span></label>
-									<span class="checkbox-title">{{checkbox.title}}</span>
-									<span class="goal">
-										<input maxlength="3"
-										v-model="checkbox.val"
-										@blur="fillMark(checkbox)">
-										<span class="fullMark">/{{checkbox.fullMark}}</span>
-									</span>
+							<div class="common-field"
+			
+			:class="fields[field].class">
+					<label :for="fields[field].id">{{fields[field].name}}</label>
+							<div class="input-container">
+								<input
+								type="text"
+								v-if="((fields[field].id !== 'sex') && (fields[field].id !=='scores')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
+								:id="fields[field].id"
+								:placeholder="fields[field].placeholder"
+								:class="{ warn: fields[field].error, active: fields[field].focus}"
+								@blur="handleValidate(fields[field].id)"
+								@focus="focusing(fields[field].id)"
+								v-model="fields[field].val">
+								<!--性别/分科/年级下拉框-->
+								<select
+								v-if="(fields[field].id === 'sex' ||fields[field].id === 'learningType') || (fields[field].id === 'grade')"
+								v-model="fields[field].val">
+									<option
+									v-for="option in fields[field].options"
+									:value="option.value">{{option.title}}</option>
+								</select>
+								<!--补习学科选择框-->
+								<div class="checkbox-container"
+								v-if="fields[field].id === 'scores'">
+									<div class="checkbox-group"
+									v-for="checkbox in fields[field].subs">
+										<label><input type="checkbox">
+										<span class="checkbox-input"></span></label>
+										<span class="checkbox-title">{{checkbox.title}}</span>
+										<span class="goal">
+											<input maxlength="3"
+											v-model="checkbox.val"
+											@blur="fillMark(checkbox)">
+											<span class="fullMark">/{{checkbox.fullMark}}</span>
+										</span>
+									</div>
 								</div>
 							</div>
+							</div>
+							<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
 						</validity>
-						<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
-					</div>
-				</div>
+						
+					
+				
 			</validation>
 		</div>
 </template>

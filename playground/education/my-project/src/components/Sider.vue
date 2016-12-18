@@ -35,7 +35,13 @@
 		},
 		mounted(){
 			this.userType = JSON.parse(localStorage.getItem('user')).user_type;
-			//要做些什么来匹配对应的nav呢？要自己用href.location取尾数吗？
+			//要做些什么来匹配对应的nav呢？要自己用location.href取尾数吗？
+			for(var i = 0; i<this.sideItems.length; i++){
+				if( '#/'+this.sideItems[i].link === location.hash) {
+					this.sideType = this.sideItems[i].type;
+					break;
+				}
+			}
 		},
 		methods:{
 			clickItem(item){
