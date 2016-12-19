@@ -17,7 +17,7 @@
 				</span>
 			</div>
 			<!--上课情况-->
-			<div style="margin:13px auto 10px auto">
+			<!--<div style="margin:13px auto 10px auto">
 				<span class="label"
 				:class="{error:uploadCheck.class.error,
 						animated:uploadCheck.class.anima,
@@ -27,7 +27,7 @@
 					<dropdown :dropdownData="dropdownData"
 					@clickOption="clickOption"></dropdown>
 				</span>
-			</div>
+			</div>-->
 			<!--文本框-->
 			<textarea placeholder="请输入对老师的评价..."
 			v-model="comment"
@@ -151,7 +151,7 @@
 			margin-left: 20px;
 		}
 		textarea{
-			margin-top: 10px;
+			margin-top: 30px;
 			width: 264px;
 			height: 68px;
 			border-radius: 2px;

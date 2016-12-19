@@ -16,7 +16,7 @@
 			</div>
 			<div id="book_btn"
 			@click="bookNow">
-				立即预约
+				{{txt}}
 				<div id="book_img_container">
 					<img class="hand" src="~assets/img/index/hand.png">
 					<img class="star" src="~assets/img/index/star1.png">
@@ -34,7 +34,8 @@
 			return{
 				name:'',
 				phone:'',
-				error:false
+				error:false,
+				txt:'立即预约'
 			}
 		},
 		methods:{
@@ -46,6 +47,10 @@
 				this.$http.get('?name=education.sys.add.connect&username='+this.name+'&mobile='+this.phone).then((response)=>{
 					console.log(response);
 					this.name = this.phone = '';
+					this.txt = '预约成功!';
+					setTimeout(()=>{
+						this.txt = '立即预约';
+					},1000)
 				})
 			}
 		}

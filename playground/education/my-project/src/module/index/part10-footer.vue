@@ -1,11 +1,11 @@
 <template>
 	<div id="footer_container">
 		<div id="footer_inner">
-			<div id="footer_guide">
+			<!--<div id="footer_guide">
 				<p>名校昇用户指南</p>
 				<a href="">支付说明</a><a href="">发票说明</a><a href="">售后说明</a></br>
 				<a href="">平台介绍</a><a href="">配送说明</a><a href="">用户协议</a>
-			</div>
+			</div>-->
 			<div id="footer_copyright">
 				<p>Copyright © 2016-  Tada~ All Rights Reserved</p>
 				<p>名校昇 版权所有</p>

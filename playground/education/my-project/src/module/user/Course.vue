@@ -170,12 +170,14 @@
 					if(e.judge === -1) {
 						rowData.action = {
 							content:'评价',
-							class:'active'
+							class:'active',
+							actionType:1
 						}
 					} else if(this.usertype === 0){
 						rowData.action = {
 							content:'回看录像',
-							class:'active'
+							class:'active',
+							actionType:1
 						}
 					} else {
 						rowData.action = {

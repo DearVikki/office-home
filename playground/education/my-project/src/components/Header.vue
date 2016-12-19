@@ -3,7 +3,7 @@
 		<div id="header_main">
 			<div id="header_logo"></div>
 			<div id="header_nav">
-				<a>留言反馈</a>
+				<!--<a>留言反馈</a>-->
 				<a>联系教务</a>
 				<a>{{user.name}}</a>
 				<a @click="exit">退出</a>

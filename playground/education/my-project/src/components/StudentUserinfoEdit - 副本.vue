@@ -1,7 +1,12 @@
 <template>
 	<div id="form_container">
+			<validation name="validation1">
+						<validity
+						v-for="(value, field) in fields"
+						:ref='fields[field].id'
+						:field='fields[field].id'
+						:validators="fields[field].validator">
 							<div class="common-field"
-								v-for="(value, field) in fields"
 								:class="fields[field].class">
 								<label :for="fields[field].id">{{fields[field].name}}</label>
 								<div class="input-container">
@@ -9,16 +14,14 @@
 									type="text"
 									v-if="((fields[field].id !== 'sex') && (fields[field].id !=='scores')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
 									:id="fields[field].id"
-									:ref="fields[field].id"
 									:placeholder="fields[field].placeholder"
 									:class="{ warn: fields[field].error, active: fields[field].focus}"
-									@blur="handleValidate(fields[field])"
+									@blur="handleValidate(fields[field].id)"
 									@focus="focusing(fields[field].id)"
 									v-model="fields[field].val">
 									<!--性别/分科/年级下拉框-->
 									<select
 									v-if="(fields[field].id === 'sex' ||fields[field].id === 'learningType') || (fields[field].id === 'grade')"
-									:ref="fields[field].id"
 									v-model="fields[field].val">
 										<option
 										v-for="option in fields[field].options"
@@ -28,8 +31,7 @@
 									<div class="checkbox-container"
 									v-if="fields[field].id === 'scores'">
 										<div class="checkbox-group"
-										v-for="checkbox in fields[field].subs"
-										:ref="fields[field].id">
+										v-for="checkbox in fields[field].subs">
 											<label><input type="checkbox">
 											<span class="checkbox-input"></span></label>
 											<span class="checkbox-title">{{checkbox.title}}</span>
@@ -43,6 +45,10 @@
 									</div>
 									<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
 								</div>
+							</div>
+							
+						</validity>
+			</validation>
 		</div>
 </template>
 <script>
@@ -56,7 +62,7 @@
 			            class: 'name-field',
 			            name: '真实姓名',
 			            placeholder: '',
-			            validator: { required: {msg:'姓名不能为空'} },
+			            validator: { required: true },
 			            error: false,
 			            msg:'',
 			            val:'',
@@ -67,7 +73,7 @@
 			            class: 'phone-field',
 			            name: '手机',
 			            placeholder: '',
-			            validator: { required: {msg:'手机不能为空'}, isPhone:{msg:'手机号不合法'}},
+			            validator: { required: true, isPhone:true},
 			            error: false,
 			            msg:'',
 			            val:'',
@@ -92,12 +98,23 @@
 			            class: 'qq-field',
 			            name: 'QQ',
 			            placeholder: '',
-			            validator: { required: {msg:'QQ不能为空'}, isNum:{msg:'QQ号不合法'}},
+			            validator: { required: true, isNum:true},
 			            error: false,
 			            msg:'',
 			            val:'',
 			            focus: false
 		        	},
+		        	/*alipay: {
+			            id: 'alipay',
+			            class: 'alipay-field',
+			            name: '支付宝',
+			            placeholder: '',
+			            validator: { required: true},
+			            error: false,
+			            msg:'',
+			            val:'',
+			            focus: false
+		        	},*/
 		        	scores:{
 		        		id:'scores',
 		        		class: 'scores-field',
@@ -154,7 +171,7 @@
 			            class: 'school-field',
 			            name: '所在学校',
 			            placeholder: '',
-			            validator: {required: {msg:'学校不能为空'}},
+			            validator: { required: true},
 			            error: false,
 			            msg:'',
 			            val:'',
@@ -186,32 +203,79 @@
 		},
 		watch:{
 			checkAll(){
-				console.log(this.$refs)
-				for(var field in this.fields){
-					this.handleValidate(this.fields[field]);
-				}
+					let n = 6;
+					for (var validity in this.$refs){
+						this.$refs[validity][0].validate(() => {
+							this.watchValidation();
+							n--;
+							if(n>0) return;
+							if(this.$validation.validation1.invalid) return;
+							else this.$emit('allCheck',this.fields);
+						});
+					}
 			}
 		},
-		methods:{
+		validators:{
 			isPhone(val){
 				return /^1[34578]\d{9}$/.test(val);
 			},
 			isNum(val){
 				return !isNaN(val);
-			},
-			required(val){
-				return val!=='';
+			}
+		},
+		methods:{
+			watchValidation(field){
+				var va1 = this.$validation.validation1;
+				console.log(this.$refs[field][0].result)
+				try{
+					if (this.$refs[field][0].result.invalid) {
+						let msg;
+						switch(field){
+							case 'name':
+								msg = '姓名不能为空';
+								break;
+							case 'phone':
+								console.log(this.$refs[field][0].result.errors)
+						}
+						this.fields[field].error = true;
+						this.fields[field].msg = msg;
+					}
+					/*if(this.$refs.name[0].result.invalid) {
+						this.fields.name.error = true;
+						this.fields.name.msg = '姓名不能为空';
+					} else {
+						this.fields.name.error = false;
+					}
+					if(va1.phone.invalid) {
+						this.fields.phone.error = true;
+						var err0 = va1.phone.errors[0].validator;
+						if(err0 === 'required') this.fields.phone.msg = '手机不能为空喔';
+						else if(err0 === 'isPhone') this.fields.phone.msg = '手机号不合法喔'
+					} else {
+						this.fields.phone.error = false;
+					}
+					if(va1.qq.invalid) {
+						this.fields.qq.error = true;
+						var err0 = va1.qq.errors[0].validator;
+						if(err0 === 'required') this.fields.qq.msg = 'QQ号不能为空喔';
+						else if(err0 === 'isNum') this.fields.qq.msg = 'QQ号不合法喔'
+					} else {
+						this.fields.qq.error = false;
+					}
+					if(va1.school.invalid) {
+						this.fields.school.error = true;
+						this.fields.school.msg = '学校不能为空喔';
+					} else {
+						this.fields.school.error = false;
+					}*/
+				}catch(err){}
 			},
 			handleValidate(field) {
-				console.log(field)
-				field.focus = false;
-				for(var rule in field.validator){
-					if(!this[rule](field.val)) {
-						field.error = true;
-						field.msg = field.validator[rule].msg;
-						break;
-					}
-				}
+				//console.log(this.$refs[field][0])
+				this.$refs[field][0].validate(()=>{
+					this.watchValidation(field);
+				});
+				this.fields[field].focus = false;
 			},
 			focusing(field){
 				this.fields[field].focus = true;

@@ -1,18 +1,18 @@
 <template>
 	<div>
 		<validation name="validation1">
-				<validity field="username" :validators="['required']">
+				<validity field="username" :validators="['required']" ref="username">
 					<div class="username-field">
 						<label for="username">username:</label>
 						<input id="username" type="text" @input="handleValidate">
 					</div>
 				</validity>
-			<!--<validity field="comment" :validators="{required: true, maxlength: 12}">
+				<validity field="comment" :validators="{required: true, maxlength: 12}">
 				<div class="comment-field">
 					<label for="comment">comment:</label>
 					<input id="comment" type="text" @input="handleValidate" placeholder="asdsad" />
 				</div>
-			</validity>-->
+				</validity>
 			<div class="errors">
 				<p v-if="usernameRequire">Required your name.</p>
 				<!--<p v-if="commentLong">Your comment is too long.</p>-->
@@ -23,13 +23,6 @@
 				<pre>{{$validation}}</pre>
 			</div>
 		</validation>
-		<input type="radio" id="one" value="One" v-model="picked">
-		<label for="one">One</label>
-		<br>
-		<input type="radio" id="two" value="Two" v-model="picked">
-		<label for="two">Two</label>
-		<br>
-		<span>Picked: {{ picked }}</span>
 	</div>
 </template>
 <script>
@@ -49,7 +42,12 @@
 		}),
 		methods: {
 			handleValidate: function (e) {
-				e.target.$validity.validate()
+				var self = this;
+				var $validity = this.$refs.username;
+				$validity.validate(()=>{
+					console.log(self.$refs.username)
+				})
+				// e.target.$validity.validate();
 			}
 		},
 		mounted() {
