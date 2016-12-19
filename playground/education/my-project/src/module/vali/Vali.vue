@@ -2,21 +2,20 @@
 	<div>
 		<validation name="validation1">
 				<validity field="username" :validators="['required']">
-				<div class="username-field">
-				<label for="username">username:</label>
-					<input id="username" type="text" @input="handleValidate">
-								</div>
+					<div class="username-field">
+						<label for="username">username:</label>
+						<input id="username" type="text" @input="handleValidate">
+					</div>
 				</validity>
-
-			<div class="comment-field">
-				<label for="comment">comment:</label>
-				<validity field="comment" :validators="{required: true, maxlength: 12}">
+			<!--<validity field="comment" :validators="{required: true, maxlength: 12}">
+				<div class="comment-field">
+					<label for="comment">comment:</label>
 					<input id="comment" type="text" @input="handleValidate" placeholder="asdsad" />
-				</validity>
-			</div>
+				</div>
+			</validity>-->
 			<div class="errors">
 				<p v-if="usernameRequire">Required your name.</p>
-				<p v-if="commentLong">Your comment is too long.</p>
+				<!--<p v-if="commentLong">Your comment is too long.</p>-->
 			</div>
 			<input type="submit" value="send" v-if="allPass">
 			<div class="debug">
@@ -45,7 +44,7 @@
 		},
 		computed: a.mapValidation({
 			usernameRequire: '$validation.validation1.username.required',
-			commentLong: '$validation.validation1.comment.maxlength',
+			//commentLong: '$validation.validation1.comment.maxlength',
 			allPass:'$validation.validation1.valid'
 		}),
 		methods: {

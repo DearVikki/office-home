@@ -30,12 +30,12 @@
 					id:100000,
 					grade: "高一上",
                 	title: "函数",
-					lists:[{
+					/*lists:[{
 		                id: 1,
 		                subject_id: 100000,
 		                banner: "http://www.hzchuangxiangzhe.cn/upload/banner/1.jpg",
 		                ppt: ["http://www.hzchuangxiangzhe.cn/upload/banner/1.jpg","http://www.hzchuangxiangzhe.cn/upload/banner/2.jpg","http://www.hzchuangxiangzhe.cn/upload/banner/3.jpg"]
-		            }],
+		            }],*/
 					active:false
 				}],
 				gallery:{
@@ -45,12 +45,22 @@
 			}
 		},
 		mounted(){
-			this.$http.get('?name=education.sys.subject.list').then((response)=>{
-				console.log(response)
-			})
-			this.docs.forEach((e)=>{
-				this.$http.get('?name=education.sys.ppt.list&subject_id='+e.id).then((response)=>{
-					//e.lists = response.body.data.list;
+			this.docs = [];
+			this.$http.get('?name=education.sys.type.list').then((response)=>{
+				response.body.data.list.forEach((e)=>{
+					this.$http.get('?name=education.sys.subject.list&type='+e.type).then((response)=>{
+						response.body.data.list.forEach((doc)=>{
+							if(doc.is_ppt===1) {
+								this.$http.get('?name=education.sys.ppt.list&subject_id='+doc.id).then((response)=>{
+									console.log(response)
+									doc.lists = response.body.data.list;
+									doc.active = false;
+									console.log(doc.lists)
+									this.docs.push(doc);
+								})
+							}
+						})
+					})
 				})
 			})
 		},

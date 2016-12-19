@@ -9,7 +9,8 @@
 		@click="isNow = false">历史课程</div>
 		<!--本周课程-->
 		<div v-show="isNow === true">
-			<div class="courseform-wrapper">
+			<div class="courseform-wrapper"
+			v-show="now.tableData.trs.length!==0">
 				<courseform
 				:tableData="now.tableData"
 				@formCb="formCb"></courseform>
@@ -17,10 +18,13 @@
 			<pagination
 			v-if="now.allPage>1"
 			:allPage="now.allPage"></pagination>
+			<div class="no-data"
+			v-show="now.tableData.trs.length===0">本周暂无课程>.<</div>
 		</div>
 		<!--历史课程-->
 		<div v-show="isNow === false">
-			<div class="courseform-wrapper">
+			<div class="courseform-wrapper"
+			v-show="history.tableData.trs.length!==0">
 				<courseform
 				:tableData="history.tableData"
 				@formCb="formCb"></courseform>
@@ -29,6 +33,8 @@
 			v-if="history.allPage>1"
 			:allPage="history.allPage"
 			@clickPagination="clickPagination"></pagination>
+			<div class="no-data"
+			v-show="history.tableData.trs.length===0">历史暂无课程!</div>
 		</div>
 		<!--弹窗-->
 		<coursepop
@@ -68,6 +74,7 @@
 		data(){
 			return{
 				isNow:true,
+				usertype:0,
 				tableDataT:data,
 				now:{
 					tableData:{
@@ -125,10 +132,11 @@
 			}
 		},
 		mounted(){
-			console.log('hey')
+			this.usertype = JSON.parse(localStorage.getItem('user')).user_type;
+			//本周数据
 			this.$http.get('?name=education.sys.this.week.course.list').then((response)=>{
-				console.log(response)
 				response.body.data.list.forEach((e)=>{
+					let rowData = '';
 					this.now.allData.push({
 						id:e.id,
 						date:{content:e.date},
@@ -145,10 +153,43 @@
 				this.now.end = this.now.currentPage*15
 				this.now.tableData.trs = this.now.allData.slice(this.now.start, this.now.end);
 			})
-			this.history.allPage = Math.ceil(this.tableDataT.trs.length/15);
-			this.history.start = (this.history.currentPage-1)*15;
-			this.history.end = this.history.currentPage*15
-			this.history.tableData.trs = this.tableDataT.trs.slice(this.history.start, this.history.end);
+			//历史数据
+			this.$http.get('?name=education.sys.history.week.course.list').then((response)=>{
+				response.body.data.list.forEach((e)=>{
+					let rowData = {
+						id:e.id,
+						date:{content:e.date},
+						time:{content:e.plan_start_time+'-'+e.plan_end_time},
+						amount:{content:e.plan_hour},
+						teacher:{content:e.teacher_name},
+						student:{content:e.student_name},
+						subject:{content:e.subject},
+						chapter:{content:e.subject_content}
+					}
+					//评价 已评价 与回看录像
+					if(e.judge === -1) {
+						rowData.action = {
+							content:'评价',
+							class:'active'
+						}
+					} else if(this.usertype === 0){
+						rowData.action = {
+							content:'回看录像',
+							class:'active'
+						}
+					} else {
+						rowData.action = {
+							content:'已评价',
+							class:'disabled'
+						}
+					}
+					this.history.allData.push(rowData);
+				})
+				this.history.allPage = Math.ceil(this.history.allData.length/15);
+				this.history.start = (this.history.currentPage-1)*15;
+				this.history.end = this.history.currentPage*15
+				this.history.tableData.trs = this.history.allData.slice(this.history.start, this.history.end);
+			})
 		},
 		methods:{
 			formCb(td){
@@ -210,5 +251,9 @@
 	}
 	.courseform-wrapper{
 		height: 600px;
+	}
+	.no-data{
+		font-size: 16px;
+    	color: #444;
 	}
 </style>

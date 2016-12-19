@@ -1,17 +1,14 @@
 <template>
 	<div id="form_container">
 			<validation name="validation1">
-				
-				
 						<validity
 						v-for="(value, field) in fields"
 						:ref='fields[field].id'
 						:field='fields[field].id'
 						:validators="fields[field].validator">
 							<div class="common-field"
-			
-			:class="fields[field].class">
-					<label :for="fields[field].id">{{fields[field].name}}</label>
+								:class="fields[field].class">
+							<label :for="fields[field].id">{{fields[field].name}}</label>
 							<div class="input-container">
 								<input
 								type="text"
@@ -50,9 +47,6 @@
 							</div>
 							<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
 						</validity>
-						
-					
-				
 			</validation>
 		</div>
 </template>
@@ -285,6 +279,7 @@
 		methods:{
 			watchValidation(){
 				var va1 = this.$validation.validation1;
+				console.log(va1)
 				try{
 					if(va1.name.invalid) {
 						this.fields.name.error = true;

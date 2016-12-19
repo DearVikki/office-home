@@ -40,6 +40,7 @@
 					v-for="nav in navs"
 					:class="{active:nav.active}"
 					@click="clickNav(nav)">{{nav.name}}</span>
+					<router-link class="nav" to="/syllabus">教学大纲</router-link>
 				</span>
 			</div>
 		</div>
@@ -176,12 +177,12 @@
 				float: right;
 				justify-content:flex-end;
 				.nav{
-					font-size: 20px;
+					font-size: 18px;
 					font-weight: bolder;
 					color: #5c5c5c;
 					padding: 5px 10px;
 					border-bottom: 2px solid transparent;
-					margin-left: 80px;
+					margin-left: 30px;
 					cursor: pointer;
 					line-height: 38px;
 					&.active{

@@ -43,7 +43,7 @@
 				}
 			}
 			#footer_copyright{
-				margin: 50px 0 100px 0;
+				margin: 50px 0 70px 0;
 				width: 100%;
 				text-align: center;
 				font-size: 12px;

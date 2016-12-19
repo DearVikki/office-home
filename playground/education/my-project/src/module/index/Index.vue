@@ -1,7 +1,5 @@
 <template>
 	<div>
-		<!--顶部条与navbar-->
-		<part1Header :navActive="navActive"></part1Header>
 		<!--banner-->
 		<part2Banner></part2Banner>
 		<!--教学优势circle-->
@@ -28,7 +26,6 @@
 </template>
 <script>
 	import 'animate.css';
-	import part1Header from './part1-header.vue';
 	import part2Banner from './part2-banner.vue';
 	import part3Circle from './part3-circle.vue';
 	import part4Try from './part4-try.vue';
@@ -89,7 +86,7 @@
 		},
 		methods:{
 		},
-		components:{part1Header,part2Banner,part3Circle,
+		components:{part2Banner,part3Circle,
 			part4Try,part5Line,part6Flip,part7Teacher,
 			part8lastBanner,part9About,part10Footer,
 			part11Book,part12Side}

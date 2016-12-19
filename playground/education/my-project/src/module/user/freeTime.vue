@@ -36,7 +36,7 @@
 				ths:[],
 				trs:{
 					1:{time:'8:00-9:00',
-					   schedule:{1:{free:false,full:false},2:{free:false, full:false},3:{free:false, full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:true},7:{free:false,full:true}}
+					   schedule:{1:{free:false,full:false},2:{free:false, full:false},3:{free:false, full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
 					},
 					2:{time:'9:00-10:00',
 					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
@@ -69,10 +69,10 @@
 					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
 					},
 					12:{time:'19:00-20:00',
-					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:true},7:{free:false,full:true}}
+					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
 					},
 					13:{time:'20:00-21:00',
-					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:true},7:{free:false,full:true}}
+					   schedule:{1:{free:false,full:false},2:{free:false,full:false},3:{free:false,full:false},4:{free:false,full:false},5:{free:false,full:false},6:{free:false,full:false},7:{free:false,full:false}}
 					}
 				},
 				daySwitcher:{Mon:1, Tues:2, Wed:3, Thurs:4, Fri:5, Sat:6, Sun:7}

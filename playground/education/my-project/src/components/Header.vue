@@ -27,8 +27,10 @@
 		},
 		methods:{
 			exit(){
-				this.$http.get('?name=').then((response)=>{
-					location.href = './login.html';
+				this.$http.get('?name=education.sys.login.out').then((response)=>{
+					if(response.body.code === 1000){
+						location.href = './login.html';
+					}
 				})
 			}
 		}

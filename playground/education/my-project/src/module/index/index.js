@@ -1,7 +1,21 @@
 import common from '../../assets/js/common.js'
 import index from './Index.vue'
+import syllabus from './Syllabus.vue'
+import part1header from './part1-header.vue';
+
+const router = new common.VueRouter({
+	routes:[{
+		path:'/',
+		component:index
+	},{
+		path:'/syllabus',
+		component:syllabus
+	}]
+	//mode:'history'
+})
 
 new common.Vue({
   el: '#app',
-  components:{index}
+  router,
+  components:{part1header}
 })
