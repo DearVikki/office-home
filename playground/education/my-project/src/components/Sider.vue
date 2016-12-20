@@ -39,9 +39,13 @@
 			for(var i = 0; i<this.sideItems.length; i++){
 				if( '#/'+this.sideItems[i].link === location.hash) {
 					this.sideType = this.sideItems[i].type;
-					break;
+					return;
 				}
 			}
+			//直接打开时
+			if(location.hash === '#/') this.sideType = 1;
+			//编辑个人信息时
+			else this.sideType = 4;
 		},
 		methods:{
 			clickItem(item){
@@ -51,7 +55,6 @@
 		},
 		watch:{
 			$route(){
-				console.log('hey')
 			}
 		},
 		beforeRouteEnter (to, from, next) {

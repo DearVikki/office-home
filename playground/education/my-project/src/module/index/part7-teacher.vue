@@ -34,21 +34,24 @@
 </template>
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
-	import head from '../../assets/img/index/head.png';
+	import ww from '../../assets/img/index/ww.png';
+	import ch from '../../assets/img/index/ch.png';
+	import xy from '../../assets/img/index/xy.png';
+	import yyf from '../../assets/img/index/yyf.png';
 	export default{
 		name:'part7Teacher',
 		data(){
 			return{
 				teachers:[{
-					head:head,
+					head:xy,
 					point:72.1,
 					name:'吴速玲',
-					title:'数学竞赛无敌手',
+					title:'化学竞赛无敌手',
 					school:'浙江大学',
 					major:'金融系',
 					tags:['竞赛','函数','几何']
 				},{
-					head:head,
+					head:yyf,
 					name:'徐敏',
 					point:80.1,
 					title:'数学竞赛无敌手',
@@ -56,21 +59,21 @@
 					major:'金融系',
 					tags:['竞赛','函数','几何']
 				},{
-					head:head,
-					point:77.1,
+					head:ww,
+					point:87.1,
 					name:'王奥',
-					title:'嘟嘟',
+					title:'数学竞赛无敌手',
 					school:'浙江大学',
-					major:'不知道系',
-					tags:['竞赛','几何','可爱']
+					major:'计算机系',
+					tags:['竞赛','几何','物理']
 				},{
-					head:head,
-					point:65,
+					head:ch,
+					point:85,
 					name:'陈华',
-					title:'六六六六',
+					title:'奥林匹克',
 					school:'浙江大学',
-					major:'不知道系',
-					tags:['竞赛','滑轮','秀发']
+					major:'计算机系',
+					tags:['竞赛','物理']
 				}]
 			}
 		},

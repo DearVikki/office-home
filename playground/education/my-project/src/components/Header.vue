@@ -26,6 +26,10 @@
 			this.user.name = user.user_name;
 		},
 		methods:{
+			changeName(){
+				let user = JSON.parse(localStorage.getItem('user'));
+				this.user.name = user.user_name;
+			},
 			exit(){
 				this.$http.get('?name=education.sys.login.out').then((response)=>{
 					if(response.body.code === 1000){

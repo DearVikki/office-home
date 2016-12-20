@@ -48,6 +48,8 @@
 		name:'coursepop',
 		data(){
 			return{
+				usertype:0,
+				userid:'',
 				comment:'',
 				star:0,
 				dropdownData:{
@@ -63,6 +65,11 @@
 				}
 			}
 		},
+		mounted(){
+			let user = JSON.parse(localStorage.getItem('user'));
+			this.usertype = user.user_type;
+			this.userid = user.user_id;
+		},
 		methods:{
 			closePop(){
 				this.$emit('close');
@@ -77,17 +84,16 @@
 			markStar(n){
 				this.star = n;
 				this.uploadCheck.star.error = false;
-				console.log(this.uploadCheck.star.anima)
 			},
 			clickOption(){
 				this.uploadCheck.class.error = false;
 			},
 			upload(){
-				if(!this.dropdownData.selected.id) {
+				/*if(!this.dropdownData.selected.id) {
 					this.uploadCheck.class.error= true;
 					this.uploadCheck.class.anima = true;
 					this.uploadCheck.allCheck = false;
-				}
+				}*/
 				if(this.comment==='') {
 					this.uploadCheck.comment.error = true;
 					this.uploadCheck.comment.anima = true;
@@ -99,8 +105,14 @@
 					this.uploadCheck.allCheck = false;
 				}
 				if(!this.uploadCheck.allCheck) return;
+				let type = this.usertype===0 ? 1 :2;
+				this.$http.get('?name=education.student.judge&user_id='+this.userid+'&id='+this.id+'&type='+type+'&judge='+this.star+'&comment='+this.comment).then((response)=>{
+					this.closePop();
+					location.reload();
+				})
 			}
 		},
+		props:['id'],
 		components:{dropdown,starmark}
 	}
 </script>

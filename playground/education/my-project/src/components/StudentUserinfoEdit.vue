@@ -1,48 +1,50 @@
 <template>
 	<div id="form_container">
-							<div class="common-field"
-								v-for="(value, field) in fields"
-								:class="fields[field].class">
-								<label :for="fields[field].id">{{fields[field].name}}</label>
-								<div class="input-container">
-									<input
-									type="text"
-									v-if="((fields[field].id !== 'sex') && (fields[field].id !=='scores')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
-									:id="fields[field].id"
-									:ref="fields[field].id"
-									:placeholder="fields[field].placeholder"
-									:class="{ warn: fields[field].error, active: fields[field].focus}"
-									@blur="handleValidate(fields[field])"
-									@focus="focusing(fields[field].id)"
-									v-model="fields[field].val">
-									<!--性别/分科/年级下拉框-->
-									<select
-									v-if="(fields[field].id === 'sex' ||fields[field].id === 'learningType') || (fields[field].id === 'grade')"
-									:ref="fields[field].id"
-									v-model="fields[field].val">
-										<option
-										v-for="option in fields[field].options"
-										:value="option.value">{{option.title}}</option>
-									</select>
-									<!--补习学科选择框-->
-									<div class="checkbox-container"
-									v-if="fields[field].id === 'scores'">
-										<div class="checkbox-group"
-										v-for="checkbox in fields[field].subs"
-										:ref="fields[field].id">
-											<label><input type="checkbox">
-											<span class="checkbox-input"></span></label>
-											<span class="checkbox-title">{{checkbox.title}}</span>
-											<span class="goal">
-												<input maxlength="3"
-												v-model="checkbox.val"
-												@blur="fillMark(checkbox)">
-												<span class="fullMark">/{{checkbox.fullMark}}</span>
-											</span>
-										</div>
-									</div>
-									<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
-								</div>
+		<div class="common-field"
+		v-for="(value, field) in fields"
+		:class="fields[field].class">
+			<label :for="fields[field].id">{{fields[field].name}}</label>
+			<div class="input-container">
+				<input
+				type="text"
+				v-if="((fields[field].id !== 'sex') && (fields[field].id !=='scores')) && ((fields[field].id !== 'learningType') && (fields[field].id !=='grade'))"
+				:id="fields[field].id"
+				:ref="fields[field].id"
+				:placeholder="fields[field].placeholder"
+				:class="{ warn: fields[field].error, active: fields[field].focus}"
+				@blur="handleValidate(fields[field])"
+				@focus="focusing(fields[field].id)"
+				v-model="fields[field].val">
+				<!--性别/分科/年级下拉框-->
+				<select
+				v-if="(fields[field].id === 'sex' ||fields[field].id === 'learningType') || (fields[field].id === 'grade')"
+				:ref="fields[field].id"
+				v-model="fields[field].val">
+					<option
+					v-for="option in fields[field].options"
+					:value="option.value">{{option.title}}</option>
+				</select>
+				<!--补习学科选择框-->
+				<div class="checkbox-container"
+				v-if="fields[field].id === 'scores'">
+					<div class="checkbox-group"
+					v-for="checkbox in fields[field].subs"
+					:ref="fields[field].id">
+						<label>
+							<input type="checkbox">
+							<span class="checkbox-input"></span>
+						</label>
+						<span class="checkbox-title">{{checkbox.title}}</span>
+						<span class="goal">
+							<input maxlength="3"
+							v-model="checkbox.val"
+							@blur="fillMark(checkbox)">
+							<span class="fullMark">/{{checkbox.fullMark}}</span>
+						</span>
+					</div>
+				</div>
+				<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
+			</div>
 		</div>
 </template>
 <script>
@@ -62,7 +64,7 @@
 			            val:'',
 			            focus: false
 		        	},
-		        	phone: {
+		        	/*phone: {
 			            id: 'phone',
 			            class: 'phone-field',
 			            name: '手机',
@@ -72,7 +74,7 @@
 			            msg:'',
 			            val:'',
 			            focus: false
-		        	},
+		        	},*/
 		        	sex: {
 		        		id: 'sex',
 		        		class: 'sex-field',
@@ -184,12 +186,30 @@
 		        }
 			}
 		},
+		mounted(){
+			//先填数据
+			this.$http.get('?name=education.sys.user.info').then((response)=>{
+				let info = response.body.data.info;
+				this.fields.name.val =  JSON.parse(localStorage.getItem('user')).user_name;
+				this.fields.sex.val = info.sex;
+				this.fields.qq.val = info.qq;
+				this.fields.scores.subs[0].val = Number(info.chinese) || '';
+				this.fields.scores.subs[1].val = Number(info.math) || '';
+				this.fields.scores.subs[2].val = Number(info.english) || '';
+				this.fields.scores.subs[3].val = Number(info.multiple_l) || '';
+				this.fields.scores.subs[4].val = Number(info.multiple_w) || '';
+				this.fields.learningType.val = info.learning_type;
+				this.fields.school.val = info.school;
+				this.fields.grade.val = info.grade;
+			})
+		},
 		watch:{
 			checkAll(){
-				console.log(this.$refs)
+				let allchecked = true;
 				for(var field in this.fields){
-					this.handleValidate(this.fields[field]);
+					if(!this.handleValidate(this.fields[field])) allchecked = false;
 				}
+				if(allchecked) this.$emit('allCheck',this.fields);
 			}
 		},
 		methods:{
@@ -203,15 +223,17 @@
 				return val!=='';
 			},
 			handleValidate(field) {
-				console.log(field)
+				let checked = true;
 				field.focus = false;
 				for(var rule in field.validator){
-					if(!this[rule](field.val)) {
+					if(!this[rule](field.val) && checked) {
 						field.error = true;
 						field.msg = field.validator[rule].msg;
+						checked = false;
 						break;
 					}
 				}
+				return checked?true:false;
 			},
 			focusing(field){
 				this.fields[field].focus = true;
@@ -228,4 +250,7 @@
 </script>
 <style scoped lang='less'>
 	@import '../assets/lib/userinfoForm.less';
+	#form_container .common-field.learningType-field{
+		margin-top: 15px;
+	}
 </style>

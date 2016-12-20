@@ -35,7 +35,9 @@
 		<div class="smartBtn-container">
 			<smartBtn
 			@clickBtn="login"
+			@returnToFirstStage="returnToFirstStage"
 			:stage="btnSet.stage"
+			:currentStage="btnSet.currentStage"
 			:style="btnSet.style"></smartBtn>
 		</div>
 	</div>
@@ -75,18 +77,34 @@
 					disabled:false
 				},
 				btnSet:{
+					//disabled表示是否可以点击 acive表示是否opacity .5
 					stage:{
-						type:0,
-						txt:'登 录'
+						0:{
+							txt:'登 录',
+							disabled:false,
+							active:true,
+							firstStage:true
+						},
+						1:{
+							txt: '登录中..',
+							disabled:true,
+							active:false
+						},
+						2:{
+							txt:'登录成功!',
+							disabled:true,
+							active:true,
+							lastStage:true
+						}
 					},
 					style:{
 						height: '48px',
 						lineHeight: '48px',
 						color: '#fff',
 						fontSize:'18px'
-					}
+					},
+					currentStage:0
 				}
-
 			}
 		},
 		methods:{
@@ -145,16 +163,6 @@
 			},
 			//登录
 			login(){console.log('click log in')
-				/*this.btnSet.stage = {
-					type:1,
-					txt:'登录中...'
-				}
-				setTimeout(()=>{
-					this.btnSet.stage = {
-						type:2,
-						txt:'登录成功'
-					}
-				},1000)*/
 				this.checkphone();
 				this.checkcode();
 				if(this.phone.error || this.code.error) return;
@@ -164,32 +172,24 @@
 				this.$http.get('?name='+name+'&mobile='+this.phone.val+'&code='+this.code.val,{
 					timeout:30000,
 					before: function() {
-						this.btnSet.stage = {
-							type:1,
-							txt:'登录中...'
-						}
+						this.btnSet.currentStage = 1;
 					}
 				}).then((response)=>{
 						if(response.body.code === 1000){
 							//登录成功
 							localStorage.setItem('user',JSON.stringify(response.body.data));
 							location.href='./user.html';
-							this.btnSet.stage = {
-								type:2,
-								txt:'登录成功'
-							}
+							this.btnSet.currentStage = 2;
 						}
 						else {
 							this.code.error = true;
 							this.code.msg = response.body.msg;
-							this.btnSet.stage = {
-								type:0,
-								txt:'登录'
-							}
+							this.btnSet.currentStage = 0;
 						}
 				})
-				//smartBtn.initial(document.querySelector('.login-btn'), '#55b7f8');
-				//smartBtn.loading(document.querySelector('.login-btn'));
+			},
+			returnToFirstStage(){
+				this.btnSet.currentStage = 0;
 			}
 		},
 		props:['userType'],

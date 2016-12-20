@@ -114,6 +114,10 @@
 					value:'',
 					show:false
 				},{
+					title:'擅长专业',
+					value:'',
+					show:false
+				},{
 					title:'所在学校',
 					value:'',
 					show:false
@@ -183,10 +187,10 @@
 						this.infos2[2].qq = true;
 						this.infos2[2].value = info.qq;
 					}
-					/*if(info.alipay) {
+					if(info.alipay) {
 						this.infos2[3].show = true;
 						this.infos2[3].value = info.alipay;
-					}*/
+					}
 					if((Number(info.chinese) || Number(info.math)) || (Number(info.english) || Number(info.multiple_l)) || Number(info.multiple_w)) {
 						this.infos2[4].show = true;
 						let scoreStr='';
@@ -197,17 +201,21 @@
 						if(Number(info.multiple_w)) scoreStr = scoreStr + '文综' + info.multiple_w;
 						this.infos2[4].value = scoreStr;
 					}
-					if(info.university) {
+					if(info.subject){
 						this.infos2[5].show = true;
-						this.infos2[5].value = info.university;
+						this.infos2[5].value = JSON.parse(info.subject).toString();
+					}
+					if(info.university) {
+						this.infos2[6].show = true;
+						this.infos2[6].value = info.university;
 					}
 					if(info.major) {
-						this.infos2[6].show = true;
-						this.infos2[6].value = info.major;
+						this.infos2[7].show = true;
+						this.infos2[7].value = info.major;
 					}
 					if(info.grade) {
-						this.infos2[7].show = true;
-						this.infos2[7].value = info.grade;
+						this.infos2[8].show = true;
+						this.infos2[8].value = info.grade;
 					}
 				}
 			})

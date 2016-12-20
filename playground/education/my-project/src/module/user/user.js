@@ -5,8 +5,8 @@ import doc from './Doc.vue'
 import userinfo from './Userinfo.vue'
 import edit from './userinfoEdit.vue'
 
-import VueValidator from 'vue-validator'
-common.Vue.use(VueValidator);
+//import VueValidator from 'vue-validator'
+//common.Vue.use(VueValidator);
 
 const myheader = common.myHeader;
 const sider = common.sider;
@@ -40,5 +40,10 @@ console.log(router)
 new common.Vue({
   el: '#app',
   router,
+  methods:{
+  	changeName(){
+  		console.log('hey')
+  	}
+  },
   components:{userinfo, myheader, sider}
 })

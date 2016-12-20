@@ -34,10 +34,11 @@
 			:allPage="history.allPage"
 			@clickPagination="clickPagination"></pagination>
 			<div class="no-data"
-			v-show="history.tableData.trs.length===0">历史暂无课程!</div>
+			v-show="history.tableData.trs.length===0">历史暂无课程!>.<</div>
 		</div>
 		<!--弹窗-->
 		<coursepop
+		:id="popId"
 		v-show="popShow"
 		@close="popShow = false"></coursepop>
 	</div>
@@ -128,7 +129,8 @@
 					start:0,
 					end:0
 				},
-				popShow:false
+				popShow:false,
+				popId:''
 			}
 		},
 		mounted(){
@@ -167,7 +169,7 @@
 						chapter:{content:e.subject_content}
 					}
 					//评价 已评价 与回看录像
-					if(e.judge === -1) {
+					if(Number(e.judge) === -1) {
 						rowData.action = {
 							content:'评价',
 							class:'active',
@@ -177,12 +179,13 @@
 						rowData.action = {
 							content:'回看录像',
 							class:'active',
-							actionType:1
+							actionType:2
 						}
 					} else {
 						rowData.action = {
 							content:'已评价',
-							class:'disabled'
+							class:'disabled',
+							actionType:3
 						}
 					}
 					this.history.allData.push(rowData);
@@ -194,8 +197,12 @@
 			})
 		},
 		methods:{
-			formCb(td){
-				if(td.actionType === 1) this.popShow = true;
+			formCb(td,id){
+				console.log(td,id);
+				if(td.actionType === 1) {
+					this.popShow = true;
+					this.popId = id;
+				}
 			},
 			dataPage(){
 				if(this.isNow) {

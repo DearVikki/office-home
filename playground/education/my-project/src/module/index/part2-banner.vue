@@ -1,7 +1,7 @@
 <template>
 	<div id="banner_container" class="swiper-container">
 		<div class="swiper-wrapper">
-			<div class="swiper-slide" v-for="i in 4">
+			<div class="swiper-slide" v-for="i in 1">
 			</div>
 		</div>
 		<div class="swiper-pagination"></div>

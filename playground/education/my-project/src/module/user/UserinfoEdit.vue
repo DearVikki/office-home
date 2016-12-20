@@ -11,12 +11,12 @@
 		<!--本来用的是v-if v-if又有问题唉!-->
 		<studentUserinfoEdit
 		v-show="usertype === 0"
-		:checkAll = "checkAll"
+		:checkAll = "studentcheckAll"
 		@allCheck = "allCheck"></studentUserinfoEdit>
 		<!--教师表单-->
 		<teacherUserinfoEdit
 		v-show="usertype === 1"
-		:checkAll = "checkAll"
+		:checkAll = "teachercheckAll"
 		@allCheck = "allCheck"></teacherUserinfoEdit>
 		<div class="btn save"
 		@click="save">保存</div>
@@ -41,13 +41,13 @@
 					name:'我不要再叫李慧慧了!'
 				},
 				changeAva: false,
-				checkAll: false
+				studentcheckAll: false,
+				teachercheckAll:false
 			}
 		},
 		mounted(){
 			let user = JSON.parse(localStorage.getItem('user'));
 			this.usertype = user.user_type;
-			console.log(this.usertype)
 			this.user.avatar = user.head;
 			this.user.name = user.user_name;
 		},
@@ -56,13 +56,25 @@
 			saveAva(img){
 				this.user.avatar = img.src || this.user.avatar;
 				this.changeAva = false;
-				this.$http.get('?name=education.sys.upload.img&img='+img.file).then((response)=>{
+				/*this.$http.get('?name=education.sys.upload.img&img='+img.file).then((response)=>{
+					let user = JSON.parse(localStorage.getItem('user'));
+					user.head = img.src;
+					localStorage.setItem('user',JSON.stringify(user));
+				})*/
+				var formData = new FormData();
+				formData.append('img', img.file);
+				formData.append('name','education.sys.upload.img')
+				this.$http.post('',formData).then((response)=>{
 					console.log(response)
+					let user = JSON.parse(localStorage.getItem('user'));
+					user.head = img.src;
+					localStorage.setItem('user',JSON.stringify(user));
 				})
 			},
 			/*提交*/
 			save(){
-				this.checkAll = Math.random();
+				if(this.usertype ===0) this.studentcheckAll = Math.random();
+				else this.teachercheckAll = Math.random();
 			},
 			allCheck(fields){
 				let updateData = {
@@ -70,41 +82,40 @@
 					sex:fields.sex.val,
 					qq:fields.qq.val,
 					learning_type:fields.learningType.val,
-					subject:[],
 					chinese:fields.scores.subs[0].val || 0,
 					math:fields.scores.subs[1].val || 0,
 					english:fields.scores.subs[2].val || 0,
 					multiple_l:0,
 					multiple_w:0,
-					university:fields.school.val,
-					school:fields.school.val,
 					grade:fields.grade.val
 				};
 				//理综/文综成绩
 				if(fields.scores.subs[3].id==='D') updateData.multiple_l = fields.scores.subs[3].val || 0;
 				else updateData.multiple_w = fields.scores.subs[3].val || 0;
-				if(this.userType === 1) {
-					//老师
-					updateData.alipay = fields.alipay.val;
+			  	//学生
+			  	if(this.usertype === 0) {
+			  		updateData.school = fields.school.val;
+			  		updateData.name = 'education.student.update.info';
+			  		this.$http.get('?name='+updateData.name+'&user_name='+updateData.user_name+'&sex='+updateData.sex+'&qq='+updateData.qq+'&learning_type='+updateData.learning_type+'&chinese='+updateData.chinese+'&math='+updateData.math+'&english='+updateData.english+'&multiple_l='+updateData.multiple_l+'&multiple_w='+updateData.multiple_w+'&school='+updateData.school+'&grade='+updateData.grade).then((response)=>{
+							if(response.body.code === 1000) this.$router.push('usercenter');
+					})
+			  	}
+			  	//老师
+			  	else {
+			  		updateData.alipay = fields.alipay.val;
 					updateData.major = fields.major.val;
+					updateData.university = fields.school.val;
+					updateData.subject = [];
 					let checkboxes = document.querySelectorAll('.subject-field input');
 					for (var i=0; i<checkboxes.length; i++) {
 					     if (checkboxes[i].checked) {
 					        updateData.subject.push(checkboxes[i].value);
 					     }
 				  	}
-				}
-			  	console.log(updateData)
-			  	if(this.usertype === 0) {
-			  		updateData.name = 'education.student.update.info';
-			  		this.$http.get('?name='+updateData.name+'&user_name='+updateData.user_name+'&sex='+updateData.sex+'&qq='+updateData.qq+'&learning_type='+updateData.learning_type+'&chinese='+updateData.chinese+'&math='+updateData.math+'&english='+updateData.english+'&multiple_l='+updateData.multiple_l+'&multiple_w='+updateData.multiple_w+'&school='+updateData.school+'&grade='+updateData.grade).then((response)=>{
-							console.log(response)
-					})
-			  	}
-			  	else {
+				  	updateData.subject = updateData.subject.length===0?['数学']:updateData.subject;
 			  		updateData.name = 'education.teacher.update.info'
-				  	this.$http.get('?name='+updateData.name+'&user_name='+updateData.user_name+'&sex='+updateData.sex+'&qq='+updateData.qq+'&alipay='+updateData.alipay+'&learning_type='+updateData.learning_type+'&subject='+updateData.subject+'&chinese='+updateData.chinese+'&math='+updateData.math+'&english='+updateData.english+'&multiple_l='+updateData.multiple_l+'&multiple_w='+updateData.multiple_w+'&university='+updateData.university+'&major='+updateData.major+'&grade='+updateData.grade).then((response)=>{
-							console.log(response)
+				  	this.$http.post('',updateData).then((response)=>{
+						if(response.body.code === 1000) this.$router.push('usercenter');
 					})
 			   }
 			}

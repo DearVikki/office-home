@@ -16,7 +16,7 @@
 		data(){
 			return{
 				items:[{
-				name:'浙大学霸面对面',
+				name:'名校学霸面对面',
 				active:false
 			},{
 				name:'一对一专属辅导',
