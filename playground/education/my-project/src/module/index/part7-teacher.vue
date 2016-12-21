@@ -45,7 +45,7 @@
 				teachers:[{
 					head:xy,
 					point:72.1,
-					name:'吴速玲',
+					name:'小玉',
 					title:'化学竞赛无敌手',
 					school:'浙江大学',
 					major:'金融系',
