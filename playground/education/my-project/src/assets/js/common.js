@@ -9,9 +9,12 @@ Vue.http.options.root = 'http://www.hzchuangxiangzhe.cn/php/PcApi';
 Vue.http.options.emulateJSON = true;
 Vue.http.options.credentials = true;
 import '../lib/public.less'
-//import '../lib/smartBtn.less'
 import Myheader from '../../components/Header'
 import sider from '../../components/Sider'
+
+Vue.http.get('?name=education.sys.islogin').then((response)=>{
+	if(response.body.code === 1004 && location.pathname.slice(-10,-5)==='user') location.href = './login.html';
+})
 
 export default{
 	VueRouter: VueRouter,

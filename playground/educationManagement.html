@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>教育后台</title>
+</head>
+<style>
+	table{
+		border-collapse: collapse;
+		table-layout: fixed;
+		font-family: '微软雅黑';
+		width: 1000px;
+		margin:40px auto;
+		border-radius: 2px;
+	}
+	th{
+		background: skyblue;
+	}
+	td{
+		text-align: center;
+	}
+	tr{
+		border:1px solid #aaa;
+	}
+	tr:nth-of-type(2n+1){
+		background: #eee;
+	}
+</style>
+<body>
+	<div id="table_container">
+		<table>
+		<caption>所有注册了名校昇的朋友们！</caption>
+			<tr>
+				<th v-for="th in ths"
+				:style="th.width">{{th.title}}</th>
+			</tr>
+			<tr v-for="tr in trs">
+				<td v-for="th in ths">
+					{{tr[th.key]}}
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+<script src="//cdn.bootcss.com/vue/2.1.6/vue.min.js"></script>
+<script src="//cdn.bootcss.com/vue-resource/1.0.3/vue-resource.min.js"></script>
+<script>
+	Vue.config.debug = true;
+	Vue.use(VueResource);
+	Vue.http.options.emulateJSON = true;
+	var vn = new Vue({
+		el:'#table_container',
+		data:{
+			ths:[{
+				title:'注册日期',
+				key:'date',
+				width:'width:10%'
+			},{
+				title:'名字',
+				key:'name',
+				width:'width:10%'
+			},{
+				title:'性别',
+				key:'sex',
+				width:'width:10%'
+			},{
+				title:'QQ',
+				key:'qq',
+				width:'width:10%'
+			},{
+				title:'电话',
+				key:'phone',
+				width:'width:10%'
+			},/*{
+				title:'擅长学科',
+				key:'subject',
+				width:'width:10%'
+			},*/{
+				title:'专业',
+				key:'major',
+				width:'width:10%'
+			},{
+				title:'年级',
+				key:'grade',
+				width:'width:10%'
+			},{
+				title:'大学',
+				key:'university',
+				width:'width:10%'
+			}],
+			trs:[]
+		},
+		mounted(){
+			console.log('hey');
+			this.$http.post('http://www.hzchuangxiangzhe.cn/php/PcApi/',{
+				name: 'education.admin.teacher.info'
+			}).then(function(response) {
+				response.body.data.forEach(function(e) {
+					var date = new Date(parseInt(e.reg_time+'000'));
+					var Y = date.getFullYear() + '-';
+					var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+					var D = date.getDate()+ ' ';
+					var h = date.getHours() + ':';
+					var m = date.getMinutes() + ':';
+					var s = date.getSeconds();
+					//console.log(JSON.parse(e.subject));
+					//var a = JSON.parse(e.subject);
+					//console.log(a)
+					var item={
+						date:Y+M+D+h+m+s,
+						name:e.user_name,
+						sex:e.sex,
+						qq:e.qq,
+						phone:e.mobile,
+						//subject:a,
+						major:e.major,
+						grade:e.grade,
+						university:e.university
+					}
+					vn.trs.push(item);
+				})
+			})
+		}
+	})
+</script>
+</html>

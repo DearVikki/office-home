@@ -1,7 +1,8 @@
 <template>
 	<div id="freeTime_container" class="user-common-container">
 		<table>
-			<caption>空余时间</caption>
+			<caption>本学期空余时间</caption>
+			<caption style="font-size:12px">（小提示: 请按照你的空余时间妥善安排，方便我们长期排课喔!❀）</caption>
 			<tr>
 				<th style="width:16%"></th>
 				<th style="width:12%"

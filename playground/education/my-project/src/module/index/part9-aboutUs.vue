@@ -24,7 +24,7 @@
 			margin:79px auto;
 			#about_text{
 				padding: 27px 60px;
-				font-size: 20px;
+				font-size: 16px;
 				color: #5c5c5c;
 				text-indent: 40px;
 			}

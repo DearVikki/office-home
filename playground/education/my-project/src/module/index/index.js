@@ -1,4 +1,5 @@
 import common from '../../assets/js/common.js'
+import h5Responsive from '../../assets/js/h5Responsive.js'
 import index from './Index.vue'
 import syllabus from './Syllabus.vue'
 import part1header from './part1-header.vue';
