@@ -4,7 +4,7 @@
 			<div id="header_logo"></div>
 			<div id="header_nav">
 				<!--<a>留言反馈</a>-->
-				<a>联系教务</a>
+				<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">联系教务</a>
 				<a>{{user.name}}</a>
 				<a @click="exit">退出</a>
 			</div>

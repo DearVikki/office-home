@@ -5,7 +5,7 @@
 			<div id="header_inner">
 				<!--左侧咨询-->
 				<div id="header_inner_left">
-					<a class="header-left-group" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=965562425&site=qq&menu=yes">
+					<a class="header-left-group" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">
 						<span class="icon icon1"></span>
 						<span class="text">QQ咨询</span>
 					</a>
@@ -40,7 +40,7 @@
 					v-for="nav in navs"
 					:class="{active:nav.active}"
 					@click="clickNav(nav)">{{nav.name}}</span>
-					<router-link class="nav" to="/syllabus">教学大纲</router-link>
+					<!--<router-link class="nav" to="/syllabus">教学大纲</router-link>-->
 				</span>
 			</div>
 		</div>
