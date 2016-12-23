@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
+//import Bus from './bus.js';
+
 Vue.config.debug = true;
 Vue.use(VueRouter);
 Vue.use(VueResource);

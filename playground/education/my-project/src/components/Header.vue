@@ -12,6 +12,7 @@
 	</div>
 </template>
 <script>
+	import Bus from '../assets/js/bus.js';
 	export default{
 		name:'myHeader',
 		data(){
@@ -24,12 +25,14 @@
 		mounted(){
 			let user = JSON.parse(localStorage.getItem('user'));
 			this.user.name = user.user_name;
+			Bus.$on('changeName',text => {
+				let user = JSON.parse(localStorage.getItem('user'));
+				user.user_name = text;
+				this.user.name = text;
+				localStorage.setItem('user',JSON.stringify(user));
+			})
 		},
 		methods:{
-			changeName(){
-				let user = JSON.parse(localStorage.getItem('user'));
-				this.user.name = user.user_name;
-			},
 			exit(){
 				this.$http.get('?name=education.sys.login.out').then((response)=>{
 					if(response.body.code === 1000){

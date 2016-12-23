@@ -64,6 +64,7 @@
 	</div>
 </template>
 <script>
+	import Bus from '../assets/js/bus.js';
 	export default{
 		name:'teacherUserinfoEdit',
 		data(){
@@ -148,6 +149,30 @@
 		        		},{
 		        			title:'化学',
 		        			value:'化学',
+		        			mark:''
+		        		},{
+		        			title:'生物',
+		        			value:'生物',
+		        			mark:''
+		        		},{
+		        			title:'英语',
+		        			value:'英语',
+		        			mark:''
+		        		},{
+		        			title:'语文',
+		        			value:'语文',
+		        			mark:''
+		        		},{
+		        			title:'政治',
+		        			value:'政治',
+		        			mark:''
+		        		},{
+		        			title:'地理',
+		        			value:'地理',
+		        			mark:''
+		        		},{
+		        			title:'历史',
+		        			value:'历史',
 		        			mark:''
 		        		}]
 		        	},
@@ -266,7 +291,10 @@
 					for(var field in this.fields){
 						if(!this.handleValidate(this.fields[field])) allchecked = false;
 					}
-					if(allchecked) this.$emit('allCheck',this.fields);
+					if(allchecked) {
+						this.$emit('allCheck',this.fields);
+						Bus.$emit('changeName',this.fields.name.val);
+					}
 			}
 		},
 		methods:{
@@ -308,6 +336,7 @@
 	/*擅长学科框*/
 	#form_container .common-field.subject-field{
 		margin-top: -5px;
+		height: 100px;
 		& >label{
 			vertical-align: middle;
 		}

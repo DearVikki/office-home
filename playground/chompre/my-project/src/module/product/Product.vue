@@ -119,7 +119,24 @@
 						v-for="comment in comment.comment_info">
 							<div class="commemt-part1">
 								<star :activeNum=comment.star_num></star>
-								<span class="fr comment-user">comment.comment_user_nickname</span>
+								<span class="fr comment-user">{{comment.comment_user_nickname}}</span>
+								<p class="comment-content">{{comment.content}}</p>
+								<div class="comment-img-container"
+								v-if="comment.is_picture">
+									<img class="comment-small-img"
+									v-for="(pic,index) in comment.comment_pic"
+									:class="{active:comment.pic_active === index}"
+									:src="pic"
+									@click="clickCommentImg(index)">
+									<img class="comment-small-img"
+									v-for="(pic,index) in comment.comment_pic"
+									:class="{active:comment.pic_active === index}"
+									:src="pic">
+									<div class="comment-big-img"
+									v-show="comment.pic_active!==-1">
+										<img :src="comment.comment_pic[comment.pic_active]">
+									</div>
+								</div>
 							</div>
 						</li>
 					</ul>
@@ -208,7 +225,8 @@
 		                is_picture: 1,
 		                reply_comment: {
 		                    content: ""
-		                }
+		                },
+		                active_pic:-1
 		            }]
 				}
 			}
@@ -306,8 +324,13 @@
 					page:this.page
 				}
 				this.$http.post('',data).then((response)=>{
-
+					console.log(response.body);
 				})
+			},
+			//点击评论图片
+			clickCommentImg(index){
+				if(this.comment.active_pic ===index) this.comment.active_pic = 0;
+				else this.comment.active_pic = index;
 			}
 		},
 		watch:{
@@ -575,12 +598,34 @@
 						}
 					}
 				}
+				/*评论主体*/
 				#comment_main{
 					.comment-item{
 						padding: 10px 15px;
 						.comment-user{
 							font-size: 12px;
 							color: #5c5c5c;
+						}
+						.comment-content{
+							font-size: 12px;
+							color:#808080;
+							margin-top: 10px;
+						}
+						.comment-img-container{
+							margin-top: 10px;
+							.comment-small-img{
+								width: 50px;
+								height: 50px;
+								border:1px solid transparent;
+								margin-right: 5px;
+								cursor: pointer;
+								&:hover{
+									border-color: #d2554b;
+								}
+								&.active{
+									border-color: @baseColor;
+								}
+							}
 						}
 					}
 				}

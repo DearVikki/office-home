@@ -54,6 +54,7 @@
 	</div>
 </template>
 <script>
+	import Bus from '../../assets/js/bus.js';
 	import avaImg from '../../assets/img/index/icon_head.png';
 	export default{
 		name:'userinfo',
@@ -218,6 +219,13 @@
 						this.infos2[8].value = info.grade;
 					}
 				}
+			})
+			//加入bus
+			Bus.$on('changeName',text => {
+				let user = JSON.parse(localStorage.getItem('user'));
+				user.user_name = text;
+				this.user.name = text;
+				localStorage.setItem('user',JSON.stringify(user));
 			})
 		},
 		methods:{
