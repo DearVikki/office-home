@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>audio</title>
+</head>
+<body>
+	啦啦啦
+</body>
+</html>
+<script>
+	navigator.getUserMedia = navigator.getUserMedia ||
+                     navigator.webkitGetUserMedia ||
+                     navigator.mozGetUserMedia;
+
+	if (navigator.getUserMedia) {
+    navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
+	      function(stream) {
+	         console.log("Accessed the Microphone");
+	      },
+	      function(err) {
+	         console.log("The following error occured: " + err.name);
+	      }
+	    );
+	} else {
+	   console.log("getUserMedia not supported");
+	}
+</script>
