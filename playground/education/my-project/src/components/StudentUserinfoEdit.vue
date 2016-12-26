@@ -48,6 +48,7 @@
 		</div>
 </template>
 <script>
+	import Bus from '../assets/js/bus.js';
 	export default{
 		name:'studentUserinfoEdit',
 		data(){
@@ -209,7 +210,10 @@
 				for(var field in this.fields){
 					if(!this.handleValidate(this.fields[field])) allchecked = false;
 				}
-				if(allchecked) this.$emit('allCheck',this.fields);
+				if(allchecked) {
+					this.$emit('allCheck',this.fields);
+					Bus.$emit('changeName',this.fields.name.val);
+				}
 			}
 		},
 		methods:{

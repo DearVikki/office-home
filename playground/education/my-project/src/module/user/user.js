@@ -4,6 +4,7 @@ import freetime from './freeTime.vue'
 import doc from './Doc.vue'
 import userinfo from './Userinfo.vue'
 import edit from './userinfoEdit.vue'
+import trial from './Trial.vue'
 
 //import VueValidator from 'vue-validator'
 //common.Vue.use(VueValidator);
@@ -33,6 +34,9 @@ const router = new common.VueRouter({
 	},{
 		path:'/usercenterEdit',
 		component:edit
+	},{
+		path:'/trial',
+		component:trial
 	}]
 	//mode:'history'
 })

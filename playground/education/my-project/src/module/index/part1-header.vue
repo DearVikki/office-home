@@ -16,8 +16,18 @@
 				</div>
 				<!--右侧注册登录-->
 				<div id="header_inner_right">
-					<a href="./login.html" class="btn">注册账号</a>
-					<a href="./login.html" class="btn reverse">立即登录</a>
+					<div v-show="!user.name">
+						<a href="./login.html" class="btn">注册账号</a>
+						<a href="./login.html" class="btn reverse">立即登录</a>
+					</div>
+					<div class="user-name-container" v-show="user.name"
+					@mouseenter="logoutshow = true"
+					@mouseleave="logoutshow = false">
+						<span class="user-name">{{user.name}}</span>
+						<div class="log-out"
+						v-show="logoutshow"
+						@click="logout">退出登录</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -52,6 +62,11 @@
 		name:'part1Header',
 		data(){
 			return{
+				user:{
+					type:0,
+					name:''
+				},
+				logoutshow:false,
 				navs:[{
 					name:'首页',
 					active:true,
@@ -74,6 +89,11 @@
 				}
 			}
 		},
+		mounted(){
+			let user = JSON.parse(localStorage.getItem('user'));
+			this.user.type = user.user_type || 0;
+			this.user.name = user.user_name || '';
+		},
 		methods:{
 			//点击nav
 			clickNav(nav){
@@ -84,6 +104,13 @@
 				//如果是小窗口须折叠起来
 				this.media.navActive = false;
 				scrollTo(nav.to,0);
+			},
+			logout(){
+				this.$http.get('?name=education.sys.login.out').then((response)=>{
+						localStorage.removeItem('user');
+						this.user.type = 0;
+						this.user.name = '';
+				})
 			}
 		},
 		watch:{
@@ -108,7 +135,6 @@
 		#header_inner{
 			max-width: 1240px;
 			width: 100%;
-			overflow: hidden;
 			margin:15px auto 0 auto;
 			padding: 0 40px;
 			#header_inner_left{
@@ -148,6 +174,53 @@
 					line-height: 30px;
 					&.reverse{
 						margin-left: 40px;
+					}
+				}
+				.user-name-container{
+					position: relative;
+					margin-top: 10px;
+					height: 50px;
+					.user-name{
+						color: @baseColor;
+						font-size: 14px;
+						cursor: pointer;
+					}
+					.log-out{
+						color: @baseColor;
+						font-size: 14px;
+						border:1px solid @baseColor;
+						border-radius: 4px;
+						padding: 0 2px;
+						text-align: center;
+						position: absolute;
+						width: 70px;
+						display: inline-block;
+						top: 25px;
+						left: 50%;
+						margin-left: -35px;
+						background: #fff;
+						cursor: pointer;
+						&:after{
+							content:'';
+							width:0;
+							height:0;
+							border:7px solid transparent;
+							border-bottom-color: @baseColor;
+							position: absolute;
+							top: -14px;
+							left: 25px;
+						}
+						&:before{
+							content:'';
+							width:0;
+							height:0;
+							border:6px solid transparent;
+							border-bottom-color: #fff;
+							position: absolute;
+							top: -12px;
+							left: 26px;
+							z-index: 3;
+						}
 					}
 				}
 			}

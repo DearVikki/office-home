@@ -7,7 +7,7 @@ import VueResource from 'vue-resource'
 Vue.config.debug = true;
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.http.options.root = 'http://www.hzchuangxiangzhe.cn/php/PcApi';
+Vue.http.options.root = 'https://www.hzchuangxiangzhe.cn/php/PcApi';
 Vue.http.options.emulateJSON = true;
 Vue.http.options.credentials = true;
 import '../lib/public.less'

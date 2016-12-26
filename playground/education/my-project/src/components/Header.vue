@@ -1,7 +1,7 @@
 <template>
 	<div id="header_container">
 		<div id="header_main">
-			<div id="header_logo"></div>
+			<a href="./index.html" id="header_logo"></a>
 			<div id="header_nav">
 				<!--<a>留言反馈</a>-->
 				<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">联系教务</a>
@@ -35,9 +35,8 @@
 		methods:{
 			exit(){
 				this.$http.get('?name=education.sys.login.out').then((response)=>{
-					if(response.body.code === 1000){
 						location.href = './login.html';
-					}
+						localStorage.removeItem('user');
 				})
 			}
 		}

@@ -8,8 +8,8 @@
 					:src="teacher.head">
 					<!--飞升指数-->
 					<div class="teacher-point">
-						<p>{{teacher.point}}</p>
-						<p>飞升指数</p>
+						<!--<p>{{teacher.point}}</p>
+						<p>飞升指数</p>-->
 					</div>
 					<!--bottom部分-->
 					<div class="teacher-bottom">
@@ -34,10 +34,10 @@
 </template>
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
-	import ww from '../../assets/img/index/ww.png';
-	import ch from '../../assets/img/index/ch.png';
-	import xy from '../../assets/img/index/xy.png';
-	import yyf from '../../assets/img/index/yyf.png';
+	import ww from '../../assets/img/index/ww.jpg';
+	import wjw from '../../assets/img/index/wjw.jpg';
+	import xy from '../../assets/img/index/xy.jpg';
+	import zjh from '../../assets/img/index/zjh.jpg';
 	export default{
 		name:'part7Teacher',
 		data(){
@@ -45,35 +45,35 @@
 				teachers:[{
 					head:xy,
 					point:72.1,
-					name:'小玉',
-					title:'化学竞赛无敌手',
+					name:'王铭钰',
+					title:'三年经验',
 					school:'浙江大学',
-					major:'金融系',
-					tags:['竞赛','函数','几何']
+					major:'经济系',
+					tags:['语文','历史','政治']
 				},{
-					head:yyf,
-					name:'徐敏',
+					head:zjh,
+					name:'朱佳慧',
 					point:80.1,
-					title:'数学竞赛无敌手',
+					title:'单科状元',
 					school:'浙江大学',
-					major:'金融系',
-					tags:['竞赛','函数','几何']
+					major:'国际经贸系',
+					tags:['语文','英语']
 				},{
 					head:ww,
 					point:87.1,
 					name:'王奥',
-					title:'数学竞赛无敌手',
+					title:'数学竞赛金奖',
 					school:'浙江大学',
 					major:'计算机系',
-					tags:['竞赛','几何','物理']
+					tags:['数学','化学','物理']
 				},{
-					head:ch,
+					head:wjw,
 					point:85,
-					name:'陈华',
-					title:'奥林匹克',
+					name:'王景文',
+					title:'高考状元',
 					school:'浙江大学',
 					major:'计算机系',
-					tags:['竞赛','物理']
+					tags:['数学','物理']
 				}]
 			}
 		},

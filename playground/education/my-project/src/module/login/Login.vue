@@ -1,7 +1,7 @@
 <template>
 	<div id="login_page">
 		<!--背景-->
-		<div id="back_logo"></div>
+		<a href="./index.html" id="back_logo"></a>
 		<div id="back">
 			<div id="img1"></div>
 			<div id="img2"></div>
@@ -58,6 +58,7 @@
 		background: url(../../assets/img/login/logo.png) no-repeat;
 		z-index: 5;
 		position: relative;
+		display: inline-block;
 	}
 	#back{
 		position: absolute;

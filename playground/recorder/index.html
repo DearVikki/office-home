@@ -10,13 +10,7 @@
 	<style>
 	html { overflow: hidden; }
 	body { 
-		font: 14pt Arial, sans-serif; 
-		background: lightgrey;
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		width: 100%;
-		margin: 0 0;
+		
 	}
 	canvas { 
 		display: inline-block; 
@@ -26,21 +20,19 @@
 		box-shadow: 0px 0px 10px blue;
 	}
 	#controls {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-around;
-		height: 20%;
-		width: 100%;
 	}
-	#record { height: 15vh; }
-	#record.recording {
+	#record {  }
+	#record.recording span{
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		border-radius: 100%;
 		background: red;
 		background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%); 
 		background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%); 
 		background: radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%); 
 	}
-	#save, #save img { height: 10vh; }
+	#save, #save img { height: 10vh; display: none;}
 	#save { opacity: 0.25;}
 	#save[download] { opacity: 1;}
 	#viz {
@@ -53,19 +45,19 @@
 	}
 	@media (orientation: landscape) {
 		body { flex-direction: row;}
-		#controls { flex-direction: column; height: 100%; width: 10%;}
+		#controls {}
 		#viz { height: 100%; width: 90%;}
 	}
 
 	</style>
 </head>
 <body>
-	<div id="viz">
+	<!--<div id="viz">
 		<canvas id="analyser" width="1024" height="500"></canvas>
 		<canvas id="wavedisplay" width="1024" height="500"></canvas>
-	</div>
+	</div>-->
 	<div id="controls">
-		<div id="record" onclick="toggleRecording(this);">录音</div>
+		<div id="record" onclick="toggleRecording(this);">录音<span></span></div>
 		<a id="save" href="#">保存</a>
 	</div>
 	<audio id="" src="" controls="controls">

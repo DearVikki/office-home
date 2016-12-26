@@ -3,7 +3,7 @@
 		<div class="side-item" @click="toTop">
 			<img src="~assets/img/index/side_top.png">
 		</div>
-		<a class="side-item" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=965562425&site=qq&menu=yes">
+		<a class="side-item" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">
 			<img src="~assets/img/index/side_qq.png">
 		</a>
 		<div class="side-item">

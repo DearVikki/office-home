@@ -4,7 +4,7 @@
 		v-for="item in sideItems"
 		:class="{active:sideType === item.type}"
 		@click="clickItem(item)"
-		v-if="item.type !== 3 || userType === 1">{{item.name}}</div>
+		v-if="((item.type !== 3 && item.type !== 4) && userType === 0) || (item.type !== 5 && userType === 1)">{{item.name}}</div>
 	</div>
 </template>
 <script>
@@ -27,6 +27,14 @@
 					name:'课件中心'
 				},{
 					type:4,
+					link:'trial',
+					name:'我的试讲课'
+				},{
+					type:5,
+					link:'trial',
+					name:'我的试听课'
+				},{
+					type:6,
 					link:'usercenter',
 					name:'个人中心'
 				}],
@@ -45,7 +53,7 @@
 			//直接打开时
 			if(location.hash === '#/') this.sideType = 1;
 			//编辑个人信息时
-			else this.sideType = 4;
+			else this.sideType = 5;
 		},
 		methods:{
 			clickItem(item){
