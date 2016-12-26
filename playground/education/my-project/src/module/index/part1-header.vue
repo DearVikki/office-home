@@ -23,7 +23,7 @@
 					<div class="user-name-container" v-show="user.name"
 					@mouseenter="logoutshow = true"
 					@mouseleave="logoutshow = false">
-						<span class="user-name">{{user.name}}</span>
+						<a href="./user.html" class="user-name">{{user.name}}</a>
 						<div class="log-out"
 						v-show="logoutshow"
 						@click="logout">退出登录</div>
