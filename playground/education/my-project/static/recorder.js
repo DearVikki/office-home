@@ -110,6 +110,7 @@ DEALINGS IN THE SOFTWARE.
     var url = (window.URL || window.webkitURL).createObjectURL(blob);
     var link = document.getElementById("save");
     link.href = url;
+    document.querySelector('audio').src = url;
     link.download = filename || 'output.wav';
   }
 
