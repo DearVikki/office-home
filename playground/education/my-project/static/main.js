@@ -58,6 +58,8 @@ function toggleRecording( e ) {
         audioRecorder.stop();
         e.classList.remove("recording");
         audioRecorder.getBuffers( gotBuffers );
+        document.querySelector('#controls').style.display = 'none';
+        document.querySelector('#audio_part2').style.display = 'block';
     } else {
         // start recording
         if (!audioRecorder)
@@ -65,6 +67,7 @@ function toggleRecording( e ) {
         e.classList.add("recording");
         audioRecorder.clear();
         audioRecorder.record();
+        document.querySelector('.step1').innerHTML='Step2: 再次点击停止录音。'
     }
 }
 
@@ -178,7 +181,7 @@ function initAudio() {
                 "optional": []
             },
         }, gotStream, function(e) {
-            alert('Error getting audio');
+            alert('获取麦克风设备失败!');
             console.log(e);
         });
 }

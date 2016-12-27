@@ -65,17 +65,6 @@
 			            val:'',
 			            focus: false
 		        	},
-		        	/*phone: {
-			            id: 'phone',
-			            class: 'phone-field',
-			            name: '手机',
-			            placeholder: '',
-			            validator: { required: {msg:'手机不能为空'}, isPhone:{msg:'手机号不合法'}},
-			            error: false,
-			            msg:'',
-			            val:'',
-			            focus: false
-		        	},*/
 		        	sex: {
 		        		id: 'sex',
 		        		class: 'sex-field',

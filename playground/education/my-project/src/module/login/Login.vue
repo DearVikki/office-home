@@ -172,7 +172,7 @@
 				border: 5px solid transparent;
 				border-bottom-color:#fff;
 				right:68.5px;
-				bottom:-.5px;
+				bottom:-1px;
 			}
 			&:before{
 				content:'';

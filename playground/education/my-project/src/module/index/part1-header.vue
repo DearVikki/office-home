@@ -91,8 +91,9 @@
 		},
 		mounted(){
 			let user = JSON.parse(localStorage.getItem('user'));
-			this.user.type = user.user_type || 0;
-			this.user.name = user.user_name || '';
+			if(!user) return;
+			this.user.type = user.user_type;
+			this.user.name = user.user_name;
 		},
 		methods:{
 			//点击nav

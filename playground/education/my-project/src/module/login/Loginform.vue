@@ -7,6 +7,7 @@
 				<input :placeholder="phone.placeholder"
 				@focus="inputFocus(phone)"
 				@blur="inputBlur(phone)"
+				@keyup.enter="clickSendCode"
 				v-model="phone.val">
 			</div>
 			<p class="error" v-show="phone.error">{{phone.msg}}</p>
@@ -18,6 +19,7 @@
 				<input :placeholder="code.placeholder"
 				@focus="inputFocus(code)"
 				@blur="inputBlur(code)"
+				@keyup.enter="login"
 				v-model="code.val">
 			</div>
 			<p class="error" v-show="code.error">{{code.msg}}</p>
