@@ -3,7 +3,7 @@ var winWidths=window.innerWidth;
 var densityDpi=640/winWidths;
   densityDpi= densityDpi>1?300*640*densityDpi/640:densityDpi;
 if(isWeixin()){
-  viewport.setAttribute('content', 'width=640,initial-scale=.5,maximum-scale=.5, minimum-scale=.5,user-scalable=no, target-densityDpi='+densityDpi);
+  viewport.setAttribute('content', 'width=640, target-densityDpi='+densityDpi);
 }
 function isWeixin(){
   var ua = navigator.userAgent.toLowerCase();

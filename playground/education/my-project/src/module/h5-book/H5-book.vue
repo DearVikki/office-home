@@ -1,8 +1,10 @@
 <template>
 	<div id="book_container">
+		<div id="book_container_title"></div>
 		<div v-show="!complete">
-			<div class="input-container"
-		v-for="input in inputs">
+			<div class="input-container animated"
+			v-for="input in inputs"
+			:class="input.animation">
 				<img :src="input.icon">
 				<input :placeholder="input.placeholder"
 				v-model="input.val"
@@ -19,6 +21,7 @@
 	</div>
 </template>
 <script>
+	import 'animate.css';
 	import head from '../../assets/img/h5/icon_student.png';
 	import phone from '../../assets/img/h5/icon_phone.png';
 	export default{
@@ -30,17 +33,24 @@
 					placeholder:'请填写试听学生姓名',
 					validator:{required:{msg:''}},
 					icon:head,
+					animation:'fadeInLeft',
 					val:''
 				},{
 					name:'phone',
 					placeholder:'请填写手机号码',
 					validator:{isPhone:{msg:''}},
 					icon:phone,
+					animation:'fadeInRight',
 					val:''
 				}],
+				//全部检查
 				allchecked:false,
+				//完成预约
 				complete:false
 			}
+		},
+		mounted(){
+			document.querySelector('#book_container').style.minHeight = window.innerHeight+'px';
 		},
 		methods:{
 			isPhone(val){
@@ -79,10 +89,19 @@
 <style scoped lang='less'>
 	#book_container{
 		width:100%;
-		height:100%;
 		background: url(../../assets/img/h5/bg.png) center no-repeat;
+		background-size: cover;
 		background-size:100% 100%;
 		padding-top: .1px;
+		padding-bottom: 1rem;
+	}
+	#book_container_title{
+		width: 10rem;
+		height: 5rem;
+		margin-top: 2.5rem;
+    	margin-bottom: 2rem;
+		background: url(../../assets/img/h5/book.png) center no-repeat;
+		background-size: contain;
 	}
 	.input-container{
 		width: 8rem;
@@ -95,7 +114,8 @@
 		input{
 			border: none;
 			line-height: .9rem;
-			font-size: .3rem;
+			font-size: .4rem;
+			height: 100%;
 		}
 		img{
 			width: 1rem;
@@ -113,6 +133,8 @@
 		color:#fff;
 		margin:0 auto;
 		cursor: pointer;
+		animation:wqFadeIn 2s backwards;
+		font-size: .5rem;
 		&.disabled{
 			opacity: .5;
 			cursor:not-allowed;
@@ -123,4 +145,16 @@
 		color: #fff;
 		text-align: center;
 	}
+	@keyframes wqFadeIn {
+	  from {
+	    opacity: 0;
+	  }
+	  50%{
+	  	opacity: 0;
+	  }
+	  100% {
+	    opacity:.5;
+	  }
+	}
+
 </style>

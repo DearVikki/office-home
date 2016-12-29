@@ -5,8 +5,13 @@
 			<div id="header_nav">
 				<!--<a>留言反馈</a>-->
 				<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">联系教务</a>
-				<a>{{user.name}}</a>
-				<a @click="exit">退出</a>
+				<span v-if="user.name">
+					<a>{{user.name}}</a>
+					<a class="exit" @click="exit">退出</a>
+				</span>
+				<span v-else>
+					<a class="login" href="./login.html">登录</a>
+				</span>
 			</div>
 		</div>
 	</div>
@@ -18,13 +23,18 @@
 		data(){
 			return{
 				user:{
-					name:'李慧慧'
+					name:''
 				}
 			}
 		},
 		mounted(){
-			let user = JSON.parse(localStorage.getItem('user'));
-			this.user.name = user.user_name;
+			this.$http.get('?name=education.sys.islogin').then((response)=>{
+				if(response.body.code===1004) return;
+				else {
+					this.user.type = response.body.data.user_type;
+					this.user.name = response.body.data.user_name;
+				}
+			})
 			Bus.$on('changeName',text => {
 				let user = JSON.parse(localStorage.getItem('user'));
 				user.user_name = text;
@@ -70,10 +80,8 @@
 				margin-left:30px;
 				font-size:16px;
 				color:#4d4d4d;
-				&:nth-of-type(3){
+				&.exit,&.login{
 					color: @baseColor;
-				}
-				&:nth-of-type(4){
 					cursor:pointer;
 				}
 			}

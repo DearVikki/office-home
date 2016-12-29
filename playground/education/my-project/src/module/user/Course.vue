@@ -137,6 +137,7 @@
 			this.usertype = JSON.parse(localStorage.getItem('user')).user_type;
 			//本周数据
 			this.$http.get('?name=education.sys.this.week.course.list').then((response)=>{
+				if(response.body.code === 1004) return;
 				response.body.data.list.forEach((e)=>{
 					let rowData = '';
 					this.now.allData.push({
@@ -157,6 +158,7 @@
 			})
 			//历史数据
 			this.$http.get('?name=education.sys.history.week.course.list').then((response)=>{
+				if(response.body.code === 1004) return;
 				response.body.data.list.forEach((e)=>{
 					let rowData = {
 						id:e.id,

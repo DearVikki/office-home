@@ -18,8 +18,12 @@
 		v-show="usertype === 1"
 		:checkAll = "teachercheckAll"
 		@allCheck = "allCheck"></teacherUserinfoEdit>
-		<div class="btn save"
-		@click="save">保存</div>
+		<div class="btn-container">
+			<div class="btn cancle"
+			@click="cancle">取消保存</div>
+			<div class="btn save"
+			@click="save">保存</div>
+		</div>
 		<!--上传头像-->
 		<changeavatar v-show="changeAva"
 		@cancleChangeAva="changeAva = false"
@@ -75,6 +79,10 @@
 			save(){
 				if(this.usertype ===0) this.studentcheckAll = Math.random();
 				else this.teachercheckAll = Math.random();
+			},
+			/*取消保存*/
+			cancle(){
+				this.$router.push('usercenter');
 			},
 			allCheck(fields){
 				let updateData = {
@@ -133,12 +141,24 @@
 	    line-height: 26px;
 	    margin: 0 auto;
 	}
-	/*保存*/
-	.btn.save{
-		width: 72px;
-	    height: 30px;
-	    line-height: 30px;
-	    float: right;
+	/*取消保存/保存*/
+	.btn-container{
+		float: right;
 	    margin-top: 50px;
+	    .btn{
+			width: 72px;
+		    height: 30px;
+		    line-height: 30px;
+		    display: inline-block;
+		    margin-left: 20px;
+		    &.save:hover{
+				background: @baseColor;
+				color:#fff;
+		    }
+		    &.cancle{
+		    	border-color:#ccc;
+		    	color:#ccc;
+		    }
+		}
 	}
 </style>

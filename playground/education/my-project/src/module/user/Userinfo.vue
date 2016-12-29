@@ -231,7 +231,6 @@
 		methods:{
 			editInfo(){
 				//this.$router.push('usercenter/edit')
-				console.log('hey')
 				this.$router.push('usercenterEdit');
 			}
 		}

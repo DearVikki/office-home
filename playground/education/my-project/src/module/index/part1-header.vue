@@ -90,10 +90,13 @@
 			}
 		},
 		mounted(){
-			let user = JSON.parse(localStorage.getItem('user'));
-			if(!user) return;
-			this.user.type = user.user_type;
-			this.user.name = user.user_name;
+			this.$http.get('?name=education.sys.islogin').then((response)=>{
+				if(response.body.code===1004) return;
+				else {
+					this.user.type = response.body.data.user_type;
+					this.user.name = response.body.data.user_name;
+				}
+			})
 		},
 		methods:{
 			//点击nav

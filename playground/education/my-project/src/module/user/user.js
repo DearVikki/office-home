@@ -5,9 +5,14 @@ import doc from './Doc.vue'
 import userinfo from './Userinfo.vue'
 import edit from './userinfoEdit.vue'
 import trial from './Trial.vue'
+import question from './Question.vue'
 
 //import VueValidator from 'vue-validator'
 //common.Vue.use(VueValidator);
+//判断是否登录
+common.Vue.http.get('?name=education.sys.islogin').then((response)=>{
+	if(response.body.code === 1004) location.href = './login.html';
+})
 
 const myheader = common.myHeader;
 const sider = common.sider;
@@ -37,6 +42,9 @@ const router = new common.VueRouter({
 	},{
 		path:'/trial',
 		component:trial
+	},{
+		path:'/question',
+		component:question
 	}]
 	//mode:'history'
 })

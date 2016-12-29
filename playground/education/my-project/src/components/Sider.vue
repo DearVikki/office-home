@@ -37,6 +37,10 @@
 					type:6,
 					link:'usercenter',
 					name:'个人中心'
+				},{
+					type:7,
+					link:'question',
+					name:'疑难解惑'
 				}],
 				sideType:1
 			}
@@ -84,10 +88,14 @@
 			padding-left: 47px;
 			cursor: pointer;
 			display: block;
+			&:hover{
+				background:#dae5ec;
+			}
 			&.active{
 				background: @baseColor;
 				color:#fff;
 			}
+
 		}
 	}
 </style>

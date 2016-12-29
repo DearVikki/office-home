@@ -127,11 +127,21 @@ select,option{cursor: pointer;}
     width: 744px;
     min-height:830px;
     float:right;
-    background: url(../../assets/img/user/bg.png) top no-repeat;
-    background-size:100% 100%;
     padding:45px 50px;
     position: relative;
     margin-bottom: 30px;
+    border:1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 3px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    &:before{
+        content:'';
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top:0;
+        right:0;
+        background: url(../../assets/img/index/mini.png) no-repeat;
+    }
 }
 /*统一的展示头像区*/
 .user-common-avatar-container{

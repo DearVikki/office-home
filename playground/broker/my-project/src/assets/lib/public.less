@@ -1,0 +1,161 @@
+@baseColor: #55b7f8;
+@backColor: #fff7f7;
+@bla: #5c5c5c;
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strike, strong, sub, sup, tt, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    border: 0px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: normal;
+}
+
+input, select, textarea {
+    outline: none;
+}
+
+body {
+    position: relative;
+}
+
+.clear {
+    clear: both
+}
+
+.margauto {
+    width: 1190px;
+    margin: 0 auto;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.textLeft {
+    text-align: left !important;
+}
+
+.textCenter {
+    text-align: center !important;
+}
+
+.inLine {
+    display: inline-block;
+}
+
+.cd {
+    cursor: default;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+
+/*自定义样式*/
+
+body {
+    font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;
+    cursor: default;
+    font-size: 0px;
+}
+textarea{resize:none}
+textarea,input,select{ font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;}
+input[type=file]{
+    display: none;
+}
+select,option{cursor: pointer;}
+
+@baseColor:#8995ff;
+/*阿气死我了一定放个字体在这里!!*/
+.bla{
+    font-size: .43rem;
+}
+.grey{
+    font-size: .43rem;
+    color:#858585;
+}
+/*封面图*/
+.header-pic{
+    background: @baseColor;
+    width: 100%;
+    height: 5.33rem;
+    img{
+        width: 100%;
+        height: 100%;
+    }
+}
+/*经纪人联系方式*/
+.broker-info{
+    width: 100%;
+    height: 1.6rem;
+    font-size: .43rem;
+    padding-left: .53rem;
+    background: #fff;
+    margin:12px 0;
+    span:first-of-type{
+        color:#858585;
+        vertical-align: middle;
+        line-height: 1.6rem;
+    }
+    span:nth-of-type(2){
+        color:@baseColor;
+        display: inline-block;
+        border:1px solid @baseColor;
+        width: 1.8rem;
+        height: .7rem;
+        line-height: .7rem;
+        vertical-align: middle;
+        text-align: center;
+        border-radius: .1rem;
+        margin-left: .35rem;
+        font-size: .4rem;
+    }
+}
+/*个人简介*/
+.intro{
+    width: 100%;
+    height: 1.6rem;
+    font-size: .43rem;
+    padding-left: .53rem;
+    background: #fff;
+    margin:12px 0;
+    line-height: 1.6rem;
+    span:nth-of-type(2){
+        margin-left: .5rem;
+    }
+}
