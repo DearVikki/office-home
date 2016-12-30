@@ -30,7 +30,7 @@
 			return{
 				inputs:[{
 					name:'name',
-					placeholder:'请填写试听学生姓名',
+					placeholder:'请填写参与家长姓名',
 					validator:{required:{msg:''}},
 					icon:head,
 					animation:'fadeInLeft',
@@ -78,7 +78,9 @@
 			},
 			register(){
 				if(!this.allchecked) return;
-				this.$http.get('?name=education.sys.add.connect&username='+this.name+'&mobile='+this.phone).then((response)=>{
+				let name = this.inputs[0].val;
+				let phone = this.inputs[1].val;
+				this.$http.get('?name=education.sys.add.connect&username='+name+'&mobile='+phone).then((response)=>{
 					console.log(response);
 					this.complete = true;
 				})

@@ -5,6 +5,7 @@
 		</div>
 		<mynav :navs="navs"
 		@clickNav="clickNav"></mynav>
+		<!--基本信息-->
 		<div id="basicInfo_container"
 		v-show="activeNav===0">
 			<basicInfo
@@ -30,6 +31,8 @@
 				<span class="bla">{{intro}}</span>
 			</div>
 		</div>
+		<!--照片-->
+		<div id="pic_container"></div>
 	</div>
 </template>
 <script>
@@ -125,6 +128,15 @@
 				}
 				this.schedules = response.body.data;
 			})
+			//艺人图片
+			this.$http.post('',{
+				name:'broker.sys.actor.pic.video',
+				actor_id:this.id,
+				page:1,
+				for_type:1
+			}).then((response)=>{
+
+			})
 		},
 		methods:{
 			clickNav(i){
@@ -181,5 +193,8 @@
 				}
 			}
 		}
+	}
+	#pic_container{
+
 	}
 </style>

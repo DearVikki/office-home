@@ -15,9 +15,6 @@
 				questions:[{
 					id:1,
 					title:'在线测试麦克风功能'
-				},{
-					id:2,
-					title:'选课功能'
 				}]
 			}
 		}
