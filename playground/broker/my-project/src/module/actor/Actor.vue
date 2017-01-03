@@ -32,7 +32,26 @@
 			</div>
 		</div>
 		<!--照片-->
-		<div id="pic_container"></div>
+		<div id="pic_container"
+		v-show="activeNav===1">
+			<div id="columns">
+				<img class="pic-item"
+				v-for="img in imgs"
+				:src="img">
+			</div>
+			<div class="empty-container"
+			v-show="imgs.length===0">
+				<img src="~assets/img/no_pic.png">
+				<p>暂无照片喔</p>
+			</div>
+		</div>
+		<!--演艺经历-->
+		<div id="experience_container">
+			<div class="experience-item"
+			v-for="ex in experiences">
+				{{ex.experience}}
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -90,10 +109,14 @@
 					description:'过年',
 					time:'2017-1-28'
 				}],
-				intro:''
+				intro:'',
+				imgs:[],
+				experiences:[]
 			}
 		},
 		mounted(){
+			//主要板块的最低高度
+			document.querySelector('body').style.minHeight = window.innerHeight+'px';
 			//艺人id
 			this.$http.post('',{
 				name:'broker.sys.actor.cover.pic',
@@ -135,7 +158,16 @@
 				page:1,
 				for_type:1
 			}).then((response)=>{
-
+				response.body.data.forEach((e)=>{
+					this.imgs.push(e.path);
+				})
+			})
+			//演艺经历
+			this.$http.post('',{
+				name:'broker.sys.actor.experience',
+				actor_id:this.id
+			}).then((response)=>{
+				this.experiences = response.body.data;
 			})
 		},
 		methods:{
@@ -195,6 +227,42 @@
 		}
 	}
 	#pic_container{
-
+		width: 9.5rem;
+		margin:0 auto;
+		#columns{
+			-webkit-column-count: 2;
+			-webkit-column-gap: .20rem;
+			-webkit-column-fill: auto;
+			-moz-column-count: 2;
+			-moz-column-gap: .20rem;
+			-moz-column-fill: auto;
+			column-count: 2;
+			column-gap: .20rem;
+			column-fill: auto;
+		}
+		.pic-item{
+			width: 4.66rem;
+			display: inline-block;
+			margin-bottom: .2rem;
+		}
+		.empty-container{
+			text-align: center;
+			margin-top: 2rem;
+			img{
+				width: 3rem;
+			}
+			p{
+				font-size: .16rem;
+				color:#a29c9c;
+				margin-top: .2rem;
+			}
+		}
+	}
+	#experience_container{
+		.experience-item{
+			font-size: .2rem;
+			padding: .3rem .53rem;
+			background: #fff;
+		}
 	}
 </style>

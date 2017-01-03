@@ -28,7 +28,7 @@
 		display: flex;
 		justify-content: space-between;
 		background: #fff;
-		margin-bottom: 12px;
+		margin-bottom: .2rem;
 		.nav{
 			width: 33%;
 			height: 1.30rem;
