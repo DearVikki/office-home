@@ -9,6 +9,12 @@
 <script>
 	export default{
 		name:'nav',
+		mounted(){
+			let wid = Math.floor(100/this.navs.length);
+			Array.prototype.slice.call(document.querySelectorAll('.nav-wrapper .nav')).forEach((e)=>{
+				e.style.width = wid+'%';
+			})
+		},
 		methods:{
 			clickNav(i){
 				this.navs.forEach((e)=>{
@@ -18,6 +24,7 @@
 				this.$emit('clickNav',i);
 			}
 		},
+
 		props:['navs']
 	}
 </script>
@@ -30,7 +37,6 @@
 		background: #fff;
 		margin-bottom: .2rem;
 		.nav{
-			width: 33%;
 			height: 1.30rem;
 			line-height: 1.30rem;
 			font-size: .42rem;

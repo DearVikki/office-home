@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<download></download>
 		<div class="header-pic">
 			<img :src="cover">
 		</div>
@@ -46,22 +47,27 @@
 			</div>
 		</div>
 		<!--演艺经历-->
-		<div id="experience_container">
+		<div id="experience_container"
+		v-show="activeNav===2">
 			<div class="experience-item"
+			v-if="experiences.length!==0"
 			v-for="ex in experiences">
 				{{ex.experience}}
 			</div>
+			<div class="empty-tip"
+			v-else>暂无相关信息喔</div>
 		</div>
 	</div>
 </template>
 <script>
 	import mynav from '../../components/nav.vue'
 	import basicInfo from '../../components/basicInfo.vue'
+	import download from '../../components/download.vue'
 	export default{
 		name:'actor',
 		data(){
 			return {
-				id:1,
+				id:11,
 				cover:'',
 				navs:[{
 					name:'基本信息',
@@ -131,7 +137,7 @@
 			}).then((response)=>{
 				let data = response.body.data;
 				this.infos[0].content = data.name;
-				this.infos[1].content = data.sex;
+				this.infos[1].content = data.sex?'女':'男';
 				this.infos[2].content = data.stature;
 				this.infos[3].content = data.weight;
 				this.infos[4].content = data.act_range;
@@ -175,7 +181,7 @@
 				this.activeNav = i;
 			}
 		},
-		components:{mynav,basicInfo}
+		components:{mynav,basicInfo,download}
 	}
 </script>
 <style scoped lang='less'>
