@@ -21,3 +21,15 @@ export function myAlert(txt) {
         document.querySelector('body').removeChild(div);
     },1000)
 }
+
+//处理时间到日期
+export function timestamp(date){
+    var date = new Date(parseInt(date+'000'));
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = date.getDate()+ ' ';
+    var h = date.getHours() + ':';
+    var m = date.getMinutes() + ':';
+    var s = date.getSeconds();
+    return Y+M+D;
+}

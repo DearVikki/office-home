@@ -102,12 +102,14 @@
 					<div id="comment_header">
 						<!--全部评价-->
 						<label>
-							<input name="star" type="radio">
+							<input name="star" type="radio" checked
+							@click="clickStar(0)">
 							<span class="radio-input"></span>
 							<span class="radio-tip">全部评价</span>
 						</label>
 						<label v-for="n in 5">
-							<input name="star" type="radio" value=0>
+							<input name="star" type="radio" value=n
+							@click="clickStar(6-n)">
 							<span class="radio-input"></span>
 							<span class="radio-tip star">
 								<star :activeNum="6-n" :starType=0></star>
@@ -120,23 +122,29 @@
 							<div class="commemt-part1">
 								<star :activeNum=comment.star_num></star>
 								<span class="fr comment-user">{{comment.comment_user_nickname}}</span>
+								<!-- 评论内容 -->
 								<p class="comment-content">{{comment.content}}</p>
+								<!-- 评论图片 -->
 								<div class="comment-img-container"
 								v-if="comment.is_picture">
 									<img class="comment-small-img"
 									v-for="(pic,index) in comment.comment_pic"
-									:class="{active:comment.pic_active === index}"
+									:class="{active:comment.active_pic === index}"
 									:src="pic"
-									@click="clickCommentImg(index)">
-									<img class="comment-small-img"
-									v-for="(pic,index) in comment.comment_pic"
-									:class="{active:comment.pic_active === index}"
-									:src="pic">
+									@click="clickCommentImg(comment,index)">
 									<div class="comment-big-img"
-									v-show="comment.pic_active!==-1">
-										<img :src="comment.comment_pic[comment.pic_active]">
+									v-show="comment.active_pic!==-1">
+										<p>{{comment.active_pic}}</p>
+										<img :src="comment.comment_pic[comment.active_pic]">
 									</div>
 								</div>
+								<!-- 评论回复 -->
+								<div class="comment-reply-container"
+								v-if="comment.is_reply">
+									商家回复：{{comment.reply_comment.content}}
+								</div>
+								<!-- 评论时间 -->
+								<div class="comment-time">{{comment.time}}</div>
 							</div>
 						</li>
 					</ul>
@@ -146,7 +154,7 @@
 	</div>
 </template>
 <script>
-    import {getParameterByName} from '../../assets/js/utils.js';
+    import {getParameterByName,timestamp} from '../../assets/js/utils.js';
     import numeditor from '../../components/NumEditor.vue';
     import star from '../../components/Stars.vue';
 	export default{
@@ -215,16 +223,33 @@
 		                user_id: "100093",
 		                content: "这是一件好好好好好好好好好好好产品",
 		                comment_pic: [
-		                    "http://121.40.91.157/shopping/php/assets/test/3.jpg"
+		                    "http://121.40.91.157/shopping/php/assets/test/3.jpg","http://121.40.91.157/shopping/php/assets/test/3.jpg"
 		                ],
 		                star_num: 1,
-		                time: 1477627108,
-		                is_reply: 0,
+		                time: timestamp(1477627108),
+		                is_reply: 1,
 		                comment_user_nickname: "9**************m",
 		                comment_user_head: "http://121.40.91.157/upload/pic/default_avatar_rectangle-1.jpg",
 		                is_picture: 1,
 		                reply_comment: {
-		                    content: ""
+		                    content: "哈哈哈哈"
+		                },
+		                active_pic:-1
+		            },{
+		                comment_id: "151",
+		                user_id: "100093",
+		                content: "这是一件好好好好好好好好好好好产品",
+		                comment_pic: [
+		                    "http://121.40.91.157/shopping/php/assets/test/3.jpg","http://121.40.91.157/shopping/php/assets/test/3.jpg"
+		                ],
+		                star_num: 1,
+		                time: timestamp(1477627108),
+		                is_reply: 1,
+		                comment_user_nickname: "9**************m",
+		                comment_user_head: "http://121.40.91.157/upload/pic/default_avatar_rectangle-1.jpg",
+		                is_picture: 1,
+		                reply_comment: {
+		                    content: "哈哈哈哈"
 		                },
 		                active_pic:-1
 		            }]
@@ -259,6 +284,7 @@
 				this.detail_pic = response.body.data.detail_pic;
 			})
 			//拉取商品全部评论
+			this.getComment();
 		},
 		methods:{
 			//检测是否所有选项都已选择
@@ -315,22 +341,31 @@
 			toAdd(){
 				if(!this.beforeBuy()) return;
 			},
+			//点击小星星
+			clickStar(n){
+				console.log(n);
+			},
 			//拉取商品评论
 			getComment(){
 				let data = {
 					name: 'zl.shopping.sys.goods.comment',
 					pre_goods_id: this.pre_goods_id,
-					star_num:this.star_num,
-					page:this.page
+					star_num:this.comment.star_num,
+					page:this.comment.page
 				}
 				this.$http.post('',data).then((response)=>{
-					console.log(response.body);
+					response.body.data.comment_info.forEach((e)=>{
+						e.time = timestamp(e.time);
+						e.active_pic = -1;
+						this.comment.comment_info.push(e);
+					})
 				})
 			},
 			//点击评论图片
-			clickCommentImg(index){
-				if(this.comment.active_pic ===index) this.comment.active_pic = 0;
-				else this.comment.active_pic = index;
+			clickCommentImg(comment,index){
+				if(comment.active_pic ===index) comment.active_pic = -1;
+				else comment.active_pic = index;
+				console.log(comment.active_pic)
 			}
 		},
 		watch:{
@@ -602,6 +637,7 @@
 				#comment_main{
 					.comment-item{
 						padding: 10px 15px;
+						border-bottom:1px dashed #cbcbcb;
 						.comment-user{
 							font-size: 12px;
 							color: #5c5c5c;
@@ -611,6 +647,7 @@
 							color:#808080;
 							margin-top: 10px;
 						}
+						/*评论图片*/
 						.comment-img-container{
 							margin-top: 10px;
 							.comment-small-img{
@@ -626,6 +663,39 @@
 									border-color: @baseColor;
 								}
 							}
+							.comment-big-img{
+								margin-top: 5px;
+								img{
+									width: 250px;
+									height: 250px;
+								}
+							}
+						}
+						/*商家评论*/
+						.comment-reply-container{
+							width: 700px;
+							background: #f0f1f2;
+							font-size: 12px;
+							color:#858585;
+							padding: 12px 28px;
+							border-radius: 4px;
+							position: relative;
+							margin-top: 15px;
+							&:before{
+								content:'';
+								position: absolute;
+								border:5px solid transparent;
+								border-width: 7px 8px;
+								border-bottom-color: #f0f1f2;
+								left: 20px;
+								top:-13px;
+							}
+						}
+						/*评论时间*/
+						.comment-time{
+							font-size: 12px;
+							color:#b0b0b0;
+							margin-top:6px;
 						}
 					}
 				}

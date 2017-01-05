@@ -40,6 +40,12 @@
 				v-for="img in imgs"
 				:src="img">
 			</div>
+			<div style="width: 500px; background: pink; -moz-columns: 100px 6; -webkit-columns:100px 6; columns: 100px 6;"> <img src="http://www.seejs.com/imgserv/?size=100x100">
+				<img src="http://www.seejs.com/imgserv/?size=100x300">
+				<img src="http://www.seejs.com/imgserv/?size=100x200">
+				<img src="http://www.seejs.com/imgserv/?size=100x200">
+				<img src="http://www.seejs.com/imgserv/?size=100x300">
+			</div>
 			<div class="empty-container"
 			v-show="imgs.length===0">
 				<img src="~assets/img/no_pic.png">
