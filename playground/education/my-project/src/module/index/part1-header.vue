@@ -17,8 +17,8 @@
 				<!--右侧注册登录-->
 				<div id="header_inner_right">
 					<div v-show="!user.name">
-						<a href="./login.html" class="btn">注册账号</a>
-						<a href="./login.html" class="btn reverse">立即登录</a>
+						<a href="./login.html#signup" class="btn">注册账号</a>
+						<a href="./login.html#login" class="btn reverse">立即登录</a>
 					</div>
 					<div class="user-name-container" v-show="user.name"
 					@mouseenter="logoutshow = true"

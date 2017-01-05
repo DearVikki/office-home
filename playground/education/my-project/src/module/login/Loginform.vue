@@ -32,8 +32,6 @@
 		</div>
 		<div class="clear"></div>
 		<!--登录-->
-		<!--<div class="login-btn smart-btn text loading"
-		@click="login">登 录</div>-->
 		<div class="smartBtn-container">
 			<smartBtn
 			@clickBtn="login"
@@ -45,7 +43,6 @@
 	</div>
 </template>
 <script>
-	//import smartBtn from '../../assets/js/smartBtn.js';
 	import smartBtn from '../../components/SmartBtn.vue';
 	export default{
 		name:'loginform',
@@ -109,6 +106,13 @@
 				}
 			}
 		},
+		mounted(){
+			if(location.hash === '#signup') {
+				this.btnSet.stage['0'].txt = '注 册';
+				this.btnSet.stage['1'].txt = '注册中';
+				this.btnSet.stage['2'].txt = '注册成功';
+			}
+		},
 		methods:{
 			checkphone(){
 				if(this.phone.val === ''){
@@ -143,8 +147,8 @@
 			clickSendCode(){
 				if(!this.checkphone()) return;
 				if(this.sendCode.disabled) return;
-				this.$http.get('?name=education.sys.reg.login.sms.send&mobile='+this.phone.val).then((response)=>{
-					if(response.body.code === 1000){
+				this.$http.get('?name=education.sys.reg.login.sms.send&mobile='+this.phone.val,{
+					before(){
 						let t = 60;
 						let countDown = setInterval(()=>{
 							t--;
@@ -156,6 +160,9 @@
 								this.sendCode.txt = '重新发送';
 							}
 						},1000)
+					}
+				}).then((response)=>{
+					if(response.body.code === 1000){
 					}
 					else {
 						this.phone.error = true;
