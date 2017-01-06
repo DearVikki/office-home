@@ -2,9 +2,9 @@ import common from '../../assets/js/common.js'
 import course from './Course.vue'
 import freetime from './freeTime.vue'
 import doc from './Doc.vue'
-import userinfo from './Userinfo.vue'
+import userinfo from './Userinfo2.vue'
 import edit from './userinfoEdit.vue'
-import trial from './Trial.vue'
+//import trial from './Trial.vue'
 import question from './Question.vue'
 
 //import VueValidator from 'vue-validator'
@@ -39,10 +39,12 @@ const router = new common.VueRouter({
 	},{
 		path:'/usercenterEdit',
 		component:edit
-	},{
-		path:'/trial',
-		component:trial
-	},{
+	}
+	// ,{
+	// 	path:'/trial',
+	// 	component:trial
+	// }
+	,{
 		path:'/question',
 		component:question
 	}]

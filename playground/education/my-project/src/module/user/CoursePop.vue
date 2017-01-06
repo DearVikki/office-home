@@ -78,7 +78,6 @@
 				this.dropdownData.selected = {id:'',text:'请选择...'};
 			},
 			animaend(e){
-				console.log(e)
 				e.anima = false;
 			},
 			markStar(n){

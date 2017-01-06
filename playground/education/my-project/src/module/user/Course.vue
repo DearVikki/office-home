@@ -41,6 +41,9 @@
 		:id="popId"
 		v-show="popShow"
 		@close="popShow = false"></coursepop>
+		<coursepopcode
+		v-show="popCodeShow"
+		@close="popCodeShow = false"></coursepopcode>
 	</div>
 </template>
 <script>
@@ -49,6 +52,7 @@
 	import courseform from './CourseForm.vue';
 	import pagination from '../../components/Pagination.vue';
 	import coursepop from './CoursePop.vue';
+	import coursepopcode from './CoursePopCode.vue';
 	//actionType:1 评价; 2 回看录像; 3 已评价
 	var data = Mock.mock({
 		'ths':[{name:'date',title:'上课日期',width:'20%'},
@@ -85,7 +89,8 @@
 							{name:'teacher',title:'任课老师',width:'15%'},
 							{name:'student',title:'学生姓名',width:'15%'},
 							{name:'subject',title:'科目',width:'10%'},
-							{name:'chapter',title:'章节内容',width:'20%'}],
+							{name:'chapter',title:'章节内容',width:'20%'},
+							{name:'action',title:'',width:'15%'}],
 						trs:[{
 							date:{content:'2016/11/28'},
 							time:{content:'9:00-10:00'},
@@ -93,7 +98,8 @@
 							teacher:{content:'王王'},
 							student:{content:'学生'},
 							subject:{content:'数学'},
-							chapter:{content:'线代'}
+							chapter:{content:'线代'},
+							action:{content:'我要上课', class:'active'}
 						}]
 					},
 					allData:[],
@@ -130,7 +136,8 @@
 					end:0
 				},
 				popShow:false,
-				popId:''
+				popId:'',
+				popCodeShow:false
 			}
 		},
 		mounted(){
@@ -143,12 +150,13 @@
 					this.now.allData.push({
 						id:e.id,
 						date:{content:e.date},
-						time:{content:e.plan_start_time+'-'+e.plan_end_time},
+						time:{content:e.plan_start_time.slice(0,-3)+'-'+e.plan_end_time.slice(0,-3)},
 						amount:{content:e.plan_hour},
 						teacher:{content:e.teacher_name},
 						student:{content:e.student_name},
 						subject:{content:e.subject},
-						chapter:{content:e.subject_content}
+						chapter:{content:e.subject_content},
+						action:{content:'我要上课',class:'active',actionType:4}
 					})
 				})
 				this.now.allPage = Math.ceil(this.now.allData.length/15);
@@ -163,7 +171,7 @@
 					let rowData = {
 						id:e.id,
 						date:{content:e.date},
-						time:{content:e.plan_start_time+'-'+e.plan_end_time},
+						time:{content:e.plan_start_time.slice(0,-3)+'-'+e.plan_end_time.slice(0,-3)},
 						amount:{content:e.plan_hour},
 						teacher:{content:e.teacher_name},
 						student:{content:e.student_name},
@@ -204,6 +212,8 @@
 				if(td.actionType === 1) {
 					this.popShow = true;
 					this.popId = id;
+				} else if(td.actionType === 4){
+					this.popCodeShow = true;
 				}
 			},
 			dataPage(){
@@ -223,7 +233,7 @@
 				this.dataPage();
 			}
 		},
-		components:{courseform,pagination,coursepop}
+		components:{courseform,pagination,coursepop,coursepopcode}
 	}
 </script>
 <style scoped lang='less'>

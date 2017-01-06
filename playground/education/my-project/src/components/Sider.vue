@@ -25,15 +25,18 @@
 					type:3,
 					link:'doc',
 					name:'课件中心'
-				},{
-					type:4,
-					link:'trial',
-					name:'我的试讲课'
-				},{
-					type:5,
-					link:'trial',
-					name:'我的试听课'
-				},{
+				},
+				// {
+				// 	type:4,
+				// 	link:'trial',
+				// 	name:'我的试讲课'
+				// },
+				// {
+				// 	// type:5,
+					// link:'trial',
+					// name:'我的试听课'
+				//},
+				{
 					type:6,
 					link:'usercenter',
 					name:'个人中心'

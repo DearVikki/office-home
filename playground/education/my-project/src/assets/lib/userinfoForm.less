@@ -77,6 +77,15 @@
                     top: 0px;
                     font-size: 18px;
                 }
+                input[type=checkbox]:checked + .checkbox-input:before {
+                    content: '';
+                    position: absolute;
+                    border:1px solid @baseColor;
+                    right: 0px;
+                    top: 0px;
+                    width:22px;
+                    height: 22px;
+                }
                 .checkbox-title {
                     color: #949494;
                     margin: 0 10px;
