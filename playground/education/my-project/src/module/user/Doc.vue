@@ -1,23 +1,28 @@
 <template>
 	<div id="doc_container" class="user-common-container">
-		<div class="doc-group"
-		v-for="doc in docs">
-			<div class="title"
-			:class="{active:doc.active}"
-			@click="doc.active=!doc.active">{{doc.grade}} {{doc.title}}</div>
-			<div class="doc"
-			v-show="doc.active">
-				<div class="doc-item"
-				v-for="list in doc.lists"
-				@click="clickPpt(list)">
-					<img :src="list.banner">
+		<div v-if="docs.length!==0">
+			<div class="doc-group"
+			v-for="doc in docs">
+				<div class="title"
+				:class="{active:doc.active}"
+				@click="doc.active=!doc.active">{{doc.grade}} {{doc.title}}</div>
+				<div class="doc"
+				v-show="doc.active">
+					<div class="doc-item"
+					v-for="list in doc.lists"
+					@click="clickPpt(list)">
+						<img :src="list.banner">
+					</div>
 				</div>
 			</div>
+			<galleryPop
+			v-show="gallery.show"
+			:imgs="gallery.imgs"
+			@closePop="gallery.show=false"></galleryPop>
 		</div>
-		<galleryPop
-		v-show="gallery.show"
-		:imgs="gallery.imgs"
-		@closePop="gallery.show=false"></galleryPop>
+		<div v-else class="empty-tip">
+			您当且暂无可查看的课件喔>.<
+		</div>
 	</div>
 </template>
 <script>
@@ -41,25 +46,51 @@
 				gallery:{
 					show:false,
 					imgs:[]
-				}
+				},
+				allppt:[]
 			}
 		},
 		mounted(){
+			let userid = JSON.parse(localStorage.getItem('user')).user_id;
 			this.docs = [];
-			this.$http.get('?name=education.sys.type.list').then((response)=>{
-				response.body.data.list.forEach((e)=>{
-					this.$http.get('?name=education.sys.subject.list&type='+e.type).then((response)=>{
-						response.body.data.list.forEach((doc)=>{
-							if(doc.is_ppt===1) {
-								this.$http.get('?name=education.sys.ppt.list&subject_id='+doc.id).then((response)=>{
-									console.log(response)
-									doc.lists = response.body.data.list;
-									doc.active = false;
-									console.log(doc.lists)
-									this.docs.push(doc);
-								})
-							}
-						})
+			// this.$http.get('?name=education.sys.type.list').then((response)=>{
+			// 	response.body.data.list.forEach((e)=>{
+			// 		this.$http.get('?name=education.sys.subject.list&type='+e.type).then((response)=>{
+			// 			response.body.data.list.forEach((doc)=>{
+			// 				if(doc.is_ppt===1) {
+			// 					this.$http.get('?name=education.sys.ppt.list&subject_id='+doc.id).then((response)=>{
+			// 						console.log(response)
+			// 						doc.lists = response.body.data.list;
+			// 						doc.active = false;
+			// 						console.log(doc.lists)
+			// 						this.docs.push(doc);
+			// 					})
+			// 				}
+			// 			})
+			// 		})
+			// 	})
+			// })
+			this.$http.get('?name=education.sys.ppt.list&user_id='+userid).then((response)=>{
+				let type = [];
+				let pptOfSameType = {};
+				this.allppt = response.body.data.list;
+				this.allppt.forEach((e)=>{
+					if(type.indexOf(e.type)===-1) {
+						type.push(e.type);
+						pptOfSameType[e.type] = [];
+					}
+					pptOfSameType[e.type].push({
+						id:e.id,
+						subject_id:e.subject_id,
+						banner:e.banner,
+						ppt:e.ppt
+					})
+				})
+				type.forEach((e)=>{
+					this.docs.push({
+						title:e,
+						active:false,
+						lists:pptOfSameType[e]
 					})
 				})
 			})

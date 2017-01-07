@@ -26,7 +26,6 @@
 			}
 		},
 		mounted(){
-			console.log(this.imgs)
 			this.$nextTick(()=>{
 				this.mySwiper = new Swiper('.gallery-pop .swiper-container', {
 			        loop:true,

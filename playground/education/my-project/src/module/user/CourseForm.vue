@@ -12,7 +12,7 @@
 				v-if="(th.name!=='student'||userType===1) && (th.name!=='teacher'||userType===0)"
 				:title="tr[th.name].content">
 					<span :class="tr[th.name].class"
-					@click="clickTd(tr[th.name],tr.id)">{{tr[th.name].content}}</span>
+					@click="clickTd(tr, tr[th.name],tr.id)">{{tr[th.name].content}}</span>
 				</td>
 			</tr>
 		</table>
@@ -29,12 +29,12 @@
 		mounted(){
 			let user = JSON.parse(localStorage.getItem('user'));
 			this.userType = user.user_type;
-			console.log(this.tableData)
 		},
 		methods:{
-			clickTd(td,id){
+			clickTd(tr,td,id){
+				console.log(tr)
 				if(td.actionType === 3 || !td.actionType) return;
-				this.$emit('formCb',td,id);
+				this.$emit('formCb',tr,td, id);
 			}
 		},
 		props:['tableData']

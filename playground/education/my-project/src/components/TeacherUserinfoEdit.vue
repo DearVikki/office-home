@@ -31,7 +31,9 @@
 						<div class="checkbox-group"
 						v-for="checkbox in fields[field].checkboxes">
 							<label>
-								<input type="checkbox" :value="checkbox.value">
+								<input type="checkbox" :value="checkbox.value"
+								:checked="checkbox.checked"
+								@change="clickSubject">
 								<span class="checkbox-input"></span>
 							</label>
 							<span class="checkbox-title">{{checkbox.title}}</span>
@@ -48,14 +50,17 @@
 							<!--文综/理综-->
 							<select
 							v-else
-							v-model="sub.id">
+							v-model="sub.id"
+							@change="clickOption(sub.id)">
 								<option
 								v-for="option in sub.options"
 								:value="option.id">{{option.title}}</option>
 							</select>
 							<input maxlength="3"
+							:class="{warn: sub.error, active: sub.focus}"
 							v-model="sub.val"
-							@blur="fillMark(sub)">
+							@focus="focusMark(sub)"
+							@blur="blurMark(sub)">
 						</div>
 					</div>
 					<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
@@ -69,6 +74,8 @@
 		name:'teacherUserinfoEdit',
 		data(){
 			return{
+				learningType:'理科',
+				subjectField:[],
 				fields:{
 					name: {
 			            id: 'name',
@@ -106,7 +113,7 @@
 			            val:'',
 			            focus: false
 		        	},
-		        	alipay: {
+		        	/*alipay: {
 			            id: 'alipay',
 			            class: 'alipay-field',
 			            name: '支付宝',
@@ -116,8 +123,8 @@
 			            msg:'',
 			            val:'',
 			            focus: false
-		        	},
-		        	learningType: {
+		        	},*/
+		        	/*learningType: {
 		        		id: 'learningType',
 		        		class: 'learningType-field',
 		        		name: '分科',
@@ -130,12 +137,12 @@
 		        			title:'文科',
 		        			value:'文科'
 		        		}]
-		        	},
+		        	},*/
 		        	subject:{
 		        		id:'subject',
 		        		class: 'subject-field',
 		        		name: '擅长学科',
-		        		validator:{},
+		        		validator:{subjectRequired:{msg:'请至少选择一门擅长学科喔'}},
 		        		error:false,
 		        		msg:'',
 		        		checkboxes:[{
@@ -180,7 +187,7 @@
 		        		id:'scores',
 		        		class:'scores-field',
 		        		name:'高考分数',
-		        		validator:{},
+		        		validator:{scoresRequired:{msg:'请完善好所有高考分数喔'},scoresValid:{msg:'不是有效的分数数值'}},
 		        		error:false,
 		        		msg:'',
 		        		subs:[{
@@ -203,7 +210,7 @@
 			        			id:'D'
 		        			},{
 		        				title:'文综',
-		        				id:'F'
+		        				id:'E'
 		        			}]
 		        		}]
 		        	},
@@ -233,7 +240,7 @@
 		        		id:'grade',
 		        		class: 'grade-field',
 		        		name: '年级',
-		        		validator:{},
+		        		validator:{required: {msg:'请选择年级喔'}},
 		        		val:'大一',
 		        		options:[{
 		        			title:'大一',
@@ -244,6 +251,9 @@
 		        		},{
 		        			title:'大三',
 		        			value:'大三'
+		        		},{
+		        			title:'大四',
+		        			value:'大四'
 		        		},{
 		        			title:'研一',
 		        			value:'研一'
@@ -274,15 +284,23 @@
 				this.fields.name.val =  info.user_name;
 				this.fields.sex.val = info.sex;
 				this.fields.qq.val = info.qq;
-				this.fields.alipay.val = info.alipay;
+				//this.fields.alipay.val = info.alipay;
 				this.fields.scores.subs[0].val = Number(info.chinese) || '';
 				this.fields.scores.subs[1].val = Number(info.math) || '';
 				this.fields.scores.subs[2].val = Number(info.english) || '';
 				this.fields.scores.subs[3].val = Number(info.multiple_l) || '';
-				this.fields.learningType.val = info.learning_type;
+				//this.fields.learningType.val = info.learning_type;
 				this.fields.school.val = info.university;
 				this.fields.major.val = info.major;
 				this.fields.grade.val = info.grade;
+				let subject = JSON.parse(info.subject);
+				this.fields.subject.checkboxes.forEach((e)=>{
+					if(subject.indexOf(e.value)!==-1){
+						e.checked = true;
+					}
+				})
+				this.fields.scores.subs[3].id = info.learning_type === '文科'?'E':'D';
+				this.fields.scores.subs[3].val = info.learning_type === '文科'? info.multiple_w : info.multiple_l;
 			})
 		},
 		watch:{
@@ -292,7 +310,7 @@
 						if(!this.handleValidate(this.fields[field])) allchecked = false;
 					}
 					if(allchecked) {
-						this.$emit('allCheck',this.fields);
+						this.$emit('allCheck',this.fields, this.learningType);
 						Bus.$emit('changeName',this.fields.name.val);
 					}
 			}
@@ -303,6 +321,56 @@
 			},
 			required(val){
 				return val!=='';
+			},
+			subjectRequired(){
+				let checkboxes = document.querySelectorAll('.subject-field input');
+				for (var i=0; i<checkboxes.length; i++) {
+					if (checkboxes[i].checked) {
+					    this.subjectField.push(checkboxes[i].value);
+					}
+				}
+				return this.subjectField.length;
+			},
+			scoresRequired(){
+				let allMark = true;
+				this.fields.scores.subs.forEach((e)=>{
+					if(!e.val) {
+						allMark = false;
+						e.error = true;
+					}
+				})
+				return allMark;
+			},
+			scoresValid(){
+				let allMark = true;
+				this.fields.scores.subs.forEach((e)=>{
+					let mark = Number(e.val)
+					if( (isNaN(mark) || mark<0) ||
+						( ((e.id!=='D' && e.id!=='E') && mark>150) ||
+						((e.id==='D' || e.id==='E') && mark>300) )
+					) {
+						allMark = false;
+						e.error = true;
+					}
+				})
+				return allMark;
+			},
+			//点击进分数框
+			focusMark(sub){
+				sub.error = false;
+				sub.focus = true;
+				this.fields.scores.error = false;
+			},
+			/*blur出分数框*/
+			blurMark(sub){
+				sub.focus = false;
+				// 这里没有采取全部检测的做法 不然点击进一个分数框后面的所有分数框都会因为无数据而变红了
+				// 所以就只检测了分数格式是否正确
+				// this.handleValidate(this.fields.scores);
+				if(!this.scoresValid()) {
+					this.fields.scores.error = true;
+					this.fields.scores.msg = '不是有效的分数数值'
+				}
 			},
 			handleValidate(field) {
 				console.log(field)
@@ -322,10 +390,14 @@
 				this.fields[field].focus = true;
 				this.fields[field].error = false;
 			},
-			/*填写分数*/
-			fillMark(subject){
-				let mark = subject.val;
-				if((isNaN(mark) || mark >150) || mark<0) subject.val = '';
+			/*点击科目*/
+			clickSubject(){
+				this.fields.subject.error = false;
+				this.subjectField = [];
+			},
+			/*选择文科理科下拉框*/
+			clickOption(id){
+				this.learningType = id==='E' ?'文科':'理科';
 			}
 		},
 		props:['checkAll']
@@ -336,7 +408,7 @@
 	/*擅长学科框*/
 	#form_container .common-field.subject-field{
 		margin-top: -5px;
-		height: 100px;
+		height: 110px;
 		& >label{
 			vertical-align: middle;
 		}
@@ -346,6 +418,7 @@
 	}
 	/*高考分数框*/
 	#form_container .common-field.scores-field{
+		margin-top: 10px;
 		margin-bottom: 15px;
 	}
 	#form_container .common-field.scores-field label{
@@ -374,6 +447,14 @@
 				margin-right: 4px;
 				background-position: 48px;
 			}
+		}
+	}
+	#form_container .common-field.scores-field .input-container .score-group input{
+		&.warn{
+			border-color:red;
+		}
+		&.active{
+			border-color:@baseColor;
 		}
 	}
 </style>

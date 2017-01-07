@@ -20,12 +20,15 @@
 					<!--性别/文理科/年级下拉框-->
 					<select
 					v-if="(fields[field].id === 'sex' || fields[field].id === 'learningType') || (fields[field].id === 'grade')"
+					:class="{ warn: fields[field].error, active: fields[field].focus}"
 					v-model="fields[field].val"
 					@focus="focusing(fields[field].id)"
+					@change="handleValidate(fields[field])"
 					>
 						<option
 						v-for="option in fields[field].options"
-						:value="option.value">{{option.title}}</option>
+						:value="option.value"
+						v-show="option.value!==''">{{option.title}}</option>
 					</select>
 					<!--擅长学科选择框-->
 					<div class="checkbox-container" style="margin-top:10px"
@@ -62,7 +65,7 @@
 							:class="{warn: sub.error, active: sub.focus}"
 							v-model="sub.val"
 							@focus="focusMark(sub)"
-							@blur="fillMark(sub)">
+							@blur="blurMark(sub)">
 						</div>
 					</div>
 					<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
@@ -97,14 +100,17 @@
 		        		id: 'sex',
 		        		class: 'sex-field',
 		        		name: '性别',
-		        		val:'男',
-		        		validator: {},
+		        		val:'',
+		        		validator: { required: {msg:'请选择性别喔'}},
 		        		options:[{
 		        			title:'男',
 		        			value: '男'
 		        		},{
 		        			title:'女',
 		        			value:'女'
+		        		},{
+		        			title:'---请选择性别---',
+		        			value:''
 		        		}]
 		        	},
 		        	qq: {
@@ -243,8 +249,8 @@
 		        		id:'grade',
 		        		class: 'grade-field',
 		        		name: '年级',
-		        		validator:{},
-		        		val:'大一',
+		        		validator:{ required: {msg:'请选择年级喔'}},
+		        		val:'',
 		        		options:[{
 		        			title:'大一',
 		        			value:'大一'
@@ -254,6 +260,9 @@
 		        		},{
 		        			title:'大三',
 		        			value:'大三'
+		        		},{
+		        			title:'大四',
+		        			value:'大四'
 		        		},{
 		        			title:'研一',
 		        			value:'研一'
@@ -272,16 +281,15 @@
 		        		},{
 		        			title:'博三',
 		        			value:'博三'
+		        		},{
+		        			title:'---请选择年级---',
+		        			value:''
 		        		}]
 		        	}
 		        }
 			}
 		},
 		mounted(){
-			
-		},
-		watch:{
-			
 		},
 		methods:{
 			isNum(val){
@@ -312,7 +320,11 @@
 			scoresValid(){
 				let allMark = true;
 				this.fields.scores.subs.forEach((e)=>{
-					if((isNaN(e.val) || e.val >150) || e.val<0) {
+					let mark = Number(e.val)
+					if( (isNaN(mark) || mark<0) ||
+						( ((e.id!=='D' && e.id!=='E') && mark>150) ||
+						((e.id==='D' || e.id==='E') && mark>300) )
+					) {
 						allMark = false;
 						e.error = true;
 					}
@@ -323,16 +335,17 @@
 			focusMark(sub){
 				sub.error = false;
 				sub.focus = true;
+				this.fields.scores.error = false;
 			},
 			/*blur出分数框*/
-			fillMark(sub){
-				let mark = sub.val;
+			blurMark(sub){
 				sub.focus = false;
-				if((isNaN(mark) || mark >150) || mark<0) {
-					//sub.val = '';
-					sub.error = true;
+				// 这里没有采取全部检测的做法 不然点击进一个分数框后面的所有分数框都会因为无数据而变红了
+				// 所以就只检测了分数格式是否正确
+				// this.handleValidate(this.fields.scores);
+				if(!this.scoresValid()) {
 					this.fields.scores.error = true;
-					this.fields.scores.msg = '不是有效的分数数值';
+					this.fields.scores.msg = '不是有效的分数数值'
 				}
 			},
 			handleValidate(field) {
@@ -349,16 +362,16 @@
 				}
 				return checked?true:false;
 			},
-			checkAll(){
-					let allchecked = true;
-					for(var field in this.fields){
-						if(!this.handleValidate(this.fields[field])) allchecked = false;
-					}
-					if(allchecked) {
-						this.$emit('allCheck',this.fields);
-						Bus.$emit('changeName',this.fields.name.val);
-					}
-			},
+			// checkAll(){
+			// 		let allchecked = true;
+			// 		for(var field in this.fields){
+			// 			if(!this.handleValidate(this.fields[field])) allchecked = false;
+			// 		}
+			// 		if(allchecked) {
+			// 			this.$emit('allCheck',this.fields);
+			// 			Bus.$emit('changeName',this.fields.name.val);
+			// 		}
+			// },
 			focusing(field){
 				this.fields[field].focus = true;
 				this.fields[field].error = false;
@@ -373,7 +386,58 @@
 				this.learningType = id==='E' ?'文科':'理科';
 			},
 			submit(){
-				this.checkAll();
+				//就是从原来的this.checkAll()上扣下来的
+				let allchecked = true;
+				for(var field in this.fields){
+					if(!this.handleValidate(this.fields[field])) allchecked = false;
+				}
+				if(allchecked) {
+					console.log('全部过关');
+					let chinese = 0, math = 0, english = 0, multiple_w = 0, multiple_l = 0;
+					this.fields.scores.subs.forEach((e)=>{
+						switch (e.id){
+							case 'A':
+								chinese = e.val;
+								break;
+							case 'B':
+								math = e.val;
+								break;
+							case 'C':
+								english = e.val;
+								break;
+							case 'D':
+								multiple_l = e.val;
+								break;
+							case 'E':
+								multiple_w = e.val;
+								break;
+						}
+					})
+					let updateData = {
+						name:'education.teacher.update.info',
+						user_name:this.fields.name.val,
+						sex:this.fields.sex.val,
+						qq:this.fields.qq.val,
+						learning_type:this.learningType,
+						chinese:chinese,
+						math:math,
+						english:english,
+						multiple_l:multiple_l,
+						multiple_w:multiple_w,
+						grade:this.fields.grade.val,
+						alipay:'',
+						major: this.fields.major.val,
+						university: '浙江大学',
+						subject:this.subjectField
+					};
+					this.$http.post('',updateData).then((response)=>{
+						//清空擅长学科区
+						this.subjectField = [];
+						if(response.body.code === 1000) {
+							location.href = './user.html';
+						}
+					})
+				}
 			}
 		}
 	}

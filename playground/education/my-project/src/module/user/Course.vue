@@ -42,6 +42,7 @@
 		v-show="popShow"
 		@close="popShow = false"></coursepop>
 		<coursepopcode
+		:code="popCode"
 		v-show="popCodeShow"
 		@close="popCodeShow = false"></coursepopcode>
 	</div>
@@ -137,7 +138,8 @@
 				},
 				popShow:false,
 				popId:'',
-				popCodeShow:false
+				popCodeShow:false,
+				popCode:0
 			}
 		},
 		mounted(){
@@ -156,7 +158,8 @@
 						student:{content:e.student_name},
 						subject:{content:e.subject},
 						chapter:{content:e.subject_content},
-						action:{content:'我要上课',class:'active',actionType:4}
+						action:{content:'我要上课',class:'active',actionType:4},
+						code:e.input_code
 					})
 				})
 				this.now.allPage = Math.ceil(this.now.allData.length/15);
@@ -207,12 +210,13 @@
 			})
 		},
 		methods:{
-			formCb(td,id){
-				console.log(td,id);
+			formCb(tr, td,id){
+				//tr是一行数据的所有资料 td是
 				if(td.actionType === 1) {
 					this.popShow = true;
 					this.popId = id;
 				} else if(td.actionType === 4){
+					this.popCode = tr.code;
 					this.popCodeShow = true;
 				}
 			},

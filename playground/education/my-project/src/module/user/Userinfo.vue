@@ -46,7 +46,18 @@
 			v-for="info in infos2"
 			v-if="info.show">
 				<span class="title">{{info.title}}</span>
-				<span class="value">{{info.value}}</span>
+				<span class="value">
+					<span v-if="info.title!=='高考分数' && info.title!=='擅长学科'">
+						{{info.value}}
+					</span>
+					<!-- 高考分数与擅长学科需要调整间距 -->
+					<span v-else>
+						<span class="score-value"
+						v-for="v in info.value"
+						:class="{active: info.title==='擅长学科'}"
+						>{{v}}</span>
+					</span>
+				</span>
 			</div>
 			<!--编辑按钮-->
 			<router-link class="edit" to="/usercenterEdit"></router-link>
@@ -66,7 +77,7 @@
 					name:'我不要再叫李慧慧了!'
 				},
 				infos1:[{
-					title:'手机',
+					title:'姓名',
 					value: '',
 					show:false
 				},{
@@ -90,12 +101,13 @@
 					value:'',
 					show:false
 				},{
-					title:'学校',
+					title:'所在学校',
 					value:'',
 					show:false
 				}],
+
 				infos2:[{
-					title:'手机',
+					title:'姓名',
 					value: '',
 					show:false
 				},{
@@ -107,16 +119,12 @@
 					value: '',
 					show:false
 				},{
-					title:'收款账号',
-					value: '',
+					title:'擅长学科',
+					value:[],
 					show:false
 				},{
-					title:'高考分数情况',
-					value:'',
-					show:false
-				},{
-					title:'擅长专业',
-					value:'',
+					title:'高考分数',
+					value:[],
 					show:false
 				},{
 					title:'所在学校',
@@ -140,16 +148,17 @@
 		mounted(){
 			let user = JSON.parse(localStorage.getItem('user'));
 			this.usertype = user.user_type;
-			this.user.avatar = user.head;
-			this.user.name = user.user_name;
 			this.$http.get('?name=education.sys.user.info').then((response)=>{
-				console.log(response)
 				let info = response.body.data.info;
+				this.user.name = info.user_name;
+				this.user.avatar = info.head;
+				//再重新更新一次localStorage
+				//localStorage.setItem('user',JSON.stringify(response.body.data.info));
 				//学生个人信息
 				if(this.usertype===0){
-					if(info.mobile) {
+					if(info.user_name) {
 						this.infos1[0].show = true;
-						this.infos1[0].value = info.mobile;
+						this.infos1[0].value = info.user_name;
 					}
 					if(info.sex) {
 						this.infos1[1].show = true;
@@ -176,9 +185,9 @@
 				}
 				//老师个人信息
 				else{
-					if(info.mobile) {
+					if(info.user_name) {
 						this.infos2[0].show = true;
-						this.infos2[0].value = info.mobile;
+						this.infos2[0].value = info.user_name;
 					}
 					if(info.sex) {
 						this.infos2[1].show = true;
@@ -188,35 +197,31 @@
 						this.infos2[2].qq = true;
 						this.infos2[2].value = info.qq;
 					}
-					if(info.alipay) {
+					if(info.subject){
 						this.infos2[3].show = true;
-						this.infos2[3].value = info.alipay;
+						this.infos2[3].value = JSON.parse(info.subject);
+						console.log(this.infos2[3].value)
 					}
 					if((Number(info.chinese) || Number(info.math)) || (Number(info.english) || Number(info.multiple_l)) || Number(info.multiple_w)) {
 						this.infos2[4].show = true;
 						let scoreStr='';
-						if(Number(info.chinese)) scoreStr = scoreStr + '语文:'+ info.chinese +' ';
-						if(Number(info.math)) scoreStr = scoreStr + '数学:' + info.math +' ';
-						if(Number(info.english)) scoreStr = scoreStr + '英文:' + info.english + ' ';
-						if(Number(info.multiple_l)) scoreStr = scoreStr + '理综:' + info.multiple_l + ' ';
-						if(Number(info.multiple_w)) scoreStr = scoreStr + '文综' + info.multiple_w;
-						this.infos2[4].value = scoreStr;
-					}
-					if(info.subject){
-						this.infos2[5].show = true;
-						this.infos2[5].value = JSON.parse(info.subject).toString();
+						if(Number(info.chinese)) this.infos2[4].value.push('语文:'+ info.chinese);
+						if(Number(info.math)) this.infos2[4].value.push('数学:'+ info.math);
+						if(Number(info.english)) this.infos2[4].value.push('英语:'+ info.english);
+						if(Number(info.multiple_l)) this.infos2[4].value.push('理综:'+ info.multiple_l);
+						if(Number(info.multiple_w)) this.infos2[4].value.push('文综:'+ info.multiple_w);
 					}
 					if(info.university) {
-						this.infos2[6].show = true;
-						this.infos2[6].value = info.university;
+						this.infos2[5].show = true;
+						this.infos2[5].value = info.university;
 					}
 					if(info.major) {
-						this.infos2[7].show = true;
-						this.infos2[7].value = info.major;
+						this.infos2[6].show = true;
+						this.infos2[6].value = info.major;
 					}
 					if(info.grade) {
-						this.infos2[8].show = true;
-						this.infos2[8].value = info.grade;
+						this.infos2[7].show = true;
+						this.infos2[7].value = info.grade;
 					}
 				}
 			})
@@ -251,19 +256,27 @@
     	padding-left: 70px;
     	position: relative;
 		.info-item{
-			font-size:16px;
-			color:#4d4d4d;
-			margin-bottom: 10px;
-			&:hover{
-				color:@baseColor;
-			}
+			font-size:15px;
+			margin-bottom: 25px;
 			span{
 				display: inline-block;
 			}
 			.title{
 				text-align: right;
-				margin-right: 18px;
+				margin-right: 20px;
 				width: 96px;
+				color:#949494;
+			}
+			.value{
+				color:#4d4d4d;
+				width: 380px;
+				vertical-align: middle;
+				.score-value{
+					margin-right: 15px;
+					&.active{
+						color:@baseColor;
+					}
+				}
 			}
 			.value.active{
 				color: @baseColor;

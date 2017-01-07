@@ -14,7 +14,7 @@
 			}
 		},
 		mounted(){
-			console.log(this.stage);
+			//console.log(this.stage);
 
 		},
 		methods:{
@@ -27,7 +27,7 @@
 		},
 		watch:{
 			currentStage(){
-				console.log(this.currentStage)
+				//console.log(this.currentStage)
 				if(this.stage[this.currentStage].lastStage){
 					setTimeout(()=>{
 						this.$emit('returnToFirstStage');

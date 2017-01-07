@@ -7,7 +7,7 @@
 			@click="closePop">×</div>
 			<div>
 				<span class="txt">邀请码</span>
-				<span id="pop_code">{{code}}</span>
+				<span id="pop_code">{{code||'暂无邀请码'}}</span>
 				<span id="copy"
 				data-clipboard-target="#pop_code">
 					<smartBtn
@@ -32,7 +32,6 @@
 		name:'coursePopCode',
 		data(){
 			return{
-				code:1111,
 				btnSet:{
 					stage:{
 							0:{
@@ -70,6 +69,7 @@
 
 			    e.clearSelection();
 			});
+			this.isCopy();
 		},
 		methods:{
 			closePop(){
@@ -80,8 +80,21 @@
 			},
 			returnToFirstStage(){
 				this.btnSet.currentStage = 0;
+			},
+			// 是否已生成邀请码 可以点击复制
+			isCopy(){
+				if(this.code===0){
+					this.btnSet.stage['0'].disabled = true;
+					this.btnSet.stage['0'].active = false;
+				}
 			}
 		},
+		watch:{
+			code(){
+				this.isCopy();
+			}
+		},
+		props:['code'],
 		components:{smartBtn}
 	}
 </script>

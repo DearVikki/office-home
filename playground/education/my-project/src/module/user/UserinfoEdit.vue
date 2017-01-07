@@ -84,18 +84,20 @@
 			cancle(){
 				this.$router.push('usercenter');
 			},
-			allCheck(fields){
+			allCheck(fields,learningType){
+				console.log('要准备提交咯!')
 				let updateData = {
 					user_name:fields.name.val,
 					sex:fields.sex.val,
 					qq:fields.qq.val,
-					learning_type:fields.learningType.val,
+					learning_type:learningType,
 					chinese:fields.scores.subs[0].val || 0,
 					math:fields.scores.subs[1].val || 0,
 					english:fields.scores.subs[2].val || 0,
 					multiple_l:0,
 					multiple_w:0,
-					grade:fields.grade.val
+					grade:fields.grade.val,
+					alipay:''
 				};
 				//理综/文综成绩
 				if(fields.scores.subs[3].id==='D') updateData.multiple_l = fields.scores.subs[3].val || 0;
@@ -110,7 +112,8 @@
 			  	}
 			  	//老师
 			  	else {
-			  		updateData.alipay = fields.alipay.val;
+			  		console.log('hey')
+			  		//updateData.alipay = fields.alipay.val;
 					updateData.major = fields.major.val;
 					updateData.university = fields.school.val;
 					updateData.subject = [];
@@ -120,7 +123,6 @@
 					        updateData.subject.push(checkboxes[i].value);
 					     }
 				  	}
-				  	updateData.subject = updateData.subject.length===0?['数学']:updateData.subject;
 			  		updateData.name = 'education.teacher.update.info'
 				  	this.$http.post('',updateData).then((response)=>{
 						if(response.body.code === 1000) this.$router.push('usercenter');
