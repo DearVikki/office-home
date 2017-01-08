@@ -1,17 +1,26 @@
 <template>
 	<div class="question-container">
-		<mic></mic>
+		<mic v-if="id===1"></mic>
+		<test v-if="id===2"></test>
 	</div>
 </template>
 <script>
 	import {getParameterByName} from '../../assets/js/utils.js';
 	import mic from './Mic.vue'
+	import test from './Test.vue'
 	export default{
 		name:'all-question',
-		mounted(){
-			console.log(getParameterByName('id'));
+		data(){
+			return{
+				id:1
+			}
 		},
-		components:{mic}
+		mounted(){
+			// console.log(getParameterByName('id'));
+			this.id = Number(getParameterByName('id'));
+			console.log(this.id===2)
+		},
+		components:{mic,test}
 	}
 </script>
 <style scoped lang='less'>
