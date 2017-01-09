@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<iframe src="http://help.duobeiyun.com/ittest/content.html"></iframe>
+		<iframe src="https://help.duobeiyun.com/ittest/content.html"></iframe>
 	</div>
 </template>
 <script>

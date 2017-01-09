@@ -5,7 +5,7 @@
 			<div id="header_inner">
 				<!--左侧咨询-->
 				<div id="header_inner_left">
-					<a class="header-left-group" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">
+					<a class="header-left-group" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2291908972&site=qq&menu=yes">
 						<span class="icon icon1"></span>
 						<span class="text">QQ咨询</span>
 					</a>

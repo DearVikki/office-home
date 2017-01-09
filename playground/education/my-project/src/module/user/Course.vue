@@ -41,13 +41,24 @@
 		:id="popId"
 		v-show="popShow"
 		@close="popShow = false"></coursepop>
-		<coursepopcode
+		<!-- <coursepopcode
 		:code="popCode"
 		v-show="popCodeShow"
-		@close="popCodeShow = false"></coursepopcode>
+		@close="popCodeShow = false"></coursepopcode> -->
+		<pop
+		:pop="invitePop">
+			<coursepopcode :code="popCode"></coursepopcode>
+		</pop>
+		<!-- 测试slot -->
+		<!-- <pop
+		:pop="testPop">
+			<div style="font-size:20px" @click="testPop.show = false">boom</div>
+		</pop> -->
 	</div>
 </template>
 <script>
+	import pop from '../../components/Pop.vue'
+
 	import Mock from 'mockjs';
 	import 'animate.css';
 	import courseform from './CourseForm.vue';
@@ -139,7 +150,15 @@
 				popShow:false,
 				popId:'',
 				popCodeShow:false,
-				popCode:0
+				popCode:0,
+				// 课程邀请码弹框
+				invitePop:{
+					show:true,
+					style:{
+						width:'440px'
+					}
+				}
+				// testPop:{show:true,style:{width:'500px', height:'300px'}}
 			}
 		},
 		mounted(){
@@ -237,7 +256,7 @@
 				this.dataPage();
 			}
 		},
-		components:{courseform,pagination,coursepop,coursepopcode}
+		components:{courseform,pagination,coursepop,coursepopcode, pop}
 	}
 </script>
 <style scoped lang='less'>

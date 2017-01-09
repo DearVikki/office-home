@@ -1,29 +1,31 @@
 <template>
-	<div id="coursepop_container2"
+	<!-- <div id="coursepop_container2"
 	@click="closePop">
 		<div id="pop_container2"
 		@click.stop>
 			<div class="close"
-			@click="closePop">×</div>
+			@click="closePop">×</div> -->
 			<div>
-				<span class="txt">邀请码</span>
-				<span id="pop_code">{{code||'暂无邀请码'}}</span>
-				<span id="copy"
-				data-clipboard-target="#pop_code">
-					<smartBtn
-					@clickBtn="copy"
-					@returnToFirstStage="returnToFirstStage"
-					:stage="btnSet.stage"
-					:currentStage="btnSet.currentStage"
-					:style="btnSet.style">点击复制</smartBtn>
-				</span>
+				<div>
+					<span class="txt">邀请码</span>
+					<span id="pop_code">{{code||'暂无邀请码'}}</span>
+					<span id="copy"
+					data-clipboard-target="#pop_code">
+						<smartBtn
+						@clickBtn="copy"
+						@returnToFirstStage="returnToFirstStage"
+						:stage="btnSet.stage"
+						:currentStage="btnSet.currentStage"
+						:style="btnSet.style">点击复制</smartBtn>
+					</span>
+				</div>
+				<div style="margin-top:20px">
+					<span class="txt">网址：</span>
+					<a href="xue.duobeiyun.com" target="_blank">点击此处进入</a>
+				</div>
 			</div>
-			<div style="margin-top:20px">
-				<span class="txt">网址：</span>
-				<a href="xue.duobeiyun.com" target="_blank">点击此处进入</a>
-			</div>
-		</div>
-	</div>
+	<!-- 	</div>
+	</div> -->
 </template>
 <script>
 	import Clipboard from 'clipboard';

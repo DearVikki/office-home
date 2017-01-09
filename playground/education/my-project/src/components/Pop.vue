@@ -1,25 +1,27 @@
 <template>
-	<div class="pop-container" v-if="pop.show">
+	<div class="pop-container" v-if="pop.show"
+	@click="closePop">
 		<div class="pop"
-		:style="pop.style">
+		:style="pop.style"
+		@click.stop>
 			<div class="pop-close"
-			@click="pop.show = false">×</div>
-			<!--<slot @hey="hey"></slot>-->
-			<myaudio></myaudio>
+			@click="closePop">×</div>
+			<slot></slot>
 		</div>
 	</div>
 </template>
 <script>
-	import myaudio from './Audio';
 	export default{
 		name:'pop',
+		mounted(){
+			console.log(this.pop)
+		},
 		methods:{
-			hey(){
-				console.log('hey')
+			closePop(){
+				this.pop.show = false;
 			}
 		},
-		props:['pop'],
-		components:{myaudio}
+		props:['pop']
 	}
 </script>
 <style lang='less' scoped>
@@ -39,7 +41,7 @@
 	    	right: 0;
 	    	bottom: 0;
 	    	margin:auto;
-	    	padding: 20px;
+	    	padding: 35px 78px 30px 78px;
 	    	box-shadow: 0 0 8px 1px rgba(0,0,0,.3);
 	    	.pop-close{
 				font-size: 20px;
