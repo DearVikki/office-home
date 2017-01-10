@@ -58,6 +58,7 @@
 </template>
 <script>
 	import 'animate.css';
+	import {getParameterByName} from '../../assets/js/utils.js';
 	import f21 from '../../assets/img/index/21.png';
 	import f22 from '../../assets/img/index/22.png';
 	import f23 from '../../assets/img/index/23.png';
@@ -139,6 +140,7 @@
 			}
 		},
 		mounted(){
+			// console.log(getParameterByName('source_token')||'')
 		},
 		methods:{
 			isPhone(val){
@@ -165,13 +167,13 @@
 				}
 			},
 			register(){
-				console.log(this.inputs[0].val)
+				// console.log(this.inputs[0].val)
 				if(!this.allchecked) return;
 				let name = this.inputs[0].val,mobile = this.inputs[1].val,grade = this.grade,subject=this.subject;
-				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade).then((response)=>{
-					console.log(response);
+				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')).then((response)=>{
 					this.inputs[0].val=this.inputs[1].val='';
 					this.btnText = '预约成功!';
+					this.allchecked = false;
 					setTimeout(()=>{
 						this.btnText = '立即预约'
 					},1500)

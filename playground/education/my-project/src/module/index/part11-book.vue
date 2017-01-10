@@ -5,18 +5,22 @@
 			<img id="book_title" src="~assets/img/index/title3.png">
 			<div class="input-wrapper">
 				<input placeholder="请输入您的姓名"
-				v-model="name">
+				v-model="name"
+				@focus="nameError = false">
+				<p class="error"
+				v-show="nameError">请输入姓名喔</p>
 			</div>
 			<div class="input-wrapper">
 				<input placeholder="请输入您的手机"
+				maxlength="11"
 				v-model="phone"
-				@focus="error = false">
+				@focus="phoneError = false">
 				<p class="error"
-				v-show="error">手机格式不对喔</p>
+				v-show="phoneError">手机格式不对喔</p>
 			</div>
 			<div id="book_btn"
 			@click="bookNow">
-				{{txt}}
+				立即预约
 				<div id="book_img_container">
 					<img class="hand" src="~assets/img/index/hand.png">
 					<img class="star" src="~assets/img/index/star1.png">
@@ -25,35 +29,82 @@
 				</div>
 			</div>
 		</div>
+		<pop :pop="pop">
+			<div>
+				<p class="pop-title">免费试听</p>
+				<div id="select_container">
+					<select v-model="grade">
+						<option value="高一">高一</option>
+						<option value="高二">高二</option>
+						<option value="高三">高三</option>
+					</select>
+					<select v-model="subject">
+						<option value="数学">数学</option>
+						<option value="英语">英语</option>
+						<option value="语文">语文</option>
+						<option value="物理">物理</option>
+						<option value="化学">化学</option>
+						<option value="生物">生物</option>
+						<option value="政治">政治</option>
+						<option value="历史">历史</option>
+						<option value="地理">地理</option>
+					</select>
+				</div>
+				<p class="pop-txt">已有多名学生在名校昇获得提升！</p>
+				<div id="pop_btn"
+				@click="bookNow2">{{txt}}</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
+	import pop from '../../components/Pop.vue';
 	export default{
 		name:"part11Book",
 		data(){
 			return{
 				name:'',
 				phone:'',
-				error:false,
-				txt:'立即预约'
+				grade:'高一',
+				subject:'数学',
+				nameError:false,
+				phoneError:false,
+				txt:'立即预约',
+				pop:{
+					show:false,
+					style:{
+						width:'400px',
+						height:'220px'
+					}
+				}
 			}
 		},
 		methods:{
+			// 预约第一步
 			bookNow(){
-				if(!/^1[34578]\d{9}$/.test(this.phone)){
-					this.error = true;
+				if(this.name === ''){
+					this.nameError = true;
 					return;
 				}
-				this.$http.get('?name=education.sys.add.connect&username='+this.name+'&mobile='+this.phone).then((response)=>{
-					console.log(response);
+				if(!/^1[34578]\d{9}$/.test(this.phone)){
+					this.phoneError = true;
+					return;
+				}
+				this.pop.show = true;
+			},
+			// 预约第二步 真正发请求:D
+			bookNow2(){
+				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=').then((response)=>{
 					this.name = this.phone = '';
 					this.txt = '预约成功!';
 					setTimeout(()=>{
 						this.txt = '立即预约';
+						this.pop.show = false;
 					},1000)
 				})
 			}
-		}
+		},
+		components:{pop}
 	}
 </script>
 <style scoped lang='less'>
@@ -98,7 +149,7 @@
 			    height: 35px;
 			    border-radius: 6px;
 			    vertical-align: 40px;
-			    padding-left: 20px;
+			    padding:10px;
 			    font-size: 14px;
 			    color: #5e5e5e;
 			}
@@ -162,5 +213,47 @@
 		100%{
 			transform:rotate(-10deg);
 		}
+	}
+	/*弹窗部分*/
+	.pop-title{
+		color: #fb7273;
+		font-size: 20px;
+		font-weight: bold;
+		text-align: center;
+	}
+	#select_container{
+		width: 244px;
+		margin: 20px auto;
+		display: flex;
+		justify-content: space-around;
+		select{
+			font-size: 12px;
+			background-size: 10px 5px;
+			font-size: 12px;
+			background-size: 10px 5px;
+			width: 100px;
+			height: 25px;
+			background-position: 80px;
+			border-radius: 3px;
+			padding-left: 5px;
+			color: #5c5c5c;
+		}
+	}
+	.pop-txt{
+		color: #fb7273;
+		font-size: 12px;
+		text-align: center;
+	}
+	#pop_btn{
+		width: 140px;
+		height: 30px;
+		line-height: 30px;
+		background: #fb7273;
+		border-radius: 4px;
+		color: #fff;
+		font-size: 14px;
+		text-align: center;
+		margin:5px auto;
+		cursor: pointer;
 	}
 </style>

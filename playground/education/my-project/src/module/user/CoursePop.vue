@@ -1,21 +1,16 @@
 <template>
-	<div id="coursepop_container"
-	@click="closePop">
-		<div id="pop_container"
-		@click.stop>
-			<div class="close"
-			@click="closePop">×</div>
-			<!--星星-->
-			<div>
-				<span class="label"
-				:class="{error:uploadCheck.star.error,
-						animated:uploadCheck.star.anima,
-						shake:uploadCheck.star.anima}"
-				@animationend="animaend(uploadCheck.star)">请点星星</span>
-				<span class="star-box">
-					<starmark @markStar="markStar"></starmark>
-				</span>
-			</div>
+	<div class="pop-inner">
+		<!--星星-->
+		<div>
+			<span class="label"
+			:class="{error:uploadCheck.star.error,
+			animated:uploadCheck.star.anima,
+			shake:uploadCheck.star.anima}"
+			@animationend="animaend(uploadCheck.star)">请点星星</span>
+			<span class="star-box">
+				<starmark @markStar="markStar"></starmark>
+			</span>
+		</div>
 			<!--上课情况-->
 			<!--<div style="margin:13px auto 10px auto">
 				<span class="label"
@@ -28,17 +23,16 @@
 					@clickOption="clickOption"></dropdown>
 				</span>
 			</div>-->
-			<!--文本框-->
-			<textarea placeholder="请输入对老师的评价..."
-			v-model="comment"
-			:class="{error:uploadCheck.comment.error,
-			animated:uploadCheck.comment.anima,
-			shake:uploadCheck.comment.anima}"
-			@animationend="animaend(uploadCheck.comment)"
-			@focus="uploadCheck.comment.error=false"></textarea>
-			<div class="btn reverse"
-			@click="upload">提 交</div>
-		</div>
+		<!--文本框-->
+		<textarea placeholder="请输入对老师的评价..."
+		v-model="comment"
+		:class="{error:uploadCheck.comment.error,
+		animated:uploadCheck.comment.anima,
+		shake:uploadCheck.comment.anima}"
+		@animationend="animaend(uploadCheck.comment)"
+		@focus="uploadCheck.comment.error=false"></textarea>
+		<div class="btn reverse"
+		@click="upload">提 交</div>
 	</div>
 </template>
 <script>
@@ -118,38 +112,10 @@
 <style scoped lang='less'>
 	@baseColor: #55b7f8;
 	@warn: #f12323;
-	#coursepop_container{
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		display: flex;
-		background: rgba(0,0,0,.5);
-	}
-	#pop_container{
-		width:420px;
-		height: 300px;
-		background: #fff;
-		margin:auto;
-		box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.3);
-		border-radius: 2px;
-		position: relative;
-		padding: 45px 78px 30px 78px;
-		font-size: 14px;
-		.close{
-			font-size: 20px;
-			position: absolute;
-			right: 10px;
-			top: 3px;
-			cursor: pointer;
-			transition: all .5s;
-			&:hover{
-				transform:rotate(360deg);
-			}
-		}
+	.pop-inner{
 		.label{
 			display: inline-block;
+			font-size: 14px;
 		}
 		.star-box{
 			display: inline-block;

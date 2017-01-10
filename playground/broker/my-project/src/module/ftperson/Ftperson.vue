@@ -39,6 +39,7 @@
 	</div>
 </template>
 <script>
+	import {getParameterByName} from '../../assets/js/queryString.js'
 	import mynav from '../../components/nav.vue'
 	import basicInfo from '../../components/basicInfo.vue'
 	import download from '../../components/download.vue'
@@ -74,6 +75,8 @@
 			}
 		},
 		mounted(){
+			// get id
+			this.id = getParameterByName('id')||0;
 			//主要板块的最低高度
 			document.querySelector('body').style.minHeight = window.innerHeight+'px';
 			//影视人图片

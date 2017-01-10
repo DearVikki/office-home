@@ -36,29 +36,22 @@
 			<div class="no-data"
 			v-show="history.tableData.trs.length===0">历史暂无课程!>.<</div>
 		</div>
-		<!--弹窗-->
-		<coursepop
+		<!-- 课程评价弹窗 -->
+		<!-- <coursepop
 		:id="popId"
 		v-show="popShow"
-		@close="popShow = false"></coursepop>
-		<!-- <coursepopcode
-		:code="popCode"
-		v-show="popCodeShow"
-		@close="popCodeShow = false"></coursepopcode> -->
-		<pop
-		:pop="invitePop">
+		@close="popShow = false"></coursepop> -->
+		<pop :pop="commentPop">
+			<coursepop :id="popId"></coursepop>
+		</pop>
+		<!-- 邀请码 -->
+		<pop :pop="invitePop">
 			<coursepopcode :code="popCode"></coursepopcode>
 		</pop>
-		<!-- 测试slot -->
-		<!-- <pop
-		:pop="testPop">
-			<div style="font-size:20px" @click="testPop.show = false">boom</div>
-		</pop> -->
 	</div>
 </template>
 <script>
 	import pop from '../../components/Pop.vue'
-
 	import Mock from 'mockjs';
 	import 'animate.css';
 	import courseform from './CourseForm.vue';
@@ -147,15 +140,22 @@
 					start:0,
 					end:0
 				},
-				popShow:false,
 				popId:'',
-				popCodeShow:false,
 				popCode:0,
-				// 课程邀请码弹框
-				invitePop:{
-					show:true,
+				// 课程评价弹窗
+				commentPop:{
+					show:false,
 					style:{
-						width:'440px'
+						width:'420px',
+						height:'300px'
+					}
+				},
+				// 课程邀请码弹窗
+				invitePop:{
+					show:false,
+					style:{
+						width:'440px',
+						height:'150px'
 					}
 				}
 				// testPop:{show:true,style:{width:'500px', height:'300px'}}
@@ -232,11 +232,11 @@
 			formCb(tr, td,id){
 				//tr是一行数据的所有资料 td是
 				if(td.actionType === 1) {
-					this.popShow = true;
 					this.popId = id;
+					this.commentPop.show = true;
 				} else if(td.actionType === 4){
 					this.popCode = tr.code;
-					this.popCodeShow = true;
+					this.invitePop.show = true;
 				}
 			},
 			dataPage(){

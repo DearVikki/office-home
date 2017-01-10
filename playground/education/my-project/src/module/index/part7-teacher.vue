@@ -58,15 +58,17 @@
 					school:'浙江大学',
 					major:'国际经贸系',
 					tags:['语文','英语']
-				},{
-					head:ww,
-					point:87.1,
-					name:'王奥',
-					title:'数学竞赛金奖',
-					school:'浙江大学',
-					major:'计算机系',
-					tags:['数学','化学','物理']
-				},{
+				},
+				// {
+				// 	head:ww,
+				// 	point:87.1,
+				// 	name:'王奥',
+				// 	title:'数学竞赛金奖',
+				// 	school:'浙江大学',
+				// 	major:'计算机系',
+				// 	tags:['数学','化学','物理']
+				// },
+				{
 					head:wjw,
 					point:85,
 					name:'王景文',

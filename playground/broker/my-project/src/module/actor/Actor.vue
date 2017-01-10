@@ -40,12 +40,12 @@
 				v-for="img in imgs"
 				:src="img">
 			</div>
-			<div style="width: 500px; background: pink; -moz-columns: 100px 6; -webkit-columns:100px 6; columns: 100px 6;"> <img src="http://www.seejs.com/imgserv/?size=100x100">
+			<!-- <div style="width: 500px; background: pink; -moz-columns: 100px 6; -webkit-columns:100px 6; columns: 100px 6;"> <img src="http://www.seejs.com/imgserv/?size=100x100">
 				<img src="http://www.seejs.com/imgserv/?size=100x300">
 				<img src="http://www.seejs.com/imgserv/?size=100x200">
 				<img src="http://www.seejs.com/imgserv/?size=100x200">
 				<img src="http://www.seejs.com/imgserv/?size=100x300">
-			</div>
+			</div> -->
 			<div class="empty-container"
 			v-show="imgs.length===0">
 				<img src="~assets/img/no_pic.png">
@@ -66,6 +66,7 @@
 	</div>
 </template>
 <script>
+	import {getParameterByName} from '../../assets/js/queryString.js'
 	import mynav from '../../components/nav.vue'
 	import basicInfo from '../../components/basicInfo.vue'
 	import download from '../../components/download.vue'
@@ -73,7 +74,7 @@
 		name:'actor',
 		data(){
 			return {
-				id:11,
+				id:0,
 				cover:'',
 				navs:[{
 					name:'基本信息',
@@ -127,6 +128,8 @@
 			}
 		},
 		mounted(){
+			// get id
+			this.id = getParameterByName('id')||0;
 			//主要板块的最低高度
 			document.querySelector('body').style.minHeight = window.innerHeight+'px';
 			//艺人id
@@ -256,6 +259,7 @@
 			width: 4.66rem;
 			display: inline-block;
 			margin-bottom: .2rem;
+			float: left;
 		}
 		.empty-container{
 			text-align: center;

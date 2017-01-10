@@ -1,31 +1,23 @@
 <template>
-	<!-- <div id="coursepop_container2"
-	@click="closePop">
-		<div id="pop_container2"
-		@click.stop>
-			<div class="close"
-			@click="closePop">×</div> -->
-			<div>
-				<div>
-					<span class="txt">邀请码</span>
-					<span id="pop_code">{{code||'暂无邀请码'}}</span>
-					<span id="copy"
-					data-clipboard-target="#pop_code">
-						<smartBtn
-						@clickBtn="copy"
-						@returnToFirstStage="returnToFirstStage"
-						:stage="btnSet.stage"
-						:currentStage="btnSet.currentStage"
-						:style="btnSet.style">点击复制</smartBtn>
-					</span>
-				</div>
-				<div style="margin-top:20px">
-					<span class="txt">网址：</span>
-					<a href="xue.duobeiyun.com" target="_blank">点击此处进入</a>
-				</div>
-			</div>
-	<!-- 	</div>
-	</div> -->
+	<div class="pop-inner">
+		<div>
+			<span class="txt">邀请码</span>
+			<span id="pop_code">{{code||'暂无邀请码'}}</span>
+			<span id="copy"
+			data-clipboard-target="#pop_code">
+				<smartBtn
+				@clickBtn="copy"
+				@returnToFirstStage="returnToFirstStage"
+				:stage="btnSet.stage"
+				:currentStage="btnSet.currentStage"
+				:style="btnSet.style">点击复制</smartBtn>
+			</span>
+		</div>
+		<div style="margin-top:20px">
+			<span class="txt">网址：</span>
+			<a href="xue.duobeiyun.com" target="_blank">点击此处进入</a>
+		</div>
+	</div>
 </template>
 <script>
 	import Clipboard from 'clipboard';
@@ -63,6 +55,7 @@
 			}
 		},
 		mounted(){
+			console.log(this.code)
 			var clipboard = new Clipboard('#copy');
 			clipboard.on('success', function(e) {
 			    console.info('Action:', e.action);
@@ -103,35 +96,8 @@
 <style scoped lang='less'>
 	@baseColor: #55b7f8;
 	@warn: #f12323;
-	#coursepop_container2{
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		display: flex;
-		background: rgba(0,0,0,.5);
-	}
-	#pop_container2{
-		width:440px;
-		background: #fff;
-		margin:auto;
-		box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.3);
-		border-radius: 2px;
-		position: relative;
-		padding: 35px 78px 30px 78px;
+	.pop-inner{
 		font-size: 14px;
-		.close{
-			font-size: 20px;
-			position: absolute;
-			right: 10px;
-			top: 3px;
-			cursor: pointer;
-			transition: all .5s;
-			&:hover{
-				transform:rotate(360deg);
-			}
-		}
 		.txt{
 			color: #8a8a8a;
 		}

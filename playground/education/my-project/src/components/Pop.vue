@@ -1,4 +1,5 @@
 <template>
+ 	<transition name="fade">
 	<div class="pop-container" v-if="pop.show"
 	@click="closePop">
 		<div class="pop"
@@ -9,12 +10,12 @@
 			<slot></slot>
 		</div>
 	</div>
+	</transition>
 </template>
 <script>
 	export default{
 		name:'pop',
 		mounted(){
-			console.log(this.pop)
 		},
 		methods:{
 			closePop(){
@@ -57,5 +58,11 @@
 				}
 			}
 	    }
+	}
+	.fade-enter-active, .fade-leave-active {
+	  transition: opacity .5s
+	}
+	.fade-enter, .fade-leave-to, .fade-leave-active {
+	  opacity: 0
 	}
 </style>
