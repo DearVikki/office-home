@@ -32,6 +32,8 @@
 		<pop :pop="pop">
 			<div>
 				<p class="pop-title">免费试听</p>
+				<input id="code" placeholder="请输入您收到的验证码"
+				v-model="code">
 				<div id="select_container">
 					<select v-model="grade">
 						<option value="高一">高一</option>
@@ -67,6 +69,7 @@
 				phone:'',
 				grade:'高一',
 				subject:'数学',
+				code:'',
 				nameError:false,
 				phoneError:false,
 				txt:'立即预约',
@@ -74,7 +77,7 @@
 					show:false,
 					style:{
 						width:'400px',
-						height:'220px'
+						height:'250px'
 					}
 				}
 			}
@@ -90,17 +93,35 @@
 					this.phoneError = true;
 					return;
 				}
-				this.pop.show = true;
+				this.$http.get('?name=education.sys.send.msg&type=connect&mobile='+this.phone).then((response)=>{
+					this.pop.show = true;
+				})
 			},
 			// 预约第二步 真正发请求:D
 			bookNow2(){
-				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=').then((response)=>{
-					this.name = this.phone = '';
-					this.txt = '预约成功!';
-					setTimeout(()=>{
-						this.txt = '立即预约';
-						this.pop.show = false;
-					},1000)
+				if(this.code.length<4) return;
+				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=&code='+this.code).then((response)=>{
+					if(response.body.code === 1000){
+						this.name = this.phone = this.code = '';
+						this.txt = '预约成功!';
+						setTimeout(()=>{
+							this.txt = '立即预约';
+							this.pop.show = false;
+						},1000)
+					} else if(response.body.code === 1024){
+						this.code = '';
+						this.txt = '验证码错误!';
+						setTimeout(()=>{
+							this.txt = '立即预约';
+						},1000)
+					} else if(response.body.code === 1067){
+						this.name = this.phone = this.code = '';
+						this.txt = '您已报名!';
+						setTimeout(()=>{
+							this.txt = '立即预约';
+							this.pop.show = false;
+						},1000)
+					}
 				})
 			}
 		},
@@ -255,5 +276,15 @@
 		text-align: center;
 		margin:5px auto;
 		cursor: pointer;
+	}
+	/*新加入的code*/
+	#code{
+		width: 220px;
+		padding-left: 5px;
+		margin: 10px 0 -5px 10px;
+		border-radius: 3px;
+		border: 1px solid #a9a9a9;
+		height: 25px;
+		color: #5c5c5c;
 	}
 </style>

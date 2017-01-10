@@ -8,10 +8,18 @@
 		<div id="book_container">
 			<div id="book_title"></div>
 			<div id="input_container">
-				<input v-for="input in inputs"
-				:placeholder="input.placeholder"
-				v-model="input.val"
-				@keyup="checkAll">
+				<div>
+					<input v-for="input in inputs"
+					:placeholder="input.placeholder"
+					v-model="input.val"
+					@keyup="checkAll">
+					<div id="send_code"
+					:class="{disabled:!allchecked || counting}"
+					@click="sendCode">{{codeTxt}}</div>
+					<input placeholder="请输入验证码"
+					v-model="code"
+					@keyup="checkCode">
+				</div>
 				<select
 				v-model="grade">
 					<option v-for="o in options[0]"
@@ -26,7 +34,7 @@
 			</div>
 			<div id="book_slogan">已有多名同学在名校昇获得提升！</div>
 			<div id="book_btn"
-			:class="{disabled:!allchecked}"
+			:class="{disabled:!allchecked || !codeValid}"
 			@click="register">{{btnText}}</div>
 		</div>
 		<!--第二张banner2-->
@@ -116,6 +124,8 @@
 					value:'历史',
 					title:'历史'
 				}]],
+				code:'',
+				codeValid:false,
 				grade:'高一',
 				subject:'数学',
 				//全部检查
@@ -136,7 +146,10 @@
 				},{
 					back: f25,
 					text:'收费'
-				}]
+				}],
+				// 呃新的验证码！
+				codeTxt:'发送验证码',
+				counting:false
 			}
 		},
 		mounted(){
@@ -166,14 +179,48 @@
 					else this.allchecked = false;
 				}
 			},
+			// md又要加一个验证码
+			sendCode(){
+				let mobile = this.inputs[1].val;
+				this.$http.get('?name=education.sys.send.msg&type=connect&mobile='+mobile,{
+					before(){
+						let i = 60;
+						this.counting = true;
+						let countdown = setInterval(()=>{
+							this.codeTxt = i+'秒重新发送';
+							i--;
+							if(i===1){
+								clearInterval(countdown);
+								this.counting = false;
+								this.codeTxt = '重新发送';
+							}
+						},1000)
+					}
+				}).then((response)=>{
+				})
+			},
+			checkCode(){
+				this.codeValid = this.code.length>=4 ? true:false;
+			},
 			register(){
-				// console.log(this.inputs[0].val)
-				if(!this.allchecked) return;
+				if(!this.allchecked || !this.codeValid) return;
 				let name = this.inputs[0].val,mobile = this.inputs[1].val,grade = this.grade,subject=this.subject;
-				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')).then((response)=>{
-					this.inputs[0].val=this.inputs[1].val='';
-					this.btnText = '预约成功!';
-					this.allchecked = false;
+				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')+'&code='+this.code).then((response)=>{
+					if(response.body.code===1000){
+						this.inputs[0].val=this.inputs[1].val=this.code='';
+						this.btnText = '预约成功!';
+						this.allchecked = false;
+						clearInterval(countdown);
+						this.codeValid = false;
+						this.codeTxt = '发送验证码';
+					} else if(response.body.code === 1024){
+						this.code = '';
+						this.btnText = '验证码错误!';
+					} else if(response.body.code === 1067){
+						this.inputs[0].val=this.inputs[1].val=this.code='';
+						this.btnText = '您已报名!';
+						this.allchecked = false;
+					}
 					setTimeout(()=>{
 						this.btnText = '立即预约'
 					},1500)
@@ -250,6 +297,9 @@
 	        	border-radius: .05rem;
 	        	border:1px solid #bbb;
 	        	margin-bottom: .24rem;
+	        	&:nth-of-type(2){
+	        		width: 5.5rem;
+	        	}
 	        }
 	        input,select,option{
 	        	font-size: .3rem;
@@ -286,6 +336,20 @@
         	border-radius: 1rem;
         	text-align: center;
         	margin:.2rem auto .4rem auto;
+        	&.disabled{
+        		opacity: .5;
+        	}
+        }
+        /*新增的发送验证码*/
+        #send_code{
+        	font-size: .3rem;
+        	background: @subColor;
+        	float: right;
+        	width: 2rem;
+        	height: .9rem;
+        	line-height: .9rem;
+        	text-align: center;
+        	color: #fff;
         	&.disabled{
         		opacity: .5;
         	}
