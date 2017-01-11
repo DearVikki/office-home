@@ -15,7 +15,7 @@
 		</div>
 		<div style="margin-top:20px">
 			<span class="txt">网址：</span>
-			<a href="xue.duobeiyun.com" target="_blank">点击此处进入</a>
+			<a href="./class.html" target="_blank">点击此处进入</a>
 		</div>
 	</div>
 </template>

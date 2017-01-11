@@ -1,21 +1,28 @@
 <template>
 	<div id="pagination_container">
+		<!-- 上一页 -->
 		<span class="pagination-item prev"
 		:class="{disabled:currentPage === 1}"
 		@click="clickPage(currentPage-1)">上一页</span>
+		<!-- 第一页 -->
 		<span class="pagination-item"
 		:class="{active:1===currentPage}"
 		@click="clickPage(1)">1</span>
+		<!-- 第一个省略号 -->
 		<span class="ellipsis" v-show="firstEllipsis">...</span>
+		<!-- 主体部分 -->
 		<span class="pagination-item"
 		v-for="p in displayPage"
 		:class="{active:p===currentPage}"
 		@click="clickPage(p)">{{p}}</span>
+		<!-- 第二个省略号 -->
 		<span class="ellipsis" v-show="secondEllipsis">...</span>
+		<!-- 最后一页 -->
 		<span class="pagination-item"
 		v-show="allPage !== 1"
 		:class="{active:allPage===currentPage}"
 		@click="clickPage(allPage)">{{allPage}}</span>
+		<!-- 下一页 -->
 		<span class="pagination-item next"
 		:class="{disabled:currentPage === allPage}"
 		@click="clickPage(currentPage+1)">下一页</span>
@@ -33,14 +40,22 @@
 			}
 		},
 		mounted(){
-			console.log(this.allPage)
 			this.showPage();
+		},
+		watch:{
+			allPage(){
+				this.showPage();
+			},
+			reset(){
+				this.currentPage = 1;
+			}
 		},
 		methods:{
 			clickPage(p){
 				if(p<1 || p>this.allPage) return;
 				this.currentPage = p;
 				this.showPage();
+				this.$emit('clickPagination',this.currentPage);
 			},
 			showPage(){
 				let allPage = this.allPage;
@@ -71,7 +86,7 @@
 				}
 			}
 		},
-		props:['allPage']
+		props:['allPage','reset']
 	}
 </script>
 <style scoped lang="less">

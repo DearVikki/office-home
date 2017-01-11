@@ -16,8 +16,8 @@ common.Vue.http.get('?name=education.sys.islogin').then((response)=>{
 	//判断个人信息是否填完整
 	else if(response.body.code === 1000) {
 		localStorage.setItem('user',JSON.stringify(response.body.data))
-		common.Vue.http.get('?name=education.sys.is.complete.info&user_id='+response.body.data.user_id).then((response)=>{
-			if(response.body.code === 1058){
+		common.Vue.http.get('?name=education.sys.is.complete.info&user_id='+response.body.data.user_id).then((response2)=>{
+			if(response2.body.code === 1058 && response.body.data.user_type === 1){
 				location.href = './beforeEnter.html';
 			}
 		})

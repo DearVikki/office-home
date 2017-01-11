@@ -25,10 +25,13 @@
 			<p class="error" v-show="code.error">{{code.msg}}</p>
 		</div>
 		<!--发送验证码-->
-		<div class="send-code"
-		:class="{disabled:sendCode.disabled}"
-		@click="clickSendCode">
-			{{sendCode.txt}}
+		<div class="send-code">
+			<sendCode
+			:before="checkphone"
+			:send="send"
+			:reset="sendCode.reset"
+			:style="sendCode.style"
+			></sendCode>
 		</div>
 		<div class="clear"></div>
 		<!--登录-->
@@ -43,6 +46,7 @@
 	</div>
 </template>
 <script>
+	import sendCode from '../../components/sendCode.vue';
 	import smartBtn from '../../components/SmartBtn.vue';
 	export default{
 		name:'loginform',
@@ -70,10 +74,6 @@
 						width:'168px',
 						display:'inline-block'
 					}
-				},
-				sendCode:{
-					txt:'发送验证码',
-					disabled:false
 				},
 				btnSet:{
 					//disabled表示是否可以点击 acive表示是否opacity .5
@@ -103,6 +103,9 @@
 						fontSize:'18px'
 					},
 					currentStage:0
+				},
+				sendCode:{
+					reset:1
 				}
 			}
 		},
@@ -143,24 +146,9 @@
 				this[field.name].inputActive = false;
 				this['check'+field.name]();
 			},
-			//发送验证码
-			clickSendCode(){
-				if(!this.checkphone()) return;
-				if(this.sendCode.disabled) return;
+			send(before){
 				this.$http.get('?name=education.sys.reg.login.sms.send&mobile='+this.phone.val,{
-					before(){
-						let t = 60;
-						let countDown = setInterval(()=>{
-							t--;
-							this.sendCode.txt = t+'秒后再发送';
-							this.sendCode.disabled = true;
-							if(t===0) {
-								clearInterval(countDown);
-								this.sendCode.disabled = false;
-								this.sendCode.txt = '重新发送';
-							}
-						},1000)
-					}
+					before: before
 				}).then((response)=>{
 					if(response.body.code === 1000){
 					}
@@ -171,7 +159,9 @@
 				})
 			},
 			//登录
-			login(){console.log('click log in')
+			login(){
+				// 嘿嘿只是用来重置sendCode的一行
+				// this.sendCode.reset = Math.random();
 				this.checkphone();
 				this.checkcode();
 				if(this.phone.error || this.code.error) return;
@@ -202,7 +192,7 @@
 			}
 		},
 		props:['userType'],
-		components:{smartBtn}
+		components:{smartBtn,sendCode}
 	}
 </script>
 <style scoped lang='less'>

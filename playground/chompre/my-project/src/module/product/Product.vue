@@ -148,6 +148,12 @@
 							</div>
 						</li>
 					</ul>
+					<!-- 页码 -->
+					<pagination
+					v-show="comment.allPage>1"
+					:allPage="comment.allPage"
+					:reset="comment.resetPage"
+					@clickPagination="clickPagination"></pagination>
 				</div>
 			</div>
 		</div>
@@ -157,6 +163,7 @@
     import {getParameterByName,timestamp} from '../../assets/js/utils.js';
     import numeditor from '../../components/NumEditor.vue';
     import star from '../../components/Stars.vue';
+    import pagination from '../../components/Pagination.vue';
 	export default{
 		name:'product',
 		data(){
@@ -217,6 +224,8 @@
 				comment:{
 					star_num:0,
 					page:1,
+					allPage:0,
+					resetPage:1,
 					comment_info:[
 						{
 		                comment_id: "151",
@@ -283,7 +292,7 @@
 			.then((response)=>{
 				this.detail_pic = response.body.data.detail_pic;
 			})
-			//拉取商品全部评论
+			//拉取商品评论
 			this.getComment();
 		},
 		methods:{
@@ -343,7 +352,8 @@
 			},
 			//点击小星星
 			clickStar(n){
-				console.log(n);
+				this.comment.star_num = n;
+				this.getComment();
 			},
 			//拉取商品评论
 			getComment(){
@@ -354,10 +364,16 @@
 					page:this.comment.page
 				}
 				this.$http.post('',data).then((response)=>{
+					// 清空当页评论数据
+					this.comment.comment_info = [];
+					this.comment.allPage = Math.ceil(response.body.data.comment_num/10);
+					//console.log(this.allPage)
 					response.body.data.comment_info.forEach((e)=>{
 						e.time = timestamp(e.time);
 						e.active_pic = -1;
 						this.comment.comment_info.push(e);
+						// 视窗滚到评论区
+						document.querySelector('#product_part2').scrollIntoView();
 					})
 				})
 			},
@@ -366,6 +382,11 @@
 				if(comment.active_pic ===index) comment.active_pic = -1;
 				else comment.active_pic = index;
 				console.log(comment.active_pic)
+			},
+			// 点击评论跳页
+			clickPagination(page){
+				this.comment.page = page;
+				this.getComment();
 			}
 		},
 		watch:{
@@ -377,7 +398,7 @@
 				if(this.numEditorData.num === 0) this.numEditorClass.input = ['disabled'];
 			}
 		},
-		components:{numeditor,star}
+		components:{numeditor,star,pagination}
 	}
 </script>
 <style scoped lang='less'>
@@ -386,6 +407,7 @@
 	#product_container{
 		width: 1200px;
 		margin: 0 auto;
+		margin-bottom: 40px;
 	}
 	#product_part1{
 		overflow: hidden;

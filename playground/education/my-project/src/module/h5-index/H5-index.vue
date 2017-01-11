@@ -13,9 +13,14 @@
 					:placeholder="input.placeholder"
 					v-model="input.val"
 					@keyup="checkAll">
-					<div id="send_code"
-					:class="{disabled:!allchecked || counting}"
-					@click="sendCode">{{codeTxt}}</div>
+					<div id="send_code">
+						<sendCode
+						:send="send"
+						:type="1"
+						:checked="isPhone(inputs[1].val)"
+						:style="sendCode.style"
+						:reset="sendCode.reset"></sendCode>
+					</div>
 					<input placeholder="请输入验证码"
 					v-model="code"
 					@keyup="checkCode">
@@ -65,6 +70,7 @@
 	</div>
 </template>
 <script>
+	import sendCode from '../../components/sendCode.vue';
 	import 'animate.css';
 	import {getParameterByName} from '../../assets/js/utils.js';
 	import f21 from '../../assets/img/index/21.png';
@@ -148,8 +154,12 @@
 					text:'收费'
 				}],
 				// 呃新的验证码！
-				codeTxt:'发送验证码',
-				counting:false
+				sendCode:{
+					reset:1,
+					style:{
+						background:'#9ca7fe'
+					}
+				}
 			}
 		},
 		mounted(){
@@ -179,23 +189,10 @@
 					else this.allchecked = false;
 				}
 			},
-			// md又要加一个验证码
-			sendCode(){
+			send(before){
 				let mobile = this.inputs[1].val;
 				this.$http.get('?name=education.sys.send.msg&type=connect&mobile='+mobile,{
-					before(){
-						let i = 60;
-						this.counting = true;
-						let countdown = setInterval(()=>{
-							this.codeTxt = i+'秒重新发送';
-							i--;
-							if(i===1){
-								clearInterval(countdown);
-								this.counting = false;
-								this.codeTxt = '重新发送';
-							}
-						},1000)
-					}
+					before:before
 				}).then((response)=>{
 				})
 			},
@@ -210,9 +207,9 @@
 						this.inputs[0].val=this.inputs[1].val=this.code='';
 						this.btnText = '预约成功!';
 						this.allchecked = false;
-						clearInterval(countdown);
 						this.codeValid = false;
 						this.codeTxt = '发送验证码';
+						this.sendCode.reset = Math.random();
 					} else if(response.body.code === 1024){
 						this.code = '';
 						this.btnText = '验证码错误!';
@@ -220,13 +217,15 @@
 						this.inputs[0].val=this.inputs[1].val=this.code='';
 						this.btnText = '您已报名!';
 						this.allchecked = false;
+						this.sendCode.reset = Math.random();
 					}
 					setTimeout(()=>{
 						this.btnText = '立即预约'
 					},1500)
 				})
 			}
-		}
+		},
+		components:{sendCode}
 	}
 </script>
 <style scoped lang='less'>
@@ -343,16 +342,12 @@
         /*新增的发送验证码*/
         #send_code{
         	font-size: .3rem;
-        	background: @subColor;
         	float: right;
         	width: 2rem;
         	height: .9rem;
         	line-height: .9rem;
         	text-align: center;
         	color: #fff;
-        	&.disabled{
-        		opacity: .5;
-        	}
         }
 	}
 	/*第二张banner*/

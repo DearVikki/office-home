@@ -5,7 +5,7 @@ import VueResource from 'vue-resource'
 //import Bus from './bus.js';
 if (location.protocol != 'https:')
 {
- // location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+  location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
 }
 
 Vue.config.debug = true;

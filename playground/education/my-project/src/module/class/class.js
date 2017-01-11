@@ -1,5 +1,5 @@
 import common from '../../assets/js/common.js'
-import trialframe from './trialFrame.vue'
+import trialframe from './Class.vue'
 
 const myheader = common.myHeader;
 new common.Vue({
