@@ -78,7 +78,8 @@
 				<goodsitem :item='item' v-for="item in items.goods_list"></goodsitem>
 				<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
 			</div>
-			<pagination :allPage="allPage"></pagination>
+			<pagination :allPage="allPage"
+			v-show="allPage>1"></pagination>
 		</div>
 		<icontop></icontop>
 	</div>

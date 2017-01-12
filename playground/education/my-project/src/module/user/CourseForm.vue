@@ -7,6 +7,7 @@
 				:style="{width:th.width}">{{th.title}}</th>
 			</tr>
 			<tr class="row"
+			:class="{try: Number(tr.type) === 2 }"
 			v-for="tr in tableData.trs">
 				<td v-for="th in tableData.ths"
 				v-if="(th.name!=='student'||userType===1) && (th.name!=='teacher'||userType===0)"
@@ -57,6 +58,19 @@
 			border:1px solid #fff;
 			background: #f8f8f8;
 			font-size: 14px;
+			&.try td:first-child:before {
+				content:'试';
+				font-weight: bold;
+				color: @baseColor;
+				font-size: 12px;
+				transform: scale(.8);
+				position: absolute;
+				left:2px;
+				/*left: -20px;*/
+				border:1.5px solid @baseColor;
+				padding: 0 2px 1px 2px;
+				border-radius: 2px;
+			}
 			td{
 				text-align: center;
 				height: 35px;
@@ -64,6 +78,12 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 				vertical-align: middle;
+				position: relative;
+				/*挪出位置给试字- -*/
+				&:first-child{
+					padding-left: 9px;
+					overflow: initial;
+				}
 				span.active,span.disabled{
 					width: 65px;
 					height: 25px;

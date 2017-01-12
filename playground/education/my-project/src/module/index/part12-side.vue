@@ -3,11 +3,15 @@
 		<div class="side-item" @click="toTop">
 			<img src="~assets/img/index/side_top.png">
 		</div>
-		<a class="side-item" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes">
-			<img src="~assets/img/index/side_qq.png">
+		<a class="side-item" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2291908972&site=qq&menu=yes">
+			<img class="rotate" src="~assets/img/index/side_qq.png">
 		</a>
 		<div class="side-item">
-			<img src="~assets/img/index/side_phone.png">
+			<img class="rotate" src="~assets/img/index/side_code.png" style="width:30px">
+			<div id="side_code_container">
+				<img src="~assets/img/index/code1.png">
+				<img src="~assets/img/index/code2.png">
+			</div>
 		</div>
 	</div>
 </template>
@@ -47,8 +51,25 @@
 			&:nth-child(2),&:nth-child(3){
 				background: rgba(160,160,160,.4);
 			}
-			&:nth-child(2):hover img,&:nth-child(3):hover img{
+			&:nth-child(2):hover .rotate,&:nth-child(3):hover .rotate{
 				transform: rotate(-30deg);
+			}
+			&:nth-child(3):hover #side_code_container{
+				display: flex;
+			}
+		}
+		/*后面补充的二维码*/
+		#side_code_container{
+			position: absolute;
+			left: -100px;
+			width: 100px;
+			background: rgba(160, 160, 160, 0.4);
+			display: none;
+			height: 200px;
+			justify-content: space-around;
+			flex-direction: column;
+			img{
+				width: 90px;
 			}
 		}
 	}

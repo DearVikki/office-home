@@ -37,10 +37,6 @@
 			v-show="history.tableData.trs.length===0">历史暂无课程!>.<</div>
 		</div>
 		<!-- 课程评价弹窗 -->
-		<!-- <coursepop
-		:id="popId"
-		v-show="popShow"
-		@close="popShow = false"></coursepop> -->
 		<pop :pop="commentPop">
 			<coursepop :id="popId"></coursepop>
 		</pop>
@@ -104,7 +100,8 @@
 							student:{content:'学生'},
 							subject:{content:'数学'},
 							chapter:{content:'线代'},
-							action:{content:'我要上课', class:'active'}
+							action:{content:'我要上课', class:'active'},
+							type:1
 						}]
 					},
 					allData:[],
@@ -178,7 +175,8 @@
 						subject:{content:e.subject},
 						chapter:{content:e.subject_content},
 						action:{content:'我要上课',class:'active',actionType:4},
-						code:e.input_code
+						code:e.input_code,
+						type:e.type
 					})
 				})
 				this.now.allPage = Math.ceil(this.now.allData.length/15);

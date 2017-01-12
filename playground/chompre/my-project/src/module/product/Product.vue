@@ -217,7 +217,7 @@
 					msg:''
 				},
 				//有无点开商品评价（默认false）
-				isComment:true,
+				isComment:false,
 				//商品详情の大图
 				detail_pic:[],
 				//评论部分
@@ -320,7 +320,6 @@
 					pre_goods_id:this.pre_goods_id,
 					attribute:idArray.sort().toString()}).
 				then((response)=>{
-					console.log(response)
 					this.activeImg = -1;
 					this.goods_info = response.body.data.goods_info;
 					this.stock = response.body.data.goods_info.stores;
@@ -349,6 +348,13 @@
 			//加入购物车
 			toAdd(){
 				if(!this.beforeBuy()) return;
+				this.$http.post('',{
+					name:'zl.shopping.sys.add.goods',
+					goods_id: this.goods_info.goods_id,
+					goods_num: this.numEditorData.num
+			}).then((response)=>{
+				console.log('加入购物车成功')
+			})
 			},
 			//点击小星星
 			clickStar(n){

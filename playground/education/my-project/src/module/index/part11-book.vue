@@ -14,10 +14,12 @@
 				<input placeholder="请输入您的手机"
 				maxlength="11"
 				v-model="phone"
-				@focus="phoneError = false">
+				@focus="phoneError = false"
+				@keyup.enter = "bookNow">
 				<p class="error"
 				v-show="phoneError">手机格式不对喔</p>
 			</div>
+			<!-- 预约第一步按钮：发送验证码+触发弹窗 -->
 			<div id="book_btn"
 			@click="bookNow">
 				立即预约
@@ -29,32 +31,43 @@
 				</div>
 			</div>
 		</div>
-		<pop :pop="pop">
+		<!-- 弹窗：接受验证码+选择科目 -->
+		<pop
+		:pop="pop"
+		:popMounted="popMounted">
 			<div>
-				<p class="pop-title">免费试听</p>
-				<input id="code" placeholder="请输入您收到的验证码"
-				v-model="code">
-				<div id="select_container">
-					<select v-model="grade">
-						<option value="高一">高一</option>
-						<option value="高二">高二</option>
-						<option value="高三">高三</option>
-					</select>
-					<select v-model="subject">
-						<option value="数学">数学</option>
-						<option value="英语">英语</option>
-						<option value="语文">语文</option>
-						<option value="物理">物理</option>
-						<option value="化学">化学</option>
-						<option value="生物">生物</option>
-						<option value="政治">政治</option>
-						<option value="历史">历史</option>
-						<option value="地理">地理</option>
-					</select>
+				<div v-show="!bookSuccess">
+					<p class="pop-title">免费试听</p>
+					<div id="pop_input_container">
+						<input id="code" placeholder="请输入您收到的验证码" autofocus
+						v-model="code">
+					</div>
+					<div id="pop_select_container">
+						<select v-model="grade">
+							<option value="高一">高一</option>
+							<option value="高二">高二</option>
+							<option value="高三">高三</option>
+						</select>
+						<select v-model="subject">
+							<option value="数学">数学</option>
+							<option value="英语">英语</option>
+							<option value="语文">语文</option>
+							<option value="物理">物理</option>
+							<option value="化学">化学</option>
+							<option value="生物">生物</option>
+							<option value="政治">政治</option>
+							<option value="历史">历史</option>
+							<option value="地理">地理</option>
+						</select>
+					</div>
+					<p class="pop-txt">已有多名学生在名校昇获得提升！</p>
+					<div id="pop_btn"
+					@click="bookNow2">{{txt}}</div>
 				</div>
-				<p class="pop-txt">已有多名学生在名校昇获得提升！</p>
-				<div id="pop_btn"
-				@click="bookNow2">{{txt}}</div>
+				<div v-show="bookSuccess" class="book-success">
+					预约成功啦！:D<br>
+					请静候客服联系喔！
+				</div>
 			</div>
 		</pop>
 	</div>
@@ -76,13 +89,25 @@
 				pop:{
 					show:false,
 					style:{
-						width:'400px',
-						height:'250px'
+						width:'350px',
+						height:'250px',
+						padding: '35px 50px 30px 50px'
 					}
-				}
+				},
+				// 预约成功的v-show
+				bookSuccess:false
 			}
 		},
 		methods:{
+			// 清空弹窗
+			resetPop(){
+				this.bookSuccess = false;
+				this.code = '';
+			},
+			// mounted: 移焦点入input框
+			popMounted(){
+				document.querySelector('#code').focus();
+			},
 			// 预约第一步
 			bookNow(){
 				if(this.name === ''){
@@ -103,16 +128,11 @@
 				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=&code='+this.code).then((response)=>{
 					if(response.body.code === 1000){
 						this.name = this.phone = this.code = '';
-						this.txt = '预约成功!';
+						this.bookSuccess = true;
 						setTimeout(()=>{
 							this.txt = '立即预约';
 							this.pop.show = false;
-						},1000)
-					} else if(response.body.code === 1024){
-						this.code = '';
-						this.txt = '验证码错误!';
-						setTimeout(()=>{
-							this.txt = '立即预约';
+							this.bookSuccess = false;
 						},1000)
 					} else if(response.body.code === 1067){
 						this.name = this.phone = this.code = '';
@@ -120,6 +140,12 @@
 						setTimeout(()=>{
 							this.txt = '立即预约';
 							this.pop.show = false;
+						},1000)
+					} else {
+						this.code = '';
+						this.txt = 'response.body.msg';
+						setTimeout(()=>{
+							this.txt = '立即预约';
 						},1000)
 					}
 				})
@@ -241,8 +267,22 @@
 		font-size: 20px;
 		font-weight: bold;
 		text-align: center;
+		margin-bottom: 10px;
 	}
-	#select_container{
+	#pop_input_container{
+		text-align: center;
+		margin-top: 20px;
+		/*新加入的code*/
+		#code{
+			width: 220px;
+			padding-left: 5px;
+			border-radius: 3px;
+			border: 1px solid #a9a9a9;
+			height: 25px;
+			color: #5c5c5c;
+		}
+	}
+	#pop_select_container{
 		width: 244px;
 		margin: 20px auto;
 		display: flex;
@@ -277,14 +317,13 @@
 		margin:5px auto;
 		cursor: pointer;
 	}
-	/*新加入的code*/
-	#code{
-		width: 220px;
-		padding-left: 5px;
-		margin: 10px 0 -5px 10px;
-		border-radius: 3px;
-		border: 1px solid #a9a9a9;
-		height: 25px;
-		color: #5c5c5c;
+	/*新加入预约成功*/
+	.book-success{
+		color: #fb7273;
+		font-size: 20px;
+		font-weight: bold;
+		text-align: center;
+		margin-top: 40px;
+		line-height: 40px;
 	}
 </style>

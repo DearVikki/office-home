@@ -1,15 +1,15 @@
 <template>
  	<transition name="fade">
-	<div class="pop-container" v-if="pop.show"
-	@click="closePop">
-		<div class="pop"
-		:style="pop.style"
-		@click.stop>
-			<div class="pop-close"
-			@click="closePop">×</div>
-			<slot></slot>
+		<div class="pop-container" v-if="pop.show"
+		@click="closePop">
+			<div class="pop"
+			:style="pop.style"
+			@click.stop>
+				<div class="pop-close"
+				@click="closePop">×</div>
+				<slot></slot>
+			</div>
 		</div>
-	</div>
 	</transition>
 </template>
 <script>
@@ -22,7 +22,33 @@
 				this.pop.show = false;
 			}
 		},
-		props:['pop']
+		watch:{
+			'pop.show'(val){
+				if(val) {
+					this.$nextTick(()=>{
+						this.popMounted();
+					})
+				}
+				else this.popReset();
+			}
+		},
+		props:{
+			pop:{
+				type: Object,
+				default: {
+					show:false,
+					style:''
+				}
+			},
+			popReset:{
+				type: Function,
+				default: ()=>{}
+			},
+			popMounted:{
+				type: Function,
+				default: ()=>{}
+			}
+		}
 	}
 </script>
 <style lang='less' scoped>
