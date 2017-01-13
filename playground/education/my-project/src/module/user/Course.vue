@@ -92,17 +92,19 @@
 							{name:'subject',title:'科目',width:'10%'},
 							{name:'chapter',title:'章节内容',width:'20%'},
 							{name:'action',title:'',width:'15%'}],
-						trs:[{
-							date:{content:'2016/11/28'},
-							time:{content:'9:00-10:00'},
-							amount:{content:'2'},
-							teacher:{content:'王王'},
-							student:{content:'学生'},
-							subject:{content:'数学'},
-							chapter:{content:'线代'},
-							action:{content:'我要上课', class:'active'},
-							type:1
-						}]
+						trs:[
+						// {
+						// 	date:{content:'2016/11/28'},
+						// 	time:{content:'9:00-10:00'},
+						// 	amount:{content:'2'},
+						// 	teacher:{content:'王王'},
+						// 	student:{content:'学生'},
+						// 	subject:{content:'数学'},
+						// 	chapter:{content:'线代'},
+						// 	action:{content:'我要上课', class:'active'},
+						// 	type:1
+						// }
+						]
 					},
 					allData:[],
 					allPage:1,
@@ -120,16 +122,18 @@
 							{name:'subject',title:'科目',width:'10%'},
 							{name:'chapter',title:'章节内容',width:'15%'},
 							{name:'action',title:'',width:'15%'}],
-						trs:[{
-							date:{content:'2016/11/28'},
-							time:{content:'9:00-10:00'},
-							amount:{content:'2'},
-							teacher:{content:'王王'},
-							student:{content:'学生'},
-							subject:{content:'数学'},
-							chapter:{content:'线代'},
-							action:{content:'评价', class:'active'}
-						}]
+						trs:[
+						// {
+						// 	date:{content:'2016/11/28'},
+						// 	time:{content:'9:00-10:00'},
+						// 	amount:{content:'2'},
+						// 	teacher:{content:'王王'},
+						// 	student:{content:'学生'},
+						// 	subject:{content:'数学'},
+						// 	chapter:{content:'线代'},
+						// 	action:{content:'评价', class:'active'}
+						// }
+						]
 					},
 					allData:[],
 					allPage:1,

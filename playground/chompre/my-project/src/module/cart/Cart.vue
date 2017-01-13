@@ -68,9 +68,10 @@
 				<span style="margin-left:20px">删除</span>
 			</div>
 			<div class="fr">
-				<span style="margin-right:20px">已选商品<span class="amount">{{amount}}</span>件</span>
+				<span style="margin-right:20px">已选商品<span class="amount">{{goodsArr.length}}</span>件</span>
 				<span style="margin-right:20px" >合计（不含运费）：<span class="price" style="margin:0 10px">${{price}}</span></span>
-				<span class="pay">结算</span>
+				<span class="pay"
+				:class="{disabled:goodsArr.length === 0}">结算</span>
 			</div>
 		</div>
 	</div>
@@ -230,6 +231,7 @@
 	                    }
 	                ]
 	            }],
+	            goodsArr:[],
 	            allchecked:false,
 	            amount:0,
 	            price:0
@@ -244,11 +246,22 @@
 			})
 		},
 		methods:{
+			// 所有被选中的物品 为什么放在computed里时第二家店铺的商品会触发不了compued事件？
+			goodsArrFun(){
+				let goodsArr = [];
+				this.carts.forEach((shop)=>{
+					shop.goods_info.forEach((goods)=>{
+						if(goods.checked) goodsArr.push(goods);
+					})
+				})
+				this.goodsArr = goodsArr;
+			},
 			// 取消店铺的勾
 			shopUncheckFun(shop){
 				shop.dealer_info.checked = false;
 				shop.goods_info.forEach((e)=>{
 					e.checked = false;
+					this.allchecked = false;
 				})
 			},
 			// 勾选店铺向下对店铺商品的作用
@@ -276,6 +289,7 @@
 					this.shopNegativeCheckFun(shop);
 					this.shopActiveCheckFun(shop);
 				}
+				this.goodsArrFun();
 			},
 			goodsCheck(shop,goods){
 				if(goods.checked){
@@ -293,6 +307,7 @@
 					if(checked) shop.dealer_info.checked = true;
 					this.shopActiveCheckFun();
 				}
+				this.goodsArrFun();
 			},
 			allCheck(){
 				if(this.allchecked){
@@ -308,9 +323,30 @@
 						this.shopNegativeCheckFun(shop);
 					})
 				}
+				this.goodsArrFun();
 			},
 			pay(){
 
+			}
+		},
+		computed:{
+			// // 所有被选中的物品
+			// goodsArr(){
+			// 	let goodsArr = [];
+			// 	this.carts.forEach((shop)=>{
+			// 		shop.goods_info.forEach((goods)=>{
+			// 			if(goods.checked) goodsArr.push(goods);
+			// 		})
+			// 	})
+			// 	console.log(goodsArr)
+			// 	return goodsArr;
+			// },
+			price(){
+				let price = 0;
+				this.goodsArr.forEach((goods)=>{
+					price += goods.numEditorData.num * goods.price;
+				})
+				return price;
 			}
 		},
 		components:{numeditor}
@@ -340,12 +376,8 @@
 		font-size:12px;
 		color:#5c5c5c;
 		margin-bottom: 20px;
-		.temp{
-			width:12px;
-			height: 12px;
-			border:1px solid #b0b0b0;
-			display: inline-block;
-			vertical-align: middle;
+		&:last-of-type{
+			margin-bottom:0;
 		}
 		/*店名包裹框*/
 		.shop-header{
@@ -468,16 +500,27 @@
 		span{
 			vertical-align: middle;
 		}
+		label{
+			height: 10px;
+			display: inline-block;
+			span{
+				vertical-align: top;
+				display: inline-block;
+				line-height: 10px;
+			}
+		}
 		.fl,.fr{
 			height: 40px;
 			line-height: 40px;
 		}
 		.amount{
 			color:@baseColor;
+			vertical-align: 0;
 		}
 		.price{
 			color:@baseColor;
 			font-size: 18px;
+			vertical-align: top;
 		}
 		.pay{
 			width: 90px;
@@ -488,6 +531,11 @@
 			color:#fff;
 			font-size: 18px;
 			letter-spacing: 5px;
+			vertical-align: top;
+			&.disabled{
+				opacity: .5;
+				cursor: not-allowed;
+			}
 		}
 		input[type=checkbox]:checked + .check-input:after{
 			line-height: 22px;
