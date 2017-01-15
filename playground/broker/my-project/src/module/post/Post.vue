@@ -35,7 +35,10 @@
 							<p><span class="floor">第{{comment.floor}}楼</span><span class="time">{{timestamp(comment.comment_time)}}</span></p>
 						</span>
 					</div>
-					<div class="header-right"></div>
+					<div class="header-right">
+						<img src="~assets/img/icon_collection_mini.png" @click="myAlert">
+						<img src="~assets/img/icon_reply.png" @click="myAlert">
+					</div>
 				</div>
 				<!-- 主要内容 -->
 				<div class="comment-main">
@@ -52,7 +55,8 @@
 							<span v-if="reply.to_nickname">回复@{{reply.to_nickname}}：</span>
 							<span>{{reply.content}}</span>
 						</p>
-						<p class="more" v-if="comment.reply_num>3">更多{{comment.reply_num - 3}}条回复...</p>
+						<p class="more" v-if="comment.reply_num>3"
+						@click="myAlert">更多{{comment.reply_num - 3}}条回复...</p>
 					</div>
 				</div>
 			</div>
@@ -129,6 +133,9 @@
 				if(top + windowH > pageH - 5){
 					this.getPost();
 				}
+			},
+			myAlert(){
+				alert('点击顶部下载APP查看更多喔！')
 			}
 		}
 	}
@@ -177,6 +184,9 @@
 		}
 		.header-right{
 			float: right;
+			img{
+				width:0.63rem;
+			}
 		}
 	}
 	/*发帖标题 内容*/
