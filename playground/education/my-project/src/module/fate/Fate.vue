@@ -84,19 +84,19 @@
 				return time;
 			},
 			showRemaining(){
-				this.time = this.countdown( new Date('01/15/2017 00:00 PM'),()=>{
+				this.time = this.countdown( new Date('01/17/2017 00:00 PM'),()=>{
 					this.timer = setInterval(this.showRemaining2, 1000);
 					this.showCode = true;
 				});
 			},
 			showRemaining2(){
-				this.time = this.countdown(new Date('01/15/2017 00:01 PM'),()=>{
+				this.time = this.countdown(new Date('01/17/2017 00:01 PM'),()=>{
 					this.showCode = false;
 					this.timer = setInterval(this.showRemaining3, 1000);
 				})
 			},
 			showRemaining3(){
-				this.time = this.countdown( new Date('01/15/2017 03:34 PM'),()=>{
+				this.time = this.countdown( new Date('01/17/2017 03:34 PM'),()=>{
 					// this.timer = setInterval(this.showRemaining2, 1000);
 					this.showCode = true;
 				});
