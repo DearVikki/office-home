@@ -47,6 +47,9 @@
 							<option value="高一">高一</option>
 							<option value="高二">高二</option>
 							<option value="高三">高三</option>
+							<option value="初一">初一</option>
+							<option value="初二">初二</option>
+							<option value="初三">初三</option>
 						</select>
 						<select v-model="subject">
 							<option value="数学">数学</option>

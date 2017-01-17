@@ -102,6 +102,15 @@
 				},{
 					value:'高三',
 					title:'高三'
+				},{
+					value:'初一',
+					title:'初一'
+				},{
+					value:'初二',
+					title:'初二'
+				},{
+					value:'初三',
+					title:'初三'
 				}],[{
 					value:'数学',
 					title:'数学'
