@@ -60,22 +60,25 @@
 				</span>
 			</div>
 			<!--编辑按钮-->
-			<router-link class="edit" to="/usercenterEdit"></router-link>
+			<!-- router-link进去不能完全刷新吗  -->
+			<!-- <router-link class="edit" to="/usercenterEdit"></router-link> -->
+			<a class="edit" href="./user.html#/usercenterEdit"></a>
 		</div>
 	</div>
 </template>
 <script>
 	import Bus from '../../assets/js/bus.js';
-	import avaImg from '../../assets/img/index/icon_head.png';
+	// import avaImg from '../../assets/img/index/icon_head2.png';
 	export default{
 		name:'userinfo',
 		data(){
 			return{
 				usertype:1,
 				user:{
-					avatar:avaImg,
+					avatar:'',
 					name:'我不要再叫李慧慧了!'
 				},
+				// 学生
 				infos1:[{
 					title:'姓名',
 					value: '',
@@ -105,7 +108,7 @@
 					value:'',
 					show:false
 				}],
-
+				// 老师
 				infos2:[{
 					title:'姓名',
 					value: '',

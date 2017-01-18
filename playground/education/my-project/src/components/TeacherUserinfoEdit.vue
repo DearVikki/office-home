@@ -33,7 +33,7 @@
 							<label>
 								<input type="checkbox" :value="checkbox.value"
 								:checked="checkbox.checked"
-								@change="clickSubject">
+								@change="clickSubject(checkbox)">
 								<span class="checkbox-input"></span>
 							</label>
 							<span class="checkbox-title">{{checkbox.title}}</span>
@@ -294,8 +294,10 @@
 				this.fields.major.val = info.major;
 				this.fields.grade.val = info.grade;
 				let subject = JSON.parse(info.subject);
+				// 判断subject数组里是否有subject.checkbox的value
 				this.fields.subject.checkboxes.forEach((e)=>{
 					if(subject.indexOf(e.value)!==-1){
+						console.log(e.value)
 						e.checked = true;
 					}
 				})
@@ -389,9 +391,13 @@
 			focusing(field){
 				this.fields[field].focus = true;
 				this.fields[field].error = false;
+				this.fields.subject.checkboxes.forEach((e)=>{
+					if(e.checked) console.log(e)
+				})
 			},
 			/*点击科目*/
-			clickSubject(){
+			clickSubject(checkbox){
+				checkbox.checked =! checkbox.checked;
 				this.fields.subject.error = false;
 				this.subjectField = [];
 			},

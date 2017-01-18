@@ -8,7 +8,8 @@
 				@focus="inputFocus(phone)"
 				@blur="inputBlur(phone)"
 				@keyup.enter="clickSendCode"
-				v-model="phone.val">
+				v-model="phone.val"
+				maxlength="11">
 			</div>
 			<p class="error" v-show="phone.error">{{phone.msg}}</p>
 		</div>

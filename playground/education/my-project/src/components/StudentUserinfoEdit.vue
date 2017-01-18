@@ -31,14 +31,17 @@
 					v-for="checkbox in fields[field].subs"
 					:ref="fields[field].id">
 						<label>
-							<input type="checkbox">
+							<input type="checkbox"
+							:checked="checkbox.checked"
+							@change="checkbox.checked = !checkbox.checked">
 							<span class="checkbox-input"></span>
 						</label>
 						<span class="checkbox-title">{{checkbox.title}}</span>
 						<span class="goal">
 							<input maxlength="3"
 							v-model="checkbox.val"
-							@blur="fillMark(checkbox)">
+							@blur="fillMark(checkbox)"
+							>
 							<span class="fullMark">/{{checkbox.fullMark}}</span>
 						</span>
 					</div>
@@ -101,27 +104,32 @@
 		        			title:'语文',
 		        			value:'A',
 		        			val:'',
-		        			fullMark:150
+		        			fullMark:150,
+		        			checked:false
 		        		},{
 		        			title:'数学',
 		        			value:'B',
 		        			val:'',
-		        			fullMark:150
+		        			fullMark:150,
+		        			checked:false
 		        		},{
 		        			title:'英语',
 		        			value:'C',
 		        			val:'',
-		        			fullMark:150
+		        			fullMark:150,
+		        			checked:false
 		        		},{
 		        			title:'理综',
 		        			value:'D',
 		        			val:'',
-		        			fullMark:300
+		        			fullMark:300,
+		        			checked:false
 		        		},{
 		        			title:'文综',
 		        			value:'F',
 		        			val:'',
-		        			fullMark:300
+		        			fullMark:300,
+		        			checked:false
 		        		}]
 		        	},
 		        	learningType: {
@@ -138,7 +146,7 @@
 		        			value:'文科'
 		        		},{
 		        			title:'其他',
-		        			value:'其他'
+		        			value:''
 		        		}]
 		        	},
 		        	school: {
@@ -191,6 +199,12 @@
 				this.fields.learningType.val = info.learning_type;
 				this.fields.school.val = info.school;
 				this.fields.grade.val = info.grade;
+				// 加上补习学科的勾
+				if(Number(info.chinese)) this.fields.scores.subs[0].checked=true;
+				if(Number(info.math)) this.fields.scores.subs[1].checked=true;
+				if(Number(info.english)) this.fields.scores.subs[2].checked=true;
+				if(Number(info.multiple_l)) this.fields.scores.subs[3].checked=true;
+				if(Number(info.multiple_w)) this.fields.scores.subs[4].checked=true;
 			})
 		},
 		watch:{

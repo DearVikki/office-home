@@ -101,7 +101,7 @@
 				let type = this.usertype===0 ? 1 :2;
 				this.$http.get('?name=education.student.judge&user_id='+this.userid+'&id='+this.id+'&type='+type+'&judge='+this.star+'&comment='+this.comment).then((response)=>{
 					this.closePop();
-					location.reload();
+					// location.reload();
 				})
 			}
 		},

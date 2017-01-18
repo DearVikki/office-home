@@ -60,11 +60,6 @@
 			saveAva(img){
 				this.user.avatar = img.src || this.user.avatar;
 				this.changeAva = false;
-				/*this.$http.get('?name=education.sys.upload.img&img='+img.file).then((response)=>{
-					let user = JSON.parse(localStorage.getItem('user'));
-					user.head = img.src;
-					localStorage.setItem('user',JSON.stringify(user));
-				})*/
 				var formData = new FormData();
 				formData.append('img', img.file);
 				formData.append('name','education.sys.upload.img')

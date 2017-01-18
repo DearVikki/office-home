@@ -14,7 +14,7 @@
 		v-if="verified">
 			<div v-if="!showCode">
 				<p class="countdown"
-				>U will see the clue 5 in <br><span>{{time}}</span></p>
+				>U will see the clue No.5 in <br><span>{{time}}</span></p>
 				<img src="~assets/img/dog.jpg">
 			</div>
 			<div v-else>
@@ -84,23 +84,33 @@
 				return time;
 			},
 			showRemaining(){
-				this.time = this.countdown( new Date('01/17/2017 00:00 PM'),()=>{
+				// 格式：01/19/2017 00:00 PM
+				this.time = this.countdown( new Date(this.showDate),()=>{
 					this.timer = setInterval(this.showRemaining2, 1000);
 					this.showCode = true;
 				});
 			},
 			showRemaining2(){
-				this.time = this.countdown(new Date('01/17/2017 00:01 PM'),()=>{
+				this.time = this.countdown(new Date(this.expireDate),()=>{
 					this.showCode = false;
-					this.timer = setInterval(this.showRemaining3, 1000);
+					this.timer = setInterval(this.showRemaining, 1000);
 				})
+			}
+		},
+		computed:{
+			showDate(){
+				// 只要是utc时间戳 是一定要放在new Date()里面的
+				// or new Date(2017,0,d+1,0,0,0) 注意月份从0开始
+				var vikkiDate = new Date();
+				vikkiDate = new Date().setDate(vikkiDate.getDate() + 1);
+				vikkiDate = new Date(vikkiDate).setHours(0);
+				vikkiDate = new Date(vikkiDate).setMinutes(0);
+				vikkiDate = new Date(vikkiDate).setSeconds(0);
+				return vikkiDate;
 			},
-			showRemaining3(){
-				this.time = this.countdown( new Date('01/17/2017 03:34 PM'),()=>{
-					// this.timer = setInterval(this.showRemaining2, 1000);
-					this.showCode = true;
-				});
-			},
+			expireDate(){
+				return new Date(this.showDate()).setMinutes(1);
+			}
 		}
 	}
 </script>

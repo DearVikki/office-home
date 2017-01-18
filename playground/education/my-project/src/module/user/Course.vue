@@ -203,23 +203,33 @@
 						chapter:{content:e.subject_content}
 					}
 					//评价 已评价 与回看录像
-					if(Number(e.judge) === -1) {
-						rowData.action = {
-							content:'评价',
-							class:'active',
-							actionType:1
-						}
-					} else if(this.usertype === 0){
-						rowData.action = {
-							content:'回看录像',
-							class:'active',
-							actionType:2
+					if(this.usertype === 0){
+						if(Number(e.s2t_judge) === -1) {
+							rowData.action = {
+								content:'评价',
+								class:'active',
+								actionType:1
+							}
+						} else {
+								rowData.action = {
+								content:'回看录像',
+								class:'active',
+								actionType:2
+							}
 						}
 					} else {
-						rowData.action = {
-							content:'已评价',
-							class:'disabled',
-							actionType:3
+						if(Number(e.t2s_judge) === -1){
+							rowData.action = {
+								content:'评价',
+								class:'active',
+								actionType:1
+							}
+						} else {
+							rowData.action = {
+								content:'已评价',
+								class:'disabled',
+								actionType:3
+							}
 						}
 					}
 					this.history.allData.push(rowData);
@@ -232,13 +242,18 @@
 		},
 		methods:{
 			formCb(tr, td,id){
-				//tr是一行数据的所有资料 td是
+				//tr是一行数据的所有资料 td是点击的action框
+				// 评论
 				if(td.actionType === 1) {
 					this.popId = id;
 					this.commentPop.show = true;
-				} else if(td.actionType === 4){
-					this.popCode = tr.code;
-					this.invitePop.show = true;
+				}
+				// 我要上课与回看录像
+				else if(td.actionType === 4 || td.actionType === 2){
+					// 注释掉的邀请码框
+					// this.popCode = tr.code;
+					// this.invitePop.show = true;
+					window.open('https://www.hzchuangxiangzhe.cn/php/PcApi/?name=education.sys.course.visit&course_id='+id);
 				}
 			},
 			dataPage(){
