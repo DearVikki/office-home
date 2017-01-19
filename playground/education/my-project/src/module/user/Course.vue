@@ -208,13 +208,15 @@
 							rowData.action = {
 								content:'评价',
 								class:'active',
-								actionType:1
+								actionType:1,
+								title:'评价完才可回看录像喔!'
 							}
 						} else {
 								rowData.action = {
 								content:'回看录像',
 								class:'active',
-								actionType:2
+								actionType:2,
+								title:'点我回看录像'
 							}
 						}
 					} else {
@@ -222,7 +224,8 @@
 							rowData.action = {
 								content:'评价',
 								class:'active',
-								actionType:1
+								actionType:1,
+								title:'评价'
 							}
 						} else {
 							rowData.action = {

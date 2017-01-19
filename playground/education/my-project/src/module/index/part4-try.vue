@@ -1,7 +1,7 @@
 <template>
 	<div id="try_container">
 		<div id="try">
-			<div id="try_btn"></div>
+			<div id="try_btn" @click="pop.show = true"></div>
 			<div class="hand"
 			:class="{animated:active, tada:active}"
 			@mouseenter="addClass"
@@ -11,14 +11,27 @@
 				<img class="star" src="~assets/img/index/star1.png">
 			</div>
 		</div>
+		<!-- 视频弹窗 -->
+		<pop :pop="pop">
+			<video src="http://www.hzchuangxiangzhe.cn/php/upload/video/video_example.mp4" controls="controls" preload="preload"></video>
+		</pop>
 	</div>
 </template>
 <script>
+	import pop from '../../components/Pop.vue';
 	export default{
 		name:'part4Try',
 		data(){
 			return{
-				active:false
+				active:true,
+				pop:{
+					show:false,
+					style:{
+						padding:0,
+						width:'80%',
+						maxWidth:'800px',
+					}
+				}
 			}
 		},
 		methods:{
@@ -28,7 +41,8 @@
 			removeClass(){
 				this.active = false;
 			}
-		}
+		},
+		components:{pop}
 	}
 </script>
 <style scoped lang='less'>
@@ -76,5 +90,9 @@
     			}
 			}
 		}
+	}
+	video{
+		margin:0 auto;
+		width: 100%;
 	}
 </style>

@@ -278,34 +278,35 @@
 			}
 		},
 		mounted(){
-			//先填数据
-			this.$http.get('?name=education.sys.user.info').then((response)=>{
-				let info = response.body.data.info;
-				this.fields.name.val =  info.user_name;
-				this.fields.sex.val = info.sex;
-				this.fields.qq.val = info.qq;
-				//this.fields.alipay.val = info.alipay;
-				this.fields.scores.subs[0].val = Number(info.chinese) || '';
-				this.fields.scores.subs[1].val = Number(info.math) || '';
-				this.fields.scores.subs[2].val = Number(info.english) || '';
-				this.fields.scores.subs[3].val = Number(info.multiple_l) || '';
-				//this.fields.learningType.val = info.learning_type;
-				this.fields.school.val = info.university;
-				this.fields.major.val = info.major;
-				this.fields.grade.val = info.grade;
-				let subject = JSON.parse(info.subject);
-				// 判断subject数组里是否有subject.checkbox的value
-				this.fields.subject.checkboxes.forEach((e)=>{
-					if(subject.indexOf(e.value)!==-1){
-						console.log(e.value)
-						e.checked = true;
-					}
-				})
-				this.fields.scores.subs[3].id = info.learning_type === '文科'?'E':'D';
-				this.fields.scores.subs[3].val = info.learning_type === '文科'? info.multiple_w : info.multiple_l;
-			})
 		},
 		watch:{
+			datainfo(){
+				//先填数据
+					let info = this.datainfo;
+					console.log(this.datainfo)
+					this.fields.name.val =  info.user_name;
+					this.fields.sex.val = info.sex;
+					this.fields.qq.val = info.qq;
+					//this.fields.alipay.val = info.alipay;
+					this.fields.scores.subs[0].val = Number(info.chinese) || '';
+					this.fields.scores.subs[1].val = Number(info.math) || '';
+					this.fields.scores.subs[2].val = Number(info.english) || '';
+					this.fields.scores.subs[3].val = Number(info.multiple_l) || '';
+					//this.fields.learningType.val = info.learning_type;
+					this.fields.school.val = info.university;
+					this.fields.major.val = info.major;
+					this.fields.grade.val = info.grade;
+					let subject = JSON.parse(info.subject);
+					// 判断subject数组里是否有subject.checkbox的value
+					this.fields.subject.checkboxes.forEach((e)=>{
+						if(subject.indexOf(e.value)!==-1){
+							console.log(e.value)
+							e.checked = true;
+						}
+					})
+					this.fields.scores.subs[3].id = info.learning_type === '文科'?'E':'D';
+					this.fields.scores.subs[3].val = info.learning_type === '文科'? info.multiple_w : info.multiple_l;
+			},
 			checkAll(){
 					let allchecked = true;
 					for(var field in this.fields){
@@ -406,7 +407,7 @@
 				this.learningType = id==='E' ?'文科':'理科';
 			}
 		},
-		props:['checkAll']
+		props:['datainfo','checkAll']
 	}
 </script>
 <style scoped lang='less'>

@@ -59,14 +59,14 @@
 	    left: 0;
 	    top: 0;
 	    background: rgba(0, 0, 0, 0.5);
+	    z-index: 100;
 	    .pop{
 	    	background: #fff;
 	    	border-radius: 4px;
 	    	position: absolute;
-	    	top:0;
-	    	left: 0;
-	    	right: 0;
-	    	bottom: 0;
+	    	top:50%;
+	    	left: 50%;
+	    	transform: translate3d(-50%,-50%,0);
 	    	margin:auto;
 	    	padding: 35px 78px 30px 78px;
 	    	box-shadow: 0 0 8px 1px rgba(0,0,0,.3);

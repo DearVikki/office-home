@@ -185,29 +185,29 @@
 			}
 		},
 		mounted(){
-			//先填数据
-			this.$http.get('?name=education.sys.user.info').then((response)=>{
-				let info = response.body.data.info;
-				this.fields.name.val =  JSON.parse(localStorage.getItem('user')).user_name;
-				this.fields.sex.val = info.sex;
-				this.fields.qq.val = info.qq;
-				this.fields.scores.subs[0].val = Number(info.chinese) || '';
-				this.fields.scores.subs[1].val = Number(info.math) || '';
-				this.fields.scores.subs[2].val = Number(info.english) || '';
-				this.fields.scores.subs[3].val = Number(info.multiple_l) || '';
-				this.fields.scores.subs[4].val = Number(info.multiple_w) || '';
-				this.fields.learningType.val = info.learning_type;
-				this.fields.school.val = info.school;
-				this.fields.grade.val = info.grade;
-				// 加上补习学科的勾
-				if(Number(info.chinese)) this.fields.scores.subs[0].checked=true;
-				if(Number(info.math)) this.fields.scores.subs[1].checked=true;
-				if(Number(info.english)) this.fields.scores.subs[2].checked=true;
-				if(Number(info.multiple_l)) this.fields.scores.subs[3].checked=true;
-				if(Number(info.multiple_w)) this.fields.scores.subs[4].checked=true;
-			})
 		},
 		watch:{
+			datainfo(){
+				//先填数据
+					let info = this.datainfo;
+					this.fields.name.val =  JSON.parse(localStorage.getItem('user')).user_name;
+					this.fields.sex.val = info.sex;
+					this.fields.qq.val = info.qq;
+					this.fields.scores.subs[0].val = Number(info.chinese) || '';
+					this.fields.scores.subs[1].val = Number(info.math) || '';
+					this.fields.scores.subs[2].val = Number(info.english) || '';
+					this.fields.scores.subs[3].val = Number(info.multiple_l) || '';
+					this.fields.scores.subs[4].val = Number(info.multiple_w) || '';
+					this.fields.learningType.val = info.learning_type;
+					this.fields.school.val = info.school;
+					this.fields.grade.val = info.grade;
+					// 加上补习学科的勾
+					if(Number(info.chinese)) this.fields.scores.subs[0].checked=true;
+					if(Number(info.math)) this.fields.scores.subs[1].checked=true;
+					if(Number(info.english)) this.fields.scores.subs[2].checked=true;
+					if(Number(info.multiple_l)) this.fields.scores.subs[3].checked=true;
+					if(Number(info.multiple_w)) this.fields.scores.subs[4].checked=true;
+			},
 			checkAll(){
 				let allchecked = true;
 				for(var field in this.fields){
@@ -252,7 +252,7 @@
 				if((isNaN(mark) || mark >150) || mark<0) checkbox.mark = 130;
 			}
 		},
-		props:['checkAll']
+		props:['datainfo','checkAll']
 	}
 </script>
 <style scoped lang='less'>

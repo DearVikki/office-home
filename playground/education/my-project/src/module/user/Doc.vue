@@ -53,24 +53,8 @@
 		mounted(){
 			let userid = JSON.parse(localStorage.getItem('user')).user_id;
 			this.docs = [];
-			// this.$http.get('?name=education.sys.type.list').then((response)=>{
-			// 	response.body.data.list.forEach((e)=>{
-			// 		this.$http.get('?name=education.sys.subject.list&type='+e.type).then((response)=>{
-			// 			response.body.data.list.forEach((doc)=>{
-			// 				if(doc.is_ppt===1) {
-			// 					this.$http.get('?name=education.sys.ppt.list&subject_id='+doc.id).then((response)=>{
-			// 						console.log(response)
-			// 						doc.lists = response.body.data.list;
-			// 						doc.active = false;
-			// 						console.log(doc.lists)
-			// 						this.docs.push(doc);
-			// 					})
-			// 				}
-			// 			})
-			// 		})
-			// 	})
-			// })
 			this.$http.get('?name=education.sys.ppt.list&user_id='+userid).then((response)=>{
+				// 目的是使ppt按type分类!
 				let type = [];
 				let pptOfSameType = {};
 				this.allppt = response.body.data.list;
@@ -86,10 +70,11 @@
 						ppt:e.ppt
 					})
 				})
-				type.forEach((e)=>{
+				type.forEach((e,i)=>{
+					let active = i===0 ? true:false;
 					this.docs.push({
 						title:e,
-						active:false,
+						active:active,
 						lists:pptOfSameType[e]
 					})
 				})

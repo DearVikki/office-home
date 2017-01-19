@@ -11,7 +11,7 @@
 		<!--翻转部分-->
 		<part6Flip></part6Flip>
 		<!--教师部分-->
-		<part7Teacher></part7Teacher>
+		<!-- <part7Teacher></part7Teacher> -->
 		<!--最后一张banner-->
 		<part8lastBanner :animaStart="part8Anima"></part8lastBanner>
 		<!--关于我们-->
@@ -74,7 +74,8 @@
 					this.navActive = 2;
 					this.phase[3] = true;
 				}
-				else if ((top>3668 && top<4122) && !this.phase[4]) {
+				// else if ((top>3668 && top<4122) && !this.phase[4]) {
+				else if ((top>2700 && top<4122) && !this.phase[4]) {
 					this.phase = [false,false,false,false,false];
 					//lastBanner动画
 					//关于我们

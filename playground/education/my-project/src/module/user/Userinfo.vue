@@ -68,15 +68,15 @@
 </template>
 <script>
 	import Bus from '../../assets/js/bus.js';
-	// import avaImg from '../../assets/img/index/icon_head2.png';
+	import avaImg from '../../assets/img/index/icon_head.png';
 	export default{
 		name:'userinfo',
 		data(){
 			return{
 				usertype:1,
 				user:{
-					avatar:'',
-					name:'我不要再叫李慧慧了!'
+					avatar:avaImg,
+					name:''
 				},
 				// 学生
 				infos1:[{

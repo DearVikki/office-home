@@ -11,7 +11,7 @@
 			v-for="tr in tableData.trs">
 				<td v-for="th in tableData.ths"
 				v-if="(th.name!=='student'||userType===1) && (th.name!=='teacher'||userType===0)"
-				:title="tr[th.name].content">
+				:title="tr[th.name].title">
 					<span :class="tr[th.name].class"
 					@click="clickTd(tr, tr[th.name],tr.id)">{{tr[th.name].content}}</span>
 				</td>
