@@ -18,8 +18,11 @@
 			<pagination
 			v-if="now.allPage>1"
 			:allPage="now.allPage"></pagination>
-			<div class="no-data"
-			v-show="now.tableData.trs.length===0">本周暂无课程>.<</div>
+			<div class="empty-tip"
+			v-show="now.tableData.trs.length===0">
+				<img src="~assets/img/user/no_class.png">
+				<p>本周暂无课程>.<</p>
+			</div>
 		</div>
 		<!--历史课程-->
 		<div v-show="isNow === false">
@@ -33,8 +36,11 @@
 			v-if="history.allPage>1"
 			:allPage="history.allPage"
 			@clickPagination="clickPagination"></pagination>
-			<div class="no-data"
-			v-show="history.tableData.trs.length===0">历史暂无课程!>.<</div>
+			<div class="empty-tip"
+			v-show="history.tableData.trs.length===0">
+				<img src="~assets/img/user/no_class.png">
+				<p>历史暂无课程>.<</p>
+			</div>
 		</div>
 		<!-- 课程评价弹窗 -->
 		<pop :pop="commentPop">

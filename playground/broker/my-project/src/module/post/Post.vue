@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<download></download>
 		<!-- 主帖 -->
 		<div id="post_container">
 			<!-- 发帖人信息 -->
@@ -26,7 +27,7 @@
 				<!-- 头部 -->
 				<div class="post-header">
 					<div class="header-left">
-						<img :src="comment.head_pic">
+						<img :src="comment.head_pic" @click="myAlert">
 						<span class="info-container">
 							<p>
 								<span class="name">{{comment.nickname}}</span>
@@ -65,6 +66,7 @@
 </template>
 <script>
 	import {getParameterByName} from '../../assets/js/queryString.js';
+	import download from '../../components/download.vue'
 	export default{
 		name:'post',
 		data(){
@@ -137,7 +139,8 @@
 			myAlert(){
 				alert('点击顶部下载APP查看更多喔！')
 			}
-		}
+		},
+		components:{download}
 	}
 </script>
 <style scoped lang='less'>

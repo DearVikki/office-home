@@ -13,7 +13,7 @@
 			:infos="infos"></basicInfo>
 			<div class="broker-info">
 				<span>经纪人联系方式</span>
-				<span>点击查看</span>
+				<span @click="myAlert">点击查看</span>
 			</div>
 			<div class="schedule" v-if="schedules">
 				<p>艺人档期</p>
@@ -188,6 +188,9 @@
 		methods:{
 			clickNav(i){
 				this.activeNav = i;
+			},
+			myAlert(){
+				alert('点击顶部下载APP查看更多喔！');
 			}
 		},
 		components:{mynav,basicInfo,download}
@@ -276,9 +279,10 @@
 	}
 	#experience_container{
 		.experience-item{
-			font-size: .2rem;
+			font-size: .4rem;
 			padding: .3rem .53rem;
 			background: #fff;
+			line-height: .8rem;
 		}
 	}
 </style>

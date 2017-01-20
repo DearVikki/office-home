@@ -13,7 +13,7 @@
 			:infos="infos"></basicInfo>
 			<div class="broker-info">
 				<span>影视人联系方式</span>
-				<span>点击查看</span>
+				<span @click="myAlert">点击查看</span>
 			</div>
 			<div class="intro" v-if="intro">
 				<span class="grey">个人简介</span>
@@ -25,7 +25,8 @@
 		v-show="activeNav===1">
 			<div class="work-item"
 			v-if="works.length!==0"
-			v-for="work in works">
+			v-for="work in works"
+			@click="myAlert">
 				<img :src="work.plot_pic">
 				<div class="work-name">{{work.plot_name}}</div>
 				<div class="work-position">
@@ -117,6 +118,9 @@
 		methods:{
 			clickNav(i){
 				this.activeNav = i;
+			},
+			myAlert(){
+				alert('点击顶部下载APP查看更多喔！');
 			}
 		},
 		components:{mynav,basicInfo,download}

@@ -87,21 +87,32 @@
 			},
 			showRemaining(){
 				// 格式：01/19/2017 00:00 PM
-				this.time = this.countdown( new Date(this.showDate),()=>{
-					console.log('hey')
+				var vikkiDate = new Date();
+				vikkiDate = new Date().setDate(vikkiDate.getDate()+1);
+				vikkiDate = new Date(vikkiDate).setHours(0);
+				vikkiDate = new Date(vikkiDate).setMinutes(0);
+				vikkiDate = new Date(vikkiDate).setSeconds(0);
+
+				this.time = this.countdown(new Date(vikkiDate),()=>{
 					this.timer = setInterval(this.showRemaining2, 1000);
 					this.showCode = true;
 				});
 			},
 			showRemaining2(){
-				console.log(new Date(this.expireDate))
-				this.time = this.countdown(new Date(this.expireDate),()=>{
+				var vikkiDate = new Date();
+				vikkiDate = new Date().setDate(vikkiDate.getDate());
+				vikkiDate = new Date(vikkiDate).setHours(0);
+				vikkiDate = new Date(vikkiDate).setMinutes(1);
+				vikkiDate = new Date(vikkiDate).setSeconds(0);
+
+				this.time = this.countdown(new Date(vikkiDate),()=>{
 					this.showCode = false;
 					this.timer = setInterval(this.showRemaining, 1000);
 				})
 			}
 		},
 		computed:{
+			// 会报错…唯一的解释就是showDate()不会随着new Date()实时更新！
 			showDate(){
 				// 只要是utc时间戳 是一定要放在new Date()里面的
 				// or new Date(2017,0,d+1,0,0,0) 注意月份从0开始

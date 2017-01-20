@@ -21,7 +21,8 @@
 			@closePop="gallery.show=false"></galleryPop>
 		</div>
 		<div v-else class="empty-tip">
-			您当且暂无可查看的课件喔>.<
+			<img src="~assets/img/user/no_ppt.png">
+			<p>您当且暂无课件喔>.<</p>
 		</div>
 	</div>
 </template>

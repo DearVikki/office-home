@@ -25,8 +25,8 @@
 <style scoped lang='less'>
 .item{
     width: 100%;
-    height: 1.6rem;
-    line-height: 1.6rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
     font-size: .43rem;
     padding-left: .53rem;
     background: #fff;
