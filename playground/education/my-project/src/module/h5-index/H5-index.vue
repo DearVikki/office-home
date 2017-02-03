@@ -24,22 +24,31 @@
 					<input placeholder="请输入验证码"
 					v-model="code"
 					@keyup="checkCode">
+					<input placeholder="请输入所在学校"
+					v-model="school">
 				</div>
-				<select
-				v-model="grade">
-					<option v-for="o in options[0]"
-					:value="o.value">{{o.title}}</option>
-				</select>
-				<select
-				v-model="subject">
-					<option v-for="o in options[1]"
-					:value="o.value">{{o.title}}</option>
-				</select>
+				<div id="select_container">
+					<select
+					v-model="grade">
+						<option v-for="o in options[0]"
+						:value="o.value">{{o.title}}</option>
+					</select>
+					<select
+					v-model="subject">
+						<option v-for="o in options[1]"
+						:value="o.value">{{o.title}}</option>
+					</select>
+					<select
+					v-model="level">
+						<option v-for="o in options[2]"
+						:value="o.value">{{o.title}}</option>
+					</select>
+				</div>
 				<div class="clear"></div>
 			</div>
 			<div id="book_slogan">已有多名同学在名校昇获得提升！</div>
 			<div id="book_btn"
-			:class="{disabled:!allchecked || !codeValid}"
+			:class="{disabled:!allchecked || !codeValid || !required(school)}"
 			@click="register">{{btnText}}</div>
 		</div>
 		<!--第二张banner2-->
@@ -138,11 +147,22 @@
 				},{
 					value:'历史',
 					title:'历史'
+				}],[{
+					value:'薄弱',
+					title:'薄弱',
+				},{
+					value:'一般',
+					title:'一般'
+				},{
+					value:'良好',
+					title:'良好'
 				}]],
 				code:'',
 				codeValid:false,
+				school:'',
 				grade:'高一',
 				subject:'数学',
+				level:'薄弱',
 				//全部检查
 				allchecked:false,
 				btnText:'立即预约',
@@ -208,9 +228,10 @@
 			checkCode(){
 				this.codeValid = this.code.length>=4 ? true:false;
 			},
+
 			register(){
-				if(!this.allchecked || !this.codeValid) return;
-				let name = this.inputs[0].val,mobile = this.inputs[1].val,grade = this.grade,subject=this.subject;
+				if(!this.allchecked || !this.codeValid || !required(school)) return;
+				let name = this.inputs[0].val,mobile = this.inputs[1].val,grade = this.grade,subject=this.subject, school = this.school, level = this.level;
 				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')+'&code='+this.code).then((response)=>{
 					if(response.body.code===1000){
 						this.inputs[0].val=this.inputs[1].val=this.code='';
@@ -219,14 +240,17 @@
 						this.codeValid = false;
 						this.codeTxt = '发送验证码';
 						this.sendCode.reset = Math.random();
+						alert('预约成功!请静候客服联系喔！');
 					} else if(response.body.code === 1024){
 						this.code = '';
 						this.btnText = '验证码错误!';
+						alert('验证码错误');
 					} else if(response.body.code === 1067){
 						this.inputs[0].val=this.inputs[1].val=this.code='';
 						this.btnText = '您已报名!';
 						this.allchecked = false;
 						this.sendCode.reset = Math.random();
+						alert('您已报名!');
 					}
 					setTimeout(()=>{
 						this.btnText = '立即预约'
@@ -314,18 +338,16 @@
 	        	color:#949494;
 	        	padding-left: .24rem;
 	        }
+	        #select_container{
+	        	display: flex;
+	        	justify-content: space-between;
+	        }
 	        select{
-	        	width: 3.5rem;
+	        	width: 2.5rem;
 	        	height: .9rem;
 	        	border-radius: .05rem;
 	        	border:1px solid #bbb;
-	        	background-position: 3rem center;
-	        	&:first-of-type{
-		        	float: left;
-		        }
-		        &:nth-of-type(2){
-		        	float:right;
-		        }
+	        	background-position: 2rem center;
 	        }
         }
         #book_slogan{
