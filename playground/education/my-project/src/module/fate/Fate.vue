@@ -61,6 +61,7 @@
 				return val < 10? '0'+val : val;
 			},
 			countdown(end,expired){
+				// console.log(end)
 				var _second = 1000;
 				var _minute = _second * 60;
 				var _hour = _minute * 60;
@@ -68,10 +69,10 @@
 				var timer;
 				var now = new Date();
 				var distance = end - now;
-				console.log(distance)
-				if (distance < 0) {
+				// console.log(distance)
+				if (distance < 1100) {
 				    clearInterval(this.timer);
-				    console.log('hey')
+				    // console.log('hey')
 				    return expired();
 				}
 				var days = Math.floor(distance / _day);
@@ -88,9 +89,9 @@
 			showRemaining(){
 				// 格式：01/19/2017 00:00 PM
 				var vikkiDate = new Date();
-				vikkiDate = new Date().setDate(vikkiDate.getDate()+1);
-				vikkiDate = new Date(vikkiDate).setHours(0);
-				vikkiDate = new Date(vikkiDate).setMinutes(0);
+				vikkiDate = new Date().setDate(vikkiDate.getDate());
+				vikkiDate = new Date(vikkiDate).setHours(new Date().getHours());
+				vikkiDate = new Date(vikkiDate).setMinutes(new Date().getMinutes()+1);
 				vikkiDate = new Date(vikkiDate).setSeconds(0);
 
 				this.time = this.countdown(new Date(vikkiDate),()=>{
@@ -101,8 +102,8 @@
 			showRemaining2(){
 				var vikkiDate = new Date();
 				vikkiDate = new Date().setDate(vikkiDate.getDate());
-				vikkiDate = new Date(vikkiDate).setHours(0);
-				vikkiDate = new Date(vikkiDate).setMinutes(1);
+				vikkiDate = new Date(vikkiDate).setHours(new Date().getHours());
+				vikkiDate = new Date(vikkiDate).setMinutes(new Date().getMinutes()+1);
 				vikkiDate = new Date(vikkiDate).setSeconds(0);
 
 				this.time = this.countdown(new Date(vikkiDate),()=>{

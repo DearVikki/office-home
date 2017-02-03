@@ -22,6 +22,12 @@
 		<part11Book></part11Book>
 		<!--侧边条-->
 		<part12Side></part12Side>
+		<!-- 爆炸彩蛋 -->
+		<easterEggBoom v-if="easterEggBoom"></easterEggBoom>
+		<!-- 鸡年大吉彩蛋 -->
+		<easterEggPost v-if="easterEggPost"></easterEggPost>
+		<!-- 我们走彩蛋 -->
+		<easterEggGo v-if="easterEggGo"></easterEggGo>
 	</div>
 </template>
 <script>
@@ -37,6 +43,10 @@
 	import part10Footer from './part10-footer.vue';
 	import part11Book from './part11-book.vue';
 	import part12Side from './part12-side.vue';
+	import easterEggBoom from './easterEgg-boom.vue';
+	import easterEggPost from './easterEgg-post.vue';
+	import easterEggGo from './easterEgg-go.vue';
+	import Bus from '../../assets/js/bus.js';
 	export default{
 		name:'index',
 		data(){
@@ -44,7 +54,10 @@
 				navActive:0,
 				part5Anima:false,
 				part8Anima:false,
-				phase:[false,false,false,false,false]
+				phase:[false,false,false,false,false],
+				easterEggBoom:false,
+				easterEggPost:false,
+				easterEggGo:false
 			}
 		},
 		mounted(){
@@ -84,13 +97,35 @@
 					this.part8Anima = true;
 				}
 			})
+			//加入bus
+			Bus.$on('easterEgg1', text => {
+				document.querySelector('#big_header_left').classList.add('animated');
+				document.querySelector('#big_header_left').classList.add('hinge');
+				// document.querySelector('#big_header_left').classList.add('easterEgg1-1');
+				// setTimeout(()=>{
+				// 	document.querySelector('#big_header_left').classList.add('easterEgg1-2');
+				// },1000)
+				// setTimeout(()=>{
+				// 	document.querySelector('#big_header_left').style.display = 'none';
+				// },1500)
+			})
+			Bus.$on('easterEgg2', text => {
+				this.easterEggBoom = true;
+			})
+			Bus.$on('easterEgg3', text => {
+				this.easterEggPost = true;
+			})
+			Bus.$on('easterEgg5', text => {
+				this.easterEggGo = true;
+			})
 		},
 		methods:{
 		},
 		components:{part2Banner,part3Circle,
 			part4Try,part5Line,part6Flip,part7Teacher,
 			part8lastBanner,part9About,part10Footer,
-			part11Book,part12Side}
+			part11Book,part12Side,
+			easterEggBoom,easterEggPost,easterEggGo}
 	}
 </script>
 <style scoped lang='less'>
