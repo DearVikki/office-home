@@ -16,8 +16,6 @@
 		<part8lastBanner :animaStart="part8Anima"></part8lastBanner>
 		<!--关于我们-->
 		<part9About></part9About>
-		<!--页脚-->
-		<part10Footer></part10Footer>
 		<!--预约-->
 		<part11Book></part11Book>
 		<!--侧边条-->
@@ -40,7 +38,6 @@
 	import part7Teacher from './part7-teacher.vue';
 	import part8lastBanner from './part8-lastBanner.vue';
 	import part9About from './part9-aboutUs.vue';
-	import part10Footer from './part10-footer.vue';
 	import part11Book from './part11-book.vue';
 	import part12Side from './part12-side.vue';
 	import easterEggBoom from './easterEgg-boom.vue';
@@ -123,7 +120,7 @@
 		},
 		components:{part2Banner,part3Circle,
 			part4Try,part5Line,part6Flip,part7Teacher,
-			part8lastBanner,part9About,part10Footer,
+			part8lastBanner,part9About,
 			part11Book,part12Side,
 			easterEggBoom,easterEggPost,easterEggGo}
 	}

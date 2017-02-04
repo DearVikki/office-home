@@ -2,7 +2,9 @@ import common from '../../assets/js/common.js'
 import h5Responsive from '../../assets/js/h5Responsive.js'
 import index from './Index.vue'
 import syllabus from './Syllabus.vue'
+import teacher from './Teacher.vue'
 import part1header from './part1-header.vue';
+import part10footer from './part10-footer.vue';
 
 const router = new common.VueRouter({
 	routes:[{
@@ -11,6 +13,9 @@ const router = new common.VueRouter({
 	},{
 		path:'/syllabus',
 		component:syllabus
+	},{
+		path:'/teacher',
+		component:teacher
 	}]
 	//mode:'history'
 })
@@ -18,5 +23,5 @@ const router = new common.VueRouter({
 new common.Vue({
   el: '#app',
   router,
-  components:{part1header}
+  components:{part1header,part10footer}
 })
