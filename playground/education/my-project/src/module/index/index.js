@@ -3,6 +3,7 @@ import h5Responsive from '../../assets/js/h5Responsive.js'
 import index from './Index.vue'
 import syllabus from './Syllabus.vue'
 import teacher from './Teacher.vue'
+import advantage from './Advantage.vue'
 import part1header from './part1-header.vue';
 import part10footer from './part10-footer.vue';
 
@@ -16,6 +17,9 @@ const router = new common.VueRouter({
 	},{
 		path:'/teacher',
 		component:teacher
+	},{
+		path:'/advantage',
+		component:advantage
 	}]
 	//mode:'history'
 })

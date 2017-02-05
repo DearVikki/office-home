@@ -86,10 +86,10 @@
 		data(){
 			return{
 				thresholds:[{
-					content:'1.本科学校需属于国家<span class="impo" style="color:#ffc761">985/211</span>工程',
+					content:'1.本科学校需属于国家<span class="impo">985/211</span>工程',
 					style:'background:#fd7a6f'
 				},{
-					content:'2.大学学习期间专业排名前20%',
+					content:'2.大学学习期间专业排名前<span class="impo">20%</span>',
 					style:'background:#fb8c63'
 				},{
 					content:'3.所教学科知识通过笔试环节',
@@ -167,11 +167,13 @@
 </script>
 <style lang="less">
 .impo{
-						color:#ffc761;
-						&:hover{
-							transform:scale(1.2);
-						}
-					}
+	color:#ffc761;
+}
+#threshold_right li:hover{
+	.impo{
+		font-weight: bold;
+	}
+}
 </style>
 <style lang='less' scoped>
 	.teacher-container{
