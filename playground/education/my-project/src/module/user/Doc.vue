@@ -60,6 +60,8 @@
 				let pptOfSameType = {};
 				this.allppt = response.body.data.list;
 				this.allppt.forEach((e)=>{
+					// 去掉ppt为null的状态
+					if (!e.ppt) return;
 					if(type.indexOf(e.type)===-1) {
 						type.push(e.type);
 						pptOfSameType[e.type] = [];

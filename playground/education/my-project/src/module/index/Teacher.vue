@@ -59,8 +59,9 @@
 							<img :src="t.img">
 							<div class="layer">
 								<p>{{t.name}}</p>
-								<p>{{t.school}}</p>
-								<p>{{t.class}}</p>
+								<p>{{t.school}} {{t.class}}</p>
+								<p>高考分数: {{t.s}}/{{t.s0}}</p>
+								<p></p>
 							</div>
 						</li>
 					</ul>
@@ -122,46 +123,65 @@
 				}],
 				teachers:[{
 					img:p1,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'王铭钰',
+					school:'浙江大学',
+					class:'经济学',
+					s:380,
+					s0:480
 				},{
 					img:p2,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'朱佳慧',
+					school:'浙江大学',
+					class:'国际经济与贸易',
+					s:508,
+					s0:600
 				},{
 					img:p3,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'楼晓霞',
+					school:'浙江大学',
+					class:'金融学',
+					s:716,
+					s0:830
 				},{
 					img:p4,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'黄敏',
+					school:'浙江大学',
+					class:'国际经济与贸易',
+					s:686,
+					s0:830
 				},{
 					img:p5,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'孙国运',
+					school:'浙江大学',
+					class:'生物医学工程',
+					s:685,
+					s0:750
 				},{
 					img:p6,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'王奥',
+					school:'浙江大学',
+					class:'计算机',
+					s:685,
+					s0:750
 				},{
 					img:p7,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'虞子昊',
+					school:'浙江大学',
+					class:'物理系',
+					s:501,
+					s0:600
 				},{
 					img:p8,
-					name:'xxx',
-					school:'xx',
-					class:'xxx'
+					name:'吴恒旻',
+					school:'浙江大学',
+					class:'电气自动化',
+					s:638,
+					s0:750
 				}]
 			}
+		},
+		mounted(){
+			// alert(window.innerWidth);
 		}
 	}
 </script>
