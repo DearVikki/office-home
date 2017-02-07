@@ -19,7 +19,21 @@
 <script>
 	export default{
 		name:'num-editor',
+		mounted(){
+			// 奇怪的是在这里写 刷新网页时不会触发 但是vue热更新时会喔
+			this.initial();
+		},
 		methods:{
+			initial(){
+				// 库存突然为0
+				if(this.numEditorData.max <= this.numEditorData.min) {
+					this.numEditorData.min = this.numEditorData.num = this.numEditorData.max;
+				}
+				// 库存不足
+				else if(this.numEditorData.max < this.numEditorData.num) {
+					this.numEditorData.num = this.numEditorData.max;
+				}
+			},
 			plus(){
 				if(this.numEditorData.num >= this.numEditorData.max) return;
 				this.numEditorData.num++;
@@ -29,10 +43,15 @@
 				this.numEditorData.num--;
 			},
 			inputNum(){
-				console.log(Number(this.numEditorData.num))
+				// 现在数字：Number(this.numEditorData.num)
 				if(isNaN(this.numEditorData.num)) this.numEditorData.num = 1;
 				else if(this.numEditorData.num > this.numEditorData.max) this.numEditorData.num = this.numEditorData.max;
 				else if(this.numEditorData.num < this.numEditorData.min) this.numEditorData.num = this.numEditorData.min;
+			}
+		},
+		watch:{
+			'numEditorData.max'(){
+				this.initial();
 			}
 		},
 		props:['numEditorStyle','numEditorData','numEditorClass']

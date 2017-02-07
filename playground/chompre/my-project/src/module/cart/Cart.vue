@@ -37,8 +37,8 @@
 							<!-- 数量选择框 -->
 							<div class="goods-num">
 								<numeditor
-								:numEditorStyle="goods.numEditorStyle"
-								:numEditorClass="goods.numEditorClass"
+								:numEditorStyle="numEditorStyle"
+								:numEditorClass="numEditorClass"
 								:numEditorData="goods.numEditorData"></numeditor>
 							</div>
 							<!-- 总价 -->
@@ -62,10 +62,10 @@
 				<label class="common-check-container">
 					<input type="checkbox" @change="allCheck" :checked="allchecked">
 					<span class="check-input"></span>
-					<span>全选</span>
+					<span class="cp">全选</span>
 				</label>
-				<span style="margin-left:20px">移入收藏夹</span>
-				<span style="margin-left:20px">删除</span>
+				<span class="cp" style="margin-left:20px">移入收藏夹</span>
+				<span class="cp" style="margin-left:20px">删除</span>
 			</div>
 			<div class="fr">
 				<span style="margin-right:20px">已选商品<span class="amount">{{goodsArr.length}}</span>件</span>
@@ -74,167 +74,73 @@
 				:class="{disabled:goodsArr.length === 0}">结算</span>
 			</div>
 		</div>
+		<pop :pop="pop">
+			<p class="pop-txt">{{deleteTxt}}</p>
+			<div class="btn-container">
+				<div class="btn">确认删除</div>
+				<div class="btn reverse">关闭</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
 	import numeditor from '../../components/NumEditor.vue';
+	import pop from '../../components/Pop.vue';
 	export default{
 		name:'cart',
 		data(){
 			return{
 				carts:[{
 	                dealer_info: {
-	                    dealer_id: 3,
-	                    dealer_name: "智利真维斯",
+	                    dealer_id: '',
+	                    dealer_name: '',
 	                    checked:false
 	                },
 	                goods_info: [
 	                    {
-	                        goods_id: 5,
-	                        goods_num: 1,
-	                        pre_goods_id: 2,
-	                        stores: 467,
-	                        description: ["颜色:中卡其", "尺码:S", " 布料:麻布"],
-	                        goods_name: "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
-	                        cover_pic: "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/1.png",
-	                        price: 100,
+	                        goods_id: '',
+	                        goods_num: '',
+	                        pre_goods_id: '',
+	                        stores: '',
+	                        description: [],
+	                        goods_name: '',
+	                        cover_pic: '',
+	                        price: '',
 	                        //numEditor
-	                        numEditorStyle:{
-	                        	container:{
-	                        		display:'inline-block', marginRight:'10px',fontSize:'0'
-	                        	},
-	                        	minus:{
-	                        		width:'16px', height: '24px', lineHeight: '20px',
-	                        		fontSize:'16px', background:'#f5f5f5', border:'1px solid #b0b0b0'
-	                        	},
-	                        	input:{
-	                        		width:'40px', background:'#fff',
-	                        		display:'inline-block', height:'24px', border:'1px solid #b0b0b0'
-	                        	}
-	                        },
-	                        numEditorClass:{
-	                        	input:[]
-	                        },
 	                        numEditorData:{
 	                        	num:1,
-	                        	max:467,
+	                        	max:1,
 	                        	min:1
 	                        },
 	                        checked:false
-	                    },
-	                    {
-	                        goods_id: 1,
-	                        goods_num: 2,
-	                        pre_goods_id: 2,
-	                        stores: 155,
-	                        description: ["颜色:中卡其", "尺码:M", " 布料:麻布"],
-	                        goods_name: "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
-	                        cover_pic: "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/1.png",
-	                        price: 100,
-	                        //numEditor
-	                        numEditorStyle:{
-	                        	container:{
-	                        		display:'inline-block', marginRight:'10px',fontSize:'0'
-	                        	},
-	                        	minus:{
-	                        		width:'16px', height: '24px', lineHeight: '20px',
-	                        		fontSize:'16px', background:'#f5f5f5', border:'1px solid #b0b0b0'
-	                        	},
-	                        	input:{
-	                        		width:'40px', background:'#fff',
-	                        		display:'inline-block', height:'24px', border:'1px solid #b0b0b0'
-	                        	}
-	                        },
-	                        numEditorClass:{
-	                        	input:[]
-	                        },
-	                        numEditorData:{
-	                        	num:1,
-	                        	max:5,
-	                        	min:1
-	                        },
-	                        checked:false
-	                    },
-	                    {
-	                        goods_id: 6,
-	                        goods_num: 1,
-	                        pre_goods_id: 2,
-	                        stores: 124,
-	                        description:["颜色:漂白", "尺码:S", " 布料:麻布"],
-	                        goods_name: "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
-	                        cover_pic: "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/2.png",
-	                        price: 100,
-	                        //numEditor
-	                        numEditorStyle:{
-	                        	container:{
-	                        		display:'inline-block', marginRight:'10px',fontSize:'0'
-	                        	},
-	                        	minus:{
-	                        		width:'16px', height: '24px', lineHeight: '20px',
-	                        		fontSize:'16px', background:'#f5f5f5', border:'1px solid #b0b0b0'
-	                        	},
-	                        	input:{
-	                        		width:'40px', background:'#fff',
-	                        		display:'inline-block', height:'24px', border:'1px solid #b0b0b0'
-	                        	}
-	                        },
-	                        numEditorClass:{
-	                        	input:[]
-	                        },
-	                        numEditorData:{
-	                        	num:1,
-	                        	max:5,
-	                        	min:1
-	                        },
-	                        checked:false
-	                    }
-	                ]
-	            },
-	            {
-	                dealer_info: {
-	                    dealer_id: 1,
-	                    dealer_name: "三只松鼠",
-	                    checked:false
-	                },
-	                goods_info: [
-	                    {
-	                        goods_id: 3,
-	                        goods_num: 1,
-	                        pre_goods_id: 3,
-	                        stores: 35,
-	                        description: ["颜色:中卡其","尺码:M", "布料:麻布"],
-	                        goods_name: "PANCOAT[5月新品]韩版休闲宽松插肩短袖T恤女 PPATE162257W",
-	                        cover_pic: "https://gd2.alicdn.com/imgextra/i2/1691332753/TB27SS7hpXXXXXHXXXXXXXXXXXX_!!1691332753.jpg",
-	                        price: 12,
-	                        //numEditor
-	                        numEditorStyle:{
-	                        	container:{
-	                        		display:'inline-block', marginRight:'10px',fontSize:'0'
-	                        	},
-	                        	minus:{
-	                        		width:'16px', height: '24px', lineHeight: '20px',
-	                        		fontSize:'16px', background:'#f5f5f5', border:'1px solid #b0b0b0'
-	                        	},
-	                        	input:{
-	                        		width:'40px', background:'#fff',
-	                        		display:'inline-block', height:'24px', border:'1px solid #b0b0b0'
-	                        	}
-	                        },
-	                        numEditorClass:{
-	                        	input:[]
-	                        },
-	                        numEditorData:{
-	                        	num:1,
-	                        	max:5,
-	                        	min:1
-	                        }
 	                    }
 	                ]
 	            }],
 	            goodsArr:[],
 	            allchecked:false,
 	            amount:0,
-	            price:0
+	            price:0,
+	            numEditorStyle:{
+	            	container:{
+	            		display:'inline-block', marginRight:'10px',fontSize:'0'
+	            	},
+	            	minus:{
+	            		width:'16px', height: '24px', lineHeight: '20px',
+	            		fontSize:'16px', background:'#f5f5f5', border:'1px solid #b0b0b0'
+	            	},
+	            	input:{
+	            		width:'40px', background:'#fff',
+	            		display:'inline-block', height:'24px', border:'1px solid #b0b0b0'
+	            	}
+	            },
+	            numEditorClass:{
+	            	input:[]
+	            },
+	            pop:{
+	            	show:true,
+	            	style:{width:'780px',height:'292px'}
+	            },
+	            deleteTxt:'确认删除该商品吗？'
 			}
 		},
 		mounted(){
@@ -242,7 +148,20 @@
 			this.$http.post('',{
 				name:'zl.shopping.sys.shop.cart'
 			}).then((response)=>{
-				console.log(response)
+				let data = response.body.data.shop_cart_info;
+				data.forEach((e)=>{
+					e.dealer_info.checked = false;
+					e.goods_info.forEach((g)=>{
+						g.numEditorData = {
+							num: g.goods_num,
+							max: g.stores,
+							min: 1
+						},
+						// "xx  xx " => "['xx','xx']"
+						g.description = g.description.split(" ").filter((d)=>{return d});
+					})
+				})
+				this.carts = data;
 			})
 		},
 		methods:{
@@ -330,17 +249,6 @@
 			}
 		},
 		computed:{
-			// // 所有被选中的物品
-			// goodsArr(){
-			// 	let goodsArr = [];
-			// 	this.carts.forEach((shop)=>{
-			// 		shop.goods_info.forEach((goods)=>{
-			// 			if(goods.checked) goodsArr.push(goods);
-			// 		})
-			// 	})
-			// 	console.log(goodsArr)
-			// 	return goodsArr;
-			// },
 			price(){
 				let price = 0;
 				this.goodsArr.forEach((goods)=>{
@@ -349,7 +257,7 @@
 				return price;
 			}
 		},
-		components:{numeditor}
+		components:{numeditor,pop}
 	}
 </script>
 <style scoped lang='less'>
@@ -458,6 +366,9 @@
 				/*edit-container*/
 				.edit-container{
 					width: 60px;
+					span{
+						cursor: pointer;
+					}
 				}
 			}
 		}
@@ -540,5 +451,12 @@
 		input[type=checkbox]:checked + .check-input:after{
 			line-height: 22px;
 		}
+	}
+	/*删除弹窗*/
+	.pop-txt{
+		margin-top: 30px;
+	}
+	.btn-container{
+		margin-top: 100px;
 	}
 </style>
