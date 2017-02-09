@@ -41,10 +41,9 @@
 					@mouseleave="leaveCate(productType[cate].id)">
 						<span>{{productType[cate].name}}</span>
 						<!--二级分类-->
-						<ul class="subcate-ul">
+						<ul class="subcate-ul" v-show="productType[cate].active">
 							<a class="cate-item"
 							v-for="subcate in productType[cate].sub"
-							v-show="productType[cate].active"
 							:href="'category.html?name='+productType[cate].name+'&id='+productType[cate].id+'&subid='+subcate.id">
 								<span>{{subcate.name}}</span>
 							</a>

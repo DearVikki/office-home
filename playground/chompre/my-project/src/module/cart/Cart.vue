@@ -4,7 +4,7 @@
 		<div id="cart_item_container">
 			<!-- 商店 -->
 			<div class="shop-item"
-			v-for="shop in carts">
+			v-for="(shop,shopIndex) in carts">
 				<!-- 商店标题 -->
 				<div class="shop-header">
 					<!-- 选择一家店的所有商品 -->
@@ -17,7 +17,7 @@
 				<!-- 所含商品 -->
 				<div class="goods-item-container">
 					<div class="goods-item"
-					v-for="goods in shop.goods_info">
+					v-for="(goods,goodsIndex) in shop.goods_info">
 						<div class="fl">
 							<!-- 选择单件商品 -->
 							<label class="common-check-container">
@@ -48,7 +48,7 @@
 							<!-- 移入收藏夹/删除 -->
 							<div class="edit-container">
 								<span>移入收藏夹</span>
-								<span>删除</span>
+								<span @click="deleteGoodsPop(shopIndex,goodsIndex)">删除</span>
 							</div>
 						</div>
 					</div>
@@ -65,7 +65,7 @@
 					<span class="cp">全选</span>
 				</label>
 				<span class="cp" style="margin-left:20px">移入收藏夹</span>
-				<span class="cp" style="margin-left:20px">删除</span>
+				<span class="cp" @click="deleteMultiGoodsPop" style="margin-left:20px">删除</span>
 			</div>
 			<div class="fr">
 				<span style="margin-right:20px">已选商品<span class="amount">{{goodsArr.length}}</span>件</span>
@@ -75,10 +75,10 @@
 			</div>
 		</div>
 		<pop :pop="pop">
-			<p class="pop-txt">{{deleteTxt}}</p>
+			<p class="pop-txt">{{popTxt}}</p>
 			<div class="btn-container">
-				<div class="btn">确认删除</div>
-				<div class="btn reverse">关闭</div>
+				<div class="btn" @click="ConfirmDeleteGoods">确认删除</div>
+				<div class="btn reverse" @click="pop.show = false">关闭</div>
 			</div>
 		</pop>
 	</div>
@@ -116,7 +116,10 @@
 	                    }
 	                ]
 	            }],
+	            // 所有已选商品
 	            goodsArr:[],
+	            // 所有需要删除的商品id
+	            deleteGoods:[],
 	            allchecked:false,
 	            amount:0,
 	            price:0,
@@ -137,10 +140,10 @@
 	            	input:[]
 	            },
 	            pop:{
-	            	show:true,
+	            	show:false,
 	            	style:{width:'780px',height:'292px'}
 	            },
-	            deleteTxt:'确认删除该商品吗？'
+	            popTxt:'确认删除该商品吗？'
 			}
 		},
 		mounted(){
@@ -165,12 +168,18 @@
 			})
 		},
 		methods:{
-			// 所有被选中的物品 为什么放在computed里时第二家店铺的商品会触发不了compued事件？
+			// 所有被选中的物品 为什么放在computed里时第二家店铺的商品会触发不了computed事件？
 			goodsArrFun(){
 				let goodsArr = [];
-				this.carts.forEach((shop)=>{
-					shop.goods_info.forEach((goods)=>{
-						if(goods.checked) goodsArr.push(goods);
+				this.carts.forEach((shop,shopIndex)=>{
+					shop.goods_info.forEach((goods,goodsIndex)=>{
+						if(goods.checked) {
+							// 让goodsIndex以从大到小顺序排列
+							goodsArr.unshift({
+								shopIndex: shopIndex,
+								goodsIndex: goodsIndex
+							});
+						}
 					})
 				})
 				this.goodsArr = goodsArr;
@@ -228,6 +237,7 @@
 				}
 				this.goodsArrFun();
 			},
+			// 全部选中
 			allCheck(){
 				if(this.allchecked){
 					// uncheck
@@ -244,6 +254,50 @@
 				}
 				this.goodsArrFun();
 			},
+			// 点击删除单件商品
+			deleteGoodsPop(shopIndex,goodsIndex){
+				this.popTxt = '确认删除该商品吗？';
+				this.deleteGoods = [];
+				this.deleteGoods.push({
+					shopIndex: shopIndex,
+					goodsIndex: goodsIndex
+				});
+				this.pop.show = true;
+			},
+			// 点击删除多件商品
+			deleteMultiGoodsPop(){
+				this.popTxt = '确认删除所有已选商品吗？';
+				this.deleteGoods = [];
+				this.goodsArr.forEach((obj)=>{
+					this.deleteGoods.push(obj);
+				})
+				this.pop.show = true;
+			},
+			// 删除商品
+			ConfirmDeleteGoods(){
+				let deleteGoodsId = [];
+				this.deleteGoods.forEach((obj)=>{
+					deleteGoodsId.unshift(this.carts[obj.shopIndex].goods_info[obj.goodsIndex].goods_id);
+				})
+				this.$http.post('',{
+					name:'zl.shopping.sys.del.goods',
+					goods_id: deleteGoodsId.toString(),
+					is_selected:0
+				}).then((response)=>{
+					this.pop.show = false;
+					this.deleteGoods.forEach((obj)=>{
+						console.log(obj.shopIndex)
+						console.log(this.carts[obj.shopIndex]);
+						console.log(obj.goodsIndex)
+						console.log(this.carts[obj.shopIndex].goods_info[obj.goodsIndex])
+						// this.carts[obj.shopIndex].goods_info.splice(obj.goodsIndex,1);
+						// console.log(this.carts[obj.shopIndex].goods_info)
+						// 若该店铺无商品 也一并删除店铺
+						// if(this.carts[obj.shopIndex].goods_info.length === 0)
+						// 	this.carts.splice(obj.shopIndex,1);
+					})
+				})
+			},
 			pay(){
 
 			}
@@ -251,7 +305,8 @@
 		computed:{
 			price(){
 				let price = 0;
-				this.goodsArr.forEach((goods)=>{
+				this.goodsArr.forEach((obj)=>{
+					let goods = this.carts[obj.shopIndex].goods_info[obj.goodsIndex];
 					price += goods.numEditorData.num * goods.price;
 				})
 				return price;

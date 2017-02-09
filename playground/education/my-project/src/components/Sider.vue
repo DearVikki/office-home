@@ -4,7 +4,7 @@
 		v-for="item in sideItems"
 		:class="{active:sideType === item.type}"
 		@click="clickItem(item)"
-		v-if="((item.type !== 3 && item.type !== 4) && userType === 0) || (item.type !== 5 && userType === 1)">{{item.name}}</div>
+		v-if="((item.type !== 4 && item.type !== 5) && userType === 0) || ((item.type !== 2 && item.type !== 6)&& userType === 1)">{{item.name}}</div>
 	</div>
 </template>
 <script>
@@ -19,50 +19,57 @@
 					name:'我的课程'
 				},{
 					type:2,
+					link:'buycourse',
+					name:'购买课程'
+				},{
+					type:3,
 					link:'freetime',
 					name:'空余时间'
 				},{
-					type:3,
+					type:4,
 					link:'doc',
 					name:'课件中心'
 				},
+				{
+					type:5,
+					link:'salary',
+					name:'课时结算'
+				},
 				// {
-				// 	type:4,
-				// 	link:'trial',
-				// 	name:'我的试讲课'
-				// },
-				// {
-				// 	// type:5,
+				// 	// type:6,
 					// link:'trial',
 					// name:'我的试听课'
 				//},
 				{
-					type:6,
+					type:7,
 					link:'usercenter',
 					name:'个人中心'
 				},{
-					type:7,
+					type:8,
 					link:'question',
-					name:'疑难解惑'
+					name:'注意事项'
 				}],
 				sideType:1
 			}
 		},
 		mounted(){
 			this.userType = JSON.parse(localStorage.getItem('user')).user_type;
-			//要做些什么来匹配对应的nav呢？要自己用location.href取尾数吗？
-			for(var i = 0; i<this.sideItems.length; i++){
-				if( '#/'+this.sideItems[i].link === location.hash) {
-					this.sideType = this.sideItems[i].type;
-					return;
-				}
-			}
-			//直接打开时
-			if(location.hash === '#/') this.sideType = 1;
-			//编辑个人信息时
-			else this.sideType = 5;
+			this.highlightNav();
 		},
 		methods:{
+			highlightNav(){
+				//要做些什么来匹配对应的nav呢？要自己用location.href取尾数吗？
+				for(var i = 0; i<this.sideItems.length; i++){
+					if( '#/'+this.sideItems[i].link === location.hash) {
+						this.sideType = this.sideItems[i].type;
+						return;
+					}
+				}
+				//直接打开时
+				if(location.hash === '#/') this.sideType = 1;
+				//编辑个人信息时
+				else this.sideType = 7;
+			},
 			clickItem(item){
 				this.sideType = item.type;
 				this.$router.push(item.link);
@@ -70,6 +77,7 @@
 		},
 		watch:{
 			$route(){
+				this.highlightNav();
 			}
 		},
 		beforeRouteEnter (to, from, next) {

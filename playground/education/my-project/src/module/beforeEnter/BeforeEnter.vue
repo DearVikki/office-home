@@ -428,7 +428,8 @@
 						alipay:'',
 						major: this.fields.major.val,
 						university: '浙江大学',
-						subject:this.subjectField
+						subject:this.subjectField,
+						head:''
 					};
 					this.$http.post('',updateData).then((response)=>{
 						//清空擅长学科区

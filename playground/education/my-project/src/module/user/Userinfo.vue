@@ -24,15 +24,15 @@
 			<div class="course-header">购买课程</div>
 			<table v-show="courses.length!==0">
 				<tr>
-					<th style="width:30%">任课老师</th>
+					<th style="width:30%">总课时</th>
 					<th style="width:40%">剩余课时</th>
-					<!--<th style="width:30%"></th>-->
+					<th style="width:30%"></th>
 				</tr>
 				<tr class="row"
-				v-for="course in courses">
-					<td>{{course.teacher_name}}</td>
+				v-for="course in coursesAll">
+					<td>{{course.all_hour}}</td>
 					<td>{{course.left_hour}}</td>
-					<!--<td><span class="buy">继续购买</span></td>-->
+					<td><span class="buy" @click="buy">购买课时</span></td>
 				</tr>
 			</table>
 			<div class="empty-data"
@@ -145,6 +145,10 @@
 				courses:[{
 					teacher_name:'王奥',
 					left_hour:3
+				}],
+				coursesAll:[{
+					all_hour:30,
+					left_hour:3
 				}]
 			}
 		},
@@ -240,6 +244,9 @@
 			editInfo(){
 				//this.$router.push('usercenter/edit')
 				this.$router.push('usercenterEdit');
+			},
+			buy(){
+				this.$router.push('buycourse');
 			}
 		}
 	}

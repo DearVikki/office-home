@@ -33,7 +33,7 @@
 		cursor: pointer;
 		position: fixed;
 		right: 0;
-		top:50%;
+		top:40%;
 		z-index: 1000;
 		.side-item{
 			display: flex;

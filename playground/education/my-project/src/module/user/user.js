@@ -1,5 +1,7 @@
 import common from '../../assets/js/common.js'
 import course from './Course.vue'
+import buycourse from './BuyCourse.vue'
+import salary from './Salary.vue'
 import freetime from './freeTime.vue'
 import doc from './Doc.vue'
 import userinfo from './Userinfo.vue'
@@ -30,6 +32,12 @@ const router = new common.VueRouter({
 	routes:[{
 		path:'/',
 		component:course
+	},{
+		path:'/buycourse',
+		component:buycourse
+	},{
+		path:'/salary',
+		component:salary
 	},{
 		path:'/course',
 		component:course
