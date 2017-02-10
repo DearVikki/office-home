@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>名校昇用户平台</title>
+  </head>
+  <body>
+    <div id="app">
+      <myheader @changeName="changeName"></myheader>
+      <div id="main_container">
+        <div class="user-common-container" id="pay_container">
+          <router-view></router-view>
+        </div>
+      </div>
+    </div>
+    <!-- built files will be auto injected -->
+  </body>
+  <style type="text/css">
+    #pay_container{
+      float: none;
+      margin:0 auto;
+      min-height: 311px;
+    }
+  </style>
+</html>

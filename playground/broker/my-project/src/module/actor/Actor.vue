@@ -146,7 +146,7 @@
 			}).then((response)=>{
 				let data = response.body.data;
 				this.infos[0].content = data.name;
-				this.infos[1].content = data.sex?'女':'男';
+				this.infos[1].content = Number(data.sex)?'女':'男';
 				this.infos[2].content = data.stature;
 				this.infos[3].content = data.weight;
 				this.infos[4].content = data.act_range;

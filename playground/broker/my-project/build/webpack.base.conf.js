@@ -3,6 +3,7 @@ var config = require('../config')
 var utils = require('./utils')
 var projectRoot = path.resolve(__dirname, '../')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var PrerenderSpaPlugin = require('prerender-spa-plugin')
 
 var env = process.env.NODE_ENV
 // check env & config/index.js to decide weither to enable CSS Sourcemaps for the
@@ -93,7 +94,12 @@ module.exports = {
       })
     ]
   },
-  plugins:[]
+  plugins:[
+    // new PrerenderSpaPlugin(
+    //     path.join(__dirname,'../dist'),
+    //     ['/']
+    //   )
+  ]
 }
 
 //多页面新加
@@ -110,4 +116,5 @@ for(var pathname in pages){
     })
   }
   module.exports.plugins.push(new HtmlWebpackPlugin(conf));
+  module.exports.plugins.push(new PrerenderSpaPlugin(conf));
 }
