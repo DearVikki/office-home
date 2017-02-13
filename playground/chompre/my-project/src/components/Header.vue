@@ -30,7 +30,7 @@
 			<div id='cate_container'
 			@mouseenter='productTypeActive.status=true'
 			>
-				商品分类
+				Categorías de productos
 				<!--一级分类-->
 				<ul id='cate_ul'
 				v-show='productTypeActive.status'
@@ -52,10 +52,10 @@
 				</ul>
 			</div>
 			<ul id='user_container'>
-				<li>mi chompres</li>
-				<li>购物车</li>
-				<li>misfavoritos</li>
-				<li>我的店铺</li>
+				<li>Mi chompres</li>
+				<li><a href="./cart.html">Carro</a></li>
+				<li>Misfavoritos</li>
+				<li>Mitienda</li>
 			</ul>
 			<div class="clear"></div>
 		</div>
@@ -280,7 +280,7 @@
 			color: #fff;
 			background: @baseColor;
 			float: left;
-			width: 212px;
+			width: 220px;
 		    height: 40px;
 		    line-height: 40px;
 		    padding-left: 10px;
@@ -335,11 +335,14 @@
 		#user_container{
 			float: right;
 			margin-top: 10px;
+			color: @bla;
 			li{
-				color: @bla;
 				font-size: 12px;
 				margin-left: 30px;
 				display: inline-block;
+			}
+			a {
+				color: @bla;
 			}
 		}
 	}

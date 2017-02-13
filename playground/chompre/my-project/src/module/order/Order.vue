@@ -66,11 +66,7 @@
 				order.order_info.start_time = timestamp(order.order_info.start_time);
 				// 处理description成数组
 				order.goods_info.forEach((goods)=>{
-					let des = [];
-					goods.description.split(' ').forEach((d)=>{
-						if(d !== '') des.push(d);
-					})
-					goods.description = des;
+					goods.description = goods.description.split(' ').filter((d)=>{return d});
 				})
 				this.orders.push(order);
 			})
@@ -102,6 +98,8 @@
 				this.$http.post('',{
 					name:'zl.shopping.pc.order.type',
 					type:this.activeNav
+				}).then((response)=>{
+					console.log(response.body.data)
 				})
 			}
 		},

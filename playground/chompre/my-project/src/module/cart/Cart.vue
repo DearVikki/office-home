@@ -47,8 +47,8 @@
 						<div class="fr">
 							<!-- 移入收藏夹/删除 -->
 							<div class="edit-container">
-								<span>移入收藏夹</span>
-								<span @click="deleteGoodsPop(shopIndex,goodsIndex)">删除</span>
+								<span @click="collectGoods(shopIndex,goodsIndex)">Agregar a favorito</span>
+								<span @click="deleteGoodsPop(shopIndex,goodsIndex)">Eliminar</span>
 							</div>
 						</div>
 					</div>
@@ -62,22 +62,23 @@
 				<label class="common-check-container">
 					<input type="checkbox" @change="allCheck" :checked="allchecked">
 					<span class="check-input"></span>
-					<span class="cp">全选</span>
+					<span class="cp">Seleccionartodo</span>
 				</label>
-				<span class="cp" style="margin-left:20px">移入收藏夹</span>
-				<span class="cp" @click="deleteMultiGoodsPop" style="margin-left:20px">删除</span>
+				<span class="cp" @click="collectMultiGoods" style="margin-left:20px">Agregar a favorito</span>
+				<span class="cp" @click="deleteMultiGoodsPop" style="margin-left:20px">Eliminar</span>
 			</div>
 			<div class="fr">
-				<span style="margin-right:20px">已选商品<span class="amount">{{goodsArr.length}}</span>件</span>
-				<span style="margin-right:20px" >合计（不含运费）：<span class="price" style="margin:0 10px">${{price}}</span></span>
+				<span style="margin-right:20px">Productosseleccionados: <span class="amount">{{goodsArr.length}}</span></span>
+				<span style="margin-right:20px" >Total (sin despacho):<span class="price" style="margin:0 10px">${{price}}</span></span>
 				<span class="pay"
-				:class="{disabled:goodsArr.length === 0}">结算</span>
+				:class="{disabled:goodsArr.length === 0}"
+				@click="pay">pagar</span>
 			</div>
 		</div>
 		<pop :pop="pop">
 			<p class="pop-txt">{{popTxt}}</p>
 			<div class="btn-container">
-				<div class="btn" @click="ConfirmDeleteGoods">确认删除</div>
+				<div class="btn" @click="confirmDeleteGoods">确认删除</div>
 				<div class="btn reverse" @click="pop.show = false">关闭</div>
 			</div>
 		</pop>
@@ -118,8 +119,8 @@
 	            }],
 	            // 所有已选商品
 	            goodsArr:[],
-	            // 所有需要删除的商品id
-	            deleteGoods:[],
+	            // 所有需要删除或收藏的商品id
+	            actionGoods:[],
 	            allchecked:false,
 	            amount:0,
 	            price:0,
@@ -257,8 +258,8 @@
 			// 点击删除单件商品
 			deleteGoodsPop(shopIndex,goodsIndex){
 				this.popTxt = '确认删除该商品吗？';
-				this.deleteGoods = [];
-				this.deleteGoods.push({
+				this.actionGoods = [];
+				this.actionGoods.push({
 					shopIndex: shopIndex,
 					goodsIndex: goodsIndex
 				});
@@ -267,16 +268,16 @@
 			// 点击删除多件商品
 			deleteMultiGoodsPop(){
 				this.popTxt = '确认删除所有已选商品吗？';
-				this.deleteGoods = [];
+				this.actionGoods = [];
 				this.goodsArr.forEach((obj)=>{
-					this.deleteGoods.push(obj);
+					this.actionGoods.push(obj);
 				})
 				this.pop.show = true;
 			},
 			// 删除商品
-			ConfirmDeleteGoods(){
+			confirmDeleteGoods(){
 				let deleteGoodsId = [];
-				this.deleteGoods.forEach((obj)=>{
+				this.actionGoods.forEach((obj)=>{
 					deleteGoodsId.unshift(this.carts[obj.shopIndex].goods_info[obj.goodsIndex].goods_id);
 				})
 				this.$http.post('',{
@@ -284,8 +285,9 @@
 					goods_id: deleteGoodsId.toString(),
 					is_selected:0
 				}).then((response)=>{
+					if(response.body.code === 1000) console.log('删除成功');
 					this.pop.show = false;
-					this.deleteGoods.forEach((obj)=>{
+					this.actionGoods.forEach((obj)=>{
 						console.log(obj.shopIndex)
 						console.log(this.carts[obj.shopIndex]);
 						console.log(obj.goodsIndex)
@@ -298,8 +300,46 @@
 					})
 				})
 			},
+			// 点击收藏单价商品
+			collectGoods(shopIndex, goodsIndex){
+				this.actionGoods = [];
+				this.actionGoods.push({
+					shopIndex: shopIndex,
+					goodsIndex: goodsIndex
+				});
+				this.confirmCollectGoods();
+			},
+			// 点击收藏多件商品
+			collectMultiGoods(){
+				this.actionGoods = [];
+				this.goodsArr.forEach((obj)=>{
+					this.actionGoods.push(obj);
+				});
+				this.confirmCollectGoods();
+			},
+			// 收藏商品的ajax
+			confirmCollectGoods(){
+				let collectGoodsId = [], collectGoodsForId = [];
+				this.actionGoods.forEach((obj)=>{
+					collectGoodsId.unshift(this.carts[obj.shopIndex].goods_info[obj.goodsIndex].goods_id);
+					collectGoodsForId.unshift(this.carts[obj.shopIndex].goods_info[obj.goodsIndex].pre_goods_id);
+				})
+				this.$http.post('',{
+					name: 'zl.shopping.sys.array.collect',
+					for_id: collectGoodsForId.toString(),
+					goods_id: collectGoodsId.toString(),
+					for_type: 'pre_goods'
+				}).then((response)=>{
+					if(response.body.code === 1000) console.log('收藏成功');
+				})
+			},
+			// 购物车去结算
 			pay(){
-
+				let payGoodsId = [];
+				this.goodsArr.forEach((obj)=>{
+					payGoodsId.unshift(this.carts[obj.shopIndex].goods_info[obj.goodsIndex].goods_id);
+				})
+				localStorage.setItem('goodsIdOrder',payGoodsId.toString());
 			}
 		},
 		computed:{
@@ -420,7 +460,7 @@
 				}
 				/*edit-container*/
 				.edit-container{
-					width: 60px;
+					width: 110px;
 					span{
 						cursor: pointer;
 					}

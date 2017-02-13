@@ -290,10 +290,10 @@
 								request.address_id = Number(this.addressId);
 							}
 							console.log(request)
-							/*this.$http.post('',request).then((response)=>{
+							this.$http.post('',request).then((response)=>{
 								if(response.body.code === 1000)
 									request.address_id = response.body.data.address_id;
-							})*/
+							})
 							delete request.name;
 							if(this.status.type === 0) {
 								this.table.tds['100'] = request;

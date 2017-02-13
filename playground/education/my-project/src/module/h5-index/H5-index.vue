@@ -230,9 +230,9 @@
 			},
 
 			register(){
-				if(!this.allchecked || !this.codeValid || !required(school)) return;
+				if(!this.allchecked || !this.codeValid || !this.required(school)) return;
 				let name = this.inputs[0].val,mobile = this.inputs[1].val,grade = this.grade,subject=this.subject, school = this.school, level = this.level;
-				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')+'&code='+this.code).then((response)=>{
+				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')+'&code='+this.code+'&school='+this.school+'&situation='+this.level).then((response)=>{
 					if(response.body.code===1000){
 						this.inputs[0].val=this.inputs[1].val=this.code='';
 						this.btnText = '预约成功!';
