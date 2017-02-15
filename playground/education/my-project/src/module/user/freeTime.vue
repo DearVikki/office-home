@@ -161,12 +161,13 @@
 						updateData[day].stage.push(stage-1);
 						updateData[day].is_free.push(Number(this.trs[stage].schedule[this.daySwitcher[day]].free));
 					}
-					this.$http.post('',{
-						name:'education.sys.update.free.time',
-						stage:updateData[day].stage,
-						day:day,
-						is_free:updateData[day].is_free
-					},{
+
+					this.$http.get(`?name=education.sys.update.free.time&${updateData[day].stage.map(v => `stage[]=${v}`).join('&')}&day=${day}&${updateData[day].is_free.map(v => `is_free[]=${v}`).join('&')}`,{
+					// 	name:'education.sys.update.free.time',
+					// 	stage:updateData[day].stage.toString(),
+					// 	day:day,
+					// 	is_free:updateData[day].is_free.toString()
+					// },{
 						timeout:30000,
 						before: function() {
 							this.btnSet.cuurentStage = 1;

@@ -156,7 +156,7 @@
 					this.schoolWarn = true;
 					return;
 				}
-				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=&code='+this.code+'&school='+this.school+'&level='+this.level).then((response)=>{
+				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=&code='+this.code+'&school='+this.school+'&situation='+this.level).then((response)=>{
 					if(response.body.code === 1000){
 						this.name = this.phone = this.code = '';
 						this.bookSuccess = true;

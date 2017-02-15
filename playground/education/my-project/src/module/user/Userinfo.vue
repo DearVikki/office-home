@@ -147,8 +147,8 @@
 					left_hour:3
 				}],
 				coursesAll:[{
-					all_hour:30,
-					left_hour:3
+					all_hour:0,
+					left_hour:0
 				}]
 			}
 		},
@@ -188,7 +188,10 @@
 						this.infos1[5].value = info.school;
 					}
 					//剩余课程部分
-					this.courses = info.teacher_info;
+					this.coursesAll = [{
+						all_hour:info.class_hour,
+						left_hour:info.class_hour_left
+					}]
 				}
 				//老师个人信息
 				else{
