@@ -1,238 +1,418 @@
 @baseColor: #d42b1e;
 @backColor: #fff7f7;
 @bla: #5c5c5c;
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strike, strong, sub, sup, tt, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td
+{
+    font-size: 100%;
+
     margin: 0;
     padding: 0;
+
+    vertical-align: baseline;
+
     border: 0;
     outline: 0;
-    font-size: 100%;
-    vertical-align: baseline;
     background: transparent;
 }
 
-* {
+*
+{
     box-sizing: border-box;
 }
 
-li {
+li
+{
     list-style: none;
 }
 
-a {
+a
+{
     text-decoration: none;
+
     color: black;
 }
 
-a:visited {
+a:visited
+{
     text-decoration: none;
 }
 
-a:hover {
+a:hover
+{
     text-decoration: none;
 }
 
-img {
-    border: 0px;
+img
+{
+    border: 0;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5
+{
     font-weight: normal;
 }
 
-input, select, textarea {
+input,
+select,
+textarea
+{
     outline: none;
 }
 
-body {
+body
+{
     position: relative;
 }
 
-.clear {
-    clear: both
+.clear
+{
+    clear: both;
 }
 
-.margauto {
+.margauto
+{
     width: 1190px;
     margin: 0 auto;
 }
 
-.fl {
+.fl
+{
     float: left;
 }
 
-.fr {
+.fr
+{
     float: right;
 }
 
-.textLeft {
+.textLeft
+{
     text-align: left !important;
 }
 
-.textCenter {
+.textCenter
+{
     text-align: center !important;
 }
 
-.inLine {
+.inLine
+{
     display: inline-block;
 }
 
-.cd {
+.cd
+{
     cursor: default;
 }
 
-.cp {
+.cp
+{
     cursor: pointer;
 }
 
-
+.vm
+{
+    vertical-align: middle;
+}
 /*自定义样式*/
 
-body {
-    font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;
+body,input,textarea
+{
+    font-family: '微软雅黑', microsoft yahei, Arial, Helvetica, sans-serif;
+    font-size: 0;
+
     cursor: default;
-    font-size: 0px;
 }
 
-.my-alert{
+.my-alert
+{
     font-size: 16px;
+
     position: fixed;
     top: 0;
     left: 50%;
-    transform: translate3d(-50%,0,0);
-    background: #d42b1e;
-    color: #fff;
+
     padding: 8px 20px;
-    border-radius: 5px;
+
+    transform: translate3d(-50%,0,0);
     animation: back 1s ease-in;
-    animation-fill-mode: forwards
+
+    color: #fff;
+    border-radius: 5px;
+    background: #d42b1e;
+
+    animation-fill-mode: forwards;
 }
-@keyframes back {
-    50%{
+@keyframes back
+{
+    50%
+    {
         transform: translate3d(-50%,0,0);
     }
-    100%{
+    100%
+    {
         transform: translate3d(-50%,-100%,0);
     }
 }
 
 /*首页板块*/
 
-.goods-name {
+.goods-name
+{
     font-size: 12px;
+
     color: @bla;
 }
 
-.goods-price {
+.goods-price
+{
     font-size: 14px;
-    color: @baseColor;
+
     margin-top: 10px;
+
+    color: @baseColor;
 }
 
-.common-goods-item {
-    margin-top: 20px;
+.common-goods-item
+{
     width: 220px;
-    img {
+    margin-top: 20px;
+
+    p:last-child
+    {
+        font-size: 14px;
+
+        margin-top: 10px;
+
+        color: @baseColor;
+    }
+    img
+    {
         width: 100%;
     }
-    p {
+    p
+    {
         font-size: 12px;
-        color: @bla;
-        margin-top: 8px;
-        overflow: hidden;
-        text-overflow: ellipsis;
+
         display: -webkit-box;
+        overflow: hidden;
+
+        margin-top: 8px;
+
+        text-overflow: ellipsis;
+
+        color: @bla;
+
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
-    }
-    p:last-child {
-        font-size: 14px;
-        color: @baseColor;
-        margin-top: 10px;
     }
 }
 
 
 /*注册登录板块*/
 
-.bla30 {
-    color: #323232;
+.bla30
+{
     font-size: 30px;
+
+    color: #323232;
 }
 
-.grey24 {
-    color: #666;
+.grey24
+{
     font-size: 24px;
-}
 
-.grey20{
     color: #666;
+}
+
+.grey20
+{
     font-size: 20px;
+
+    color: #666;
 }
 
-.account_btn {
-    background: @baseColor;
-    color: #fff;
+.account_btn
+{
     cursor: pointer;
+
+    color: #fff;
+    background: @baseColor;
 }
 
-.account-container {
+.account-container
+{
     margin: 57px auto;
-    h3 {
-        color: #323232;
+    h3
+    {
         font-size: 30px;
+
+        color: #323232;
     }
-    .form-container {
-        border: 1px solid #d3d3d3;
-        background: #fff;
-        border-radius: 3px;
-        width: 100%;
-        margin-top: 30px;
+    .form-container
+    {
         position: relative;
-        text-align: center;
+
+        width: 100%;
         min-width: 300px;
-        .common-field {
-            margin-top: 6px;
-            height: 97px;
-            text-align: left;
+        margin-top: 30px;
+
+        text-align: center;
+
+        border: 1px solid #d3d3d3;
+        border-radius: 3px;
+        background: #fff;
+        .common-field
+        {
             position: relative;
-            max-width: 355px;
-            min-width: 180px;
+
             width: 100%;
-            label {
-                color: #666;
+            min-width: 180px;
+            max-width: 355px;
+            height: 97px;
+            margin-top: 6px;
+
+            text-align: left;
+            label
+            {
                 font-size: 24px;
+
+                color: #666;
             }
-            .input-container {
+            .input-container
+            {
                 width: 100%;
                 height: 30px;
                 margin-top: 15px;
+
                 border-bottom: 1px solid #979797;
-                &.active, &.warn{
+                &.active,
+                &.warn
+                {
                     border-bottom: 2px solid @baseColor;
                 }
-                input {
+                input
+                {
                     font-size: 20px;
+
                     color: #666;
                     border: none;
                 }
             }
         }
-        .account-btn{
-            display: inline-block;
+        .account-btn
+        {
             font-size: 24px;
-            color: #fff;
-            background: @baseColor;
-            height: 48px;
             line-height: 48px;
-            text-align: center;
-            border-radius: 4px;
+
+            display: inline-block;
+
+            height: 48px;
             margin-top: 38px;
             padding: 0 40px;
+
+            text-align: center;
+
+            color: #fff;
+            border-radius: 4px;
+            background: @baseColor;
         }
-        .error{
+        .error
+        {
             font-size: 12px;
+
             color: @baseColor;
         }
     }
+}
+/*伪多选框*/
+input.checkbox{
+    display: none;
+}
+.checkbox-input{
+    display: inline-block;
+    width:10px;
+    height: 10px;
+    border: 1px solid @bla;
+    margin-right: 6px;
+    position: relative;
+    cursor: pointer;
+}
+input.checkbox:checked + .checkbox-input:after{
+    content: '\2713';
+    position:absolute;
+    color: @baseColor;
+    font-size: 16px;
+    top: -8px;
+    left: 0;
+    font-weight: bold;
+}
+/*保存*/
+.common-save{
+    background:#d42b1e;
+    border-radius:4px;
+    width:172px;
+    height:49px;
+    line-height: 49px;
+    color:#fff;
 }
