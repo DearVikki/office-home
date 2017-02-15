@@ -279,30 +279,34 @@
 								receive_name: this.fields.name.val,
 								idcard: this.fields.rut.val,
 								receive_address: this.fields.address.val,
-								company_area: this.fields.district.val,
-								receive_area: this.fields.city.val,
+								receive_area: this.fields.district.val,
+								receive_city: this.fields.city.val,
 								receive_mobile: this.fields.phone.val,
 								selected: Number(this.isDefault)
 							}
-							if(this.status.type === 0) request.name = 'zl.shopping.sys.address.add';
+							// 新增地址
+							if(this.status.type === 0) {
+								request.name = 'zl.shopping.sys.address.add';
+								this.$http.post('',request).then((response)=>{
+									if(response.body.code === 1000)
+										request.address_id = response.body.data.address_id;
+										this.table.tds['100'] = request;
+										this.fields.name.val = this.fields.rut.val = this.fields.address.val = 
+										this.fields.district.val = this.fields.city.val = 
+										this.fields.phone.val = this.isDefault = '';
+								})
+							}
+							// 保存地址
 							else {
 								request.name = 'zl.shopping.sys.address.update',
 								request.address_id = Number(this.addressId);
+								this.$http.post('',request).then((response)=>{
+									if(response.body.code === 1000)
+										request.address_id = response.body.data.address_id;
+										this.table.tds[request.address_id] = request;
+								})
 							}
-							console.log(request)
-							/*this.$http.post('',request).then((response)=>{
-								if(response.body.code === 1000)
-									request.address_id = response.body.data.address_id;
-							})*/
 							delete request.name;
-							if(this.status.type === 0) {
-								this.table.tds['100'] = request;
-								this.fields.name.val = this.fields.rut.val = this.fields.address.val = 
-								this.fields.district.val = this.fields.city.val = 
-								this.fields.phone.val = this.isDefault = '';
-							} else {
-								this.table.tds[request.address_id] = request;
-							}
 							myAlert('保存成功');
 						}
 					});
