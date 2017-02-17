@@ -5,12 +5,18 @@
 				{{col.name}}
 			</th>
 		</tr>
+		<!-- tds[td]代表每一条地址列表 -->
 		<tr v-for="(val, td) in tds">
+			<!-- 也就是取到每一个项目的值 -->
 			<td v-for="sCol in spliceCols">
 				{{tds[td][sCol.key]}}
 			</td>
 			<td class="action">
-				<span><a @click="editar(tds[td])">editar</a><a>eliminar</a></span>
+				<span>
+					<a @click="editar(tds[td])">editar</a>
+					<a @click="deletar(tds[td].address_id)">eliminar</a>
+				</span>
+				<!-- tds[td].selected -->
 				<span :class="{active:tds[td][cols[cols.length-1].key]}"></span>
 			</td>
 		</tr>
@@ -28,9 +34,13 @@
 		methods:{
 			editar(td){
 				this.$emit('editar',td);
+			},
+			deletar(id){
+				this.$emit('deletar',id);
 			}
 		},
 		computed:{
+			// 这不就是取到了除了操作以外的内容
 			spliceCols(){
 				return this.cols.slice(0,-1);
 			}

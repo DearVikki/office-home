@@ -41,16 +41,28 @@
 					tableWid="1000px"
 					:cols="table.cols"
 					:tds="table.tds"
-					@editar="editar"></personaltable>
+					@editar="editar"
+					@deletar="deletar"></personaltable>
 				</div>
 			</div>
 		</div>
+		<!-- 删除弹窗 -->
+		<pop :pop="pop">
+			<div id="delete_container">
+				<p>您确定要删除该发票吗？</p>
+				<div class="btn-container">
+					<div class="btn" @click="deletar">确认删除</div>
+					<div class="btn reverse">关闭</div>
+				</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
 	import a from 'vue-validator';
 	import personalside from '../../components/PersonalSide.vue'
 	import personaltable from '../../components/Table.vue'
+	import pop from '../../components/Pop.vue';
 	export default{
 		name:'receipt',
 		data(){
@@ -200,10 +212,23 @@
 			            company_tel: "111111",
 			            is_default: 1
 					}}
+			    },
+			    pop:{
+			    	show:false,
+			    	style:{width:'780px',height:'292px'}
 			    }
 			}
 		},
 		mounted(){
+			//拉取发票列表
+			this.$http.post('',{name:'zl.shopping.sys.invoice.list'}).then((response)=>{
+				let invoiceList = response.body.data;
+				console.log(invoiceList)
+				invoiceList.forEach((a)=>{
+					this.table.tds[a.invoice_id] = a;
+					console.log(this.table.tds)
+				})
+			})
 			//if编辑发票
 			if(location.hash === '#editar') {
 				let receiptInfo = JSON.parse(localStorage.getItem('receipt'));
@@ -330,9 +355,20 @@
 			editar(td){
 				localStorage.setItem('receipt',JSON.stringify(td));
 				window.open("./receipt.html#editar");
+			},
+			// 删除发票
+			deletar(id){
+				id = 98;
+				this.$http.post('',{
+					name:'zl.shopping.sys.delete.invoice',
+					invoice_id:id
+				}).then((response)=>{
+					// 删除这一条地址
+					if(response.body.code === 1000) console.log('删除成功!')
+				})
 			}
 		},
-		components:{personalside, personaltable}
+		components:{personalside, personaltable,pop}
 	}
 </script>
 <style scoped lang="less">

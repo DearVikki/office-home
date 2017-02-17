@@ -15,6 +15,11 @@
 <script>
 	export default{
 		name:'pop',
+		data(){
+			return {
+				test: 'I can read it from pop.vue.'
+			}
+		},
 		mounted(){
 		},
 		methods:{
@@ -29,7 +34,9 @@
 						this.popMounted();
 					})
 				}
-				else this.popReset();
+				else {
+					this.popReset();
+				}
 			}
 		},
 		props:{
@@ -51,6 +58,7 @@
 		}
 	}
 </script>
+<!-- 哇我当时就这么有先见之明写了个common粗来真是太腻害了！ -->
 <style lang='less'>
 	@baseColor:#d42b1e;
 	.pop-container{

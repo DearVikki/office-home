@@ -41,16 +41,28 @@
 					tableWid="913px"
 					:cols="table.cols"
 					:tds="table.tds"
-					@editar="editar"></personaltable>
+					@editar="editar"
+					@deletar="pop.show=true"></personaltable>
 				</div>
 			</div>
 		</div>
+		<!-- 删除弹窗 -->
+		<pop :pop="pop">
+			<div id="delete_container">
+				<p>您确定要删除该收货地址吗？</p>
+				<div class="btn-container">
+					<div class="btn" @click="deletar">确认删除</div>
+					<div class="btn reverse">关闭</div>
+				</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
 	import a from 'vue-validator';
 	import personalside from '../../components/PersonalSide.vue'
 	import personaltable from '../../components/Table.vue'
+	import pop from '../../components/Pop.vue';
 	import {myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'receipt',
@@ -184,14 +196,23 @@
 		                receive_address: "三墩镇三墩人民公园东门",
 		                selected: 1,
 		                idcard: ""
-					}}
+					}
+				}
+			    },
+			    pop:{
+			    	show:false,
+			    	style:{width:'780px',height:'292px'}
 			    }
 			}
 		},
 		mounted(){
 			//拉取地址列表
 			this.$http.post('',{name:'zl.shopping.sys.address.list'}).then((response)=>{
-				console.log(response)
+				let addressList = response.body.data.list;
+				addressList.forEach((a)=>{
+					this.table.tds[a.address_id] = a;
+					console.log(this.table.tds)
+				})
 			})
 			//if编辑地址
 			if(location.hash === '#editar') {
@@ -266,7 +287,6 @@
 			focusing(field){
 				this.fields[field].focus = true;
 			},
-			//提交新发票/修改发票
 			save(){
 				let n = 7;
 				for (var validity in this.$refs){
@@ -316,9 +336,20 @@
 			editar(td){
 				localStorage.setItem('address',JSON.stringify(td));
 				window.open("./address.html#editar");
+			},
+			// 删除地址
+			deletar(id){
+				id = 217;
+				this.$http.post('',{
+					name:'zl.shopping.sys.address.del',
+					address_id:id
+				}).then((response)=>{
+					// 删除这一条地址
+					if(response.body.code === 1000) console.log('删除成功!')
+				})
 			}
 		},
-		components:{personalside, personaltable}
+		components:{personalside, personaltable, pop}
 	}
 </script>
 <style scoped lang="less">

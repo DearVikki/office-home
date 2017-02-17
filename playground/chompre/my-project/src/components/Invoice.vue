@@ -20,13 +20,13 @@
 				<p class="tip" :class="{error:field.error}">{{field.msg}}</p>
 			</div>
 		</div>
-		<!-- 设为默认保存地址 -->
+		<!-- 设为默认发票 -->
 		<div id="check_container">
 			<label>
 				<input type="checkbox" class="checkbox" :checked="isDefault"
 				@change="isDefault = !isDefault">
 				<span class="checkbox-input"></span>
-				<span>设置为默认地址</span>
+				<span>设置为默认发票</span>
 			</label>
 		</div>
 		<!-- 保存 -->
@@ -35,25 +35,25 @@
 </template>
 <script>
 	export default{
-		name:'address',
+		name:'invoice',
 		data(){
 			return{
 				// 0表示新增 1表示编辑
 				type:0,
 				fields:[{
 					id:'name',
-					title:'名字',
-					placeholder:'请输入名字',
-					validators:{required:{msg:'名字不能为空'}},
+					title:'公司名称',
+					placeholder:'请输入公司名称',
+					validators:{required:{msg:'公司名称不能为空'}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
-					id:'rut',
-					title:'R.U.T',
-					placeholder:'请输入RUT',
-					validators:{required:{msg:'R.U.T不能为空'}},
+					id:'taxid',
+					title:'税号',
+					placeholder:'请输入税号',
+					validators:{required:{msg:'税号不能为空'}},
 					error:false,
 					focus:false,
 					msg:'',
@@ -87,32 +87,39 @@
 					val:''
 				},{
 					id:'phone',
-					title:'手机',
-					placeholder:'请输入手机',
+					title:'电话号码',
+					placeholder:'请输入电话号码',
 					validators:{required:{msg:'手机不能为空'},isNum:{msg:'手机号不合法'}},
+					error:false,
+					focus:false,
+					msg:'',
+					val:''
+				},{
+					id:'scope',
+					title:'经营范围',
+					placeholder:'请输入经营范围',
+					validators:{required:{msg:'经营范围不能为空'}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				}],
 				isDefault:false,
-				addressId:''
+				invoiceId:''
 			}
 		},
 		mounted(){
-			// 初始化 以及为什么以下es6的写法会报错
-			// {receive_name:this.fields[0].val, idcard:this.fields[1].val, receive_city:this.fields[4].val, receive_area:this.fields[3].val,
-			// receive_address:this.fields[2].val, receive_mobile:this.fields[5].val, selected:this.isDefault} = val;
-			this.fields[0].val = this.address.receive_name;
-			this.fields[1].val = this.address.idcard;
-			this.fields[2].val = this.address.receive_address;
-			this.fields[3].val = this.address.receive_area;
-			this.fields[4].val = this.address.receive_city;
-			this.fields[5].val = this.address.receive_mobile;
-			this.isDefault = this.address.selected;
-			this.addressId = this.address.address_id;
+			this.fields[0].val = this.invoice.company_name;
+			this.fields[1].val = this.invoice.company_taxid;
+			this.fields[2].val = this.invoice.company_address;
+			this.fields[3].val = this.invoice.company_area;
+			this.fields[4].val = this.invoice.company_city;
+			this.fields[5].val = this.invoice.company_tel;
+			this.fields[6].val = this.invoice.business_scope;
+			this.isDefault = this.invoice.is_default;
+			this.invoiceId = this.invoice.invoice_id;
 			// 编辑/新增
-			this.type = this.address ? 1 : 0;
+			this.type = this.invoice ? 1 : 0;
 		},
 		methods:{
 			isNum(val){
@@ -150,37 +157,39 @@
 			},
 			save(){
 				if(!this.checkAll()) return;
-				let address = {
-					receive_name: this.fields[0].val,
-					idcard: this.fields[1].val,
-					receive_city: this.fields[4].val,
-					receive_area: this.fields[3].val,
-					receive_address: this.fields[2].val,
-					receive_mobile: this.fields[5].val,
-					selected: Number(this.isDefault)
+				let invoice = {
+					company_name: this.fields[0].val,
+					company_taxid: this.fields[1].val,
+					company_city: this.fields[4].val,
+					company_area: this.fields[3].val,
+					company_address: this.fields[2].val,
+					company_tel: this.fields[5].val,
+					business_scope:this.fields[6].val,
+					is_default: Number(this.isDefault)
 				}
 				// 编辑
 				if(this.type) {
-					address.name = 'zl.shopping.sys.address.update';
-					address.address_id = this.addressId;
-					this.$http.post('',address).then((response)=>{
+					invoice.name = 'zl.shopping.sys.update.invoice';
+					invoice.invoice_id = this.invoiceId;
+					this.$http.post('',invoice).then((response)=>{
 					})
 				} else {
 					// 新增
-					address.name = 'zl.shopping.sys.address.add';
-					this.$http.post('',address).then((response)=>{
-						address.address_id = response.body.data.address_id;
+					invoice.name = 'zl.shopping.sys.add.invoice';
+					this.$http.post('',invoice).then((response)=>{
+						invoice.invoice_id = response.body.data.invoice_id;
+						if(response.body.code === 1000) console.log('已新建发票!')
 					})
 				}
-				this.$emit('saveAddress', address, this.type)
+				this.$emit('saveInvoice', invoice, this.type)
 			}
 		},
 		watch:{
 		},
-		props:['address']
+		props:['invoice']
 	}
 </script>
-<style scoped lang='less'>
+<style lang='less' scoped>
 	@baseColor: #d42b1e;
 	.inline{
 		display: inline-block;
