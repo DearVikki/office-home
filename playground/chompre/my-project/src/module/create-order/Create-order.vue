@@ -79,7 +79,24 @@
 			</div>
 		</div>
 		<!-- 订单确认 -->
-		<div id="order_container"></div>
+		<div id="order_container">
+			<div class="title">确认订单信息</div>
+			<div id="order_header">
+				<div class="header-item"
+				v-for="h in order.headers"
+				:style="h.style">
+					{{h.name}}
+					<span class="border"></span>
+				</div>
+			</div>
+			<a id="order_dealer">{{order.dealer_info.dealer_name}}</a>
+			<div id="order_goods">
+				<div class="goods-item" v-for="goods in order.goods_info">
+					<img :src="goods.img">
+					<div class="goods-title"></div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -154,6 +171,39 @@
 						optionClass:'orderClass',
 						headerClass:'orderClass'
 					}
+				},
+				order:{
+					headers:[{
+						name:'店铺宝贝',
+						style:'width:38%'
+					},{
+						name:'商品属性',
+						style:'width:16%'
+					},{
+						name:'单价(比索)',
+						style:'width:13%'
+					},{
+						name:'数量',
+						style:'width:13%'
+					},{
+						name:'小计',
+						style:'width:20%'
+					}],
+					dealer_info:{
+						dealer_id:'',
+						dealer_name:''
+					},
+					goods_info:[
+					{
+					                goods_id: 6,
+					                goods_num: 1,
+					                pre_goods_id: 2,
+					                description: "颜色:漂白  尺码:S  布料:麻布  ",
+					                goods_name: "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
+					                cover_pic: "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/2.png",
+					                price: 100
+					            }
+					]
 				}
 			}
 		},
@@ -165,6 +215,9 @@
 			}).then((response)=>{
 				// 此时商品还留在购物车中
 				let shipping_info = response.body.data.shipping_info;
+				let dealer_info = response.body.data.dealer_info;
+				let goods_info = response.body.data.goods_info;
+				// 运费部分
 				let delivery=[];
 				shipping_info.forEach((s)=>{
 					delivery.push({
@@ -173,6 +226,8 @@
 					})
 				})
 				this.delivery.dropdown.options = delivery;
+				// 店铺部分
+				this.order.dealer_info = dealer_info;
 			})
 			// 拉取地址
 			this.$http.post('',{
@@ -305,6 +360,7 @@
 			height: 35px;
 			line-height: 35px;
 			margin-bottom: 14px;
+			font-weight: bold;
 			span{
 				float:right;
 				margin-top: 5px;
@@ -457,6 +513,33 @@
 		}
 	}
 	#order_container{
-		margin-top: 150px;
+		margin-top: 50px;
+		.title{
+			border-bottom: none;
+		}
+		#order_header{
+			.header-item{
+				font-size:14px;
+				color:#5c5c5c;
+				text-align:center;
+				position: relative;
+				display: inline-block;
+				height: 30px;
+				line-height: 30px;
+				span{
+					position: absolute;
+					width: calc(100% - 1px);
+					left: 0;
+					bottom: 0;
+					height: 2px;
+					background:#cbcbcb;
+				}
+			}
+		}
+		#order_dealer{
+			.smallGrey;
+			display: inline-block;
+			margin-top: 36px;
+		}
 	}
 </style>
