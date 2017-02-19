@@ -18,10 +18,10 @@
 				<span class="dot"></span>
 				<span class="txt name" :title="add.receive_name">{{add.receive_name}}</span>
 				<span class="txt" :title="add.idcard">{{add.idcard}}</span>
-				<span class="txt address" :title="add.receive_city+' '+add.receive_area+' '+add.receive_address">
-					{{add.receive_city}} {{add.receive_area}} {{add.receive_address}}
-				</span>
 				<span class="txt mobile" :title="add.receive_mobile">{{add.receive_mobile}}</span>
+				<span class="txt address" :title="add.receive_address+' '+add.receive_area+' '+add.receive_city">
+					{{add.receive_address}} {{add.receive_area}} {{add.receive_city}}
+				</span>
 				<span class="txt" v-if="add.selected"> Defecto</span>
 				<span class="edit fr" @click="editAddress(add)">Modificar dirección</span>
 			</div>
@@ -51,17 +51,17 @@
 					<span class="vm">小发票</span>
 				</span>
 				<span class="dot"></span>
-				<span class="txt name" :title="inv.receive_name">{{inv.company_name}}</span>
-				<span class="txt" :title="inv.idcard">{{inv.company_taxid}}</span>
-				<span class="txt address" :title="inv.company_city+' '+inv.company_area+' '+inv.company_address">
-					{{inv.company_city}} {{inv.company_area}} {{inv.company_address}}
-				</span>
-				<span class="txt" :title="inv.company_scope">{{inv.company_scope}}</span>
+				<span class="txt name" :title="inv.company_name">{{inv.company_name}}</span>
+				<span class="txt" :title="inv.company_taxid">{{inv.company_taxid}}</span>
 				<span class="txt mobile" :title="inv.company_tel">{{inv.company_tel}}</span>
+				<span class="txt address" :title="inv.company_address+' '+inv.company_area+' '+inv.company_city">
+					{{inv.company_address}} {{inv.company_area}} {{inv.company_city}}
+				</span>
+				<!-- <span class="txt" :title="inv.company_scope">{{inv.company_scope}}</span> -->
 				<span class="txt" v-if="inv.is_default"> Defecto</span>
 				<span class="edit fr" @click="editInvoice(inv)">修改发票</span>
 			</div>
-			<!-- 收起地址 -->
+			<!-- 收起发票 -->
 			<div v-if="invoice.invoiceList.length > 4">
 				<div v-show="!invoice.fold" class="fold" @click="invoice.fold = true">收起发票 <img src="~assets/img/order/Trianglegreen_up.png"></div>
 				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">展开发票 <img src="~assets/img/order/Trianglegreen_down.png"></div>
@@ -92,10 +92,46 @@
 			<a id="order_dealer">{{order.dealer_info.dealer_name}}</a>
 			<div id="order_goods">
 				<div class="goods-item" v-for="goods in order.goods_info">
-					<img :src="goods.img">
-					<div class="goods-title"></div>
+					<img :src="goods.cover_pic">
+					<div class="goods-title">{{goods.goods_name}}</div>
+					<div class="goods-detail">
+						<p v-for="d in goods.description">{{d}}</p>
+					</div>
+					<div class="goods-price">${{goods.price}}</div>
+					<div class="goods-num">{{goods.goods_num}}</div>
+					<div class="goods-price-all">${{goods.price*goods.goods_num}}</div>
 				</div>
 			</div>
+			<div id="order_address">
+				<img src="~assets/img/order/location.png">
+				<span class="txt" :title="address.selected.receive_name">{{address.selected.receive_name}}</span>
+				<span class="txt" :title="address.selected.idcard">{{address.selected.idcard}}</span>
+				<span class="txt" :title="address.selected.receive_mobile">{{address.selected.receive_mobile}}</span>
+				<span class="txt" :title="address.selected.receive_address+' '+address.selected.receive_area+' '+address.selected.receive_city">
+					{{address.selected.receive_address}} {{address.selected.receive_area}} {{address.selected.receive_city}}
+				</span>
+			</div>
+			<div id="order_invoice">
+				<img src="~assets/img/order/invoice.png">
+				<span class="txt name" :title="invoice.selected.company_name">{{invoice.selected.company_name}}</span>
+				<span class="txt" :title="invoice.selected.company_taxid">{{invoice.selected.company_taxid}}</span>
+				<span class="txt mobile" :title="invoice.selected.company_tel">{{invoice.selected.company_tel}}</span>
+				<span class="txt address" :title="invoice.selected.company_address+' '+invoice.selected.company_area+' '+invoice.selected.company_city">
+					{{invoice.selected.company_address}} {{invoice.selected.company_area}} {{invoice.selected.company_city}}
+				</span>
+			</div>
+		</div>
+		<!-- 店铺合计 -->
+		<div id="conclu_container">
+			<div id="conclu_inner">
+				<div id="conclu_price">
+					店铺合计:
+					<span>${{sumprice}}</span>
+				</div>
+				<div id="conclu_delivery">{{delivery.dropdown.title}}</div>
+			</div>
+			<p class="clear"></p>
+			<div id="conclu_pay">去支付</div>
 		</div>
 	</div>
 </template>
@@ -193,18 +229,17 @@
 						dealer_id:'',
 						dealer_name:''
 					},
-					goods_info:[
-					{
-					                goods_id: 6,
-					                goods_num: 1,
-					                pre_goods_id: 2,
-					                description: "颜色:漂白  尺码:S  布料:麻布  ",
-					                goods_name: "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
-					                cover_pic: "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/2.png",
-					                price: 100
-					            }
-					]
-				}
+					goods_info:[{
+						goods_id: 0,
+					    goods_num: 0,
+					    pre_goods_id: 0,
+					    description: [],
+					    goods_name: '',
+					    cover_pic: '',
+					    price: 100
+					}]
+				},
+				sumprice:0
 			}
 		},
 		mounted(){
@@ -228,6 +263,11 @@
 				this.delivery.dropdown.options = delivery;
 				// 店铺部分
 				this.order.dealer_info = dealer_info;
+				// 商品部分
+				goods_info.forEach((g)=>{
+					g.description = g.description.split(' ').filter((d)=>{return d});
+				})
+				this.order.goods_info = goods_info;
 			})
 			// 拉取地址
 			this.$http.post('',{
@@ -507,6 +547,7 @@
 	}
 	#delivery_container{
 		margin-top: 50px;
+		z-index: 10;
 		#select_delivery{
 			width: 560px;
 			height: 36px;
@@ -528,7 +569,7 @@
 				line-height: 30px;
 				span{
 					position: absolute;
-					width: calc(100% - 1px);
+					width: ~'calc(100% - 3px)';
 					left: 0;
 					bottom: 0;
 					height: 2px;
@@ -540,6 +581,113 @@
 			.smallGrey;
 			display: inline-block;
 			margin-top: 36px;
+		}
+		#order_goods{
+			.goods-item{
+				.smallGrey;
+				text-align:center;
+				overflow: hidden;
+				padding: 30px 0 10px 20px;
+				background: #fbfbfb;
+				img{
+					width:80px;
+					height: 80px;
+					float: left;
+				}
+				.goods-title{
+					padding:0 15px;
+					width:~'calc(38% - 100px)';
+					text-align:left;
+					float: left;
+				}
+				.goods-detail{
+					width:16%;
+					float: left;
+					p{
+
+					}
+				}
+				.goods-price{
+					width:13%;
+					float: left;
+					.smallGrey;
+					margin-top: 0;
+				}
+				.goods-num{
+					width:13%;
+					float: left;
+				}
+				.goods-price-all{
+					width: 20%;
+					color:#d0021b;
+					float: left;
+					font-size: 14px;
+					font-weight: bold;
+				}
+			}
+		}
+		#order_address,#order_invoice{
+			height: 48px;
+			line-height:48px;
+			padding: 0 20px;
+			img{
+				vertical-align:middle;
+				margin-right:10px;
+			}
+			.txt{
+				font-size:14px;
+				color:#808080;
+			}
+		}
+		#order_address{
+			background:#fff9f9;
+		}
+		#order_invoice{
+			background:rgba(60,178,134,0.05);
+		}
+	}
+	#conclu_container{
+		overflow:hidden;
+		margin-top:40px;
+		margin-bottom:130px;
+		#conclu_inner{
+			float:right;
+			padding:15px 20px;
+		}
+		#conclu_price{
+			font-size:20px;
+			color:#5c5c5c;
+			text-align:right;
+			font-weight:bold;
+			span{
+				font-size:30px;
+				color:#d0021b;
+			}
+		}
+		#conclu_delivery{
+			height:20px;
+			line-height:20px;
+			background:#fff0f2;
+			border-radius:4px;
+			font-size:12px;
+			color:#d42b1e;
+			text-align:center;
+			padding:0 8px;
+			display: inline-block;
+			float: right;
+			margin-top: 10px;
+
+		}
+		#conclu_pay{
+			background:#d42b1e;
+			width:224px;
+			height:50px;
+			line-height:50px;
+			font-size:24px;
+			color:#ffffff;
+			text-align:center;
+			cursor:pointer;
+			float: right;
 		}
 	}
 </style>

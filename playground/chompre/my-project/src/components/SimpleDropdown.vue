@@ -11,7 +11,7 @@
 			:style='sDropdown.optionStyle'
 			:class="sDropdown.optionClass"
 			v-for='option in sDropdown.options'
-			v-show='!option.selected || sDropdown.type'              
+			v-show='!option.selected || sDropdown.type'
 			@click='clickOption(option)'>{{option.name}}
 			</li>
 		</ul>
