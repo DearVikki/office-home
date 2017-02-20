@@ -126,12 +126,15 @@
 			<div id="conclu_inner">
 				<div id="conclu_price">
 					店铺合计:
-					<span>${{sumprice}}</span>
+					<span>${{conclu.sumprice}}</span>
 				</div>
-				<div id="conclu_delivery">{{delivery.dropdown.title}}</div>
+				<div id="conclu_delivery"  v-show="delivery.dropdown.selectedValue">{{delivery.dropdown.title}}</div>
 			</div>
 			<p class="clear"></p>
-			<div id="conclu_pay">去支付</div>
+			<div id="conclu_pay_container">
+				<div id="conclu_pay"  @click="pay">去支付</div>
+				<div id="conclu_tip">{{conclu.tip}}</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -239,10 +242,18 @@
 					    price: 100
 					}]
 				},
-				sumprice:0
+				conclu:{
+					sumprice:0,
+					tip:''
+				}
 			}
 		},
 		mounted(){
+			// 检测是否有可供结算商品
+			if(!localStorage.getItem('goodsIdOrder')){
+				location = './cart.html';
+				return;
+			}
 			// 拉取要结算商品信息
 			this.$http.post('',{
 				name: 'zl.shopping.sys.settle.account',
@@ -268,6 +279,8 @@
 					g.description = g.description.split(' ').filter((d)=>{return d});
 				})
 				this.order.goods_info = goods_info;
+				// 总价格
+				this.conclu.sumprice = response.body.data.sum_price;
 			})
 			// 拉取地址
 			this.$http.post('',{
@@ -366,6 +379,32 @@
 						}
 					})
 				}
+			},
+			// 支付
+			pay(){
+				// 是否选择地址
+				if(!this.delivery.dropdown.selectedValue) {
+					this.conclu.tip = '请选择托运公司';
+					return;
+				}
+				let goods_id = [];
+				this.order.goods_info.forEach((g)=>{
+					goods_id.push(g.goods_id);
+				})
+				this.$http.post('',{
+					name:'zl.shopping.sys.submit.order',
+					address_id: this.address.selected.address_id,
+					invoice_id: this.invoice.selected.invoice_id,
+					shipping_id: this.delivery.dropdown.selectedValue,
+					dealer_id: this.order.dealer_info.dealer_id,
+					goods_id: goods_id.toString(),
+					goods_num: ''
+				}).then((response)=>{
+					if(response.body.code === 1000) {
+						localStorage.setItem('goodsIdOrder','');
+						console.log('提交订单成功!')
+					}
+				})
 			}
 		},
 		components:{pop,addressPop,invoicePop,simpleDropdown}
@@ -678,6 +717,10 @@
 			margin-top: 10px;
 
 		}
+		#conclu_pay_container{
+			width:224px;
+			float: right;
+		}
 		#conclu_pay{
 			background:#d42b1e;
 			width:224px;
@@ -687,7 +730,12 @@
 			color:#ffffff;
 			text-align:center;
 			cursor:pointer;
-			float: right;
+		}
+		#conclu_tip{
+			font-size:12px;
+			color:#d42b1e;
+			text-align: center;
+			margin-top: 7px;
 		}
 	}
 </style>

@@ -43,6 +43,8 @@
 				this.sDropdown.title = option.name;
 				this.sDropdown.selectedValue = option.value;
 				this.dropdownActive = false;
+				// 如何在这写点击后的回调呢
+				this.$emit('clickOption', option);
 			}
 		},
 		computed:{

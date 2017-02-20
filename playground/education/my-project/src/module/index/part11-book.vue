@@ -44,11 +44,18 @@
 						@focus="codeWarn=false"
 						:class="{warn:codeWarn}">
 					</div>
-					<div class="pop-input-container">
+					<!-- <div class="pop-input-container">
 						<input id="school" placeholder="请输入所在学校"
 						v-model="school"
 						@focus="schoolWarn=false"
 						:class="{warn:schoolWarn}">
+					</div> -->
+					<div class="pop-input-container" id="pop_user_container">
+						<select v-model="user" :class="{warn:userWarn}">
+							<option value="" style="display:none">----请选择您的身份----</option>
+							<option value="家长">家长</option>
+							<option value="学生">学生</option>
+						</select>
 					</div>
 					<div id="pop_select_container">
 						<select v-model="grade">
@@ -70,11 +77,11 @@
 							<option value="历史">历史</option>
 							<option value="地理">地理</option>
 						</select>
-						<select v-model="level">
+						<!-- <select v-model="level">
 							<option value="薄弱">薄弱</option>
 							<option value="中等">中等</option>
 							<option value="良好">良好</option>
-						</select>
+						</select> -->
 					</div>
 					<p class="pop-txt">已有多名学生在名校昇获得提升！</p>
 					<div id="pop_btn"
@@ -97,6 +104,7 @@
 				name:'',
 				phone:'',
 				school:'',
+				user:'',
 				grade:'高一',
 				subject:'数学',
 				level:'薄弱',
@@ -104,6 +112,7 @@
 				nameError:false,
 				phoneError:false,
 				schoolWarn:false,
+				userWarn:false,
 				codeWarn:false,
 				txt:'立即预约',
 				pop:{
@@ -152,11 +161,15 @@
 					this.codeWarn = true;
 					return;
 				}
-				if(!this.school) {
-					this.schoolWarn = true;
+				if(!this.user){
+					this.userWarn = true;
 					return;
 				}
-				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=&code='+this.code+'&school='+this.school+'&situation='+this.level).then((response)=>{
+				// if(!this.school) {
+				// 	this.schoolWarn = true;
+				// 	return;
+				// }
+				this.$http.get('?name=education.sys.h5.add.connect&username='+this.name+'&mobile='+this.phone+'&subject='+this.subject+'&grade='+this.grade+'&source_token=&code='+this.code+'&school='+'&situation='+'&user_type='+this.user).then((response)=>{
 					if(response.body.code === 1000){
 						this.name = this.phone = this.code = '';
 						this.bookSuccess = true;
@@ -315,23 +328,31 @@
 			}
 		}
 	}
+	select{
+		font-size: 12px;
+		background-size: 10px 5px;
+		font-size: 12px;
+		background-size: 10px 5px;
+		width: 100px;
+		height: 25px;
+		background-position: 80px;
+		border-radius: 3px;
+		padding-left: 5px;
+		color: #5c5c5c;
+		&.warn{
+			border-color:#fb7273;
+		}
+	}
+	/*新加入的身份*/
+	#pop_user_container select{
+		width:220px;
+		background-position: 200px;
+	}
 	#pop_select_container{
 		width: 220px;
 		margin: 20px auto;
 		display: flex;
 		justify-content: space-between;
-		select{
-			font-size: 12px;
-			background-size: 10px 5px;
-			font-size: 12px;
-			background-size: 10px 5px;
-			width: 70px;
-			height: 25px;
-			background-position: 50px;
-			border-radius: 3px;
-			padding-left: 5px;
-			color: #5c5c5c;
-		}
 	}
 	.pop-txt{
 		color: #fb7273;

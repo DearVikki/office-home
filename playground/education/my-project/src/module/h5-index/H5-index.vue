@@ -24,31 +24,41 @@
 					<input placeholder="请输入验证码"
 					v-model="code"
 					@keyup="checkCode">
-					<input placeholder="请输入所在学校"
-					v-model="school">
+					<!-- <input placeholder="请输入所在学校"
+					v-model="school"> -->
+				</div>
+				<!-- 新加入身份 -->
+				<div>
+					<select v-model="user" id="user_type">
+						<option value="" style="display:none">---请选择您的身份---</option>
+						<option value="家长">家长</option>
+						<option value="学生">学生</option>
+					</select>
 				</div>
 				<div id="select_container">
 					<select
 					v-model="grade">
 						<option v-for="o in options[0]"
-						:value="o.value">{{o.title}}</option>
+						:value="o.value"
+						:style="o.style">{{o.title}}</option>
 					</select>
 					<select
 					v-model="subject">
 						<option v-for="o in options[1]"
-						:value="o.value">{{o.title}}</option>
+						:value="o.value"
+						:style="o.style">{{o.title}}</option>
 					</select>
-					<select
+					<!-- <select
 					v-model="level">
 						<option v-for="o in options[2]"
 						:value="o.value">{{o.title}}</option>
-					</select>
+					</select> -->
 				</div>
 				<div class="clear"></div>
 			</div>
 			<div id="book_slogan">已有多名同学在名校昇获得提升！</div>
 			<div id="book_btn"
-			:class="{disabled:!allchecked || !codeValid || !required(school)}"
+			:class="{disabled:!allchecked || !codeValid || !user || !subject}"
 			@click="register">{{btnText}}</div>
 		</div>
 		<!--第二张banner2-->
@@ -103,6 +113,10 @@
 					val:''
 				}],
 				options:[[{
+					value:'',
+					title:'---请选择年级---',
+					style:'display:none'
+				},{
 					value:'高一',
 					title:'高一'
 				},{
@@ -121,6 +135,10 @@
 					value:'初三',
 					title:'初三'
 				}],[{
+					value:'',
+					title:'---请选择科目---',
+					style:'display:none'
+				},{
 					value:'数学',
 					title:'数学'
 				},{
@@ -148,6 +166,9 @@
 					value:'历史',
 					title:'历史'
 				}],[{
+					value:'',
+					title:'--学科水平--'
+				},{
 					value:'薄弱',
 					title:'薄弱',
 				},{
@@ -160,9 +181,10 @@
 				code:'',
 				codeValid:false,
 				school:'',
-				grade:'高一',
-				subject:'数学',
-				level:'薄弱',
+				grade:'',
+				user:'',
+				subject:'',
+				level:'',
 				//全部检查
 				allchecked:false,
 				btnText:'立即预约',
@@ -232,7 +254,7 @@
 			register(){
 				if(!this.allchecked || !this.codeValid || !this.required(school)) return;
 				let name = this.inputs[0].val,mobile = this.inputs[1].val,grade = this.grade,subject=this.subject, school = this.school, level = this.level;
-				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')+'&code='+this.code+'&school='+this.school+'&situation='+this.level).then((response)=>{
+				this.$http.get('?name=education.sys.h5.add.connect&username='+name+'&mobile='+mobile+'&subject='+subject+'&grade='+grade+'&source_token='+(getParameterByName('source_token')||'')+'&code='+this.code+'&school='+'&situation='+'&user_type='+this.user).then((response)=>{
 					if(response.body.code===1000){
 						this.inputs[0].val=this.inputs[1].val=this.code='';
 						this.btnText = '预约成功!';
@@ -343,11 +365,11 @@
 	        	justify-content: space-between;
 	        }
 	        select{
-	        	width: 2.5rem;
+	        	width: 3.7rem;
 	        	height: .9rem;
 	        	border-radius: .05rem;
 	        	border:1px solid #bbb;
-	        	background-position: 2rem center;
+	        	background-position: 3.2rem center;
 	        }
         }
         #book_slogan{
@@ -379,6 +401,12 @@
         	line-height: .9rem;
         	text-align: center;
         	color: #fff;
+        }
+        /*新增的选择身份*/
+        #user_type{
+        	width: 100% !important;
+        	background-position: 7.5rem !important;
+        	margin-bottom: .24rem;
         }
 	}
 	/*第二张banner*/

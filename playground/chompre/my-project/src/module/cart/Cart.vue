@@ -340,6 +340,7 @@
 					payGoodsId.unshift(this.carts[obj.shopIndex].goods_info[obj.goodsIndex].goods_id);
 				})
 				localStorage.setItem('goodsIdOrder',payGoodsId.toString());
+				location = './create-order.html';
 			}
 		},
 		computed:{
@@ -538,6 +539,7 @@
 			font-size: 18px;
 			letter-spacing: 5px;
 			vertical-align: top;
+			cursor: pointer;
 			&.disabled{
 				opacity: .5;
 				cursor: not-allowed;
