@@ -36,7 +36,7 @@ export default{
 	                "price": 100,
 	                "goods_num": 1,
 	                "pre_goods_id": 2,
-	                "description": "颜色:中卡其  尺码:S  布料:麻布  ",
+	                "description": "颜色:中卡其  尺码:S  ",
 	                "goods_name": "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
 	                "cover_pic": "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/1.png",
 	                "status": 0
@@ -76,7 +76,7 @@ export default{
 	                "price": 100,
 	                "goods_num": 0,
 	                "pre_goods_id": 2,
-	                "description": "颜色:漂白  尺码:S  布料:麻布  ",
+	                "description": "颜色:漂白  尺码:S  ",
 	                "goods_name": "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
 	                "cover_pic": "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/2.png",
 	                "status": 0
@@ -116,7 +116,7 @@ export default{
 	                "price": 100,
 	                "goods_num": 2,
 	                "pre_goods_id": 2,
-	                "description": "颜色:漂白  尺码:S  布料:麻布  ",
+	                "description": "颜色:漂白  尺码:S  ",
 	                "goods_name": "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
 	                "cover_pic": "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/2.png",
 	                "status": 0

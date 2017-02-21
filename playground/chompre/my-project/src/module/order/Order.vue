@@ -35,12 +35,15 @@
 								<img :src="goods.cover_pic">
 								<div class="goods-part1-inner">
 									<div class="goods-name">{{goods.goods_name}}</div>
-									<div class="goods-deatil">
+									<div class="goods-detail">
+										<!-- 商品详细信息 -->
 										<span class="goods-detail1">
 											<p v-for="des in goods.description">{{des}}</p>
 										</span>
-										<span class="goods-detail2">${{goods.price}}</span>
-										<span class="goods-detail3 fr">x3</span>
+										<span class="price-container">
+											<span class="goods-detail2">${{goods.price}}</span>
+											<span class="goods-detail3 fr">x3</span>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -183,6 +186,15 @@
 					.goods-part1-inner{
 						display: inline-block;
 						width: 360px;
+						vertical-align:top;
+						.goods-detail1{
+							font-size:12px;
+							color:#979797;
+							display: inline-block;
+						}
+						.price-container{
+							float:right;
+						}
 					}
 				}
 				.goods-part2{
