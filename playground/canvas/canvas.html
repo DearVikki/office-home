@@ -41,7 +41,7 @@
 
 	  // 监听Socket的关闭
 	  socket.onclose = function(event) {
-	    console.log('Client notified socket has closed',event);
+	    // console.log('Client notified socket has closed',event);
 	  };
 
 	  // 关闭Socket....
@@ -49,6 +49,8 @@
 	};
 </script>
 <script>
+	// var request = 0;
+
 	var c = document.getElementById('myCanvas');
 	var ctx = c.getContext('2d');
 	var pathArr = [];
@@ -68,12 +70,13 @@
 		var pos = getPos(c, e);
 		if(!eraser){
 			// 画图时
-			pathArr.push({x:pos.x, y:pos.y});
+			// if(a) request++;
+			pathArr.push({x:pos.x, y:pos.y, start:false});
 			ctx.lineTo(pos.x, pos.y);
 
 			ctx.stroke();
 			c2.dispatchEvent(canvasDraw);
-			socket.send(JSON.stringify(pathArr));
+			socket.send(JSON.stringify(pathArr[pathArr.length - 1]));
 		} else {
 			// 擦除时
 			eraserArr.push({x:pos.x, y:pos.y});
@@ -83,6 +86,12 @@
 	}
 	var notWriting = true;
 	c.addEventListener('mousedown',function(e){
+		// a = true;
+		// setTimeout(function () {
+		// 	a = false;
+		// 	console.log(request);
+		// },1000)
+
 		var pos = getPos(c, e);
 		var msg = 'Mouse position: ' + pos.x + ',' + pos.y;
 		// console.log(e.layerY)
@@ -91,7 +100,10 @@
 		// 所以此时一定是另起一笔了
 		ctx.beginPath();
 		ctx.moveTo(pos.x,pos.y);
-		pathArr = [];
+		// pathArr = [];
+		pathArr.push({x:pos.x, y:pos.y, start:true});
+		socket.send(JSON.stringify(pathArr[pathArr.length - 1]));
+
 		c.addEventListener('mousemove',drawLine,false);
 	},false)
 	c.addEventListener('mouseup',function(){
