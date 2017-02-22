@@ -10,12 +10,12 @@
 					class="order-nav"
 					:class="{active:activeNav === i}"
 					:style="nav.style"
-					@click="activeNav=i">{{nav.name}}</div>
+					@click="clickNav(i)">{{nav.name}}</div>
 				</div>
 				<!-- 订单部分 -->
 				<div id="order_container">
 					<div v-for="order in orders"
-					class="order">
+					class="order" @click="selectedOrder = order">
 						<!-- 订单头部 -->
 						<div class="order-header">
 							<div class="fl">
@@ -24,55 +24,159 @@
 								<span class="order-no">订单编号: {{order.order_info.order_no}}</span>
 								<span class="order-shop">{{order.dealer_info.dealer_name}}</span>
 							</div>
-							<div class="fr">
+							<div class="fr" @click="contactPop.show = true">
 								consulta la tienda
 							</div>
 						</div>
 						<!-- 订单商品列条 -->
-						<div class="order-goods"
-						v-for="goods in order.goods_info">
-							<div class="goods-part1">
-								<img :src="goods.cover_pic">
-								<div class="goods-part1-inner">
-									<div class="goods-name">{{goods.goods_name}}</div>
-									<div class="goods-detail">
-										<!-- 商品详细信息 -->
-										<span class="goods-detail1">
-											<p v-for="des in goods.description">{{des}}</p>
-										</span>
-										<span class="price-container">
-											<span class="goods-detail2">${{goods.price}}</span>
-											<span class="goods-detail3 fr">x3</span>
-										</span>
+						<div class="order-goods">
+							<div class="goods-part12-container">
+								<div class="goods-part1">
+									<img :src="order.goods_info.cover_pic">
+									<div class="goods-part1-inner">
+										<div class="goods-name">{{order.goods_info.goods_name}}</div>
+										<div class="goods-detail">
+											<!-- 商品详细信息 -->
+											<span class="goods-detail1">
+												<p v-for="des in order.goods_info.description">{{des}}</p>
+											</span>
+											<span class="price-container">
+												<span class="goods-detail2">${{order.goods_info.price}}</span>
+												<span class="goods-detail3 fr">x3</span>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="goods-part2">
+									<!-- 待付款 -->
+									<div v-if="order.order_info.status === 1">
+										<p>待付款</p>
+									</div>
+									<!-- 待发货 -->
+									<div v-if="order.order_info.status === 2">
+										<p>待发货</p>
+									</div>
+									<!-- 待收货 -->
+									<div v-if="order.order_info.status === 3">
+										<p>待收货</p>
+										<p class="main">评价</p>
+										<p class="main">退货</p>
+										<p class="main">换货</p>
+									</div>
+									<!-- 待评价 -->
+									<div v-if="order.order_info.status === 4">
+										<p>待评价</p>
+										<p class="main">评价</p>
+									</div>
+									<!-- 取消订单（交易关闭） -->
+									<div v-if="order.order_info.status === 5">
+										<p>交易关闭</p>
+									</div>
+									<!-- 交易成功 -->
+									<div v-if="order.order_info.status === 6">
+										<p>交易成功</p>
+									</div>
+									<!-- 退款处理中 -->
+									<div v-if="order.order_info.status === 7">
+										<p>退款处理中</p>
+									</div>
+									<!-- 退货处理中 -->
+									<div v-if="order.order_info.status === 8">
+										<p>退货处理中</p>
+									</div>
+									<!-- 退款完成 -->
+									<div v-if="order.order_info.status === 9">
+										<p>退款完成</p>
+									</div>
+									<!-- 退货完成 -->
+									<div v-if="order.order_info.status === 10">
+										<p>退货完成</p>
 									</div>
 								</div>
 							</div>
-							<div class="goods-part2"></div>
-							<div class="goods-part3"></div>
+							<div class="goods-part3">
+								<!-- 待付款 -->
+								<div  v-if="order.order_info.status === 1">
+									<div class="btn main">付款</div>
+								</div>
+								<!-- 待发货 -->
+								<div v-if="order.order_info.status === 2">
+									<div class="btn main">确认收货</div>
+									<div class="btn">取消订单</div>
+								</div>
+								<!-- 待收货 -->
+								<div v-if="order.order_info.status === 3">
+									<div class="btn main">确认收货</div>
+								</div>
+								<!-- 待评价 -->
+								<div v-if="order.order_info.status === 4">
+									<div class="btn" @click="clickDelivery">查看物流</div>
+								</div>
+								<!-- 取消订单（交易关闭） -->
+								<div v-if="order.order_info.status === 5">
+								</div>
+								<!-- 交易成功 -->
+								<div v-if="order.order_info.status === 6">
+									<div class="btn" @click="clickDelivery">查看物流</div>
+								</div>
+								<!-- 退款处理中 -->
+								<div v-if="order.order_info.status === 7">
+								</div>
+								<!-- 退货处理中 -->
+								<div v-if="order.order_info.status === 8">
+								</div>
+								<!-- 退款完成 -->
+								<div v-if="order.order_info.status === 9">
+								</div>
+								<!-- 退货完成 -->
+								<div v-if="order.order_info.status === 10">
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!-- 客服弹窗 -->
+		<!-- 这里一定要先给selectedOrder各项初始值呢 不然会报错！因为vue一定要先注册dom吖！ -->
+		<pop :pop="contactPop">
+			<div id="contact_container">
+				<div class="contact" v-for="(c,index) in selectedOrder.dealer_info.connect">
+					<img src="~assets/img/order/icon_service.png">
+					客服{{index+1}} WHATS APP:
+					<span>{{c}}</span>
+				</div>
+				<div class="btn-container">
+					<div class="btn reverse" @click="contactPop.show = false">关闭</div>
+				</div>
+			</div>
+		</pop>
+		<pop :pop="delivery.pop">
+			<div id="delivery_container">
+				<div v-if="delivery.deliveryInfo">
+					<p>托运公司: {{delivery.deliveryInfo.delivery_name}}</p>
+					<p>运单号: {{delivery.deliveryInfo.delivery_no}}</p>
+					<p>价格: {{delivery.deliveryInfo.delivery_price}}</p>
+				</div>
+				<div v-else>
+					暂无物流信息喔！
+				</div>
+				<div class="btn-container">
+					<div class="btn reverse" @click="delivery.pop.show = false">关闭</div>
+				</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
 	import data from './data.js';
 	import personalside from '../../components/PersonalSide.vue';
 	import {timestamp} from '../../assets/js/utils.js';
+	import pop from '../../components/pop.vue';
 	export default{
 		name:'order',
 		mounted(){
 			this.getOrder();
-			data.data.forEach((order)=>{
-				// 处理开始时间
-				order.order_info.start_time = timestamp(order.order_info.start_time);
-				// 处理description成数组
-				order.goods_info.forEach((goods)=>{
-					goods.description = goods.description.split(' ').filter((d)=>{return d});
-				})
-				this.orders.push(order);
-			})
 		},
 		data(){
 			return{
@@ -93,7 +197,71 @@
 					style:'width:25%'
 				}],
 				activeNav:0,
-				orders:[]
+				orders:[],
+				selectedOrder: {
+		            order_info: {
+		                order_id: '',
+		                user_id: "100093",
+		                start_time: 1478168149,
+		                pay_time: 0,
+		                deliver_time: 0,
+		                complete_time: 0,
+		                ems_no: "-1",
+		                status: 1,
+		                address_id: "1",
+		                order_no: "2016110353485253",
+		                is_del: "0",
+		                dealer_id: "1",
+		                postage: 0,
+		                shipping_id: "1",
+		                invoice_id: "0",
+		                order_amount: "0",
+		                sum_price: 100,
+		                goods_count: 1
+		            },
+		            dealer_info: {
+		                dealer_id: 1,
+		                dealer_name: "三只松鼠",
+		                connect: [
+		                    "948907",
+		                    "540",
+		                    "1231"
+		                ]
+		            },
+		            goods_info: {
+		                price: 100,
+		                goods_num: 1,
+		                pre_goods_id: 2,
+		                description: "颜色:中卡其  尺码:S  布料:麻布  ",
+		                goods_name: "JNBY_江南布衣2016夏新商场同款简洁大方圆领T恤5G561001",
+		                cover_pic: "http://121.40.91.157/shopping/php/assets/img/pre_goods/cat_1/2/goods/1.png",
+		                status: 0
+		            }
+		        },
+				popStyle:{
+					width:'780px',
+					minHeight:'292px'
+				},
+				// 为什么这里style: this.popStyle就是undefined呢
+				contactPop:{
+					show: false,
+					style: {
+						width:'780px',
+						minHeight:'292px',
+						padding:'70px 120px 35px 120px'
+					}
+				},
+				delivery:{
+					deliveryInfo:{},
+					pop:{
+						show:false,
+						style: {
+							width:'780px',
+							minHeight:'292px',
+							padding:'70px 120px 35px 120px'
+						}
+					}
+				}
 			}
 		},
 		methods:{
@@ -102,11 +270,35 @@
 					name:'zl.shopping.pc.order.type',
 					type:this.activeNav
 				}).then((response)=>{
-					console.log(response.body.data)
+					let data = [];
+					response.body.data.forEach((e)=>{
+						// 处理开始时间
+						e.start_time = timestamp(e.start_time);
+						// 处理description成数组
+						// 需要改成数组的以后
+						// e.goods_info.forEach((goods)=>{
+						e.goods_info.description = e.goods_info.description.split(' ').filter((d)=>{return d});
+						// })
+						data.push(e);
+					})
+					this.orders = data;
+				})
+			},
+			clickNav(i){
+				this.activeNav = i;
+				this.getOrder();
+			},
+			clickDelivery(){
+				this.$http.post('',{
+					name:'zl.shopping.sys.delivery.info',
+					order_id: this.selectedOrder.order_info.order_id
+				}).then((response)=>{
+					this.delivery.deliveryInfo = response.body.data;
+					this.delivery.pop.show = true;
 				})
 			}
 		},
-		components:{personalside}
+		components:{personalside,pop}
 	}
 </script>
 <style scoped lang='less'>
@@ -177,32 +369,116 @@
 					float: left;
 					height: 100%;
 				}
+				.goods-part12-container{
+					float: left;
+					width: 82%;
+					height: 120px;
+				}
 				.goods-part1{
-					width: 64%;
+					width: 78%;
 					img{
 						width: 80px;
 						height: 80px;
+						margin-right:10px;
 					}
 					.goods-part1-inner{
 						display: inline-block;
 						width: 360px;
 						vertical-align:top;
+						position: relative;
+						height: 80px;
+						.goods-name{
+							overflow: hidden;
+							text-overflow: ellipsis;
+							display: -webkit-box;
+							-webkit-line-clamp: 2;
+							-webkit-box-orient: vertical;
+							height: 35px;
+						}
 						.goods-detail1{
 							font-size:12px;
 							color:#979797;
-							display: inline-block;
+							display: table-cell;
+							vertical-align: bottom;
+							position: absolute;
+							bottom: 0;
+							left: 0;
+							width: 300px;
+							p{
+								margin-top:5px;
+							}
 						}
 						.price-container{
 							float:right;
+							margin-top: 30px;
+							.goods-detail2{
+								font-size:14px;
+								color:#d0021b;
+								margin-right:25px;
+							}
+							.goods-detail3{
+								font-size:12px;
+								color:#808080;
+								margin-top:2px;
+							}
 						}
 					}
 				}
 				.goods-part2{
-					width: 18%;
+					width: 22%;
 					border-left:1px solid #e7e7e7;
 					border-right:1px solid #e7e7e7;
+					font-size:12px;
+					color:#666666;
+					text-align:center;
+					p{
+						margin-bottom:5px;
+					}
+					.main{
+						color:#d42b1e;
+						cursor:pointer;
+					}
+				}
+				.goods-part3{
+					float: right;
+					width:18%;
+					.btn{
+						border-radius:2px;
+						width:100px;
+						height:30px;
+						line-height:30px;
+						text-align:center;
+						font-size:12px;
+						color:#d42b1e;
+						cursor:pointer;
+						margin:0 auto;
+						&.main{
+							background:#d42b1e;
+							color:#fff;
+						}
+					}
 				}
 			}
 		}
+	}
+	#contact_container{
+		font-size:12px;
+		color:#5c5c5c;
+		text-align:left;
+		.contact{
+			display: inline-block;
+			margin:0 auto 20px auto;
+		}
+		span{
+			color:#d42b1e;
+		}
+		.btn-container{
+			margin-top:30px;
+		}
+	}
+	#delivery_container{
+		font-size:20px;
+		color:#666666;
+		letter-spacing:0.4px;
 	}
 </style>

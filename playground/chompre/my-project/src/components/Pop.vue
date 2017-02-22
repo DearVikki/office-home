@@ -21,6 +21,7 @@
 			}
 		},
 		mounted(){
+			console.log(this.pop)
 		},
 		methods:{
 			closePop(){

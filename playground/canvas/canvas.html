@@ -25,31 +25,30 @@
 	<canvas id="outCanvas" width=470 height=350></canvas>
 </body>
 <script>
-	// 创建一个Socket实例
-	var socket = new WebSocket('ws://121.40.91.157:8282');
+	// // 创建一个Socket实例
+	// var socket = new WebSocket('ws://121.40.91.157:8282');
 
-	// 打开Socket
-	socket.onopen = function(event) {
+	// // 打开Socket
+	// socket.onopen = function(event) {
 
-	  // 发送一个初始化消息
-	  socket.send('接通Websocket了啦！');
+	//   // 发送一个初始化消息
+	//   socket.send('接通Websocket了啦！');
 
-	  // 监听消息
-	  socket.onmessage = function(event) {
-	    console.log('Client received a message',event);
-	  };
+	//   // 监听消息
+	//   socket.onmessage = function(event) {
+	//     console.log('Client received a message',event);
+	//   };
 
-	  // 监听Socket的关闭
-	  socket.onclose = function(event) {
-	    // console.log('Client notified socket has closed',event);
-	  };
+	//   // 监听Socket的关闭
+	//   socket.onclose = function(event) {
+	//     // console.log('Client notified socket has closed',event);
+	//   };
 
-	  // 关闭Socket....
-	  //socket.close()
-	};
+	//   // 关闭Socket....
+	//   //socket.close()
+	// };
 </script>
 <script>
-	// var request = 0;
 
 	var c = document.getElementById('myCanvas');
 	var ctx = c.getContext('2d');
@@ -70,13 +69,12 @@
 		var pos = getPos(c, e);
 		if(!eraser){
 			// 画图时
-			// if(a) request++;
 			pathArr.push({x:pos.x, y:pos.y, start:false});
 			ctx.lineTo(pos.x, pos.y);
-
 			ctx.stroke();
+
 			c2.dispatchEvent(canvasDraw);
-			socket.send(JSON.stringify(pathArr[pathArr.length - 1]));
+			// socket.send(JSON.stringify(pathArr[pathArr.length - 1]));
 		} else {
 			// 擦除时
 			eraserArr.push({x:pos.x, y:pos.y});
@@ -84,32 +82,28 @@
 			c2.dispatchEvent(canvasEraser);
 		}
 	}
+
 	var notWriting = true;
 	c.addEventListener('mousedown',function(e){
-		// a = true;
-		// setTimeout(function () {
-		// 	a = false;
-		// 	console.log(request);
-		// },1000)
 
 		var pos = getPos(c, e);
 		var msg = 'Mouse position: ' + pos.x + ',' + pos.y;
-		// console.log(e.layerY)
-		// console.log(e.offsetY)
 		notWriting = false;
-		// 所以此时一定是另起一笔了
+
+		// 所以此时一定是另起一笔了 并不用判断线段的相对距离啊
 		ctx.beginPath();
 		ctx.moveTo(pos.x,pos.y);
-		// pathArr = [];
 		pathArr.push({x:pos.x, y:pos.y, start:true});
-		socket.send(JSON.stringify(pathArr[pathArr.length - 1]));
-
+		c2.dispatchEvent(canvasDraw);
+		// socket.send(JSON.stringify(pathArr[pathArr.length - 1]));
 		c.addEventListener('mousemove',drawLine,false);
 	},false)
+
 	c.addEventListener('mouseup',function(){
 		notWriting = true;
 		c.removeEventListener('mousemove',drawLine,false);
 	})
+
 	// 点击橡皮
 	var eraser = false;
 	var btn = document.querySelector('button');
@@ -128,25 +122,18 @@
 	var c2 = document.getElementById('outCanvas');
 	var ctx2 = c2.getContext('2d');
 	ctx2.beginPath();
+	var p0, p;
 	// ctx2.clearRect(0, 0, c2.width, c2.height);
+
 	c2.addEventListener('canvasDraw',function(){
 		var pathArrLen = pathArr.length;
-		var p0 = {x: pathArr[pathArrLen - 2].x, y: pathArr[pathArrLen - 2].y};
-		var p = {x: pathArr[pathArrLen - 1].x, y: pathArr[pathArrLen - 1].y};
-		var end = {x: (p.x - p0.x)/2, y: (p.y - p0.y)/2};
-		// if(pathArrLen === 1) ctx2.moveTo(p.x, p.y);
-		// else {
-		// 	if(Math.abs(p0.x - p.x) < 10 && Math.abs(p0.y - p.y) < 10) ctx2.lineTo(p.x, p.y);
-		// 	else ctx2.moveTo(p.x, p.y)
-		// }
-		// 用曲线来画
-		if(pathArrLen === 1) ctx2.moveTo(p.x, p.y);
-		else {
-			if(Math.abs(p0.x - p.x) < 10 && Math.abs(p0.y - p.y) < 10) ctx2.quadraticCurveTo(p0.x, p0.y, p.x, p.y);
-			else ctx2.moveTo(p.x, p.y)
-		}
+		p0 = {x: pathArr[pathArrLen - 2].x, y: pathArr[pathArrLen - 2].y};
+		p = {x: pathArr[pathArrLen - 1].x, y: pathArr[pathArrLen - 1].y, start: pathArr[pathArrLen - 1].start};
+		if(p.start) ctx2.moveTo(p.x, p.y);
+		else ctx2.quadraticCurveTo(p0.x, p0.y, p.x, p.y);
 		ctx2.stroke();
 	},false)
+
 	c2.addEventListener('canvasEraser', function(){
 		var eraserArrLen = eraserArr.length;
 		ctx2.clearRect(eraserArr[eraserArrLen - 1].x, eraserArr[eraserArrLen - 1].y, 7, 7);
