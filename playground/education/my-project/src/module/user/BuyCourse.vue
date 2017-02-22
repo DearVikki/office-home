@@ -1,7 +1,26 @@
 <template>
 	<div id="buyCourse_container" class="user-common-container">
-		<ul id="course_container">
+		<!--切换时间线-->
+		<div class="time-nav"
+		:class="{active:!history}"
+		@click="history = false">课程列表</div>
+		<div class="time-nav"
+		:class="{active:history}"
+		@click="history = true">已购记录</div>
+		<ul id="course_container" v-show="!history">
 			<li v-for="list in lists">
+				<p class="stage">{{list.stage}}</p>
+				<p class="hour">{{list.class_hour}}课时</p>
+				<p class="price">现价：{{list.actual_price}}元</p>
+				<p class="price0">原价：{{list.original_price}}元</p>
+				<div class="tag-container">
+					<span v-for="tag in list.tags">{{tag}}</span>
+				</div>
+				<a class="buy" target="_blank" :href="'https://www.hzchuangxiangzhe.cn/php/alipay/action?goods_id='+list.id">我要购买</a>
+			</li>
+		</ul>
+		<ul id="course_container" v-show="history">
+			<li v-for="list in history_lists">
 				<p class="stage">{{list.stage}}</p>
 				<p class="hour">{{list.class_hour}}课时</p>
 				<p class="price">现价：{{list.actual_price}}元</p>
@@ -19,11 +38,19 @@
 		name:'buycourse',
 		data(){
 			return{
-				lists:[]
+				lists:[],
+				history_lists:[],
+				history:false
 			}
 		},
 		mounted(){
 			this.$http.get('?name=education.sys.goods.list').then((response)=>{
+				response.body.data.list.forEach((e)=>{
+					e.tags = ['全科通用',e.stage+'通用'];
+					this.lists.push(e);
+				})
+			})
+			this.$http.get('?name=education.sys.goods.payed.list').then((response)=>{
 				response.body.data.list.forEach((e)=>{
 					e.tags = ['全科通用',e.stage+'通用'];
 					this.lists.push(e);
@@ -38,6 +65,39 @@
 	}
 </script>
 <style scoped lang='less'>
+	@baseColor:#55b7f8;
+	/*切换时间线*/
+	.time-nav{
+		width: 150px;
+		height: 30px;
+		font-size: 16px;
+		border-bottom:1px solid #ebebeb;
+		display: inline-block;
+		text-align: center;
+		position: relative;
+		cursor:pointer;
+		margin-bottom: 30px;
+		&.active{
+			border-bottom-color: @baseColor;
+			color: @baseColor;
+			&:after{
+				content:'';
+				position: absolute;
+				border: 5px solid transparent;
+				border-bottom-color:#fff;
+				right:68.5px;
+				bottom:-.5px;
+			}
+			&:before{
+				content:'';
+				position: absolute;
+				border: 6px solid transparent;
+				border-bottom-color: @baseColor;
+				right:67.5px;
+				bottom:-.4px;
+			}
+		}
+	}
 	#course_container{
 		display: flex;
 		justify-content: space-between;

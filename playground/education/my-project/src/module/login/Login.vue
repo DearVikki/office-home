@@ -12,16 +12,11 @@
 		<div id="hem"></div>
 		<div id="login_container">
 			<!--切换用户-->
-			<div class="login-nav"
-			:class="{active:!isTeacher}"
-			@click="isTeacher = false">学生</div>
-			<div class="login-nav"
-			:class="{active:isTeacher}"
-			@click="isTeacher = true">老师</div>
+			<div class="login-nav">找回密码</div>
 			<!--表单部分-->
-			<loginform
+			<loginform2
 			v-show="isTeacher === false"
-			:userType=1></loginform>
+			:userType=1></loginform2>
 			<loginform
 			v-show="isTeacher === true"
 			:userType=2></loginform>
@@ -30,6 +25,7 @@
 </template>
 <script>
 	import loginform from './Loginform.vue';
+	import loginform2 from './Loginform2.vue';
 	export default{
 		name:'login',
 		data(){
@@ -37,7 +33,7 @@
 				isTeacher:true
 			}
 		},
-		components:{loginform}
+		components:{loginform,loginform2}
 	}
 </script>
 <style scoped lang='less'>
