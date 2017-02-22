@@ -115,32 +115,6 @@
 			this.type = this.address ? 1 : 0;
 		},
 		methods:{
-			isNum(val){
-				return !isNaN(val);
-			},
-			required(val){
-				return val!=='';
-			},
-			handleValidate(field) {
-				let checked = true;
-				for(var rule in field.validators){
-					if(!this[rule](field.val) && checked) {
-						field.error = true;
-						field.msg = field.validators[rule].msg;
-						checked = false;
-						break;
-					}
-				}
-				return checked?true:false;
-			},
-			fieldFocus(field){
-				field.focus = true;
-				field.error = false;
-			},
-			fieldBlur(field){
-				this.handleValidate(field);
-				field.focus = false;
-			},
 			checkAll(){
 				let allchecked = true;
 				for(var field in this.fields){
