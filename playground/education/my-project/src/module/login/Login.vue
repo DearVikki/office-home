@@ -12,7 +12,12 @@
 		<div id="hem"></div>
 		<div id="login_container">
 			<!--切换用户-->
-			<div class="login-nav">找回密码</div>
+			<div class="login-nav"
+			:class="{active:!isTeacher}"
+			@click="isTeacher = false">学生{{state}}</div>
+			<div class="login-nav"
+			:class="{active:isTeacher}"
+			@click="isTeacher = true">教师{{state}}</div>
 			<!--表单部分-->
 			<loginform2
 			v-show="isTeacher === false"
@@ -30,7 +35,13 @@
 		name:'login',
 		data(){
 			return{
-				isTeacher:true
+				isTeacher:true,
+				state:'登录'
+			}
+		},
+		mounted(){
+			if(location.hash === '#signup') {
+				this.state = '注册';
 			}
 		},
 		components:{loginform,loginform2}

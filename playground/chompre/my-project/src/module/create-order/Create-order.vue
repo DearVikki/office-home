@@ -31,7 +31,7 @@
 				<div v-show="address.fold" class="fold" @click="address.fold = false">展开地址 <img src="~assets/img/order/Trianglered_down.png"></div>
 			</div>
 			<!-- 地址弹窗 -->
-			<pop :pop="address.pop" :popReset="address.popReset">
+			<pop :pop="address.pop" :popReset="addressPopReset">
 				<addressPop :address="address.selectedForPop" @saveAddress="saveAddress"></addressPop>
 			</pop>
 		</div>
@@ -67,7 +67,7 @@
 				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">展开发票 <img src="~assets/img/order/Trianglegreen_down.png"></div>
 			</div>
 			<!-- 地址弹窗 -->
-			<pop :pop="invoice.pop" :popReset="invoice.popReset">
+			<pop :pop="invoice.pop" :popReset="invoicePopReset">
 				<invoicePop :invoice="invoice.selectedForPop" @saveInvoice="saveInvoice"></invoicePop>
 			</pop>
 		</div>
@@ -120,6 +120,10 @@
 					{{invoice.selected.company_address}} {{invoice.selected.company_area}} {{invoice.selected.company_city}}
 				</span>
 			</div>
+			<div id="order_delivery" v-show="delivery.dropdown.selectedValue">
+				<img src="~assets/img/order/delivery.png">
+				<span class="txt">{{delivery.dropdown.title}}</span>
+			</div>
 		</div>
 		<!-- 店铺合计 -->
 		<div id="conclu_container">
@@ -128,7 +132,7 @@
 					店铺合计:
 					<span>${{conclu.sumprice}}</span>
 				</div>
-				<div id="conclu_delivery"  v-show="delivery.dropdown.selectedValue">{{delivery.dropdown.title}}</div>
+				<!-- <div id="conclu_delivery"  v-show="delivery.dropdown.selectedValue">{{delivery.dropdown.title}}</div> -->
 			</div>
 			<p class="clear"></p>
 			<div id="conclu_pay_container">
@@ -143,10 +147,23 @@
 	import addressPop from '../../components/Address.vue';
 	import invoicePop from '../../components/Invoice.vue';
 	import simpleDropdown from '../../components/SimpleDropdown.vue';
+	import '../../assets/lib/order-item.less'
 	export default{
 		name:'createorder',
 		data(){
 			return{
+				sendCode:{
+					send:function(before){
+						before();
+						console.log('sendla!');
+					},
+					before:function() {
+						console.log(this.txt)
+					},
+					style:{
+						fontSize:'12px'
+					}
+				},
 				address:{
 					addressList:[{
 						receive_name:'',
@@ -168,10 +185,6 @@
 							height:'700px',
 							padding:'50px 80px'
 						}
-					},
-					popReset(){
-						// 所以这里在pop.vue里调用，就只能取到pop.vue的上下文。怎样才能取到这里vue的上下文呢
-						// this.address.selectedForPop = {};
 					}
 				},
 				invoice:{
@@ -312,9 +325,14 @@
 			})
 		},
 		methods:{
+			addressPopReset(){
+				this.address.selectedForPop = {};
+			},
+			invoicePopReset(){
+				this.invoice.selectedForPop = {};
+			},
 			// 点击新增地址
 			addAddress(){
-				this.address.selectedForPop = {};
 				this.address.pop.show = true;
 			},
 			// 点击编辑地址
@@ -353,7 +371,6 @@
 			},
 			// 点击新增发票
 			addInvoice(){
-				this.invoice.selectedForPop = {};
 				this.invoice.pop.show = true;
 			},
 			// 点击编辑发票
@@ -592,97 +609,11 @@
 			height: 36px;
 		}
 	}
+	/*#order部分已移入order-item.less了*/
 	#order_container{
 		margin-top: 50px;
 		.title{
 			border-bottom: none;
-		}
-		#order_header{
-			.header-item{
-				font-size:14px;
-				color:#5c5c5c;
-				text-align:center;
-				position: relative;
-				display: inline-block;
-				height: 30px;
-				line-height: 30px;
-				span{
-					position: absolute;
-					width: ~'calc(100% - 3px)';
-					left: 0;
-					bottom: 0;
-					height: 2px;
-					background:#cbcbcb;
-				}
-			}
-		}
-		#order_dealer{
-			.smallGrey;
-			display: inline-block;
-			margin-top: 36px;
-		}
-		#order_goods{
-			.goods-item{
-				.smallGrey;
-				text-align:center;
-				overflow: hidden;
-				padding: 30px 0 10px 20px;
-				background: #fbfbfb;
-				img{
-					width:80px;
-					height: 80px;
-					float: left;
-				}
-				.goods-title{
-					padding:0 15px;
-					width:~'calc(38% - 100px)';
-					text-align:left;
-					float: left;
-				}
-				.goods-detail{
-					width:16%;
-					float: left;
-					p{
-
-					}
-				}
-				.goods-price{
-					width:13%;
-					float: left;
-					.smallGrey;
-					margin-top: 0;
-				}
-				.goods-num{
-					width:13%;
-					float: left;
-				}
-				.goods-price-all{
-					width: 20%;
-					color:#d0021b;
-					float: left;
-					font-size: 14px;
-					font-weight: bold;
-				}
-			}
-		}
-		#order_address,#order_invoice{
-			height: 48px;
-			line-height:48px;
-			padding: 0 20px;
-			img{
-				vertical-align:middle;
-				margin-right:10px;
-			}
-			.txt{
-				font-size:14px;
-				color:#808080;
-			}
-		}
-		#order_address{
-			background:#fff9f9;
-		}
-		#order_invoice{
-			background:rgba(60,178,134,0.05);
 		}
 	}
 	#conclu_container{

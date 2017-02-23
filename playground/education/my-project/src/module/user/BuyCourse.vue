@@ -7,7 +7,7 @@
 		<div class="time-nav"
 		:class="{active:history}"
 		@click="history = true">已购记录</div>
-		<ul id="course_container" v-show="!history">
+		<ul class="course_container" v-show="!history">
 			<li v-for="list in lists">
 				<p class="stage">{{list.stage}}</p>
 				<p class="hour">{{list.class_hour}}课时</p>
@@ -19,18 +19,24 @@
 				<a class="buy" target="_blank" :href="'https://www.hzchuangxiangzhe.cn/php/alipay/action?goods_id='+list.id">我要购买</a>
 			</li>
 		</ul>
-		<ul id="course_container" v-show="history">
+		<ul class="course_container" v-show="history">
 			<li v-for="list in history_lists">
 				<p class="stage">{{list.stage}}</p>
 				<p class="hour">{{list.class_hour}}课时</p>
-				<p class="price">现价：{{list.actual_price}}元</p>
+				<p class="price">购买价：{{list.total_fee}}元</p>
 				<p class="price0">原价：{{list.original_price}}元</p>
 				<div class="tag-container">
 					<span v-for="tag in list.tags">{{tag}}</span>
 				</div>
-				<a class="buy" target="_blank" :href="'https://www.hzchuangxiangzhe.cn/php/alipay/action?goods_id='+list.id">我要购买</a>
+				<a class="buy" target="_blank">我已购买</a>
 			</li>
 		</ul>
+		<div class="empty-tip"
+		v-show="history && history_lists.length===0">
+			<img src="~assets/img/user/no_class.png">
+			<p>你暂无已购记录>.<</p>
+			<p>可以到隔壁购买喔！:D</p>
+		</div>
 	</div>
 </template>
 <script>
@@ -53,7 +59,7 @@
 			this.$http.get('?name=education.sys.goods.payed.list').then((response)=>{
 				response.body.data.list.forEach((e)=>{
 					e.tags = ['全科通用',e.stage+'通用'];
-					this.lists.push(e);
+					this.history_lists.push(e);
 				})
 			})
 		},
@@ -98,7 +104,7 @@
 			}
 		}
 	}
-	#course_container{
+	.course_container{
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;

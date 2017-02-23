@@ -31,6 +31,7 @@
 				if(this.stage[this.currentStage].lastStage){
 					setTimeout(()=>{
 						this.$emit('returnToFirstStage');
+						// this.currentStage = 0;
 					},1000)
 				}
 			}

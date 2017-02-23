@@ -21,7 +21,7 @@
 							<div class="fl">
 								<span class="order-time">{{order.order_info.start_time}}</span>
 								<span class="order-price">总价: ${{order.order_info.sum_price}}</span>
-								<span class="order-no">订单编号: {{order.order_info.order_no}}</span>
+								<a class="order-no cp" :href="'./order-detail.html?id='+order.order_info.order_id">订单编号: {{order.order_info.order_no}}</a>
 								<span class="order-shop">{{order.dealer_info.dealer_name}}</span>
 							</div>
 							<div class="fr" @click="contactPop.show = true">
@@ -60,8 +60,8 @@
 									<div v-if="order.order_info.status === 3">
 										<p>待收货</p>
 										<p class="main">评价</p>
-										<p class="main">退货</p>
-										<p class="main">换货</p>
+										<p class="main" @click="test()">退货</p>
+										<p class="main" @click="changePop.show = true">换货</p>
 									</div>
 									<!-- 待评价 -->
 									<div v-if="order.order_info.status === 4">
@@ -140,30 +140,57 @@
 		<!-- 客服弹窗 -->
 		<!-- 这里一定要先给selectedOrder各项初始值呢 不然会报错！因为vue一定要先注册dom吖！ -->
 		<pop :pop="contactPop">
-			<div id="contact_container">
-				<div class="contact" v-for="(c,index) in selectedOrder.dealer_info.connect">
-					<img src="~assets/img/order/icon_service.png">
-					客服{{index+1}} WHATS APP:
-					<span>{{c}}</span>
+			<div id="contact_inner_container">
+				<div id="contact_container">
+					<div class="contact" v-for="(c,index) in selectedOrder.dealer_info.connect">
+						<img src="~assets/img/order/icon_service.png">
+						<span>客服{{index+1}}&nbsp;&nbsp;&nbsp; WHATS APP:&nbsp;</span>
+						<span class="red">{{c}}</span>
+					</div>
 				</div>
 				<div class="btn-container">
 					<div class="btn reverse" @click="contactPop.show = false">关闭</div>
 				</div>
 			</div>
 		</pop>
+		<!-- 物流弹窗 -->
 		<pop :pop="delivery.pop">
-			<div id="delivery_container">
-				<div v-if="delivery.deliveryInfo">
+			<div id="delivery_inner_container">
+				<div id="delivery_container" v-if="delivery.deliveryInfo.toString()">
 					<p>托运公司: {{delivery.deliveryInfo.delivery_name}}</p>
 					<p>运单号: {{delivery.deliveryInfo.delivery_no}}</p>
 					<p>价格: {{delivery.deliveryInfo.delivery_price}}</p>
 				</div>
-				<div v-else>
+				<div class="no-info" v-else>
 					暂无物流信息喔！
 				</div>
 				<div class="btn-container">
 					<div class="btn reverse" @click="delivery.pop.show = false">关闭</div>
 				</div>
+			</div>
+		</pop>
+		<!-- 换货弹窗 -->
+		<pop :pop="changePop" class="common-pop">
+			是否提交换货申请？
+			<div class="btn-container">
+				<div class="btn">换货</div>
+				<div class="btn reverse" @click="changePop.show = false">关闭</div>
+			</div>
+		</pop>
+		<!-- 退货弹窗 -->
+		<pop :pop="returnPop" class="common-pop">
+			是否提交退货申请？
+			<div class="btn-container">
+				<div class="btn">退货</div>
+				<div class="btn reverse" @click="returnPop.show = false">关闭</div>
+			</div>
+		</pop>
+		<!-- 确认收货弹窗 -->
+		<pop :pop="confirmPop" class="common-pop">
+			请确保收到货物，确认无误后点击确认。
+			<div class="btn-container">
+				<div class="btn">确认收货</div>
+				<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
 			</div>
 		</pop>
 	</div>
@@ -261,10 +288,39 @@
 							padding:'70px 120px 35px 120px'
 						}
 					}
+				},
+				changePop:{
+					show:false,
+					style:{
+						width:'780px',
+						minHeight:'292px',
+						padding:'84px 120px 35px 120px'
+					}
+				},
+				returnPop:{
+					show:false,
+					style:{
+						width:'780px',
+						minHeight:'292px',
+						padding:'84px 120px 35px 120px'
+					}
+				},
+				confirmPop:{
+					show:false,
+					style:{
+						width:'780px',
+						minHeight:'292px',
+						padding:'84px 120px 35px 120px'
+					}
 				}
 			}
 		},
 		methods:{
+			test(){
+				console.log('hey')
+				console.log(this.returnPop)
+				this.returnPop.show = true;
+			},
 			getOrder(){
 				this.$http.post('',{
 					name:'zl.shopping.pc.order.type',
@@ -352,9 +408,12 @@
 				}
 				.order-no{
 					width: 250px;
+					margin-right:20px;
+					color:#666;
 				}
 				.fr{
 					color: @baseColor;
+					cursor: pointer;
 				}
 			}
 			/*主体*/
@@ -461,24 +520,57 @@
 			}
 		}
 	}
-	#contact_container{
+	.red{
+		color:#d42b1e;
+	}
+	#contact_inner_container{
 		font-size:12px;
 		color:#5c5c5c;
 		text-align:left;
+		#contact_container{
+			min-height:97px;
+		}
 		.contact{
-			display: inline-block;
-			margin:0 auto 20px auto;
+			margin:0 auto 20px 110px;
+			img{
+				vertical-align:middle;
+			}
 		}
 		span{
-			color:#d42b1e;
+			vertical-align:middle;
 		}
 		.btn-container{
 			margin-top:30px;
 		}
 	}
-	#delivery_container{
+	#delivery_inner_container{
 		font-size:20px;
 		color:#666666;
 		letter-spacing:0.4px;
+		#delivery_container{
+			>p{
+				margin-bottom:15px;
+				text-align: left;
+				margin-left:150px;
+			}
+		}
+		.btn-container{
+			width:100%;
+			position: absolute;
+			bottom:30px;
+			left:0;
+		}
+		.no-info{
+			margin-top:30px;
+		}
+	}
+	.common-pop{
+		font-size:20px;
+		color:#666666;
+		letter-spacing:0.4px;
+		text-align:center;
+		.btn-container{
+			margin-top: 90px;
+		}
 	}
 </style>

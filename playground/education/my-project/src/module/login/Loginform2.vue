@@ -38,7 +38,7 @@
 		<!-- 底下的小字 -->
 		<div class="tip" v-if="!page_type">
 			<span @click="goSignup()">没有账号，立即注册</span>
-			<a href="" class="right">忘记密码</a>
+			<a href="./resetPw.html" class="right">忘记密码</a>
 		</div>
 		<div class="tip" v-if="page_type">
 			<a href="./login.html">已有账号，立即登录</a>
@@ -170,7 +170,9 @@
 				let name;
 				if(this.userType === 1) name='education.student.register.login';
 				else name='education.teacher.register.login';
-				this.$http.get('?name='+name+'&mobile='+this.phone.val+'&pwd='+this.code.val,{
+				let phone = this.phone.val;
+				let pwd = this.code.val;
+				this.$http.get('?name='+name+'&mobile='+phone+'&pwd='+pwd,{
 					timeout:30000,
 					before: function() {
 						this.btnSet.currentStage = 1;
