@@ -223,10 +223,12 @@
 		background: #efeff4;
 		#threshold_main{
 			overflow: hidden;
+			position: relative;
+			/*呃…因为后来把位置调反了…*/
 			#threshold_left{
-				float: left;
-				width: 328px;
-				position: relative;
+				width: 700px;
+				position: absolute;
+				right: 0;
 				/*根据右侧条条计算而来*/
 				height: 660px;
 				img{
@@ -237,7 +239,7 @@
 				}
 			}
 			#threshold_right{
-				float: right;
+				float: left;
 				width: 780px;
 				li{
 					font-size: 32px;
@@ -265,10 +267,10 @@
 			overflow: hidden;
 			#quality_left{
 				float: left;
-				width: 456px;
+				width: 460px;
 				position: relative;
 				/*根据右侧条条计算而来*/
-				height: 660px;
+				height: 670px;
 				img{
 					position: absolute;
 					width: 100%;

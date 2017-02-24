@@ -60,6 +60,7 @@
 									<div v-if="order.order_info.status === 3">
 										<p>待收货</p>
 										<p class="main">评价</p>
+										<!-- 为什么这里会报el.setAttribute的错吖！ -->
 										<p class="main" @click="test()">退货</p>
 										<p class="main" @click="changePop.show = true">换货</p>
 									</div>

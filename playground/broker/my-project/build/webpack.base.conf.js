@@ -116,5 +116,6 @@ for(var pathname in pages){
     })
   }
   module.exports.plugins.push(new HtmlWebpackPlugin(conf));
-  module.exports.plugins.push(new PrerenderSpaPlugin(conf));
+  // prerender报错了！TAT
+  // module.exports.plugins.push(new PrerenderSpaPlugin(conf));
 }

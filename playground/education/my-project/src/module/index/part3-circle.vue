@@ -49,7 +49,7 @@
 		padding-top:.1px;
 		padding-bottom: 40px;
 		#circle_slogan{
-			width: 554px;
+			width: 604px;
 			height: 37px;
 			background: url(../../assets/img/index/slogan.png) no-repeat;
 			margin: 120px auto 90px auto;

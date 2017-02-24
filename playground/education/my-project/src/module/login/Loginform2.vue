@@ -41,7 +41,7 @@
 			<a href="./resetPw.html" class="right">忘记密码</a>
 		</div>
 		<div class="tip" v-if="page_type">
-			<a href="./login.html">已有账号，立即登录</a>
+			<a href="./login.html?type=0">已有账号，立即登录</a>
 		</div>
 	</div>
 </template>
@@ -195,7 +195,7 @@
 				this.btnSet.currentStage = 0;
 			},
 			goSignup(){
-				location = './login.html#signup';
+				location = './login.html#signup?type=0';
 				location.reload();
 			}
 		},
@@ -282,6 +282,9 @@
 		font-size:12px;
 		color:#999;
 		text-decoration: underline;
+		span{
+			cursor: pointer;
+		}
 		a{
 			font-size:12px;
 			color:#999;

@@ -8,7 +8,7 @@
 			</div>-->
 			<div id="footer_copyright">
 				<p>Copyright © 2016-  Tada~ All Rights Reserved</p>
-				<p>名校昇 版权所有</p>
+				<p>卓邦教育 版权所有</p>
 			</div>
 		</div>
 	</div>

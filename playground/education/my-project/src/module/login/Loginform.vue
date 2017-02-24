@@ -44,6 +44,14 @@
 			:currentStage="btnSet.currentStage"
 			:style="btnSet.style"></smartBtn>
 		</div>
+		<!-- 底下的小字 -->
+		<div class="tip" v-if="!page_type">
+			<span @click="goSignup()">没有账号，立即注册</span>
+			<!-- <a href="./resetPw.html" class="right">忘记密码</a> -->
+		</div>
+		<div class="tip" v-if="page_type">
+			<a href="./login.html?type=1">已有账号，立即登录</a>
+		</div>
 	</div>
 </template>
 <script>
@@ -53,6 +61,8 @@
 		name:'loginform',
 		data(){
 			return{
+				// 0表示登录页 1表示注册页
+				page_type:0,
 				phone:{
 					name:'phone',
 					inputActive:false,
@@ -115,6 +125,7 @@
 				this.btnSet.stage['0'].txt = '注 册';
 				this.btnSet.stage['1'].txt = '注册中';
 				this.btnSet.stage['2'].txt = '注册成功';
+				this.page_type = 1;
 			}
 		},
 		methods:{
@@ -190,6 +201,10 @@
 			},
 			returnToFirstStage(){
 				this.btnSet.currentStage = 0;
+			},
+			goSignup(){
+				location = './login.html#signup?type=1';
+				location.reload();
 			}
 		},
 		props:['userType'],
@@ -265,8 +280,27 @@
 	.smartBtn-container{
 		width:300px;
 		height: 48px;
-		margin: 40px auto;
+		margin: 40px auto 10px auto;
 		cursor: pointer;
 		position: relative;
+	}
+	.tip{
+		text-align:center;
+		position:relative;
+		font-size:12px;
+		color:#999;
+		text-decoration: underline;
+		span{
+			cursor: pointer;
+		}
+		a{
+			font-size:12px;
+			color:#999;
+			text-decoration: underline;
+		}
+		a.right{
+			position:absolute;
+			right:0;
+		}
 	}
 </style>

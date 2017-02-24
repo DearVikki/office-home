@@ -31,6 +31,7 @@
 <script>
 	import loginform from './Loginform.vue';
 	import loginform2 from './Loginform2.vue';
+	import {getParameterByName} from '../../assets/js/utils.js';
 	export default{
 		name:'login',
 		data(){
@@ -42,6 +43,11 @@
 		mounted(){
 			if(location.hash === '#signup') {
 				this.state = '注册';
+			}
+			console.log(getParameterByName('type'))
+			if(getParameterByName('type') == 0){
+				console.log('hey')
+				this.isTeacher = false;
 			}
 		},
 		components:{loginform,loginform2}

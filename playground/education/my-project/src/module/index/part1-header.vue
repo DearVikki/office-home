@@ -300,6 +300,7 @@
 					width: 100%;
 					height: 100%;
 					background: url(../../assets/img/index/logo.png) center no-repeat;
+					background-size:100% 100%;
 					transform-origin: left top;
 				}
 				&.easterEgg1-1 #big_header_left_inner{

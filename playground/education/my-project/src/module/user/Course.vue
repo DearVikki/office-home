@@ -44,7 +44,7 @@
 		</div>
 		<!-- 课程评价弹窗 -->
 		<pop :pop="commentPop">
-			<coursepop :id="popId"></coursepop>
+			<coursepop :id="popId" @close="commentPop.show = false"></coursepop>
 		</pop>
 		<!-- 邀请码 -->
 		<pop :pop="invitePop">

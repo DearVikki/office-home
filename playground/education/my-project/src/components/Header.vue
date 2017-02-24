@@ -6,7 +6,7 @@
 				<!--<a>留言反馈</a>-->
 				<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2291908972&site=qq&menu=yes">联系教务</a>
 				<span v-if="user.name">
-					<a>{{user.name}}</a>
+					<a href="./user.html">{{user.name}}</a>
 					<a class="exit" @click="exit">退出</a>
 				</span>
 				<span v-else>

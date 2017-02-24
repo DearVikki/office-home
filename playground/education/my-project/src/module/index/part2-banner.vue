@@ -25,7 +25,7 @@
 		data(){
 			return{
 				swiper:'',
-				imgs:['url('+banner1+')','url('+banner2+')'],
+				imgs:['url('+banner1+')'],
 				easterEggs:['你知道吗','我喜欢你。','才怪咧! :P'],
 				easterEggPost:false
 			}

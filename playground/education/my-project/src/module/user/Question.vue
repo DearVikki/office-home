@@ -13,9 +13,9 @@
 		data(){
 			return{
 				questions:[{
-					id:1,
-					title:'如何调试麦克风'
-				},{
+				// 	id:1,
+				// 	title:'如何调试麦克风'
+				// },{
 					id:2,
 					title:'在线测试硬件设备'
 				}]
