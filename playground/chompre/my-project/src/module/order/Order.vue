@@ -178,7 +178,8 @@
 					<div v-for="img in comment.pics" class="pic">
 						<img :src="img">
 					</div>
-					<div id="add_pic">+</div>
+					<input type="file" @change="filechange">
+					<div id="add_pic" @click="clickInput"  @drop.prevent="filechange" @dragover.prevent>+</div>
 				</div>
 				<div id="comment_star_container"></div>
 			</div>
@@ -379,6 +380,24 @@
 					this.delivery.deliveryInfo = response.body.data;
 					this.delivery.pop.show = true;
 				})
+			},
+			clickInput(){
+				document.querySelector('input[type=file]').click();
+			},
+			filechange(e){
+				var files = e.target.files || e.dataTransfer.files;
+				if (!files.length) return;
+				Array.prototype.slice.call(files).forEach((e)=>{
+					this.displayImg(e);
+				})
+			},
+			displayImg(file){
+				var reader = new FileReader();
+				var self = this;
+				reader.readAsDataURL(file);
+				reader.onload = function() {
+					self.comment.pics.push(this.result);
+				}
 			}
 		},
 		components:{personalside,pop}
@@ -600,6 +619,19 @@
 		#comment_pic_container{
 			margin-top:10px;
 			text-align:left;
+			input{
+				display:none;
+			}
+			.pic{
+				width:98px;
+				height:98px;
+				display:inline-block;
+				vertical-align:middle;
+				img{
+					width:100%;
+					height:100%;
+				}
+			}
 			#add_pic{
 				border:2px dashed #cbcbcb;
 				width:98px;
@@ -610,6 +642,7 @@
 				font-size:30px;
 				display:inline-block;
 				cursor:pointer;
+				vertical-align:middle;
 			}
 		}
 	}
