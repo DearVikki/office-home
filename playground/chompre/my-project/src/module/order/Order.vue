@@ -59,9 +59,9 @@
 									<!-- 待收货 -->
 									<div v-if="order.order_info.status === 3">
 										<p>待收货</p>
-										<p class="main">评价</p>
+										<p class="main" @click="comment.pop.show = true">评价</p>
 										<!-- 为什么这里会报el.setAttribute的错吖！ -->
-										<p class="main" @click="test()">退货</p>
+										<p class="main" @click="test">退货</p>
 										<p class="main" @click="changePop.show = true">换货</p>
 									</div>
 									<!-- 待评价 -->
@@ -170,6 +170,20 @@
 				</div>
 			</div>
 		</pop>
+		<!-- 评价弹窗 -->
+		<pop :pop="comment.pop">
+			<div id="comment_inner_container">
+				<textarea v-model="comment.content"></textarea>
+				<div id="comment_pic_container">
+					<div v-for="img in comment.pics" class="pic">
+						<img :src="img">
+					</div>
+					<div id="add_pic">+</div>
+				</div>
+				<div id="comment_star_container"></div>
+			</div>
+
+		</pop>
 		<!-- 换货弹窗 -->
 		<pop :pop="changePop" class="common-pop">
 			是否提交换货申请？
@@ -200,7 +214,7 @@
 	import data from './data.js';
 	import personalside from '../../components/PersonalSide.vue';
 	import {timestamp} from '../../assets/js/utils.js';
-	import pop from '../../components/pop.vue';
+	import pop from '../../components/Pop.vue';
 	export default{
 		name:'order',
 		mounted(){
@@ -287,6 +301,18 @@
 							width:'780px',
 							minHeight:'292px',
 							padding:'70px 120px 35px 120px'
+						}
+					}
+				},
+				comment:{
+					content:'',
+					pics:[],
+					pop:{
+						show:true,
+						style: {
+							width:'780px',
+							height:'500px',
+							padding:'52px 120px 35px 120px'
 						}
 					}
 				},
@@ -563,6 +589,28 @@
 		}
 		.no-info{
 			margin-top:30px;
+		}
+	}
+	#comment_inner_container{
+		textarea{
+			resize:none;
+			width:544px;
+			height:148px;
+		}
+		#comment_pic_container{
+			margin-top:10px;
+			text-align:left;
+			#add_pic{
+				border:2px dashed #cbcbcb;
+				width:98px;
+				height:98px;
+				line-height: 98px;
+				text-align:center;
+				color:#cbcbcb;
+				font-size:30px;
+				display:inline-block;
+				cursor:pointer;
+			}
 		}
 	}
 	.common-pop{

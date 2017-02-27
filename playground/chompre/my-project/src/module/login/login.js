@@ -11,5 +11,3 @@ new common.Vue({
   el: '#app',
   components:{Login,Emptyheader,myfooter}
 })
-
-//为什么MyHeader和MyFooter会不行呢 不都是rename吗？

@@ -16,6 +16,13 @@
 		props:['item']
 	}
 </script>
+<style lang='less'>
+    /*做隔离用*/
+    .empty-space-filling-item{
+        width: 220px;
+        height: 0;
+    }
+</style>
 <style scoped lang='less'>
 	@baseColor: #d42b1e;
 	@backColor: #fff7f7;
