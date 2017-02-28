@@ -11,6 +11,7 @@ Vue.http.options.credentials = true;
 import '../lib/public.less'
 import Myheader from '../../components/Header'
 import Myfooter from '../../components/Footer'
+import loading from '../../components/Loading'
 
 var validatorMixin = {
 	methods:{
@@ -43,10 +44,23 @@ var validatorMixin = {
 	}
 }
 
+var interceptors = function(vm){
+	Vue.http.interceptors.push((request, next) => {
+	    vm.showLoading = true
+	    next((response) => {
+	        vm.showLoading = false
+	         console.log(vm.showLoading)
+	        return response;
+	    });
+	});
+}
+
 export default{
 	VueRouter: VueRouter,
 	Vue: Vue,
 	myHeader: Myheader,
 	myFooter: Myfooter,
-	validatorMixin: validatorMixin
+	loading: loading,
+	validatorMixin: validatorMixin,
+	interceptors: interceptors
 }

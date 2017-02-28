@@ -218,6 +218,7 @@
 				<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
 			</div>
 		</pop>
+		<loading v-show="showLoading"></loading>
 	</div>
 </template>
 <script>
@@ -354,7 +355,8 @@
 						minHeight:'292px',
 						padding:'84px 120px 35px 120px'
 					}
-				}
+				},
+				showLoading:false
 			}
 		},
 		methods:{
@@ -409,17 +411,15 @@
 				})
 			},
 			displayImg(file){
-				var reader = new FileReader();
-				var self = this;
-				reader.readAsDataURL(file);
-				// // reader.onloadstart = function(){
-				// // 	console.log(reader.readyState);
-				// // }
-				// reader.readAsText(file,'iso-8859-1');
-				reader.onload = function() {
-					self.comment.pics.push(this.result);
-					self.comment.files.push(file);
-				}
+				// var reader = new FileReader();
+				// var self = this;
+				// reader.readAsDataURL(file);
+				// reader.onload = function() {
+				// 	self.comment.pics.push(this.result);
+				// 	self.comment.files.push(file);
+				// }
+				this.comment.pics.push(window.URL.createObjectURL(file));
+
 			},
 			markstar(n){
 				this.comment.star = n;
@@ -438,7 +438,7 @@
 				return !this.comment.val && !this.comment.star?true: false;
 			}
 		},
-		components:{personalside,pop,starmark}
+		components:{personalside,pop,starmark,loading}
 	}
 </script>
 <style scoped lang='less'>

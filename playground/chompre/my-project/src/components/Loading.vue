@@ -14,5 +14,7 @@
 		background: black;
 		font-size: 20px;
 		color: #fff;
+		top:0;
+		left:0;
 	}
 </style>
