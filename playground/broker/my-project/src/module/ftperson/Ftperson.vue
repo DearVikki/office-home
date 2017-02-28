@@ -93,9 +93,8 @@
 				film_tv_person_id:this.id
 			}).then((response)=>{
 				let data = response.body.data;
-				console.log(data)
 				this.infos[0].content = data.name;
-				this.infos[1].content = data.sex?'女':'男';
+				this.infos[1].content = Number(data.sex)?'女':'男';
 				this.infos[2].content = data.city;
 				this.infos[3].content = data.position;
 				this.intro = data.description;

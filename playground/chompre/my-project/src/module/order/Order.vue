@@ -175,13 +175,22 @@
 			<div id="comment_inner_container">
 				<textarea v-model="comment.content"></textarea>
 				<div id="comment_pic_container">
-					<div v-for="img in comment.pics" class="pic">
-						<img :src="img">
+					<div v-for="pic in comment.pics" class="pic">
+						<img :src="pic">
 					</div>
-					<input type="file" @change="filechange">
-					<div id="add_pic" @click="clickInput"  @drop.prevent="filechange" @dragover.prevent>+</div>
+					<input type="file" accept="image/*" @change="filechange">
+					<div id="add_pic" @click="clickInput"  @drop.prevent="filechange" @dragover.prevent v-show="comment.pics.length < 5">+</div>
 				</div>
-				<div id="comment_star_container"></div>
+				<div id="comment_star_container">
+					<span class="fl">Califique este producto</span>
+					<span class="fr">
+						<starmark @markStar="markstar"></starmark>
+					</span>
+				</div>
+				<div class="btn-container">
+					<div class="btn" :class="{disabled:commentDisabled}" @click="uploadImg">发表评价</div>
+					<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
+				</div>
 			</div>
 
 		</pop>
@@ -216,6 +225,8 @@
 	import personalside from '../../components/PersonalSide.vue';
 	import {timestamp} from '../../assets/js/utils.js';
 	import pop from '../../components/Pop.vue';
+	import starmark from '../../components/Starmark.vue';
+	import loading from '../../components/Loading.vue';
 	export default{
 		name:'order',
 		mounted(){
@@ -308,6 +319,9 @@
 				comment:{
 					content:'',
 					pics:[],
+					files:[],
+					star:0,
+					disabled:true,
 					pop:{
 						show:true,
 						style: {
@@ -345,8 +359,6 @@
 		},
 		methods:{
 			test(){
-				console.log('hey')
-				console.log(this.returnPop)
 				this.returnPop.show = true;
 			},
 			getOrder(){
@@ -387,20 +399,46 @@
 			filechange(e){
 				var files = e.target.files || e.dataTransfer.files;
 				if (!files.length) return;
+				if (files.length > 4) {
+					alert('最多只能上传5张图片喔');
+					return;
+				}
 				Array.prototype.slice.call(files).forEach((e)=>{
-					this.displayImg(e);
+					if(e.type.slice(0,5) !== 'image') alert(e.name+'不是图片文件喔');
+					else this.displayImg(e);
 				})
 			},
 			displayImg(file){
 				var reader = new FileReader();
 				var self = this;
 				reader.readAsDataURL(file);
+				// // reader.onloadstart = function(){
+				// // 	console.log(reader.readyState);
+				// // }
+				// reader.readAsText(file,'iso-8859-1');
 				reader.onload = function() {
 					self.comment.pics.push(this.result);
+					self.comment.files.push(file);
 				}
+			},
+			markstar(n){
+				this.comment.star = n;
+			},
+			uploadImg(){
+				this.$http.post('',{
+					name:'zl.shopping.sys.upload.img',
+					img: this.comment.files
+				}).then((response)=>{
+
+				})
 			}
 		},
-		components:{personalside,pop}
+		computed:{
+			commentDisabled(){
+				return !this.comment.val && !this.comment.star?true: false;
+			}
+		},
+		components:{personalside,pop,starmark}
 	}
 </script>
 <style scoped lang='less'>
@@ -627,6 +665,7 @@
 				height:98px;
 				display:inline-block;
 				vertical-align:middle;
+				margin-right:10px;
 				img{
 					width:100%;
 					height:100%;
@@ -644,6 +683,21 @@
 				cursor:pointer;
 				vertical-align:middle;
 			}
+		}
+		#comment_star_container{
+			margin-top: 10px;
+			overflow:hidden;
+			.fl{
+				font-size:24px;
+				color:#979797;
+				letter-spacing:-1.31px;
+			}
+			span{
+				vertical-align:center;
+			}
+		}
+		.btn-container{
+			margin-top: 40px;
 		}
 	}
 	.common-pop{

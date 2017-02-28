@@ -86,6 +86,10 @@
 				background: none;
 				color:#979797;
 			}
+			&.disabled{
+				background: #e7e7e7;
+				color: #fff;
+			}
 		}
 	}
 </style>
