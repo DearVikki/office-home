@@ -1,0 +1,124 @@
+@baseColor: #55b7f8;
+@backColor: #fff7f7;
+@bla: #5c5c5c;
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strike, strong, sub, sup, tt, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    border: 0px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: normal;
+}
+
+input, select, textarea {
+    outline: none;
+}
+
+body {
+    position: relative;
+}
+
+.clear {
+    clear: both
+}
+
+.margauto {
+    width: 1190px;
+    margin: 0 auto;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.textLeft {
+    text-align: left !important;
+}
+
+.textCenter {
+    text-align: center !important;
+}
+
+.inLine {
+    display: inline-block;
+}
+
+.cd {
+    cursor: default;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+
+/*自定义样式*/
+
+body {
+    font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;
+    cursor: default;
+    font-size: 0px;
+}
+textarea{resize:none}
+textarea,input,select{ font-family: "微软雅黑", microsoft yahei, Arial, Helvetica, sans-serif;}
+input[type=file]{
+    display: none;
+}
+select,option{cursor: pointer;}
+
+.my-alert{
+    font-size: 16px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate3d(-50%,0,0);
+    background: #d42b1e;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 5px;
+    animation: back 1s ease-in;
+    animation-fill-mode: forwards
+}
+@keyframes back {
+    50%{
+        transform: translate3d(-50%,0,0);
+    }
+    100%{
+        transform: translate3d(-50%,-100%,0);
+    }
+}
+
