@@ -67,7 +67,7 @@
 									<!-- 待评价 -->
 									<div v-if="order.order_info.status === 4">
 										<p>待评价</p>
-										<p class="main">评价</p>
+										<p class="main" @click="comment.pop.show = true">评价</p>
 									</div>
 									<!-- 取消订单（交易关闭） -->
 									<div v-if="order.order_info.status === 5">
@@ -171,14 +171,14 @@
 			</div>
 		</pop>
 		<!-- 评价弹窗 -->
-		<pop :pop="comment.pop">
+		<pop :pop="comment.pop" :popReset="commentPopReset">
 			<div id="comment_inner_container">
 				<textarea v-model="comment.content"></textarea>
 				<div id="comment_pic_container">
 					<div v-for="pic in comment.pics" class="pic">
 						<img :src="pic">
 					</div>
-					<input type="file" accept="image/*" @change="filechange">
+					<input type="file" accept="image/png, image/jpeg, image/gif" @change="filechange">
 					<div id="add_pic" @click="clickInput"  @drop.prevent="filechange" @dragover.prevent v-show="comment.pics.length < 5">+</div>
 				</div>
 				<div id="comment_star_container">
@@ -318,13 +318,13 @@
 					}
 				},
 				comment:{
-					content:'',
+					content:'test',
 					pics:[],
 					files:[],
 					star:0,
 					disabled:true,
 					pop:{
-						show:true,
+						show:false,
 						style: {
 							width:'780px',
 							height:'500px',
@@ -411,26 +411,44 @@
 				})
 			},
 			displayImg(file){
-				// var reader = new FileReader();
-				// var self = this;
-				// reader.readAsDataURL(file);
-				// reader.onload = function() {
-				// 	self.comment.pics.push(this.result);
-				// 	self.comment.files.push(file);
-				// }
 				this.comment.pics.push(window.URL.createObjectURL(file));
-
+				this.comment.files.push(file);
 			},
 			markstar(n){
 				this.comment.star = n;
 			},
 			uploadImg(){
-				this.$http.post('',{
-					name:'zl.shopping.sys.upload.img',
-					img: this.comment.files
-				}).then((response)=>{
-
+				console.log(this.comment.files)
+				if(this.commentDisabled) return;
+				var fm = new FormData();
+				fm.append('name','zl.shopping.sys.upload.multi.img');
+				this.comment.files.forEach((e)=>{
+					fm.append('img[]',e);
 				})
+				this.$http.post('',fm).then((response)=>{
+					let picData = [];
+					response.body.data.list.forEach((e)=>{
+						picData.push(e.compress);
+					});
+					// 评价订单
+					this.$http.post('',{
+						name:'zl.shopping.sys.comment.order',
+						order_id: this.selectedOrder.order_info.order_id,
+						goods_id: this.selectedOrder.goods_info.pre_goods_id,
+						content: this.comment.content,
+						comment_picture: picData.toString(),
+						star_num: this.comment.star
+					}).then((response)=>{
+						this.comment.pop.show = false;
+						this.comment.files = [];
+					})
+				})
+			},
+			// 重置评论框
+			commentPopReset(){
+				this.comment.content = '';
+				this.comment.pics = [];
+				this.comment.star = 0;
 			}
 		},
 		computed:{
