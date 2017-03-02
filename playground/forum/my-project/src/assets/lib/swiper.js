@@ -5285,7 +5285,7 @@ Swiper AMD Export
 ===========================*/
 if (typeof(module) !== 'undefined')
 {
-   export default window.Swiper;
+    module.exports = window.Swiper;
 }
 else if (typeof define === 'function' && define.amd) {
     define([], function () {

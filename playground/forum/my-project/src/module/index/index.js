@@ -1,10 +1,12 @@
 import common from '../../assets/js/common.js'
-import test from './Test.vue'
+import h5common from '../../assets/js/h5Common.js'
+
+import index from './Index.vue'
 
 var vm = new common.Vue({
   el: '#app',
   data: {
   	msg:''
   },
-  components:{test}
+  components:{index}
 })
