@@ -18,6 +18,9 @@ module.exports = merge(baseWebpackConfig, {
   // cheap-module-eval-source-map is faster for development
   devtool: '#cheap-module-eval-source-map',
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+        debug: true
+    }),
     new webpack.DefinePlugin({
       'process.env': config.dev.env
     }),
@@ -25,11 +28,6 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
     new FriendlyErrorsPlugin()
   ]
 })

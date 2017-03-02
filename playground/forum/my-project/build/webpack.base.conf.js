@@ -4,7 +4,6 @@ var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
-process.traceDeprecation = true
 // process.noDeprecation = true
 
 function resolve (dir) {
