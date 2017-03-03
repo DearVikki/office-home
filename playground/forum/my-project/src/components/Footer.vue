@@ -30,20 +30,20 @@
 					txt:'首页',
 					href:'./index.html'
 				},{
-					label:icon_shop,
-					labelActive:icon_shop_pressed,
-					txt:'商城',
-					href:'./shop.html'
+					label:icon_message,
+					labelActive:icon_message_pressed,
+					txt:'通知',
+					href:'./index.html'
 				},{
 					label:'',
 					labelActive:'',
 					txt:'问我',
 					href:''
 				},{
-					label:icon_message,
-					labelActive:icon_message_pressed,
-					txt:'通知',
-					href:'./index.html'
+					label:icon_shop,
+					labelActive:icon_shop_pressed,
+					txt:'商城',
+					href:'./shop.html'
 				},{
 					label:icon_personal,
 					labelActive:icon_personal_pressed,

@@ -3,7 +3,7 @@
 </template>
 <script>
 	export default{
-		name:'type0'
+		name:'columnn'
 	}
 </script>
 <style scoped lang='less'></style>

@@ -8,8 +8,8 @@
 			<div id="index_search"></div>
 		</div>
 		<!-- 主体 -->
-		<type1 v-if="type"></type1>
-		<type0 v-if="!type"></type0>
+		<homepage v-if="type"></homepage>
+		<columnn v-if="!type"></columnn>
 		<!-- 1签到 -->
 		<div id="index_sign"></div>
 		<myfooter></myfooter>
@@ -17,8 +17,8 @@
 </template>
 <script>
 	import myfooter from '../../components/Footer.vue'
-	import type1 from './Type1.vue'
-	import type0 from './Type0.vue'
+	import homepage from './Homepage.vue'
+	import columnn from './Column.vue'
 	export default{
 		name:'index',
 		data(){
@@ -27,7 +27,7 @@
 				type:1
 			}
 		},
-		components:{myfooter,type1,type0}
+		components:{myfooter,homepage,columnn}
 	}
 </script>
 <style lang='less' scoped>

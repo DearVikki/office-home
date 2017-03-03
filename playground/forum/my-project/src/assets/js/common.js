@@ -6,7 +6,7 @@ import h5Common from './h5Common.js'
 Vue.config.debug = true;
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.http.options.root = 'http://xn--mts40cuzfs54d.com/broker/php/index.php/PcApi';
+Vue.http.options.root = 'http://121.40.91.157/xwlt/php/index.php/PcApi';
 Vue.http.options.emulateJSON = true;
 Vue.http.options.credentials = true;
 import '../lib/public.less'
