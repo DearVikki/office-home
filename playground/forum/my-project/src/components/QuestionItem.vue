@@ -1,7 +1,6 @@
 <template>
 	<div class="question-item">
 		<div class="question-inner">
-			<!-- 右上角label -1表示置顶 0,1,2表示top 1,2,3 -->
 			<div class="question-label" :class="{toppest:index==-1}"
 			v-if="index==-1">置顶</div>
 			<div class="question-label" :class="{top:index>=0 && index<3}"
@@ -12,7 +11,7 @@
 			</div>
 			<div class="question-main">
 				<div class="question-content ellipsis2L">{{question.question}}</div>
-				<div class="question-des ellipsis2L">{{question.question_describe}}</div>
+				<div class="question-des ellipsis3L">{{question.question_describe}}</div>
 			</div>
 			<div class="question-footer">
 				<div class="question-info">
@@ -26,6 +25,10 @@
 				<div class="question-info-right gold" v-if="type===1"></div>
 				<!-- 积分 -->
 				<div class="question-info-right coin" v-if="type===2"></div>
+				<!-- 待抢任务 -->
+				<div class="question-info-right task-to" v-if="type===3">待被抢</div>
+				<!-- 已抢任务 -->
+				<div class="question-info-right task-done"  v-if="type===4">已被抢</div>
 			</div>
 		</div>
 	</div>
@@ -37,6 +40,8 @@
 		},
 		watch:{
 		},
+		// type:0表示热度 1表示赏金 2表示积分 3表示待被抢任务 4表示已被抢任务
+		// index:-1表示置顶 1~3表示top1~3 4以上表示label无特殊显示
 		props:['question','type','index']
 	}
 </script>
@@ -54,9 +59,9 @@
 		color: #4c4c4c;
 	}
 	.question-item{
-		padding: 0.27rem 0.4rem;
+		padding: 0.27rem 0.4rem 0 .4rem;
 		position: relative;
-		margin-top: 0.16rem;
+		margin-bottom: 0.16rem;
 		background:#fff;
 		.question-label{
 			font-size:0.27rem;
@@ -157,6 +162,20 @@
 					&.gold{
 						background-image: url(../assets/img/index/icon_money.png);
 						background-size: 0.45rem 0.49rem;
+					}
+					&.task-to,&.task-done{
+						padding-left: 0;
+						border:1px solid #1e8ae8;
+						border-radius:0.08rem;
+						width:1.57rem;
+						height:0.61rem;
+						line-height: .61rem;
+						text-align: center;
+						color:#1e8ae8;
+					}
+					&.task-done{
+						border-color:#d3d3d3;
+						color:#d3d3d3;
 					}
 				}
 			}

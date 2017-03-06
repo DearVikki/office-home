@@ -24,7 +24,7 @@
 		data(){
 			return{
 				// 1表示首页 0表示分栏
-				type:1
+				type:0
 			}
 		},
 		components:{myfooter,homepage,columnn}

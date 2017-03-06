@@ -5,7 +5,7 @@
 		<div id="footer_cover"></div>
 		<div id="footer_inner">
 			<div class="item" v-for="(item,index) in logos"
-			:style="{backgroundImage: activeIndex === index ? 'url('+item.labelActive+')' :'url('+item.label+')'}">
+			:style="{backgroundImage: type === index ? 'url('+item.labelActive+')' :'url('+item.label+')'}">
 				<span class="txt">{{item.txt}}</span>
 			</div>
 		</div>
@@ -22,6 +22,8 @@
 	import icon_personal_pressed from '../assets/img/index/icon_personal_pressed.png';
 	export default{
 		name:'footer',
+		mounted(){
+		},
 		data(){
 			return{
 				logos:[{
@@ -49,10 +51,14 @@
 					labelActive:icon_personal_pressed,
 					txt:'我的',
 					href:'./index.html'
-				}],
-				activeIndex:0
+				}]
 			}
-		}
+		},
+		// type:0首页 1通知 2问我 3商城 4我的
+		props:{type:{
+			type:Number,
+			default:0
+		}}
 	}
 </script>
 <style scoped lang='less'>

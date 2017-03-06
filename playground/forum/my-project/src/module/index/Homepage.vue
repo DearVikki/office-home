@@ -169,6 +169,9 @@
 			height: 3.73rem;
 		}
 	}
+	#homepage_main{
+		margin-top: .16rem;
+	}
 	#homepage_nav{
 		border-top:1px solid #bbb;
 		display:flex;
