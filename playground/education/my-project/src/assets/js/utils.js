@@ -13,9 +13,9 @@ export function getParameterByName(name, url) {
 
 //顶部提示栏
 export function myAlert(txt) {
-	let div = document.createElement('div');
-	div.innerHTML = txt;
-	div.classList.add('my-alert');
+    let div = document.createElement('div');
+    div.innerHTML = txt;
+    div.classList.add('my-alert');
     document.querySelector('body').appendChild(div);
     setTimeout(()=>{
         document.querySelector('body').removeChild(div);

@@ -1,6 +1,6 @@
 <template>
 	<div id="user_container">
-		<a id="user_info" href="./user-personalInfo.html">
+		<a id="user_info" href="./user-personal.html">
 			<img :src="img">
 			<span id="user_info_right">
 				<p id="user_name">楼二不二</p>

@@ -101,6 +101,11 @@ input[type=file]{
 select,option{cursor: pointer;}
 
 /*两行的省略号*/
+.ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .ellipsis2L{
     overflow: hidden;
     text-overflow: ellipsis;
@@ -108,7 +113,7 @@ select,option{cursor: pointer;}
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
-.ellipsis2L{
+.ellipsis3L{
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -116,25 +121,90 @@ select,option{cursor: pointer;}
     -webkit-box-orient: vertical;
 }
 
-.my-alert{
-    font-size: 16px;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translate3d(-50%,0,0);
-    background: #d42b1e;
-    color: #fff;
-    padding: 8px 20px;
-    border-radius: 5px;
-    animation: back 1s ease-in;
-    animation-fill-mode: forwards
+/*一条整行*/
+.c-line{
+    height: 1.31rem;
+    line-height: 1.31rem;
+    padding:0 .4rem;
+    border-bottom: 1px solid #bbb;
+    background: #fff;
 }
-@keyframes back {
+/*txt1浅色30px txt2深色30px txt3浅色28px txt4深色28px*/
+.c-txt1{
+    font-size:.4rem;
+    color:#999999;
+}
+.c-txt2{
+    font-size:.4rem;
+    color:#4c4c4c;
+}
+.c-txt3{
+    font-size: 0.37rem;
+    color:#999;
+}
+.c-txt4{
+    font-size: 0.37rem;
+    color:#5c5c5c;
+}
+.c-txt5{
+    font-size: 0.37rem;
+    color:#4c4c4c;
+}
+.c-btn{
+    padding:0 0.16rem;
+    height: .55rem;
+    line-height: .55rem;
+    font-size:0.37rem;
+    color:#1e8ae8;
+    border:1px solid #1e8ae8;
+    border-radius:0.08rem;
+    &.disabled{
+        border-color:#d3d3d3;
+        color:#d3d3d3;
+    }
+}
+.c-big-btn{
+    width:9.2rem;
+    height: 1.17rem;
+    line-height: 1.17rem;
+    background: #ffe857;
+    font-size: 0.48rem;
+    color:#4c4c4c;
+    text-align: center;
+    border-radius: 0.08rem;
+    border:1px solid #4c4c4c;
+    margin:0 auto;
+}
+.red{
+    color:red;
+}
+.my-alert-container{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top:0;
+    left:0;
+    display: flex;
+    animation-delay:3s;
+    animation:fade 1.6s;
+    .my-alert{
+        width:4rem;
+        margin:auto;
+        background:rgba(0,0,0,0.76);
+        border-radius:0.32rem;
+        font-size:0.32rem;
+        color:#ffffff;
+        letter-spacing:0.48px;
+        line-height:0.48rem;
+        text-align:center;
+        padding:0.67rem 0.53rem;
+    }
+}
+@keyframes fade{
     50%{
-        transform: translate3d(-50%,0,0);
+        opacity: 1;
     }
     100%{
-        transform: translate3d(-50%,-100%,0);
+        opacity: 0;
     }
 }
-
