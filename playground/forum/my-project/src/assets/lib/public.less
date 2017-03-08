@@ -174,10 +174,30 @@ select,option{cursor: pointer;}
     border-radius: 0.08rem;
     border:1px solid #4c4c4c;
     margin:0 auto;
+    &.disabled{
+        opacity: .5;
+    }
 }
 .red{
     color:red;
 }
+/*input/textrea*/
+textarea,input{
+    background: #fff;
+    border:none;
+    display: inline-block;
+}
+::-webkit-input-placeholder{
+    font-size: 0.37rem;
+    color:#979797;
+}
+/*受不鸟了一定要给客服连线一个默认样式…*/
+.c-contact{
+    margin: .53rem auto;
+    text-align: center;
+    .c-txt3;
+}
+/*小黑框框弹窗*/
 .my-alert-container{
     width: 100%;
     height: 100%;

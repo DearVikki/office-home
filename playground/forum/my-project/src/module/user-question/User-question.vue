@@ -10,7 +10,7 @@
 				</div>
 				<div class="q-footer-right fr" v-if="q.status">
 					<a class="c-btn" href="./user-question-edit.html">增加悬赏</a>
-					<a class="c-btn" href="./user-question-add.html">补充描述</a>
+					<a class="c-btn" href="./user-question-edit.html">补充描述</a>
 				</div>
 				<div class="q-footer-right fr" v-else>
 					<div class="c-btn disabled" v-if="q.is_task">已被接</div>

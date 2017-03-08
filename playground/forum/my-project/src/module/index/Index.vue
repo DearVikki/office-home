@@ -11,7 +11,9 @@
 		<homepage v-if="type"></homepage>
 		<columnn v-if="!type"></columnn>
 		<!-- 1签到 -->
-		<div id="index_sign"></div>
+		<transition name="shrink">
+			<div id="index_sign" v-if="is_sign" @click="sign"></div>
+		</transition>
 		<myfooter></myfooter>
 	</div>
 </template>
@@ -19,12 +21,20 @@
 	import myfooter from '../../components/Footer.vue'
 	import homepage from './Homepage.vue'
 	import columnn from './Column.vue'
+	import {myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'index',
 		data(){
 			return{
 				// 1表示首页 0表示分栏
-				type:0
+				type:0,
+				is_sign:true
+			}
+		},
+		methods:{
+			sign(){
+				this.is_sign = false;
+				myAlert('<p>签到成功获得5积分！</p><p>您已连续签到15天！</p><p>保持喔~</p>')
 			}
 		},
 		components:{myfooter,homepage,columnn}
@@ -79,5 +89,9 @@
 	bottom: 1.69rem;
 	background: url(../../assets/img/index/icon_qiandao.png) no-repeat;
 	background-size: 100% 100%;
+}
+.shrink-leave-active{
+	transition: all .8s cubic-bezier(.6,.01,.82,.86);
+	transform: scale(0);
 }
 </style>

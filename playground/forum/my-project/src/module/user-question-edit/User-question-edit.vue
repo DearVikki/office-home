@@ -1,10 +1,10 @@
 <template>
 	<div id="question_edit_container">
 		<!-- <p class="c-txt5">补充描述：</p> -->
-		<textarea class="txt4" placeholder="补充描述..."
+		<textarea class="c-txt4" placeholder="补充描述..."
 		v-model="des"></textarea>
 		<!-- <p class="c-txt5">增加悬赏：</p> -->
-		<input class="txt4" placeholder="增加悬赏..."
+		<input class="c-txt4" placeholder="增加悬赏..."
 		v-model="money">
 		<p class="c-txt5">当前积分：<span class="red">163874</span></p>
 		<div class="c-big-btn" @click="save">发布</div>

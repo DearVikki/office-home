@@ -97,3 +97,15 @@ for(var pathname in pages){
   module.exports.plugins.push(new HtmlWebpackPlugin(conf));
 }
 
+// vux2新加
+const vuxLoader = require('vux-loader');
+// module.exports.plugins.push({name:'vux-ui'});
+module.exports = vuxLoader.merge(module.exports, {
+  options: {},
+  plugins: [
+    {
+      name: 'vux-ui'
+    }
+    ]
+})
+

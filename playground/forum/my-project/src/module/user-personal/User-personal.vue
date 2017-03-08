@@ -15,7 +15,7 @@
 				<span class="c-txt2 fr">13984875788</span>
 			</div>
 		</div>
-		<div id="contact" class="c-txt3">客服连线：0989-09808788</div>
+		<div class="c-contact">客服连线：0989-09808788</div>
 		<!-- 换名字弹框 -->
 		<pop :pop="pop" :popReset="popReset">
 			<input type="text" v-model="inputName" maxlength="20" class="c-txt2">
@@ -79,10 +79,6 @@
 	}
 	#others_container{
 		margin-top: 0.13rem;
-	}
-	#contact{
-		margin: .53rem auto;
-		text-align: center;
 	}
 	/*弹窗*/
 	input[type=text]{
