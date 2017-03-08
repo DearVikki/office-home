@@ -9,14 +9,14 @@
 		name:'sendCode',
 		data(){
 			return{
-				txt:'发送验证码',
+				txt:'获取验证码',
 				counting:false,
 				countdown:''
 			}
 		},
 		computed:{
 			disabled(){
-				return this.counting || (!this.checked && this.type===1) ? true: false;
+				return this.counting || !this.checked ? true: false;
 			}
 		},
 		methods:{
@@ -56,10 +56,6 @@
 			checked:{
 				type: Boolean,
 				default: false
-			},
-			type:{
-				type: Number,
-				default: 0
 			}
 		}
 	}

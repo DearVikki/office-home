@@ -11,7 +11,8 @@
 </template>
 <script>
 	// 直接写vux会报找不到module from'vux/undefined吖'
-	import {Group,XSwitch} from '../../../node_modules/vux';
+	import {Group,XSwitch} from 'vux';
+	// import {Group,XSwitch} from '../../../node_modules/vux';
 	export default{
 		name:'set',
 		data(){

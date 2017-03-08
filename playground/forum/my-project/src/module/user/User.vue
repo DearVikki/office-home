@@ -117,7 +117,6 @@
 	}
 	.item-container{
 		display:block;
-		height:1.31rem;
 		line-height:1.31rem;
 		padding-left:.4rem;
 		background:#fff;

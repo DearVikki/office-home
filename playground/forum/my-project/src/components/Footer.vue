@@ -4,10 +4,11 @@
 		<div id="footer_add"></div>
 		<div id="footer_cover"></div>
 		<div id="footer_inner">
-			<div class="item" v-for="(item,index) in logos"
+			<a class="item" v-for="(item,index) in logos"
+			:href="item.href"
 			:style="{backgroundImage: type === index ? 'url('+item.labelActive+')' :'url('+item.label+')'}">
 				<span class="txt">{{item.txt}}</span>
-			</div>
+			</a>
 		</div>
 	</div>
 </template>
@@ -50,7 +51,7 @@
 					label:icon_personal,
 					labelActive:icon_personal_pressed,
 					txt:'我的',
-					href:'./index.html'
+					href:'./user.html'
 				}]
 			}
 		},

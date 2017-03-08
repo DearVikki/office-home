@@ -10,10 +10,12 @@
 			v-model="code.val">
 			<div id="send_code" class="fr"
 			:class="{disabled:!handleValidate(fields[2])}"
-			@click="sendCode">{{code.txt}}</div>
+			@click="sendCode">
+				<sendCode :send="sendCode" :checked="!handleValidate(fields[2])"></sendCode>
+			</div>
 		</div>
 		<div class="c-big-btn" :class="{disabled:!allCheck}">
-			<sendCode :before=""></sendCode>
+			认证
 		</div>
 	</div>
 </template>
@@ -49,12 +51,11 @@
 			}
 		},
 		methods:{
+			sendCode(countdown){
+				countdown();
+			}
 		},
 		computed:{
-
-			sendCode(){
-
-			},
 			allCheck(){
 				let allCheck = true;
 				this.fields.forEach((f)=>{
