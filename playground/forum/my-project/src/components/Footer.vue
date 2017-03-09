@@ -36,7 +36,7 @@
 					label:icon_message,
 					labelActive:icon_message_pressed,
 					txt:'通知',
-					href:'./index.html'
+					href:'./notification.html'
 				},{
 					label:'',
 					labelActive:'',

@@ -64,6 +64,7 @@
 		color:#333;
 		letter-spacing:0.4px;
 		text-align: center;
+		position: relative;
 		.btn{
 			background:@baseColor;
 			border-radius:0.08rem;
@@ -98,7 +99,7 @@
 	    display:flex;
 	    .pop{
 	    	background: #fff;
-	    	margin:auto;
+	    	margin:55% auto;
 	    	background:#ffffff;
 	    	box-shadow:0 0.03rem 0.11rem 0 rgba(0,0,0,0.36);
 	    	border-radius:0.32rem;

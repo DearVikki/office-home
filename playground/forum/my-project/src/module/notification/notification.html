@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>通知</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=.5" />
+</head>
+<style>
+	html{
+		background: #f2f2f2 !important;
+	}
+	#noti_header{
+		text-align: center;
+		padding:.27rem;
+	}
+</style>
+<body>
+	<div id="app">
+		<div id="noti_header">
+			<switchtab :tabs="tabs" @clickTab="clickTab"></switchtab>
+		</div>
+		<router-view></router-view>
+		<myfooter :type=1></myfooter>
+	</div>
+</body>
+</html>

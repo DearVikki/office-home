@@ -6,8 +6,10 @@
 			<div class="question-label" :class="{top:index>=0 && index<3}"
 			v-if="index>=0 && index<3">top{{index+1}}</div>
 			<div class="question-header">
-				<img :src="question.head">
-				<span class="question-name">{{question.username}}</span>
+				<img :src="question.head"
+				@click="pop.show=true">
+				<span class="question-name"
+				@click="pop.show=true">{{question.username}}</span>
 			</div>
 			<div class="question-main">
 				<div class="question-content ellipsis2L">{{question.question}}</div>
@@ -31,18 +33,52 @@
 				<div class="question-info-right task-done"  v-if="type===4">已被抢</div>
 			</div>
 		</div>
+		<!-- 用户信息弹窗 -->
+		<pop :pop="pop">
+			<div class="question-item-pop">
+				<img class="pop-head" :src="img">
+				<div class="pop-name">
+					<span>花花学长</span>
+					<span class="pop-label" v-if="label">{{label}}</span>
+				</div>
+				<div class="pop-info">
+					<div class="pop-info-item">
+						<span>积分</span><span>200</span>
+					</div>
+					<div class="pop-info-item">
+						<span>回答</span><span>233</span>
+					</div>
+					<div class="pop-info-item">
+						<span>获赞</span><span>209</span>
+					</div>
+				</div>
+				<div class="btn">私信</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
+	import img from '../assets/img/index/icon_personal_pressed.png'
+	import pop from './Pop.vue'
 	export default{
 		name:'questionitem',
-		mounted(){
-		},
-		watch:{
+		data(){
+			return{
+				img:img,
+				label:'飞毛腿',
+				pop:{
+					show:false,
+					style:{
+						width:'7.87rem',
+						height:'3.83rem'
+					}
+				}
+			}
 		},
 		// type:0表示热度 1表示赏金 2表示积分 3表示待被抢任务 4表示已被抢任务
 		// index:-1表示置顶 1~3表示top1~3 4以上表示label无特殊显示
-		props:['question','type','index']
+		props:['question','type','index'],
+		components:{pop}
 	}
 </script>
 <style lang='less' scoped>
@@ -180,6 +216,51 @@
 				}
 			}
 
+		}
+	}
+	.question-item-pop{
+		position:relative;
+		padding:0.93rem 0 .4rem 0;
+		.pop-head{
+			position:absolute;
+			left:3.07rem;
+			top:-0.85rem;
+			border:0.05rem solid #ffffff;
+			box-shadow:0 0.05rem 0.11rem 0 rgba(0,0,0,0.22);
+			width:1.6rem;
+			height:1.6rem;
+			border-radius:100%;
+			background:#fff;
+		}
+		.pop-name{
+			text-align:center;
+			font-size:0.37rem;
+			color:#333;
+			padding-bottom:0.29rem;
+			border-bottom:1px solid #d3d3d3;
+			span{
+				.vertical;
+			}
+			.pop-label{
+				background:#ffe857;
+				border:1px solid #4c4c4c;
+				border-radius:100px;
+				padding:0 0.07rem;
+				margin-left:0.1rem;
+				font-size:0.27rem;			
+			}
+		}
+		.pop-info{
+			padding-top:.29rem;
+			margin-bottom:0.38rem;
+			display:flex;
+			justify-content:space-around;
+			font-size:0.32rem;
+			color:#999;
+			.pop-info-item span:nth-of-type(2){
+				color:#333;
+				margin-left:0.11rem;
+			}
 		}
 	}
 </style>
