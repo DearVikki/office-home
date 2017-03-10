@@ -100,6 +100,10 @@ input[type=file]{
 }
 select,option{cursor: pointer;}
 
+.vertical{
+    display: inline-block;
+    vertical-align: middle;
+}
 /*两行的省略号*/
 .ellipsis{
     overflow: hidden;
@@ -162,10 +166,23 @@ select,option{cursor: pointer;}
     color:#1e8ae8;
     border:1px solid #1e8ae8;
     border-radius:0.08rem;
+    display: inline-block;
     &.disabled{
         border-color:#d3d3d3;
         color:#d3d3d3;
     }
+}
+.c-yellow-btn{
+    background:#ffe857;
+    border:1px solid #4c4c4c;
+    border-radius:0.05rem;
+    width:1.44rem;
+    height:0.55rem;
+    line-height: .55rem;
+    font-size:0.32rem;
+    color:#4c4c4c;
+    letter-spacing:-0.06px;
+    text-align:center;
 }
 .c-big-btn{
     width:9.2rem;
@@ -184,6 +201,31 @@ select,option{cursor: pointer;}
 }
 .red{
     color:red;
+}
+/*赞*/
+.c-praise{
+    padding-left: 0.45rem;
+    height: .37rem;
+    font-size: 0.35rem;
+    color:#4c4c4c;
+    background: url(../img/index/icon_zan.png) left center no-repeat;
+    background-size: .37rem .37rem;
+    &.active{
+        background-image: url(../img/index/icon_zan_pressed.png);
+    }
+}
+/*头名组合*/
+.c-head{
+    img{
+        width: 1.31rem;
+        height: 1.31rem;
+        border-radius: 100%;
+        margin-right: .4rem;
+        .vertical;
+    }
+    .c-txt2{
+        .vertical;
+    }
 }
 /*input/textrea*/
 textarea,input{
