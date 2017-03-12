@@ -9,6 +9,8 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "leancloud-realtime": "^3.3.4",
+    "leancloud-storage": "^2.1.2",
     "vue": "^2.1.0"
   },
   "devDependencies": {
