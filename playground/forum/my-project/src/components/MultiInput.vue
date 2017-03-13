@@ -1,5 +1,5 @@
 <template>
-	<div id="multiinput_container">
+	<div id="multiinput_container" @click.stop>
 		<div class="input-box c-txt2" contenteditable=true @input="input">
 		</div>
 		<div class="send c-txt2"

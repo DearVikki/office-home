@@ -2,13 +2,22 @@
 	<div style="margin-bottom:2rem">
 		<questionDetailQ :question="question" :type=1></questionDetailQ>
 		<questionDetailA :answer="answer1" :type=1
-		@askMore="inputStatus=!inputStatus"></questionDetailA>
+		@askMore="askMore(answer1)"></questionDetailA>
 		<questionDetailA :answer="answer2" :type=2></questionDetailA>
 		<myfooter v-show="!inputStatus"></myfooter>
+		<!-- 弹出打字框的透明蒙版 -->
+		<div v-if="inputStatus" @click="inputStatus = false"
+		id="trans_mask"></div>
+		<transition name="custom-classes-transition"
+		enter-active-class="animated slideInUp"
+		leave-active-class="animated slideOutDown">
+			<multiinput v-if="inputStatus" @send="newComment"></multiinput>
+		</transition>
 	</div>
 </template>
 <script>
 	import myfooter from '../../components/Footer.vue'
+	import multiinput from '../../components/multiinput.vue';
 	import questionDetailQ from './question-detail-q.vue'
 	import questionDetailA from './question-detail-a.vue'
 	export default{
@@ -64,12 +73,44 @@
 					isAccepted:false,
 					isPraised:false,
 					comment:[]
-				}
+				},
+				activeAnswer:''
 			}
 		},
-		components:{myfooter,questionDetailQ,questionDetailA}
+		methods:{
+			closeInput(){
+				this.inputStatus = false;
+				document.querySelector('body').removeEventListener('click',this.closeInput,false);
+			},
+			askMore(answer){
+				this.inputStatus = true;
+				this.activeAnswer = answer;
+				// this.$nextTick(()=>{
+				// 	document.querySelector('body').addEventListener('click',()=>{
+				// 		console.log('触发click')
+				// 		this.inputStatus = false;
+				// 	},false);
+				// })
+				// 一定在冒泡结束之后
+				// setTimeout(()=>{
+				// 	document.querySelector('body').addEventListener('click',this.closeInput,false);
+				// },0);
+				
+			},
+			newComment(txt){
+				this.inputStatus = false;
+				this.activeAnswer.comment.push({name:'新comment',content:txt});
+			}
+		},
+		components:{myfooter,multiinput,questionDetailQ,questionDetailA}
 	}
 </script>
 <style lang='less' scoped>
-	
+	#trans_mask{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
 </style>
