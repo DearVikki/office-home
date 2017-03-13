@@ -1,8 +1,10 @@
 <template>
-	<div>
+	<div style="margin-bottom:2rem">
 		<questionDetailQ :question="question" :type=1></questionDetailQ>
-		<questionDetailA :answer="answer" :type=1></questionDetailA>
-		<myfooter></myfooter>
+		<questionDetailA :answer="answer1" :type=1
+		@askMore="inputStatus=!inputStatus"></questionDetailA>
+		<questionDetailA :answer="answer2" :type=2></questionDetailA>
+		<myfooter v-show="!inputStatus"></myfooter>
 	</div>
 </template>
 <script>
@@ -13,6 +15,7 @@
 		name:'questiondetail',
 		data(){
 			return{
+				inputStatus:false,
 				question:{
 					"question_id":"2",
 		            "type_id":"4",
@@ -40,12 +43,27 @@
 		            "replynum":0,
 		            "praisenum":0
 				},
-				answer:{
+				answer1:{
 					content:'地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙',
 					username:'楼二学长',
 					head:"http:\/\/wx.qlogo.cn\/",
 					addtime:1476076833,
-					praisenum:20
+					praisenum:20,
+					// 已采纳
+					isAccepted:true,
+					// 已点赞
+					isPraised:true,
+					comment:[{name:'不知道要说什么',content:'回答的非常好！'},{name:'不知道要说什么',content:'回答的非常好！'},{name:'不知道要说什么',content:'回答的非常好！'},{name:'不知道要说什么',content:'回答的非常好！'}]
+				},
+				answer2:{
+					content:'地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外',
+					username:'楼二学长',
+					head:"http:\/\/wx.qlogo.cn\/",
+					addtime:1476076833,
+					praisenum:20,
+					isAccepted:false,
+					isPraised:false,
+					comment:[]
 				}
 			}
 		},

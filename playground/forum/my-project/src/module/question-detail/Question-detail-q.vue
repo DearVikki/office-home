@@ -9,7 +9,8 @@
 		</div>
 		<div id="q_main">
 			<p id="q_title">{{question.question}}</p>
-			<p id="q_des">{{describeEllipsis}}</p>
+			<p id="q_des" :class="{isOpen:isOpen}"
+			@click="isOpen = true">{{describeContent}}</p>
 		</div>
 		<div id="q_footer">
 			<div class="q-footer-left fl">
@@ -32,15 +33,21 @@
 	import {utcToDate} from '../../assets/js/utils.js'
 	export default{
 		name:'questionDetailQ',
+		data(){
+			return{
+				isOpen:false
+			}
+		},
 		methods:{
 			utcToDate(time){
 				return utcToDate(time);
 			}
 		},
 		computed:{
-			describeEllipsis(){
+			describeContent(){
 				let d = this.question.question_describe;
-				return d.length < 73 ? d: d.slice(0,73)+'...';
+				if(this.isOpen) return d;
+				else return d.length < 73 ? d: d.slice(0,73)+'...';
 			}
 		},
 		// type:　０问题详情页　
@@ -89,6 +96,9 @@
 					position: absolute;
 					right:0;
 					bottom:0
+				}
+				&.isOpen:before{
+					content:'';
 				}
 			}
 		}
