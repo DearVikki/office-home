@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>教师demo</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet/less" type="text/css" href="public.less" />
+	<link rel="stylesheet/less" type="text/css" href="main.less" />
+	<script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
+</head>
+<body>
+	<div id="main">
+		<div id="part_left">
+			<div id="pl_h">
+				<div id="pl_h_f" class="fl"></div>
+					<div class="nav active">课件一</div>
+					<div class="nav">课件二</div>
+					<div class="nav">课件三</div>
+					<div id="nav_add">+</div>
+				</div>
+				<div id="pl_h_r" class="fr">
+					<div id="countdown"></div>
+					<div class="btn "></div>
+				</div>
+			</div>
+			<div id="pl_m">
+				<canvas></canvas>
+			</div>
+			<div id="pl_f">
+				<button id="eraser">橡皮擦</button>
+				<button id="clear">清屏</button>
+				<button id="black" class="color active">黑</button>
+				<button id="pink" class="color">粉</button>
+				<button id="line1" class="line active">细</button>
+				<button id="line5" class="line">粗</button>
+				<button id="full">全屏</button>
+				<button id="hald">半屏</button>
+				<button id="undo">撤销</button>
+				<button id="circle">画圆</button>
+			</div>
+		</div>
+		<div id="part_right"></div>
+	</div>
+</body>
+<script src="./send.js"></script>
+<script src="./teacher.js"></script>
+<script src="./common.js"></script>
+</html>

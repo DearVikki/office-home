@@ -1,0 +1,103 @@
+@baseColor:#3eb2ff;
+.vertical{
+	display: inline-block;
+	vertical-align: middle;
+}
+.cp{
+	cursor: pointer;
+}
+html,body{
+	width:100%;
+	height:100%;
+	overflow: hidden;
+	padding:0;
+	margin:0;
+	background: grey;
+}
+button.active{
+	opacity: .5;
+}
+#main{
+	overflow: hidden;
+	margin:0 auto;
+}
+#part_left{
+	height: 100%;
+	float: left;
+	background: #fff;
+	transition: all 1s;
+	position: relative;
+	#pl_h{
+		height: 50px;
+		background: #ebebeb;
+		/*课件条nvbar*/
+		.nav{
+			width:100px;
+			height: 48px;
+			line-height: 48px;
+			cursor: pointer;
+			text-align: center;
+			background:#e2e2e2;
+			border:1px solid #cdcdcd;
+			border-radius:8px;
+			font-size: 14px;
+			color:#7f7f7f;
+			float: left;
+			position: relative;
+			margin-left: -13px;
+			&:first-of-type{
+				margin-left: 0;
+			}
+			&.active{
+				background:@baseColor;
+				color:#fff;
+				z-index: 100;
+			}
+		}
+		#nav_add{
+			font-size: 30px;
+			height: 50px;
+			line-height: 50px;
+			color:#7f7f7f;
+			margin-left: 10px;
+			.vertical;
+			.cp;
+			&:hover{
+				color: @baseColor;
+			}
+		}
+	}
+	#pl_f{
+		height: 60px;
+		background: #eceef3;
+	}
+	&.full{
+		float: none;
+		margin: 0 auto;
+		#pl_h,#pl_f{
+			position: absolute;
+			left: 0;
+		}
+		#pl_h{
+			top:-50px;
+		}
+		#pl_f{
+			bottom:-60px;
+		}
+	}
+}
+canvas{
+	/*这下知道transform-origin的作用了把！否则默认center*/
+	transform-origin:left top;
+}
+#pl_h,#pl_f{
+	height: 50px;
+	width:100%;
+	background: #ebebeb;
+}
+#part_right{
+	background: pink;
+	height: 100%;
+	width:250px;
+	float: left;
+}
