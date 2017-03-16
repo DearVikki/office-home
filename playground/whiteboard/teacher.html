@@ -3,8 +3,8 @@
 <head>
 	<title>教师demo</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet/less" type="text/css" href="public.less" />
-	<link rel="stylesheet/less" type="text/css" href="main.less" />
+	<link rel="stylesheet/less" type="text/css" href="./css/public.less" />
+	<link rel="stylesheet/less" type="text/css" href="./css/main.less" />
 	<script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
 </head>
 <body>
@@ -18,31 +18,46 @@
 					<div id="nav_add">+</div>
 				</div>
 				<div id="pl_h_r" class="fr">
-					<div id="countdown"></div>
-					<div class="btn "></div>
+					<span class="countdown">
+						2:00:00
+					</span>
+					<div class="c-btn cp orange">结束课程</div>
 				</div>
 			</div>
 			<div id="pl_m">
 				<canvas></canvas>
 			</div>
 			<div id="pl_f">
-				<button id="eraser">橡皮擦</button>
-				<button id="clear">清屏</button>
-				<button id="black" class="color active">黑</button>
-				<button id="pink" class="color">粉</button>
-				<button id="line1" class="line active">细</button>
-				<button id="line5" class="line">粗</button>
-				<button id="full">全屏</button>
-				<button id="hald">半屏</button>
-				<button id="undo">撤销</button>
-				<button id="redo" class="active">回撤</button>
-				<button id="circle">画圆</button>
+				<div style="display:none">
+					<button id="eraser">橡皮擦</button>
+					<button id="clear">清屏</button>
+					<button id="black" class="color active">黑</button>
+					<button id="pink" class="color">粉</button>
+					<button id="line1" class="line active">细</button>
+					<button id="line5" class="line">粗</button>
+					<button id="full">全屏</button>
+					<button id="hald">半屏</button>
+					<button id="undo">撤销</button>
+					<button id="redo" class="active">回撤</button>
+					<button id="circle">画圆</button>
+				</div>
+				<div id="pl_f_r">
+					<span id="pl_f_action">
+						<span class="f-btn" id="select_width"></span>
+						<span class="f-btn" id="select_color"></span>
+						<span class="f-btn active" id="pen"></span>
+						<span class="f-btn" id="eraser"></span>
+					</span>
+					<span class="f-btn"></span>
+					<span class="f-btn">清屏</span>
+				</div>
 			</div>
 		</div>
 		<div id="part_right"></div>
 	</div>
 </body>
-<script src="./send.js"></script>
-<script src="./teacher.js"></script>
-<script src="./common.js"></script>
+<script src="./js/utils.js"></script>
+<script src="./js/send.js"></script>
+<script src="./js/teacher.js"></script>
+<script src="./js/main.js"></script>
 </html>

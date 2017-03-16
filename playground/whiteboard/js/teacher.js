@@ -3,7 +3,6 @@ Element.prototype.hasClass = function(className){
 }
 Element.prototype.addClass = function(className){
 	this.classList.add(className);
-	console.log(this)
 	return this;
 }
 Element.prototype.removeClass = function(className){
@@ -17,3 +16,5 @@ document.querySelector('#pl_h').onclick = function(e){
 		target.addClass('active');
 	}
 }
+// 右上角倒计时
+new Countdown('.countdown',120);

@@ -6,6 +6,20 @@
 .cp{
 	cursor: pointer;
 }
+.c-btn{
+	border-radius:8px;
+	width:120px;
+	height:35px;
+	line-height:35px;
+	text-align: center;
+	color:#fff;
+	&.orange{
+		background:#fb8348;
+	}
+	&.yellow{
+		background: #fece4d;
+	}
+}
 html,body{
 	width:100%;
 	height:100%;
@@ -66,10 +80,70 @@ button.active{
 				color: @baseColor;
 			}
 		}
+		.countdown{
+			width: 105px;
+			font-size: 18px;
+			color:#3c3c3c;
+			height: 20px;
+			background-image: url(../img/cd.png);
+			background-repeat: no-repeat;
+			background-position: left center;
+			background-size: 16px 20px;
+			padding-left: 26px;
+			margin-top: 5px;
+			margin-right: 10px;
+			.vertical;
+		}
+		.c-btn{
+			font-size: 16px;
+			margin-right: 12px;
+			margin-top: 7px;
+			.vertical;
+		}
 	}
 	#pl_f{
 		height: 60px;
 		background: #eceef3;
+		padding-right: 20px;
+		#pl_f_r{
+			float: right;
+			height: 100%;
+			line-height: 60px;
+			overflow: hidden;
+			font-size: 16px;
+			color: #7f7f7f;
+			.f-btn{
+				margin-right: 10px;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: contain;
+				cursor: pointer;
+				.vertical;
+			}
+			#pl_f_action{
+				border-right: 1px solid #bbb;
+				line-height: 0;
+				height: 25px;
+				.vertical;
+				.f-btn{
+					width: 25px;
+					height: 25px;
+				}
+				#select_width{
+					background-image: url(../img/width.png);
+					background-size: 20px 20px;
+				}
+				#select_color{
+					background-image: url(../img/color.png);
+				}
+				#pen{
+					background-image: url(../img/pen.png);
+				}
+				#eraser{
+					background-image: url(../img/eraser.png);
+				}
+			}
+		}
 	}
 	&.full{
 		float: none;
@@ -90,11 +164,7 @@ canvas{
 	/*这下知道transform-origin的作用了把！否则默认center*/
 	transform-origin:left top;
 }
-#pl_h,#pl_f{
-	height: 50px;
-	width:100%;
-	background: #ebebeb;
-}
+
 #part_right{
 	background: pink;
 	height: 100%;
