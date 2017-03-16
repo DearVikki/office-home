@@ -15,8 +15,7 @@
 // }
 // eraserObj:[7,7]
 // 上传数据的type: 0写字 1擦除 2清空 3撤销 4ppt翻页 5切换ppt 6上传ppt
-// 本地undo_type: 0写字 1擦除
-// localPathArr = [{l_type:0,width:5,dots:[[7,7]]}]
+// localPathArr = [{color:0,width:5,shape:0,eraser:0,dots:[[7,7]]}]
 function send(socket,canvasW, canvasH){
 	var $body = document.querySelector('body');
 	var c = document.getElementsByTagName('canvas')[0];
@@ -24,6 +23,7 @@ function send(socket,canvasW, canvasH){
 	var pathObj = {style:{color:'#000',width:1},path:{isStart:false, dot:[]}};
 	var eraserObj = [];
 	var localPathArr = [];
+	var redoArr = [];
 	// trigger事件
 	var canvasDraw = new Event('canvasDraw');
 	var canvasEraser = new Event('canvasEraser');
@@ -31,8 +31,6 @@ function send(socket,canvasW, canvasH){
 		var rect = holder.getBoundingClientRect();
 		// 鼠标移出canvas外 则取消事件
 		// 注意getBoundingRect基于物理像素 所以虽然scale后canvas.style.width不会变 但前者.width会变
-		// console.log(mouse.clientX);
-		// console.log(rect.width)
 		if(mouse.clientX - rect.left >=　rect.width) $body.removeEventListener('mousemove',drawLine,false);
 		// 判断canvas是否有被scale
 		if(c.scaleTime) {
@@ -52,6 +50,7 @@ function send(socket,canvasW, canvasH){
 		var pos = getPos(c, e);
 		if(eraser){
 			// 擦除时
+			localPathArr[localPathArr.length - 1].dots.push([pos.x, pos.y]);
 			eraserObj = [pos.x/canvasW, pos.y/canvasH];
 			ctx.clearRect(pos.x,pos.y,7,7);
 			socket.send(JSON.stringify({type:1, data:{eraserObj:eraserObj}}));
@@ -63,8 +62,7 @@ function send(socket,canvasW, canvasH){
 		else {
 			// 写字时
 			pathObj = {style:{color:color,width:width},path:{isStart:false,dot:[pos.x/canvasW, pos.y/canvasH]}};
-			console.log(pos.x+','+ pos.y)
-			localPathArr[localPathArr.length - 1].dots.push([pos.x/canvasW, pos.y/canvasH]);
+			localPathArr[localPathArr.length - 1].dots.push([pos.x, pos.y]);
 			ctx.lineTo(pos.x, pos.y);
 			ctx.stroke();
 			socket.send(JSON.stringify({type:0, data:{pathObj:pathObj}}));
@@ -77,14 +75,15 @@ function send(socket,canvasW, canvasH){
 		console.log('mousedown!')
 		var pos = getPos(c, e);
 		var msg = 'Mouse position: ' + pos.x + ',' + pos.y;
-		// 给pathObj新加入一个数组
-		if(!eraser&&!circle) {
+		if(eraser){
+			localPathArr.push({color:color, width:width,shape:0,eraser:true, dots:[[pos.x, pos.y]]});
+		}else if(circle) {
+			ctx.strokeRect(pos.x,pos.y,150,100);
+		}
+		else{
 			pathObj = {style:{color:color,width:width},path:{isStart:true,dot:[pos.x/canvasW, pos.y/canvasH]}};
 			console.log('第一笔:'+pos.x+ ','+pos.y)
-			localPathArr.push({l_type:0, width:width, dots:[[pos.x/canvasW, pos.y/canvasH]]});
-		}
-		else if(circle) {
-			ctx.strokeRect(pos.x,pos.y,150,100);
+			localPathArr.push({color:color, width:width,shape:0, dots:[[pos.x, pos.y]]});
 		}
 		socket.send(JSON.stringify({type:0, data:{pathObj:pathObj}}))
 		ctx.beginPath();
@@ -172,27 +171,42 @@ function send(socket,canvasW, canvasH){
 		}
 	}
 
+	function drawPathFromPathArr(arr){
+		if(arr.shape){
+		} else if(arr.eraser){
+			arr.dots.forEach(function(d){
+				ctx.clearRect(d[0],d[1],7,7);
+			})
+		} else{
+			ctx.beginPath();
+			ctx.lineWidth = arr.width;
+			ctx.strokeStyle = arr.color;
+			ctx.moveTo(arr.dots[0][0],arr.dots[0][1]);
+			arr.dots.forEach(function(d){
+				ctx.lineTo(d[0],d[1]);
+				ctx.stroke();
+			})
+		}
+	}
 	// 点击撤销
-	// var $undo = document.querySelector('#undo');
-	// $undo.onclick = function(){
-	// 	var lastPath = localPathArr[localPathArr.length - 1];
-	// 	ctx.beginPath();
-	// 	ctx.strokeStyle = '#fff';
-	// 	ctx.lineWidth = lastPath.width;
-	// 	var width = lastPath.width;
-	// 	switch(lastPath.l_type){
-	// 		case 0:
-	// 			// 撤销笔迹
-	// 			console.log('第一笔'+lastPath.dots[0][0]*canvasW+','+lastPath.dots[0][1]*canvasH)
-	// 			ctx.moveTo(lastPath.dots[0][0]*canvasW,lastPath.dots[0][1]*canvasH);
-	// 			lastPath.dots.forEach(function(d){
-	// 				// 用橡皮擦无法完全撤销
-	// 				// ctx.clearRect(d[0]*canvasW-width/2,d[1]*canvasH-width/2,width,width);
-	// 				console.log(d[0]*canvasW+','+d[1]*canvasH)
-	// 				ctx.lineTo(d[0]*canvasW,d[1]*canvasH);
-	// 			})
-	// 			ctx.stroke();
-	// 	}
-	// }
+	var $undo = document.querySelector('#undo');
+	$undo.onclick = function(){
+		ctx.clearRect(0,0, c.width, c.height);
+		redoArr.push(localPathArr.pop());
+		$redo.classList.remove('active');
+		localPathArr.forEach(function(e){
+			drawPathFromPathArr(e);
+		})
+	}
+
+	// 点击回撤
+	var $redo = document.querySelector('#redo');
+	$redo.onclick = function(){
+		if(!redoArr.length) return;
+		var lastPathArr = redoArr.pop();
+		localPathArr.push(lastPathArr);
+		drawPathFromPathArr(lastPathArr);
+		if(!redoArr.length) $redo.classList.add('active');
+	}
 }
 
