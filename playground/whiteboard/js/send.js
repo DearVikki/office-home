@@ -19,6 +19,8 @@
 // localPathArr = [[dotObj,dotObj][dotObj,dotObj,dotObj]]
 function send(socket,canvasW, canvasH){
 	var $body = document.querySelector('body');
+	var $pl = document.getElementById('part_left');
+	var $pf = document.getElementById('pl_f');
 	var c = document.getElementsByTagName('canvas')[0];
 	var ctx = c.getContext('2d');
 	var eraserObj = [];
@@ -69,6 +71,14 @@ function send(socket,canvasW, canvasH){
 		localPathArr[localPathArr.length-1].push(localDotObj);
 	}
 
+	function wander(e){
+		if($pl.full){
+			var distanceToBottom = window.innerHeight - e.clientY;
+			if(distanceToBottom < 60) $pf.addClass('active');
+			else $pf.removeClass('active');
+		}
+	}
+
 	// 开始新的一笔
 	c.addEventListener('mousedown',function(e){
 		var pos = getPos(c, e);
@@ -89,11 +99,15 @@ function send(socket,canvasW, canvasH){
 		}
 		socket.send(JSON.stringify({type:0, data:{dotObj:dotObj}}));
 		localPathArr.push([localDotObj]);
+		$body.removeEventListener('mousemove',wander,false);
 		$body.addEventListener('mousemove',render,false);
 	},false)
 	c.addEventListener('mouseup',function(){
 		$body.removeEventListener('mousemove',render,false);
+		$body.addEventListener('mousemove',wander,false);
 	})
+	// 默认鼠标wander模式
+	$body.addEventListener('mousemove',wander,false);
 
 	// 点击橡皮
 	var eraser = false;

@@ -39,11 +39,14 @@ button.active{
 	height: 100%;
 	float: left;
 	background: #fff;
-	transition: all 1s;
+	transition: all .5s;
 	position: relative;
+	// 比part_right大
+	z-index: 3;
 	#pl_h{
 		height: 50px;
 		background: #ebebeb;
+		transition: all .5s;
 		/*课件条nvbar*/
 		.nav{
 			width:100px;
@@ -105,49 +108,149 @@ button.active{
 		height: 60px;
 		background: #eceef3;
 		padding-right: 20px;
+		width:100%;
+		transition: all .5s;
 		#pl_f_r{
 			float: right;
 			height: 100%;
 			line-height: 60px;
-			overflow: hidden;
 			font-size: 16px;
 			color: #7f7f7f;
+			// 弹出框的固定样式
+			.select-pop{
+				border-radius: 8px;
+				display: flex;
+				justify-content: space-around;
+				position: absolute;
+				background: rgba(0,0,0,.3);
+				opacity: 0;
+				visibility: hidden;
+				transition:opacity .5s, visibility 0s .5s;
+				&:before{
+					content: '';
+					position: absolute;
+					bottom: -16px;
+					left: 50%;
+					transform: translate3d(-50%,0,0);
+					border: 8px solid transparent;
+					border-top: 8px solid rgba(0, 0, 0, 0.3);
+				}
+				.item{
+					margin:auto;
+					transition:all .2s;
+				}
+			}
 			.f-btn{
 				margin-right: 10px;
 				background-repeat: no-repeat;
 				background-position: center;
 				background-size: contain;
 				cursor: pointer;
+				width: 25px;
+				height: 25px;
+				line-height: 0;
+				position: relative;
 				.vertical;
+				&:hover .select-pop{
+					opacity: 1;
+					visibility: visible;
+				}
 			}
 			#pl_f_action{
 				border-right: 1px solid #bbb;
 				line-height: 0;
 				height: 25px;
+				margin-right:10px;
 				.vertical;
-				.f-btn{
-					width: 25px;
-					height: 25px;
-				}
 				#select_width{
 					background-image: url(../img/width.png);
-					background-size: 20px 20px;
+					background-size: 18px 18px;
+					.select-pop{
+						width: 100px;
+						height: 30px;
+						left: -39px;
+						top: -40px;
+						.item{
+							background: #eee;
+							border-radius: 100%;
+							&.active{
+								background:#444;
+							}
+							&:hover{
+								background:#444;
+							}
+						}
+					}
 				}
 				#select_color{
 					background-image: url(../img/color.png);
+					.select-pop{
+						width: 194px;
+						height: 30px;
+						left:-87px;
+						top:-40px;
+						.item{
+							width: 10px;
+							height: 10px;
+							&.active{
+								transform:scale(1.4);
+							}
+							&:hover{
+								transform:scale(1.4);
+							}
+						}
+
+					}
 				}
 				#pen{
 					background-image: url(../img/pen.png);
+					background-size: 20px 20px;
+					&:focus{
+						opacity: 0;
+					}
 				}
 				#eraser{
 					background-image: url(../img/eraser.png);
+					background-size: 20px 20px;
 				}
+			}
+			#undo{
+				background-image: url(../img/undo.png);
+				width: 20px;
+				height: 20px;
+				background-size: 18px 18px;
+			}
+			#redo{
+				background-image: url(../img/redo.jpg);
+				width: 20px;
+				height: 20px;
+				background-size: 18px 18px;
+			}
+			#clear{
+				width:auto;
+				line-height: 25px;
+			}
+			#full{
+				background-image: url(../img/full.png);
+				background-size: 20px 20px;
+			}
+			#half{
+				background-image: url(../img/half.png);
+				background-size: 20px 20px;
+				display: none;
 			}
 		}
 	}
-	&.full{
+	// 全屏时
+	&.fullsize{
 		float: none;
 		margin: 0 auto;
+		#full{
+			display: none !important;
+		}
+		#half{
+			display: inline-block !important;
+		}
 		#pl_h,#pl_f{
 			position: absolute;
 			left: 0;
@@ -157,6 +260,9 @@ button.active{
 		}
 		#pl_f{
 			bottom:-60px;
+			&.active{
+				bottom:0;
+			}
 		}
 	}
 }
@@ -170,4 +276,16 @@ canvas{
 	height: 100%;
 	width:250px;
 	float: left;
+	&.slideOut{
+		animation-delay:.5s;
+		animation:slideout 1s;
+	}
+}
+@keyframes slideout{
+	from{
+		transform:translateX(-250px);
+	}
+	to{
+		transform:translateX(0);
+	}
 }

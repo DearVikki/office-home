@@ -27,7 +27,7 @@
 			<div id="pl_m">
 				<canvas></canvas>
 			</div>
-			<div id="pl_f">
+			<div id="pl_f" class="active">
 				<div style="display:none">
 					<button id="eraser">橡皮擦</button>
 					<button id="clear">清屏</button>
@@ -35,21 +35,42 @@
 					<button id="pink" class="color">粉</button>
 					<button id="line1" class="line active">细</button>
 					<button id="line5" class="line">粗</button>
-					<button id="full">全屏</button>
-					<button id="hald">半屏</button>
+					<!-- <button id="full">全屏</button> -->
+					<!-- <button id="hald">半屏</button> -->
 					<button id="undo">撤销</button>
 					<button id="redo" class="active">回撤</button>
 					<button id="circle">画圆</button>
 				</div>
-				<div id="pl_f_r">
+				<div id="pl_f_r" style="">
 					<span id="pl_f_action">
-						<span class="f-btn" id="select_width"></span>
-						<span class="f-btn" id="select_color"></span>
+						<span class="f-btn" id="select_width">
+							<span class="select-pop">
+								<div class="item active" width=1 style="width:4px;height:4px"></div>
+								<div class="item" width=3 style="width:7px;height:7px"></div>
+								<div class="item" width=5 style="width:9px;height:9px"></div>
+								<div class="item" width=10 style="width:11px;height:11px"></div>
+							</span>
+						</span>
+						<span class="f-btn" id="select_color">
+							<span class="select-pop">
+								<div class="item" color="red" style="background:#ff0000"></div>
+								<div class="item" color="orange" style="background:#fa8247"></div>
+								<div class="item" color="yellow" style="background:#fece4d"></div>
+								<div class="item" color="blue" style="background:#3fb4ff"></div>
+								<div class="item" color="grey" style="background:#06ca77"></div>
+								<div class="item" color="green" style="background:#d0d0d0"></div>
+								<div class="item active" color="black" style="background:#232323"></div>
+								<div class="item" color="white" style="background:#fff"></div>
+							</span>
+						</span>
 						<span class="f-btn active" id="pen"></span>
 						<span class="f-btn" id="eraser"></span>
 					</span>
-					<span class="f-btn"></span>
-					<span class="f-btn">清屏</span>
+					<span class="f-btn" id="undo"></span>
+					<span class="f-btn" id="redo"></span>
+					<span class="f-btn" id="clear">清屏</span>
+					<span class="f-btn" id="full"></span>
+					<span class="f-btn" id="half"></span>
 				</div>
 			</div>
 		</div>

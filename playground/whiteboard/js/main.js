@@ -11,26 +11,42 @@ window.onload = function(){
 		$body = document.querySelector('body');
 	var winH = window.innerHeight,
 		winW = window.innerWidth;
-	// 初始化style
-	var canvasH = winH - 110, canvasW = (winH-200)*16/9;
-	$pm.style.height = canvasH + 'px';
-	$pm.style.width = canvasW + 'px';
-	$c.height = canvasH;
-	$c.width = canvasW;
-	// $pr.style.width = winW - canvasW -10 + 'px';
-	$pr.style.height = winH + 'px';
-	$main.style.width = $c.width + 252 + 'px';
-	$body.style.width = winW;
+	var canvasW, canvasH;
+	canvasH = winH - 110, canvasW = (winH-200)*16/9;
+	$c.height = $c.style.height = canvasH;
+		$c.width = $c.style.width = canvasW;
+	function initialSize(){
+		$c.style.transform = 'scale(1)';
+		$c.scaleTime = 1;
+		$pm.style.height = canvasH + 'px';
+		$pl.style.width = $ph.style.width = $pf.style.width = $pm.style.width = canvasW + 'px';
+		$pr.style.height = winH + 'px';
+		$main.style.width = $c.width + 252 + 'px';
+		$body.style.width = winW;
+		$pl.removeClass('fullsize');
+		$pl.full=false;
+		$pr.style.display = 'block';
+	}
 
-	// 点击全屏
-	document.getElementById('full').onclick = function(){
+	function fullSize(){
 		var scaleTime = winH/canvasH;
 		$c.style.transform = 'scale('+scaleTime+')';
 		$c.scaleTime = scaleTime;
-		$pm.style.width = $pl.style.width = scaleTime*canvasW + 'px';
+		$pl.style.width = $ph.style.width = $pf.style.width=$pm.style.width = $pl.style.width = scaleTime*canvasW + 'px';
 		$pm.style.height = winH + 'px';
 		$pr.style.display = 'none';
-		$pl.classList.add('full');
+		$pr.removeClass('slideOut');
+		$pl.addClass('fullsize');
+		$pl.full=true;
+	}
+
+	initialSize();
+	// 点击全屏
+	document.getElementById('full').onclick = fullSize;
+	// 退出全屏
+	document.getElementById('half').onclick = function(){
+		initialSize();
+		$pr.addClass('slideOut');
 	}
 
 	// 拉取数据
