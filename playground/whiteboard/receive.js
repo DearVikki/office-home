@@ -12,8 +12,7 @@ function receive(event,canvasW, canvasH){
 				case 0:
 					var dotObj = data.data.dotObj;
 					var dotCoord = dotObj.dot.coord,
-						eraser = dotObj.eraser,
-						shape = dotObj.shape,
+						mode = dotObj.mode,
 						color = dotObj.style.color,
 						width = dotObj.style.width;
 					ctx.strokeStyle =  color;
@@ -23,12 +22,7 @@ function receive(event,canvasW, canvasH){
 					if(dotObj.dot.isStart) localPathArr_r.push([dotObj]);
 					else localPathArr_r[localPathArr_r.length - 1].push(dotObj);
 
-					if(eraser){
-						// 擦除
-						ctx.clearRect(p.x, p.y, 7, 7);
-					} else if(shape){
-
-					} else{
+					if(mode===0){
 						// 绘制
 						if(dotObj.dot.isStart) {
 							ctx.beginPath();
@@ -39,6 +33,11 @@ function receive(event,canvasW, canvasH){
 						}
 						p0 = {x:p.x, y:p.y};
 						ctx.stroke();
+					} else if(mode===1){
+						// 擦除
+						ctx.clearRect(p.x, p.y, 7, 7);
+					} else{
+						// 形状
 					}
 					break;
 				case 1:

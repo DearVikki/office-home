@@ -150,6 +150,7 @@ button.active{
 				height: 25px;
 				line-height: 0;
 				position: relative;
+				border-radius: 6px;
 				.vertical;
 				&:hover .select-pop{
 					opacity: 1;
@@ -162,9 +163,12 @@ button.active{
 				height: 25px;
 				margin-right:10px;
 				.vertical;
+				.f-btn.active{
+					background-color:#50bdef;
+				}
 				#select_width{
 					background-image: url(../img/width.png);
-					background-size: 18px 18px;
+					background-size: 19px 19px;
 					.select-pop{
 						width: 100px;
 						height: 30px;
@@ -183,7 +187,31 @@ button.active{
 					}
 				}
 				#select_color{
-					background-image: url(../img/color.png);
+					background-image: url(../img/black.png);
+					&[color=red]{
+						background-image: url(../img/red.png);
+					}
+					&[color=orange]{
+						background-image: url(../img/orange.png);
+					}
+					&[color=yellow]{
+						background-image: url(../img/yellow.png);
+					}
+					&[color=blue]{
+						background-image: url(../img/blue.png);
+					}
+					&[color=grey]{
+						background-image: url(../img/grey.png);
+					}
+					&[color=green]{
+						background-image: url(../img/green.png);
+					}
+					&[color=black]{
+						background-image: url(../img/black.png);
+					}
+					&[color=white]{
+						background-image: url(../img/white.png);
+					}
 					.select-pop{
 						width: 194px;
 						height: 30px;
@@ -205,13 +233,54 @@ button.active{
 				#pen{
 					background-image: url(../img/pen.png);
 					background-size: 20px 20px;
-					&:focus{
-						opacity: 0;
+					&.active{
+						background-image: url(../img/pen_white.png);
 					}
 				}
 				#eraser{
 					background-image: url(../img/eraser.png);
 					background-size: 20px 20px;
+					&.active{
+						background-image: url(../img/eraser_white.png);
+					}
+				}
+			}
+			#switch{
+				background:#d0d0d0;
+				border:1px solid #979797;
+				border-radius:20px;
+				width:30px;
+				height:18px;
+				position: relative;
+				&:before{
+					content: '';
+					width: 0;
+					height: 100%;
+					position: absolute;
+					left: 0;
+					top: 0;
+					background: #50bdef;
+					border-radius: 20px;
+					transition: all .5s;
+				}
+				#switch_inner{
+					width: 18px;
+					height: 18px;
+					border:1px solid #979797;
+					border-radius: 100%;
+					position: absolute;
+					left: -2px;
+					top:-1px;
+					background: #fff;
+					transition: all .5s;
+				}
+				&.active{
+					&:before{
+						width: 30px;
+					}
+					#switch_inner{
+						transform: translateX(18px);
+					}
 				}
 			}
 			#undo{
@@ -219,12 +288,20 @@ button.active{
 				width: 20px;
 				height: 20px;
 				background-size: 18px 18px;
+				&.disabled{
+					background-image: url(../img/undo_disabled.png);
+					cursor: default;
+				}
 			}
 			#redo{
-				background-image: url(../img/redo.jpg);
+				background-image: url(../img/redo.png);
 				width: 20px;
 				height: 20px;
 				background-size: 18px 18px;
+				&.disabled{
+					background-image: url(../img/redo_disabled.png);
+					cursor: default;
+				}
 			}
 			#clear{
 				width:auto;
