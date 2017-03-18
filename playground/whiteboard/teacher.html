@@ -5,34 +5,54 @@
 	<meta charset="utf-8">
 	<meta name="renderer" content="webkit">
 	<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+	<script src="vendor/jquery.js"></script>
+	<script src="vendor/socket.io.js"></script>
+	<script src="vendor/adapter.js"></script>
+	<script src="AgoraRTCSDK-1.8.1.js"></script>
 	<link rel="stylesheet/less" type="text/css" href="./css/public.less" />
 	<link rel="stylesheet/less" type="text/css" href="./css/main.less" />
 	<script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
 </head>
 <body>
 	<div id="main">
+		<!-- 左侧大区 -->
 		<div id="part_left">
+			<!-- 頭部 -->
 			<div id="pl_h">
 				<div id="pl_h_f" class="fl">
 					<div class="nav active">课件一</div>
-					<div class="nav">课件二</div>
-					<div class="nav">课件三</div>
-					<div id="nav_add">+</div>
+					<!-- <div class="nav">课件二</div>
+					<div class="nav">课件三</div> -->
+					<div id="nav_add" title="上传课件" data->+</div>
 				</div>
 				<div id="pl_h_r" class="fr">
 					<span class="countdown">
 						2:00:00
 					</span>
-					<div class="c-btn cp orange">结束课程</div>
+					<div class="c-btn cp orange">開始课程</div>
 				</div>
 			</div>
+			<!-- 主體 -->
 			<div id="pl_m">
+				<div id="ppt_holder">
+				</div>
 				<canvas></canvas>
 			</div>
+			<!-- 底部 -->
 			<div id="pl_f">
+				<!-- 翻頁區 -->
+				<div id="page_container">
+					<span class="prev fl"></span>
+					<span class="current-page">1</span>
+					<span>/</span>
+					<span class="all-page">4</span>
+					<span class="next fr"></span>
+				</div>
+				<!-- 按钮操作区 -->
 				<div id="pl_f_r">
+					<!-- 画笔区 -->
 					<span id="pl_f_action">
-						<span class="f-btn" id="select_width">
+						<span class="f-btn f-btn1" id="select_width">
 							<span class="select-pop">
 								<div class="item active" width=1 style="width:4px;height:4px"></div>
 								<div class="item" width=3 style="width:7px;height:7px"></div>
@@ -40,7 +60,7 @@
 								<div class="item" width=10 style="width:11px;height:11px"></div>
 							</span>
 						</span>
-						<span class="f-btn" id="select_color">
+						<span class="f-btn f-btn1" id="select_color">
 							<span class="select-pop">
 								<div class="item" color="red" style="background:#ff0000"></div>
 								<div class="item" color="orange" style="background:#fa8247"></div>
@@ -52,26 +72,56 @@
 								<div class="item" color="white" style="background:#fff"></div>
 							</span>
 						</span>
-						<span class="f-btn active" id="pen"></span>
-						<span class="f-btn" id="shape" style="display:none"></span>
-						<span class="f-btn" id="eraser"></span>
+						<span class="f-btn f-btn1 active" id="pen"></span>
+						<span class="f-btn f-btn1" id="shape" style="display:none"></span>
+						<span class="f-btn f-btn1" id="eraser"></span>
 					</span>
-					<span class="f-btn disabled" id="undo"></span>
-					<span class="f-btn disabled" id="redo"></span>
-					<span class="f-btn" id="clear">清屏</span>
+					<span class="f-btn f-btn1 disabled" id="undo"></span>
+					<span class="f-btn f-btn1 disabled" id="redo"></span>
+					<span class="f-btn f-btn1" id="clear">清屏</span>
 					<span class="f-btn active" id="switch">
 						<div id="switch_inner"></div>
 					</span>
+					<div id="disable_mask"></div>
+				</div>
+				<!-- 放大缩小倒计时 -->
+				<div id="pl_f_r2">
+					<div class="countdown">2:00:00</div>
 					<span class="f-btn" id="full"></span>
 					<span class="f-btn" id="half"></span>
 				</div>
 			</div>
 		</div>
+		<!-- 右侧大区 -->
 		<div id="part_right" class="slideOut"></div>
+		<!-- 弹窗部分 -->
+		<div class="modal-container" id="ppt_modal">
+			<div class="modal">
+				<div class="modal-close">×</div>
+				<div id="ppt_modal_container">
+					<div class="ppt-modal-item">
+						<div class="ppt-modal-progress"></div>
+						<div class="ppt-modal-name fl">课件一</div>
+						<div class="ppt-modal-size fl">3.2M</div>
+						<div class="ppt-modal-delete fl">删除</div>
+					</div>
+				</div>
+				<div class="c-btn">+ 上传课件</div>
+				<input type="file"  accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+text/plain, application/pdf, image/*" style="display:none;">
+				<div id="ppt_tip">(暂仅支持ppt格式。最多上传5份课件)</div>
+			</div>
+			
+		</div>
+		<div class="modal-container" id="end_modal">
+			
+		</div>
 	</div>
 </body>
 <script src="./js/utils.js"></script>
 <script src="./js/send.js"></script>
 <script src="./js/teacher.js"></script>
 <script src="./js/main.js"></script>
+<script src="./js/DetectRTC.js"></script>
+<!-- <script src="https://cdn.WebRTC-Experiment.com/DetectRTC.js"></script> -->
 </html>

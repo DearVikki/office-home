@@ -17,11 +17,16 @@
 // eraserObj:[7,7]
 // 上传数据的type: 0写字/擦除 2清空 3撤销 4ppt翻页 5切换ppt 6上传ppt
 // localPathArr = [[dotObj,dotObj][dotObj,dotObj,dotObj]]
+var eraserObj = [];
+var localPathArr = [];
+var redoPathArr = [];
 function send(socket,canvasW, canvasH){
 	var $body = document.querySelector('body'),
 		$pl = document.getElementById('part_left'),
-		$pf = document.getElementById('pl_f');
+		$pf = document.getElementById('pl_f'),
+		$pf_r = document.querySelector('#pl_f_r');
 	var $color = document.querySelector('#select_color');
+	var $width = document.querySelector('#select_width');
 	var $shape = document.querySelector('#shape');
 	var $eraser = document.querySelector('#eraser');
 	var $pen = document.querySelector('#pen');
@@ -30,9 +35,6 @@ function send(socket,canvasW, canvasH){
 	var $redo = document.querySelector('#redo');
 	var c = document.getElementsByTagName('canvas')[0];
 	var ctx = c.getContext('2d');
-	var eraserObj = [];
-	var localPathArr = [];
-	var redoPathArr = [];
 
 	var eraserMode = false;
 	var shapeMode = false;
@@ -108,7 +110,7 @@ function send(socket,canvasW, canvasH){
 	}
 
 	function wanderMode(e){
-		if($pl.full){
+		if($pl.hasClass('fullsize')){
 			var distanceToBottom = window.innerHeight - e.clientY;
 			if(distanceToBottom < 60) $pf.addClass('active');
 			else $pf.removeClass('active');
@@ -158,7 +160,7 @@ function send(socket,canvasW, canvasH){
 		var colorSelectedRGB = colorObj[colorSelected];
 		ctx.strokeStyle = color = colorSelectedRGB;
 		$color.setAttribute('color',colorSelected);
-		document.querySelector('#select_color .item.active').removeClass('active');
+		$color.querySelector('.item.active').removeClass('active');
 		t.addClass('active');
 	}
 
@@ -168,7 +170,7 @@ function send(socket,canvasW, canvasH){
 		var widthSelected = t.getAttribute('width');
 		ctx.lineWidth = widthSelected;
 		width = widthSelected;
-		document.querySelector('#select_width .item.active').removeClass('active');
+		$width.querySelector('.item.active').removeClass('active');
 		t.addClass('active');
 	}
 
@@ -218,7 +220,21 @@ function send(socket,canvasW, canvasH){
 		socket.send(JSON.stringify({type:3}));
 	}
 
-	
+	function toggleCanvas(e){
+		var t = e.target;
+		var active = t.hasClass('active');
+		if(active){
+			t.removeClass('active');
+			c.style.display = 'none';
+			$pf_r.addClass('disabled');
+			c.removeEventListener('mousedown', startPath, false);
+		} else {
+			t.addClass('active');
+			c.style.display = 'block';
+			$pf_r.removeClass('disabled');
+			c.addEventListener('mousedown', startPath, false);
+		}
+	}
 
 	$shape.onclick = shape;
 	$eraser.onclick = eraser;
@@ -226,8 +242,9 @@ function send(socket,canvasW, canvasH){
 	$clear.onclick = clear;
 	$undo.onclick = undo;
 	$redo.onclick = redo;
-	document.querySelector('#select_color .select-pop').onclick = selectColor;
-	document.querySelector('#select_width .select-pop').onclick = selectWidth;
+	$color.querySelector('.select-pop').onclick = selectColor;
+	$width.querySelector('.select-pop').onclick = selectWidth;
+	document.querySelector('#switch').onclick = toggleCanvas;
 	$body.addEventListener('mousemove',wanderMode,false);
 	c.addEventListener('mousedown', startPath, false);
 	c.addEventListener('mouseup', renderToWander, false);

@@ -1,4 +1,4 @@
-@baseColor:#3eb2ff;
+@baseColor:#50bdef;
 .vertical{
 	display: inline-block;
 	vertical-align: middle;
@@ -13,11 +13,16 @@
 	line-height:35px;
 	text-align: center;
 	color:#fff;
+	cursor: pointer;
 	&.orange{
 		background:#fb8348;
 	}
 	&.yellow{
 		background: #fece4d;
+	}
+	&.disabled{
+		opacity: .5;
+		cursor: default;
 	}
 }
 html,body{
@@ -43,6 +48,21 @@ button.active{
 	position: relative;
 	// 比part_right大
 	z-index: 3;
+	.countdown{
+		width: 105px;
+		font-size: 18px;
+		color:#3c3c3c;
+		height: 20px;
+		line-height: 20px;
+		background-image: url(../img/cd.png);
+		background-repeat: no-repeat;
+		background-position: left center;
+		background-size: 16px 20px;
+		padding-left: 26px;
+		margin-top: 5px;
+		margin-right: 10px;
+		.vertical;
+	}
 	#pl_h{
 		height: 50px;
 		background: #ebebeb;
@@ -83,20 +103,6 @@ button.active{
 				color: @baseColor;
 			}
 		}
-		.countdown{
-			width: 105px;
-			font-size: 18px;
-			color:#3c3c3c;
-			height: 20px;
-			background-image: url(../img/cd.png);
-			background-repeat: no-repeat;
-			background-position: left center;
-			background-size: 16px 20px;
-			padding-left: 26px;
-			margin-top: 5px;
-			margin-right: 10px;
-			.vertical;
-		}
 		.c-btn{
 			font-size: 16px;
 			margin-right: 12px;
@@ -104,18 +110,176 @@ button.active{
 			.vertical;
 		}
 	}
+	#pl_m{
+		position: relative;
+		transition: all .5s;
+		#ppt_holder{
+			position: absolute;
+			z-index: 1;
+			transition: all .5s;
+			top: 0;
+			left: 0;
+			.ppt-item{
+				transition: all .5s;
+			}
+		}
+		canvas{
+			transition: all .5s;
+			position: relative;
+			z-index: 2;
+		}
+	}
 	#pl_f{
 		height: 60px;
 		background: #eceef3;
-		padding-right: 20px;
+		padding: 0 20px;
 		width:100%;
 		transition: all .5s;
+		position: relative;
+		z-index: 2;
+		#page_container{
+			width: 85px;
+			float: left;
+			margin-top: 23px;
+			text-align: center;
+			font-size: 14px;
+			color: #7f7f7f;
+			.current-page{
+				color:@baseColor;
+			}
+			.next,.prev{
+				cursor: pointer;
+				width: 20px;
+				height: 20px;
+				background-size: 20px 20px;
+				&.disabled{
+					cursor: default;
+				}
+			}
+			.prev{
+				background-image: url(../img/prev.png);
+				&.disabled{
+					background-image: url(../img/prev_disabled.png);
+				}
+			}
+			.next{
+				background-image: url(../img/next.png);
+				&.disabled{
+					background-image: url(../img/next_disabled.png);
+				}
+			}
+		}
+		#disable_mask{
+			width: 280px;
+			height:100%;
+			position: absolute;
+			left: 0;
+			top:0;
+			opacity: .5;
+			background: #eceef3;
+			display: none;
+		}
+		.f-btn{
+			margin-right: 10px;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+			cursor: pointer;
+			width: 25px;
+			height: 25px;
+			line-height: 0;
+			position: relative;
+			border-radius: 6px;
+			.vertical;
+			&:hover .select-pop{
+				opacity: 1 !important;
+				visibility: visible !important;
+			}
+		}
+		#switch{
+			background:#d0d0d0;
+			border:1px solid #979797;
+			border-radius:20px;
+			width:30px;
+			height:18px;
+			position: relative;
+			&:before{
+				content: '';
+				width: 0;
+				height: 100%;
+				position: absolute;
+				left: 0;
+				top: 0;
+				background: #50bdef;
+				border-radius: 20px;
+				transition: all .5s;
+			}
+			#switch_inner{
+				width: 18px;
+				height: 18px;
+				border:1px solid #979797;
+				border-radius: 100%;
+				position: absolute;
+				left: -2px;
+				top:-1px;
+				background: #fff;
+				transition: all .5s;
+			}
+			&.active{
+				&:before{
+					width: 30px;
+				}
+				#switch_inner{
+					transform: translateX(18px);
+				}
+			}
+		}
+		#undo{
+			background-image: url(../img/undo.png);
+			width: 20px;
+			height: 20px;
+			background-size: 18px 18px;
+			&.disabled{
+				background-image: url(../img/undo_disabled.png);
+				cursor: default;
+			}
+		}
+		#redo{
+			background-image: url(../img/redo.png);
+			width: 20px;
+			height: 20px;
+			background-size: 18px 18px;
+			&.disabled{
+				background-image: url(../img/redo_disabled.png);
+				cursor: default;
+			}
+		}
+		#clear{
+			width:auto;
+			line-height: 25px;
+		}
+		#full{
+			background-image: url(../img/full.png);
+			background-size: 20px 20px;
+		}
+		#half{
+			background-image: url(../img/half.png);
+			background-size: 20px 20px;
+			display: none;
+		}
 		#pl_f_r{
 			float: right;
 			height: 100%;
 			line-height: 60px;
 			font-size: 16px;
 			color: #7f7f7f;
+			margin-right: 50px;
+			position: relative;
+			&.disabled{
+				#disable_mask{
+					display: block;
+				}
+			}
 			// 弹出框的固定样式
 			.select-pop{
 				border-radius: 8px;
@@ -138,23 +302,6 @@ button.active{
 				.item{
 					margin:auto;
 					transition:all .2s;
-				}
-			}
-			.f-btn{
-				margin-right: 10px;
-				background-repeat: no-repeat;
-				background-position: center;
-				background-size: contain;
-				cursor: pointer;
-				width: 25px;
-				height: 25px;
-				line-height: 0;
-				position: relative;
-				border-radius: 6px;
-				.vertical;
-				&:hover .select-pop{
-					opacity: 1;
-					visibility: visible;
 				}
 			}
 			#pl_f_action{
@@ -245,75 +392,17 @@ button.active{
 					}
 				}
 			}
-			#switch{
-				background:#d0d0d0;
-				border:1px solid #979797;
-				border-radius:20px;
-				width:30px;
-				height:18px;
-				position: relative;
-				&:before{
-					content: '';
-					width: 0;
-					height: 100%;
-					position: absolute;
-					left: 0;
-					top: 0;
-					background: #50bdef;
-					border-radius: 20px;
-					transition: all .5s;
-				}
-				#switch_inner{
-					width: 18px;
-					height: 18px;
-					border:1px solid #979797;
-					border-radius: 100%;
-					position: absolute;
-					left: -2px;
-					top:-1px;
-					background: #fff;
-					transition: all .5s;
-				}
-				&.active{
-					&:before{
-						width: 30px;
-					}
-					#switch_inner{
-						transform: translateX(18px);
-					}
-				}
-			}
-			#undo{
-				background-image: url(../img/undo.png);
-				width: 20px;
-				height: 20px;
-				background-size: 18px 18px;
-				&.disabled{
-					background-image: url(../img/undo_disabled.png);
-					cursor: default;
-				}
-			}
-			#redo{
-				background-image: url(../img/redo.png);
-				width: 20px;
-				height: 20px;
-				background-size: 18px 18px;
-				&.disabled{
-					background-image: url(../img/redo_disabled.png);
-					cursor: default;
-				}
-			}
-			#clear{
-				width:auto;
-				line-height: 25px;
-			}
-			#full{
-				background-image: url(../img/full.png);
-				background-size: 20px 20px;
-			}
-			#half{
-				background-image: url(../img/half.png);
-				background-size: 20px 20px;
+		}
+		#pl_f_r2{
+			position: absolute;
+			right: 20px;
+			top:0px;
+			height: 100%;
+			line-height: 60px;
+			font-size: 16px;
+			color: #7f7f7f;
+			.countdown{
+				color: #7f7f7f;
 				display: none;
 			}
 		}
@@ -329,7 +418,7 @@ button.active{
 			display: inline-block !important;
 		}
 		#pl_h,#pl_f{
-			position: absolute;
+			position: absolute !important;
 			left: 0;
 		}
 		#pl_h{
@@ -339,6 +428,17 @@ button.active{
 			bottom:-60px;
 			&.active{
 				bottom:0;
+			}
+		}
+		#pl_f_r{
+			position: absolute !important;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-right: 0 !important;
+		}
+		#pl_f_r2{
+			.countdown{
+				display: inline-block !important;
 			}
 		}
 	}
@@ -351,7 +451,7 @@ canvas{
 #part_right{
 	background: pink;
 	height: 100%;
-	width:250px;
+	width:300px;
 	float: left;
 	&.slideOut{
 		animation-delay:.5s;
@@ -364,5 +464,96 @@ canvas{
 	}
 	to{
 		transform:translateX(0);
+	}
+}
+
+.modal-container{
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity .5s, visibility 0s .5s;
+	z-index:1000;
+	&.active{
+		visibility: visible;
+		opacity: 1;
+		transition: opacity .5s, visibility 0s 0s;
+	}
+	.modal{
+		width: 500px;
+		border-radius: 8px;
+		background:#fff;
+		margin: auto;
+		position: relative;
+		.modal-close{
+			position: absolute;
+			font-size: 25px;
+			right: 9px;
+			top: 0px;
+			color: #666;
+			cursor: pointer;
+		}
+	}
+}
+#ppt_modal{
+	.modal{
+		padding: 30px 30px 20px 30px;
+		#ppt_modal_container{
+			min-height: 120px;
+		}
+		.ppt-modal-item{
+			width: 100%;
+			border-bottom: 1px solid #efefef;
+			height: 34px;
+			line-height: 34px;
+			font-size: 14px;
+			color: #363636;
+			position: relative;
+			div{
+				position: relative;
+				z-index: 2;
+			}
+			.ppt-modal-progress{
+				position: absolute;
+				left: 0;
+				top:0;
+				background:#f3f3f3;
+				width: 40%;
+				height: 100%;
+				z-index: 1;
+			}
+			.ppt-modal-name{
+				width: 60%;
+				padding:0 10px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow:ellipsis;
+			}
+			.ppt-modal-size{
+				width:30%;
+			}
+			.ppt-modal-delete{
+				width: 10%;
+				color:@baseColor;
+				text-align: center;
+				cursor: pointer;
+			}
+		}
+		.c-btn{
+			font-size: 16px;
+			color: #fff;
+			background: @baseColor;
+			margin: 20px auto 5px auto;
+		}
+		#ppt_tip{
+			font-size: 12px;
+			color: @baseColor;
+			text-align: center;
+		}
 	}
 }

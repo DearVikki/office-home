@@ -43,7 +43,7 @@
 				    console.log(event.loaded);
 				    // event.total 总文件大小
 				}, false);
-				xhr.open('post','http://121.40.91.157/zl_shopping/php/index.php/PcApi',true);
+				xhr.open('post','http://tangguyan.vicp.net/pcapi',true);
 				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 				xhr.send(fm);
 			}

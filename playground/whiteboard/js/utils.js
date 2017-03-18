@@ -14,6 +14,33 @@ Element.prototype.toggleClass = function(className){
 	else this.addClass(className);
 	return this;
 }
+Element.prototype.remove = function(){
+	this.parentNode.removeChild(this);
+}
+Element.prototype.empty = function(){
+	while (this.lastChild) {
+	    this.removeChild(this.lastChild);
+	}
+}
+
+function Modal(config){
+	this.$modal = document.querySelector(config.el);
+	this.confirmCb = typeof config.confirmCb === 'function'?config.confirmCb:function(){};
+	this.cancelCb = typeof config.cancelCb === 'function'?config.cancelCb:function(){};
+	var self = this;
+	this.$modal.querySelector('.modal').addEventListener('click',function(e){
+		e.stopPropagation();
+	},false)
+	Modal.prototype.close = function(){
+		self.$modal.removeClass('active');
+		self.cancelCb();
+	}
+	Modal.prototype.open = function(){
+		self.$modal.addClass('active');
+	}
+	if(!config.maskDisable) this.$modal.onclick = this.close;
+}
+
 function Countdown(el,m){
 	this.now = new Date().getTime()/1000;
 	this.end = this.now + m*60;
@@ -33,6 +60,16 @@ function Countdown(el,m){
 	Countdown.prototype.end = function(){
 		clearInterval(self.cd);
 	}
+}
+
+function fileSizeConverter(nBytes){
+	var output = nBytes + ' bytes';
+	var multipleArr = ['KB','MB','GB','TB'],
+		multipleIndex = 0, approx = nBytes / 1024;
+	for(;approx > 1; approx /= 1024, multipleIndex++) {
+		output = approx.toFixed(2) + '' + multipleArr[multipleIndex];
+	}
+	return output;
 }
 
 var FullScreen = {
