@@ -6,7 +6,7 @@ var $body,$main,
 	$pptCurrentPg,
 	$pptAllPg,
 	$ph,
-	$navContainer,
+	$navContainer,$actionBtn,
 	$pf,
 	$pf_r,
 	c,
@@ -30,6 +30,10 @@ var currentPg = 1,
 	allPg;
 var $color, $width, $shape, $eraser, $pen, $clear, $undo, $redo;
 var socket;
+var user = {user_type:0,user_name:'七七'}
+var devicePermission = true;
+// 0:等待老师上线 1:确认开课 2:等待老师开课 3:老师开课
+var classStatus = 0;
 window.onload = function(){
 	$body = document.querySelector('body');
 	$main = document.getElementById('main');
@@ -41,6 +45,7 @@ window.onload = function(){
 	$pptAllPg = document.querySelector('#page_container .all-page');
 	$ph = document.getElementById('pl_h');
 	$navContainer = document.getElementById('nav_container');
+	$actionBtn = document.getElementById('action_btn');
 	$pf = document.getElementById('pl_f');
 	$pf_r = document.querySelector('#pl_f_r');
 	c = document.getElementsByTagName('canvas')[0];
@@ -79,20 +84,19 @@ window.onload = function(){
 	// websocket
 	socket = new WebSocket('ws://121.40.91.157:8282');
 	socket.onopen = function(){
-		socket.send(JSON.stringify({type:10,user:{user_type:0,user_name:'七七'}}));
+		socket.send(JSON.stringify({type:10,user:user}));
 		socket.onmessage = function(event){
 			if(typeof receive === 'function') receive(event,canvasW, canvasH);
 		}
 		socket.onclose = function(){
-			console.log('socket关闭')
+			console.log('socket关闭');
 		}
 	}
-
 	// 右上角倒计时
 	// new Countdown('#pl_h_r .countdown',120);
 
 	initialSize();
-	renderPPT(localPPTArr[0].content);
+	renderPPT(localPPTArr[0].content,0);
 	// size控制部分
 	FullScreen.onfullscreenchange(fullSize, initialSize);
 	document.getElementById('full').onclick = enterFull;
@@ -115,6 +119,19 @@ window.onload = function(){
 	$msgInput.onfocus = bindEnter;
 	$msgInput.onblur = unbindEnter;
 	$msgBtn.onclick = sendMsg;
-	// 视频部分
-	document.querySelector('#action_btn').onclick = join;
+	// 检测设备及视频部分
+	var deviceDetect = '';
+	setTimeout(function(){
+		if(!hasMicrophone) {
+			deviceDetect += '未检测到麦克风！';
+			devicePermission = false;
+		}
+		if(!devicePermission) {
+			deviceDetect += '学生不可正常开课喔！';
+			$actionBtn.addClass('disabled');
+			alert(deviceDetect);
+		} else {
+			$actionBtn.onclick = activeChangeClassStatus;
+		}
+	},0)
 }

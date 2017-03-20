@@ -1,6 +1,11 @@
 // 視頻部分
+var hasWebcam, hasWebcamPermissions, hasMicrophone, hasMicrophonePermissions;
 DetectRTC.load(function(){
-  console.log(DetectRTC.hasWebcam);
+  hasWebcam = DetectRTC.hasWebcam;
+  hasWebcamPermissions = DetectRTC.isWebsiteHasWebcamPermissions;
+  hasMicrophone = DetectRTC.hasMicrophone;
+  hasMicrophonePermissions = DetectRTC.isWebsiteHasMicrophonePermissions;
+  console.log(hasWebcam,hasWebcamPermissions,hasMicrophone,hasMicrophonePermissions)
 })
 
 var client, localStream, camera, microphone, audioSelect, videoSelect;

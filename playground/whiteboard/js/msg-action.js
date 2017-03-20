@@ -8,7 +8,7 @@ function sendMsg(){
 	$msgMainWrapper.scrollTop = $msgMainWrapper.scrollHeight;
 	$msgInput.value = '';
 	$msgBtn.addClass('disabled');
-	socket.send(JSON.stringify({type:7,msg:msg}));
+	socket.send(JSON.stringify({type:8,msg:msg}));
 }
 
 function enterToSendMsg(e){

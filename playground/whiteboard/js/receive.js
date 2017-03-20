@@ -1,5 +1,16 @@
 var localPathArr_r = [], redoPathArr_r = [];
 var p = {}, p0 = {};
+function addTitle(user){
+	var title = user.user_name;
+	title += user.user_type===0? '同学':'老师';
+	return title;
+}
+function addTip(tip){
+	var div = document.createElement('div');
+	div.addClass('msg-container');
+	div.innerHTML = '<div class="msg-tip">'+tip+'</div>';
+	$msgMainWrapper.appendChild(div);
+}
 function receive(event,canvasW, canvasH){
 			try {
 				var data = JSON.parse(event.data);
@@ -7,6 +18,7 @@ function receive(event,canvasW, canvasH){
 				return false;
 			}
 			switch(data.type){
+				// 笔绘
 				case 0:
 					var dotObj = data.data.dotObj;
 					var dotCoord = dotObj.dot.coord,
@@ -39,8 +51,8 @@ function receive(event,canvasW, canvasH){
 						ctx.stroke();
 					}
 					break;
+				// 清空
 				case 1:
-					// 清空
 					ctx.clearRect(0,0, c.width, c.height);
 					// 扩展：清屏撤回
 					var localPathArr_r_cp = [];
@@ -49,8 +61,8 @@ function receive(event,canvasW, canvasH){
 					});
 					localPathArr_r=[{clear:true,content:localPathArr_r_cp}];
 					break;
+				// 撤销
 				case 2:
-					// 撤销
 					ctx.clearRect(0,0, c.width, c.height);
 					redoPathArr_r.push(localPathArr_r.pop());
 					//撤销清空
@@ -63,8 +75,8 @@ function receive(event,canvasW, canvasH){
 						drawFromPathArr(ctx,e,canvasW,canvasH);
 					})
 					break;
+				// 反撤销
 				case 3:
-					// 反撤销
 					var lastPathArr_r = redoPathArr_r.pop();
 					localPathArr_r.push(lastPathArr_r);
 					// 回撤清空
@@ -73,27 +85,55 @@ function receive(event,canvasW, canvasH){
 					}
 					drawFromPathArr(ctx,lastPathArr_r,canvasW,canvasH);
 					break;
+				// PPT翻页
 				case 4:
-					// PPT翻页
+					var page = data.page;
+					console.log(data)
+					$pptCurrentPg.textContent = currentPg = page;
+					positionPPT();
+					resetCanvas();
+					break;
+				// 切换渲染PPT
+				case 5:
+					var index = data.pptIndex;
+					renderPPT(localPPTArr[index].content,index);
+				// 上传ppt
+				case 6:
+					var ppt = data.ppt;
+					localPPTArr.push(ppt);
+					break;
+				// 删除ppt
 				case 7:
-				console.log('hey')
-					// 发消息
+					var index = data.pptIndex;
+					localPathArr.splice(index,1);
+				// 对方发消息
+				case 8:
 					var msg = data.msg;
-					console.log(msg)
 					var div = document.createElement('div');
 					div.addClass('msg-container');
 					div.innerHTML = '<div class="msg msg-to">'+msg+'</div>';
 					$msgMainWrapper.appendChild(div);
+					break;
+				// 对方登陆
 				case 10:
-					// 登陆
-					console.log(tip)
-					var tip = data.user.user_name;
-					if(data.user.user_type===1) tip += '老师';
-					else tip += '同学';
+					var tip = addTitle(data.user);
 					tip += '已上线';
-					var div = document.createElement('div');
-					div.addClass('msg-container');
-					div.innerHTML = '<div class="msg-tip">'+tip+'</div>';
-					$msgMainWrapper.appendChild(div);
+					addTip(tip);
+					passiveChangeClassStatus();
+					// 自己同时也得发送一条‘我已经在啦’的消息
+					socket.send(JSON.stringify({type:11,user:user}));
+					break;
+				// 对方确认已在线
+				case 11:
+					var tip = addTitle(data.user);
+					tip += '已等你一会了喔';
+					addTip(tip);
+					passiveChangeClassStatus();
+					break;
+				// 一方离线
+				case 15:
+					var tip = addTitle(data.user);
+					tip += '已离线';
+					addTip(tip);
 			}
 		}

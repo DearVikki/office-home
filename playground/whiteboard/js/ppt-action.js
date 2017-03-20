@@ -1,16 +1,17 @@
-var localPPTArr = [{
+var localPPTArr = [
+{
 	id:1,
-	content:["http://tangguyan.vicp.net/upload/2017_03_18/img1489842115wumRmipT.jpg",
-"http://tangguyan.vicp.net/upload/2017_03_18/img1489842115hrYkF1pc.jpg",
-"http://tangguyan.vicp.net/upload/2017_03_18/img1489842115MwVsWZXy.jpg",
-"http://tangguyan.vicp.net/upload/2017_03_18/img1489842115Fj6pP442.jpg"]
-}]
+	content:["http://manyu.vicp.net/upload/2017_03_18/img1489842115wumRmipT.jpg",
+"http://manyu.vicp.net/upload/2017_03_18/img1489842115hrYkF1pc.jpg",
+"http://manyu.vicp.net/upload/2017_03_18/img1489842115MwVsWZXy.jpg",
+"http://manyu.vicp.net/upload/2017_03_18/img1489842115Fj6pP442.jpg"]
+}
+]
 
-function emptyPPT(){
+function renderPPT(pptArr,index){
 	$pptHolder.empty();
 	$pptHolder.style.transform = 'translateY(0px)';
-}
-function renderPPT(pptArr){
+	if(!pptArr) return;
 	pptArr.forEach(function(e){
 		var img = new Image();
 		img.src = e;
@@ -66,8 +67,8 @@ function switchPPT(e){
 		document.querySelector('.active.nav').removeClass('active');
 		t.addClass('active');
 	}
-	emptyPPT();
-	renderPPT(localPPTArr[index].content);
+	renderPPT(localPPTArr[index].content,index);
+	socket.send(JSON.stringify({type:5,pptIndex:index}));
 	resetCanvas();
 }
 
@@ -88,7 +89,7 @@ function pptUpload(){
 	var fm = new FormData();
 	fm.append('ppt',file);
 	var xhr = new XMLHttpRequest();
-	xhr.open('post','http://tangguyan.vicp.net/pcapi?name=education.sys.ppt.upload',true);
+	xhr.open('post',rootURL+'?name=education.sys.ppt.upload',true);
 	xhr.upload.onprogress = function(event){
 	    var percentage = (event.loaded/event.total)*100;
 	    $pptProgress.style.width = percentage + '%';
@@ -102,20 +103,27 @@ function pptUpload(){
 		    	alert(data.msg);
 		    }
 		    else {
+		    	var ppt = {id:'',content:data.data.list};
 		    	$pptProgress.style.width = 0;
 		    	$pptSize.innerHTML = fileSizeConverter(file.size);
 		    	var div = document.createElement('div');
 		    	div.addClass('nav');
 		    	div.textContent = file.name;
 		    	$navContainer.appendChild(div);
-		    	localPPTArr.push({id:'',content:data.data.list});
+		    	localPPTArr.push(ppt);
+		    	socket.send(JSON.stringify({type:6,ppt:ppt}))
 		    	// 若刚刚无PPT 则显示该份PPT
 		    	if(localPPTArr.length === 1){
 		    		resetCanvas();
-		    		renderPPT(localPPTArr[0].content);
+		    		renderPPT(ppt.content,0);
+		    		socket.send(JSON.stringify({type:5,pptIndex:0}));
 		    		$pptTip.removeClass('active');
 		    	}
 		    }
+		} else if (xhr.status === 0){
+			$pptItem.remove();
+			pptMaxNum();
+			alert('口亨！王奥又访问超时了！');
 		}
 	}
 	xhr.send(fm);
@@ -132,17 +140,26 @@ function deletePPT(e){
 	$allNav[index].remove();
 	document.querySelectorAll('.ppt-modal-item')[index].remove();
 	localPPTArr.splice(index,1);
+	socket.send(JSON.stringify({type:7,pptIndex:index}));
 	pptMaxNum();
 	if(activeIndex===index){
-		emptyPPT();
+		// 删除完无PPT的情况
 		if(localPPTArr.length===0){
 			$pptTip.addClass('active');
-		} else if(activeIndex===0) {
+			renderPPT('',-1);
+			socket.send(JSON.stringify({type:5,pptIndex:-1}));
+		}
+		// 删除的是第一份PPT的情况 渲染后一份PPT(即第一份)
+		else if(activeIndex===0) {
 			document.querySelector('.nav').addClass('active');
 			renderPPT(localPPTArr[0].content);
-		} else {
+			socket.send(JSON.stringify({type:5,pptIndex:0}));
+		}
+		// 否则渲染前一份PPT
+		else {
 			document.querySelectorAll('.nav')[activeIndex-1].addClass('active');
 			renderPPT(localPPTArr[index-1].content);
+			socket.send(JSON.stringify({type:5,pptIndex:index-1}));
 		}
 		resetCanvas();
 	}

@@ -6,7 +6,7 @@ var $body,$main,
 	$pptCurrentPg,
 	$pptAllPg,
 	$ph,
-	$navContainer,
+	$navContainer,$actionBtn,
 	$pf,
 	$pf_r,
 	c,
@@ -30,6 +30,11 @@ var currentPg = 1,
 	allPg;
 var $color, $width, $shape, $eraser, $pen, $clear, $undo, $redo;
 var socket;
+var user = {user_type:1,user_name:'Vincent'}
+var devicePermission = true;
+var rootURL = 'http://manyu.vicp.net/pcapi';
+// 0:等待学生上线 1:等待学生确认 2:开始课程
+var classStatus = 0;
 window.onload = function(){
 	$body = document.querySelector('body');
 	$main = document.getElementById('main');
@@ -41,6 +46,7 @@ window.onload = function(){
 	$pptAllPg = document.querySelector('#page_container .all-page');
 	$ph = document.getElementById('pl_h');
 	$navContainer = document.getElementById('nav_container');
+	$actionBtn = document.getElementById('action_btn');
 	$pf = document.getElementById('pl_f');
 	$pf_r = document.querySelector('#pl_f_r');
 	c = document.getElementsByTagName('canvas')[0];
@@ -82,21 +88,18 @@ window.onload = function(){
 	// websocket
 	socket = new WebSocket('ws://121.40.91.157:8282')
 	socket.onopen = function(){
-		console.log('open!')
-		socket.send(JSON.stringify({type:10,user:{user_type:1,user_name:'Vincent'}}));
+		socket.send(JSON.stringify({type:10,user:user}));
 		socket.onmessage = function(event){
 			if(typeof receive === 'function') receive(event,canvasW, canvasH);
-		}
-		socket.onclose = function(){
-			console.log('socket关闭')
-		}
+		};
+		socket.onclose = function(){};
 	}
-
 	// 右上角倒计时
 	new Countdown('#pl_h_r .countdown',120);
 
 	initialSize();
-	renderPPT(localPPTArr[0].content);
+	$pptTip.addClass('active');
+	renderPPT(localPPTArr[0].content,0);
 	// size控制部分
 	FullScreen.onfullscreenchange(fullSize, initialSize);
 	document.getElementById('full').onclick = enterFull;
@@ -131,6 +134,32 @@ window.onload = function(){
 	$msgInput.onfocus = bindEnter;
 	$msgInput.onblur = unbindEnter;
 	$msgBtn.onclick = sendMsg;
-	// 视频部分
-	document.querySelector('#action_btn').onclick = join;
+	// 检测设备及视频部分
+	var deviceDetect = '';
+	setTimeout(function(){
+		if(!hasWebcam) {
+			deviceDetect += '未检测到摄像头！';
+			devicePermission = false;
+		}
+		if(!hasMicrophone) {
+			deviceDetect += '未检测到麦克风！';
+			devicePermission = false;
+		}
+		if(!devicePermission) {
+			deviceDetect += '老师不可正常开课喔！';
+			$actionBtn.addClass('disabled');
+			// alert(deviceDetect);
+		} else {
+			$actionBtn.onclick = activeChangeClassStatus;
+		}
+	},50)
+	// 离开提示
+	window.onbeforeunload = function() {
+	    var dialogText = '上课期间，你确定要离开吗？';
+	     e.returnValue = dialogText;
+	     return dialogText;
+	}
+	window.addEventListener('unload', function(event) {
+	     socket.send(JSON.stringify({type:15, user:user}));
+	},false);
 }
