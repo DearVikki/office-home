@@ -22,6 +22,13 @@ Element.prototype.empty = function(){
 	    this.removeChild(this.lastChild);
 	}
 }
+Element.prototype.index = function(siblings){
+	var nodelist;
+	if(siblings) nodelist = this.parentElement.querySelectorAll(siblings);
+	else nodelist = this.parentElement.children;
+	nodelist = Array.prototype.slice.call(nodelist);
+	return nodelist.indexOf(this);
+}
 
 function Modal(config){
 	this.$modal = document.querySelector(config.el);
@@ -30,6 +37,9 @@ function Modal(config){
 	var self = this;
 	this.$modal.querySelector('.modal').addEventListener('click',function(e){
 		e.stopPropagation();
+	},false)
+	this.$modal.querySelector('.modal-close').addEventListener('click',function(e){
+		self.close();
 	},false)
 	Modal.prototype.close = function(){
 		self.$modal.removeClass('active');

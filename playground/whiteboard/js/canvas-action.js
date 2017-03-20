@@ -1,46 +1,25 @@
 // 后端能否判定coordObj.dot.length===0时储存上一条数据？
 // 数据格式:
 // dotObj:{
+// 	mode:0
 // 	style:{
 // 		color:'#000',
 // 		width:1
 // 	},
-// 	shape:{
-
-// 	},
-//  eraser:false,
 // 	dot:{
 // 		isStart:false,
 // 		dot:[7,7]
 // 	}
 // }
-// eraserObj:[7,7]
-// 上传数据的type: 0写字/擦除 2清空 3撤销 4ppt翻页 5切换ppt 6上传ppt
 // localPathArr = [[dotObj,dotObj][dotObj,dotObj,dotObj]]
 var eraserObj = [];
 var localPathArr = [];
 var redoPathArr = [];
-function send(socket,canvasW, canvasH){
-	var $body = document.querySelector('body'),
-		$pl = document.getElementById('part_left'),
-		$pf = document.getElementById('pl_f'),
-		$pf_r = document.querySelector('#pl_f_r');
-	var $color = document.querySelector('#select_color');
-	var $width = document.querySelector('#select_width');
-	var $shape = document.querySelector('#shape');
-	var $eraser = document.querySelector('#eraser');
-	var $pen = document.querySelector('#pen');
-	var $clear = document.querySelector('#clear');
-	var $undo = document.querySelector('#undo');
-	var $redo = document.querySelector('#redo');
-	var c = document.getElementsByTagName('canvas')[0];
-	var ctx = c.getContext('2d');
-
-	var eraserMode = false;
-	var shapeMode = false;
-	var width = 1;
-	var color = '#000';
-	var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
+var eraserMode = false;
+var shapeMode = false;
+var width = 1;
+var color = '#000';
+var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 	green:'#06ca77',grey:'#d0d0d0',black:'#232323',white:'#fff'};
 
 	function getPos(holder, mouse){
@@ -236,20 +215,6 @@ function send(socket,canvasW, canvasH){
 		}
 	}
 
-	$shape.onclick = shape;
-	$eraser.onclick = eraser;
-	$pen.onclick = pen;
-	$clear.onclick = clear;
-	$undo.onclick = undo;
-	$redo.onclick = redo;
-	$color.querySelector('.select-pop').onclick = selectColor;
-	$width.querySelector('.select-pop').onclick = selectWidth;
-	document.querySelector('#switch').onclick = toggleCanvas;
-	$body.addEventListener('mousemove',wanderMode,false);
-	c.addEventListener('mousedown', startPath, false);
-	c.addEventListener('mouseup', renderToWander, false);
-}
-
 function drawFromPathArr(ctx,arr,canvasW,canvasH){
 	canvasW = canvasW||1;
 	canvasH = canvasH||1;
@@ -273,4 +238,5 @@ function drawFromPathArr(ctx,arr,canvasW,canvasH){
 		})
 	}
 }
+
 

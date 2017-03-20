@@ -1,0 +1,30 @@
+function sendMsg(){
+	var msg = $msgInput.value;
+	if(!msg.length) return;
+	var div = document.createElement('div');
+	div.addClass('msg-container');
+	div.innerHTML = '<div class="msg msg-from">'+ msg +'</div>';
+	$msgMainWrapper.appendChild(div);
+	$msgMainWrapper.scrollTop = $msgMainWrapper.scrollHeight;
+	$msgInput.value = '';
+	$msgBtn.addClass('disabled');
+	socket.send(JSON.stringify({type:7,msg:msg}));
+}
+
+function enterToSendMsg(e){
+	if(e.keyCode === 13) sendMsg();
+}
+
+function bindEnter(){
+	document.addEventListener('keydown',enterToSendMsg,false);
+}
+
+function unbindEnter(){
+	document.removeEventListener('keydown',enterToSendMsg,false);
+}
+
+function inputMsg(){
+	var msg = $msgInput.value;
+	if(msg.length) $msgBtn.removeClass('disabled');
+	else $msgBtn.addClass('disabled');
+}

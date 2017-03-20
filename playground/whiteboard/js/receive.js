@@ -1,5 +1,3 @@
-var c = document.getElementsByTagName('canvas')[0],
-	ctx = c.getContext('2d');
 var localPathArr_r = [], redoPathArr_r = [];
 var p = {}, p0 = {};
 function receive(event,canvasW, canvasH){
@@ -75,5 +73,27 @@ function receive(event,canvasW, canvasH){
 					}
 					drawFromPathArr(ctx,lastPathArr_r,canvasW,canvasH);
 					break;
+				case 4:
+					// PPT翻页
+				case 7:
+				console.log('hey')
+					// 发消息
+					var msg = data.msg;
+					console.log(msg)
+					var div = document.createElement('div');
+					div.addClass('msg-container');
+					div.innerHTML = '<div class="msg msg-to">'+msg+'</div>';
+					$msgMainWrapper.appendChild(div);
+				case 10:
+					// 登陆
+					console.log(tip)
+					var tip = data.user.user_name;
+					if(data.user.user_type===1) tip += '老师';
+					else tip += '同学';
+					tip += '已上线';
+					var div = document.createElement('div');
+					div.addClass('msg-container');
+					div.innerHTML = '<div class="msg-tip">'+tip+'</div>';
+					$msgMainWrapper.appendChild(div);
 			}
 		}

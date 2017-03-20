@@ -9,6 +9,7 @@
 	<script src="vendor/socket.io.js"></script>
 	<script src="vendor/adapter.js"></script>
 	<script src="AgoraRTCSDK-1.8.1.js"></script>
+	<script src="./js/DetectRTC.js"></script>
 	<link rel="stylesheet/less" type="text/css" href="./css/public.less" />
 	<link rel="stylesheet/less" type="text/css" href="./css/main.less" />
 	<script src="http://cdn.bootcss.com/less.js/1.7.0/less.min.js"></script>
@@ -17,30 +18,32 @@
 	<div id="main">
 		<!-- 左侧大区 -->
 		<div id="part_left">
-			<!-- 頭部 -->
+			<!-- 头部 -->
 			<div id="pl_h">
 				<div id="pl_h_f" class="fl">
-					<div class="nav active">课件一</div>
-					<!-- <div class="nav">课件二</div>
-					<div class="nav">课件三</div> -->
+					<div id="nav_container">
+						<div class="nav active">课件一</div>
+						<!-- <div class="nav">课件二</div>
+						<div class="nav">课件三</div> -->
+					</div>
 					<div id="nav_add" title="上传课件" data->+</div>
 				</div>
 				<div id="pl_h_r" class="fr">
 					<span class="countdown">
 						2:00:00
 					</span>
-					<div class="c-btn cp orange">開始课程</div>
+					<div id="action_btn" class="c-btn cp orange">开始课程</div>
 				</div>
 			</div>
-			<!-- 主體 -->
+			<!-- 白板主体 -->
 			<div id="pl_m">
-				<div id="ppt_holder">
-				</div>
+				<div id="ppt_tip">请点击左上角上传PPT喔😏</div>
+				<div id="ppt_holder"></div>
 				<canvas></canvas>
 			</div>
 			<!-- 底部 -->
 			<div id="pl_f">
-				<!-- 翻頁區 -->
+				<!-- 翻页区 -->
 				<div id="page_container">
 					<span class="prev fl"></span>
 					<span class="current-page">1</span>
@@ -93,7 +96,44 @@
 			</div>
 		</div>
 		<!-- 右侧大区 -->
-		<div id="part_right" class="slideOut"></div>
+		<div id="part_right" class="slideOut">
+			<!-- 视频区 -->
+			<div id="video_part">
+				<div id="div_device" class="panel panel-default" style="display:none">
+				<div class="select">
+				<label for="audioSource">Audio source: </label><select id="audioSource"></select>
+				</div>
+				<div class="select">
+				<label for="videoSource">Video source: </label><select id="videoSource"></select>
+				</div>
+				</div>
+				<input id="video" type="checkbox" checked=true style="display:none"></input>
+				<div id="video" style="width:1022px;margin:0 auto;">
+				    <div id="agora_local"></div>
+				</div>
+				<div id="video_tip">课程未开始😅</div>
+			</div>
+			<!-- 聊天区 -->
+			<div id="msg_part">
+				<div id="msg_main_container">
+					<div id="msg_main_wrapper">
+						<div class="msg-container">
+							<div class="msg-tip">七七同学已上线</div>
+						</div>
+						<div class="msg-container">
+							<div class="msg msg-from">你听得到吗？</div>
+						</div>
+						<div class="msg-container">
+							<div class="msg msg-to">恩</div>
+						</div>
+					</div>
+				</div>
+				<div id="msg_input_container">
+					<input id="msg_input">
+					<div id="msg_btn" class="disabled">发送</div>
+				</div>
+			</div>
+		</div>
 		<!-- 弹窗部分 -->
 		<div class="modal-container" id="ppt_modal">
 			<div class="modal">
@@ -107,21 +147,19 @@
 					</div>
 				</div>
 				<div class="c-btn">+ 上传课件</div>
-				<input type="file"  accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-text/plain, application/pdf, image/*" style="display:none;">
+				<input type="file"  accept="" style="display:none;">
 				<div id="ppt_tip">(暂仅支持ppt格式。最多上传5份课件)</div>
 			</div>
-			
 		</div>
 		<div class="modal-container" id="end_modal">
-			
 		</div>
 	</div>
 </body>
 <script src="./js/utils.js"></script>
-<script src="./js/send.js"></script>
-<script src="./js/teacher.js"></script>
-<script src="./js/main.js"></script>
-<script src="./js/DetectRTC.js"></script>
-<!-- <script src="https://cdn.WebRTC-Experiment.com/DetectRTC.js"></script> -->
+<script src="./js/size-action.js"></script>
+<script src="./js/canvas-action.js"></script>
+<script src="./js/ppt-action.js"></script>
+<script src="./js/msg-action.js"></script>
+<script src="./js/video-action.js"></script>
+<script src="./js/teacher-main.js"></script>
 </html>
