@@ -45,7 +45,7 @@ function nextPage(e){
 	resetCanvas();
 	$prevPPT.removeClass('disabled');
 	if(currentPg === allPg) $nextPPT.addClass('disabled');
-	socket.send(JSON.stringify({type:4,page:currentPg}));
+	socket.send(JSON.stringify({type:4,page:currentPg-1}));
 }
 
 function prevPage(e){
@@ -56,7 +56,7 @@ function prevPage(e){
 	resetCanvas();
 	$nextPPT.removeClass('disabled');
 	if(currentPg === 1) $prevPPT.addClass('disabled');
-	socket.send(JSON.stringify({type:4,page:currentPg}));
+	socket.send(JSON.stringify({type:4,page:currentPg-1}));
 }
 
 function switchPPT(e){

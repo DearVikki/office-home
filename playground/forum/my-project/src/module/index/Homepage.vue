@@ -49,7 +49,7 @@
 				}],
 				nav:{
 					// 0:热度 1:赏金 2:积分 3:个人
-					activeNav: 3,
+					activeNav: 0,
 					items:[{
 						name:'热度榜',
 						id:1
@@ -78,7 +78,12 @@
 					}]
 				},
 				hotlist:[],
-				hotlistTop:{}
+				hotlistTop:{},
+				money:{
+					list:[],
+					top:[],
+					page:1
+				}
 			}
 		},
 		mounted(){
@@ -110,6 +115,21 @@
 			}).then((response)=>{
 				let hotlistTop = response.body.data.TopList;
 				if(hotlistTop.question_id) this.hotlistTop = hotlistTop;
+			})
+			// 拉取悬赏榜
+			this.$http.post('',{
+				name:'xwlt.pc.MoneyRList',
+				types:'money',
+				page:this.money.page
+			}).then((response)=>{
+				this.money.list = response.body.data.MoneyRList;
+			})
+			// 拉取悬赏榜置顶
+			this.$http.post('',{
+				name:'xwlt.pc.toplist',
+				type:'money_top'
+			}).then((response)=>{
+				console.log(response.body.data)
 			})
 		},
 		methods:{

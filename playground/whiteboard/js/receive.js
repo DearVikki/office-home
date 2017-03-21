@@ -88,8 +88,7 @@ function receive(event,canvasW, canvasH){
 				// PPT翻页
 				case 4:
 					var page = data.page;
-					console.log(data)
-					$pptCurrentPg.textContent = currentPg = page;
+					$pptCurrentPg.textContent = currentPg = page + 1;
 					positionPPT();
 					resetCanvas();
 					break;

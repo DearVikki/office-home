@@ -19,8 +19,7 @@
 		</div>
 		<div id="msg_footer_container">
 			<div class="input-box c-txt2">
-				<p>{{txt}}</p>
-				<input v-model="txt">
+				<div ref="input" contenteditable="true" @input="inputWords"></div>
 			</div>
 			<div class="send c-txt2"
 			:class="{disabled:!txt}">发送</div>
@@ -37,6 +36,11 @@
 				img1:img1,
 				img2:img2,
 				txt:''
+			}
+		},
+		methods:{
+			inputWords(){
+				this.txt = this.$refs.input.textContent;
 			}
 		}
 	}
