@@ -42,9 +42,10 @@ function activeChangeClassStatus(){
 	} else {
 		switch(classStatus){
 			case 2:
+				join();
+				socket.send(JSON.stringify({type:13}));
 				$actionBtn.textContent = '结束课程';
 				classStatus = 3;
-				join();
 				break;
 		}
 	}

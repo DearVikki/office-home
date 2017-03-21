@@ -59,8 +59,8 @@ function Countdown(el,m){
 		var h = Math.floor(s/3600);
 		var m = Math.floor(s%3600/60);
 		var s = Math.floor(s%3600%60);
-		m = m < 10 ? '0':m;
-		s = s < 10 ? '0':s;
+		m = m < 10 ? '0'+ m:m;
+		s = s < 10 ? '0' + s:s;
 		return h+':'+m+':'+s;
 	}
 	self.cd = setInterval(function(){

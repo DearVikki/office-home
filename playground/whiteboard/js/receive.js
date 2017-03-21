@@ -130,6 +130,12 @@ function receive(event,canvasW, canvasH){
 					addTip(tip);
 					passiveChangeClassStatus();
 					break;
+				// 学生确认开课 以下是老师操作
+				case 12:
+					passiveChangeClassStatus();
+				// 老师正式开始上课 以下是学生开启视频
+				case 13:
+					passiveChangeClassStatus();
 				// 一方离线
 				case 15:
 					var tip = addTitle(data.user);
