@@ -23,7 +23,8 @@ var $body,$main,
 	$msgMainContainer,
 	$msgMainWrapper,
 	$msgInput,
-	$msgBtn;
+	$msgBtn,
+	$videoTip;
 var winH,winW;
 var canvasH,canvasW, ctx;
 var currentPg = 1,
@@ -32,7 +33,7 @@ var $color, $width, $shape, $eraser, $pen, $clear, $undo, $redo;
 var socket;
 var user = {user_type:1,user_name:'Vincent'}
 var devicePermission = true;
-var rootURL = 'http://manyu.vicp.net/pcapi';
+var rootURL = 'http://tangguyan.vicp.net/pcapi';
 // 0:等待学生上线 1:等待学生确认 2:开始课程
 var classStatus = 0;
 window.onload = function(){
@@ -64,6 +65,7 @@ window.onload = function(){
 	$msgMainWrapper = document.querySelector('#msg_main_wrapper');
 	$msgInput = document.querySelector('#msg_input');
 	$msgBtn = document.querySelector('#msg_btn');
+	$videoTip = document.getElementById('video_tip');
 	winH = window.innerHeight;
 	winW = window.innerWidth;
 	canvasH = winH - 110;
@@ -99,7 +101,7 @@ window.onload = function(){
 
 	initialSize();
 	$pptTip.addClass('active');
-	renderPPT(localPPTArr[0].content,0);
+	// renderPPT(localPPTArr[0].content,0);
 	// size控制部分
 	FullScreen.onfullscreenchange(fullSize, initialSize);
 	document.getElementById('full').onclick = enterFull;

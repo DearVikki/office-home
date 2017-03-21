@@ -23,7 +23,8 @@ var $body,$main,
 	$msgMainContainer,
 	$msgMainWrapper,
 	$msgInput,
-	$msgBtn;
+	$msgBtn,
+	$videoTip;
 var winH,winW;
 var canvasH,canvasW, ctx;
 var currentPg = 1,
@@ -60,6 +61,7 @@ window.onload = function(){
 	$msgMainWrapper = document.querySelector('#msg_main_wrapper');
 	$msgInput = document.querySelector('#msg_input');
 	$msgBtn = document.querySelector('#msg_btn');
+	$videoTip = document.getElementById('video_tip');
 	winH = window.innerHeight;
 	winW = window.innerWidth;
 	canvasH = winH - 110;
@@ -96,7 +98,7 @@ window.onload = function(){
 	// new Countdown('#pl_h_r .countdown',120);
 
 	initialSize();
-	renderPPT(localPPTArr[0].content,0);
+	// renderPPT(localPPTArr[0].content,0);
 	// size控制部分
 	FullScreen.onfullscreenchange(fullSize, initialSize);
 	document.getElementById('full').onclick = enterFull;

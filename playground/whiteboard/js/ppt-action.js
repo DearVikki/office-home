@@ -1,11 +1,11 @@
 var localPPTArr = [
-{
-	id:1,
-	content:["http://manyu.vicp.net/upload/2017_03_18/img1489842115wumRmipT.jpg",
-"http://manyu.vicp.net/upload/2017_03_18/img1489842115hrYkF1pc.jpg",
-"http://manyu.vicp.net/upload/2017_03_18/img1489842115MwVsWZXy.jpg",
-"http://manyu.vicp.net/upload/2017_03_18/img1489842115Fj6pP442.jpg"]
-}
+// {
+// 	id:1,
+// 	content:["http://manyu.vicp.net/upload/2017_03_18/img1489842115wumRmipT.jpg",
+// "http://manyu.vicp.net/upload/2017_03_18/img1489842115hrYkF1pc.jpg",
+// "http://manyu.vicp.net/upload/2017_03_18/img1489842115MwVsWZXy.jpg",
+// "http://manyu.vicp.net/upload/2017_03_18/img1489842115Fj6pP442.jpg"]
+// }
 ]
 
 function renderPPT(pptArr,index){
@@ -109,7 +109,6 @@ function pptUpload(){
 		    	var div = document.createElement('div');
 		    	div.addClass('nav');
 		    	div.textContent = file.name;
-		    	$navContainer.appendChild(div);
 		    	localPPTArr.push(ppt);
 		    	socket.send(JSON.stringify({type:6,ppt:ppt}))
 		    	// 若刚刚无PPT 则显示该份PPT
@@ -118,7 +117,9 @@ function pptUpload(){
 		    		renderPPT(ppt.content,0);
 		    		socket.send(JSON.stringify({type:5,pptIndex:0}));
 		    		$pptTip.removeClass('active');
+		    		div.addClass('active');
 		    	}
+		    	$navContainer.appendChild(div);
 		    }
 		} else if (xhr.status === 0){
 			$pptItem.remove();

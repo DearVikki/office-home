@@ -10,7 +10,14 @@ function passiveChangeClassStatus(){
 				$actionBtn.style.display = 'none';
 				classStatus = 3;
 				join();
+				if(!hasWebcam) socket.send(JSON.stringify({type:20,data:'no webcam!'}));
 				break;
+			case 3:
+				document.getElementById('agora_local').style.display='none';
+				if(document.querySelector('.agora-remote'))
+					document.querySelector('.agora-remote').style.display='none';
+				leave();
+				$videoTip.textContent = '课程已结束';
 		}
 	} else {
 		switch(classStatus){
@@ -47,6 +54,14 @@ function activeChangeClassStatus(){
 				$actionBtn.textContent = '结束课程';
 				classStatus = 3;
 				break;
+			case 3:
+				document.getElementById('agora_local').style.display='none';
+				if(document.querySelector('.agora-remote'))
+					document.querySelector('.agora-remote').style.display='none';
+				leave();
+				socket.send(JSON.stringify({type:14}));
+				$actionBtn.addClass('disabled');
+				$videoTip.textContent = '课程已结束';
 		}
 	}
 }

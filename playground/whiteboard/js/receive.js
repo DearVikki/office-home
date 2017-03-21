@@ -135,10 +135,16 @@ function receive(event,canvasW, canvasH){
 				// 老师正式开始上课 以下是学生开启视频
 				case 13:
 					passiveChangeClassStatus();
+				// 老师结束课程
+				case 14:
+					passiveChangeClassStatus();
 				// 一方离线
 				case 15:
 					var tip = addTitle(data.user);
 					tip += '已离线';
 					addTip(tip);
+				// 学生无摄像头
+				case 20:
+					document.getElementById('agora_local').addClass('big');
 			}
 		}

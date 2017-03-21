@@ -46,6 +46,8 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 		var msg = 'Mouse position: ' + pos.x + ',' + pos.y;
 		var dotObj = {mode:0,style:{color:color,width:width},dot:{isStart:true,coord:[pos.x/canvasW, pos.y/canvasH]}};
 		var localDotObj = {mode:0,style:{color:color,width:width},dot:{isStart:true,coord:[pos.x/canvasW, pos.y/canvasH]}};
+		ctx.strokeStyle = color;
+		ctx.lineWidth = width;
 		if(eraserMode){
 			// 橡皮
 			dotObj.mode = 1;
@@ -91,7 +93,7 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 	function wanderMode(e){
 		if($pl.hasClass('fullsize')){
 			var distanceToBottom = window.innerHeight - e.clientY;
-			if(distanceToBottom < 60) $pf.addClass('active');
+			if(distanceToBottom < 80) $pf.addClass('active');
 			else $pf.removeClass('active');
 		}
 	}

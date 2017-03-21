@@ -86,7 +86,7 @@ function join() {
 }
 
 function leave() {
-  document.getElementById("leave").disabled = true;
+  // document.getElementById("leave").disabled = true;
   client.leave(function () {
     console.log("Leavel channel successfully");
   }, function (err) {
