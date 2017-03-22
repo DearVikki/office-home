@@ -33,3 +33,14 @@ export function myAlert(txt){
         document.querySelector('body').removeChild(div0);
     },1500)
 }
+
+export function pullToRefresh(cb){
+    document.body.onscroll = function(){
+        let scrollTop = document.body.scrollTop;
+        let windowH = window.innerHeight;
+        let pageH = document.body.getBoundingClientRect().height;
+        if(scrollTop + windowH > pageH - 5){
+             cb();
+        }
+    }
+}

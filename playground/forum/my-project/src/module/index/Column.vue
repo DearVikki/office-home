@@ -48,6 +48,7 @@
 	import icon_lost from '../../assets/img/index/icon_lost (1).png'
 	import icon_help from '../../assets/img/index/icon_help (1).png'
 	import questionitem from '../../components/QuestionItem.vue'
+	import {pullToRefresh} from '../../assets/js/utils.js'
 	export default{
 		name:'columnn',
 		data(){
@@ -131,6 +132,7 @@
 				})
 			})
 			this.getData('','',1,false);
+			pullToRefresh(getData);
 		},
 		methods:{
 			getData(type_id,type_label_id,page,clearOldData){
