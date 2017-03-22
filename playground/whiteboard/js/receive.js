@@ -22,8 +22,7 @@ function receive(event,canvasW, canvasH){
 				case 0:
 					var dotObj = data.data.dotObj;
 					var dotCoord = dotObj.dot.coord,
-						eraser = dotObj.eraser,
-						shape = dotObj.shape,
+						mode_r = dotObj.mode,
 						color = dotObj.style.color,
 						width = dotObj.style.width;
 					ctx.strokeStyle =  color;
@@ -33,10 +32,10 @@ function receive(event,canvasW, canvasH){
 					if(dotObj.dot.isStart) localPathArr_r.push([dotObj]);
 					else localPathArr_r[localPathArr_r.length - 1].push(dotObj);
 
-					if(eraser){
+					if(mode_r==1){
 						// 擦除
 						ctx.clearRect(p.x, p.y, 7, 7);
-					} else if(shape){
+					} else if(mode_r==2){
 
 					} else{
 						// 绘制
@@ -95,16 +94,28 @@ function receive(event,canvasW, canvasH){
 				// 切换渲染PPT
 				case 5:
 					var index = data.pptIndex;
-					renderPPT(localPPTArr[index].content,index);
+					// 此时无PPT情况
+					if(index==-1){
+						$pptTip.addClass('active');
+						renderPPT('',-1);
+					}
+					else renderPPT(localPPTArr[index].content,index);
+					break;
 				// 上传ppt
 				case 6:
+					console.log(data)
 					var ppt = data.ppt;
 					localPPTArr.push(ppt);
+					console.log(localPPTArr)
 					break;
 				// 删除ppt
 				case 7:
 					var index = data.pptIndex;
-					localPathArr.splice(index,1);
+					console.log(index)
+					console.log(localPathArr)
+					localPPTArr.splice(index,1);
+					console.log(localPPTArr)
+					break;
 				// 对方发消息
 				case 8:
 					var msg = data.msg;
@@ -132,19 +143,24 @@ function receive(event,canvasW, canvasH){
 				// 学生确认开课 以下是老师操作
 				case 12:
 					passiveChangeClassStatus();
+					break;
 				// 老师正式开始上课 以下是学生开启视频
 				case 13:
 					passiveChangeClassStatus();
+					break;
 				// 老师结束课程
 				case 14:
 					passiveChangeClassStatus();
+					break;
 				// 一方离线
 				case 15:
 					var tip = addTitle(data.user);
 					tip += '已离线';
 					addTip(tip);
+					break;
 				// 学生无摄像头
 				case 20:
 					document.getElementById('agora_local').addClass('big');
+					break;
 			}
 		}

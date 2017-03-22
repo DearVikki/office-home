@@ -33,7 +33,7 @@ var $color, $width, $shape, $eraser, $pen, $clear, $undo, $redo;
 var socket;
 var user = {user_type:1,user_name:'Vincent'}
 var devicePermission = true;
-var rootURL = 'http://tangguyan.vicp.net/pcapi';
+var rootURL = 'http://manyu.vicp.net/pcapi';
 // 0:等待学生上线 1:等待学生确认 2:开始课程
 var classStatus = 0;
 window.onload = function(){
@@ -152,7 +152,9 @@ window.onload = function(){
 			$actionBtn.addClass('disabled');
 			// alert(deviceDetect);
 		} else {
+			$actionBtn.addClass('disabled');
 			$actionBtn.onclick = activeChangeClassStatus;
+			join();
 		}
 	},50)
 	// 离开提示

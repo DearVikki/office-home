@@ -127,14 +127,14 @@ window.onload = function(){
 		if(!hasWebcam) {
 			document.querySelector('#video').checked = false;
 		}
-		// if(!hasMicrophone) {
-		// 	deviceDetect += '未检测到麦克风！';
-		// 	devicePermission = false;
-		// }
+		if(!hasMicrophone) {
+			deviceDetect += '未检测到麦克风！';
+			devicePermission = false;
+		}
 		if(!devicePermission) {
 			deviceDetect += '学生不可正常开课喔！';
-			$actionBtn.addClass('disabled');
-			alert(deviceDetect);
+			// $actionBtn.addClass('disabled');
+			// alert(deviceDetect);
 		} else {
 			$actionBtn.onclick = activeChangeClassStatus;
 		}

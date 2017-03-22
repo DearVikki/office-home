@@ -106,8 +106,8 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 	function eraser(){
 		$eraser.addClass('active');
 		$pen.removeClass('active');
-		eraserMode = !eraserMode;
-		shapeMode = true;
+		eraserMode = true;
+		shapeMode = false;
 	}
 
 	function pen(){

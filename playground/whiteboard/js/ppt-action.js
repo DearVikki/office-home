@@ -90,6 +90,7 @@ function pptUpload(){
 	fm.append('ppt',file);
 	var xhr = new XMLHttpRequest();
 	xhr.open('post',rootURL+'?name=education.sys.ppt.upload',true);
+	// xhr.setRequestHeader('Content-type', 'multipart/form-data');
 	xhr.upload.onprogress = function(event){
 	    var percentage = (event.loaded/event.total)*100;
 	    $pptProgress.style.width = percentage + '%';
