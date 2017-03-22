@@ -33,7 +33,7 @@ var $color, $width, $shape, $eraser, $pen, $clear, $undo, $redo;
 var socket;
 var user = {user_type:1,user_name:'Vincent'}
 var devicePermission = true;
-var rootURL = 'http://manyu.vicp.net/pcapi';
+var rootURL = 'https://manyu.vicp.net/pcapi';
 // 0:等待学生上线 1:等待学生确认 2:开始课程
 var classStatus = 0;
 window.onload = function(){
@@ -88,7 +88,7 @@ window.onload = function(){
 	videoSelect = document.querySelector('select#videoSource');
 
 	// websocket
-	socket = new WebSocket('ws://121.40.91.157:8282')
+	socket = new WebSocket('wss://www.hzchuangxiangzhe.cn:8080')
 	socket.onopen = function(){
 		console.log('socket打开!')
 		socket.send(JSON.stringify({type:10,user:user}));
@@ -100,7 +100,7 @@ window.onload = function(){
 
 	initialSize();
 	$pptTip.addClass('active');
-	// renderPPT(localPPTArr[0].content,0);
+	renderPPT(localPPTArr[0].content,0);
 	// size控制部分
 	FullScreen.onfullscreenchange(fullSize, initialSize);
 	document.getElementById('full').onclick = enterFull;
@@ -151,7 +151,7 @@ window.onload = function(){
 			$actionBtn.addClass('disabled');
 			alert(deviceDetect);
 		} else {
-			$actionBtn.addClass('disabled');
+			// $actionBtn.addClass('disabled');
 			$actionBtn.onclick = activeChangeClassStatus;
 			// join();
 		}

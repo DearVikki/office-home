@@ -8,26 +8,22 @@
 				<th style="width:18%">现有积分</th>
 				<th style="width:25%">累计积分</th>
 			</thead>
-			<tr class="user-rank">
-				<td>4</td>
-				<td><img src="../../assets/img/index/icon_personal_pressed.png"></td>
-				<td>楼二不二</td>
-				<td>1523</td>
-				<td>2333</td>
+			<tr class="user-rank" v-if="myRank.pm">
+				<td>{{myRank.pm}}</td>
+				<td><img :src="myRank.head"></td>
+				<td>{{myRank.username}}</td>
+				<td>{{myRank.existing_integral}}</td>
+				<td>{{myRank.total_integral}}</td>
 			</tr>
-			<tr>
-				<td><img src="../../assets/img/index/icon_1.png"></td>
-				<td><img src="../../assets/img/index/icon_personal_pressed.png"></td>
-				<td>楼二不二</td>
-				<td>1523</td>
-				<td>2333</td>
-			</tr>
-			<tr>
-				<td>4</td>
-				<td><img src="../../assets/img/index/icon_personal_pressed.png"></td>
-				<td>楼二不二</td>
-				<td>1523</td>
-				<td>2333</td>
+			<tr v-for="(r,i) in ranks">
+				<td>
+					<img v-if="i===0" src="../../assets/img/index/icon_1.png">
+					<span v-else>r.pm</span>
+				</td>
+				<td><img :src="r.head"></td>
+				<td>{{r.username}}</td>
+				<td>{{r.existing_integral}}</td>
+				<td>{{r.total_integral}}</td>
 			</tr>
 		</table>
 	</div>
@@ -35,11 +31,19 @@
 <script>
 	export default{
 		name:'personal',
+		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.PersonalList'
+			}).then((response)=>{
+				let data = response.body.data;
+				this.ranks = data.PersonalList;
+				this.myRank = data.PersonalOne;
+			})
+		},
 		data(){
 			return{
-				myData:{
-
-				}
+				ranks:[],
+				myRank:{}
 			}
 		}
 	}

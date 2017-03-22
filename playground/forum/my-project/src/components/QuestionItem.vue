@@ -31,6 +31,8 @@
 				<div class="question-info-right task-to" v-if="type===3">待被抢</div>
 				<!-- 已抢任务 -->
 				<div class="question-info-right task-done"  v-if="type===4">已被抢</div>
+				<!-- 已完成 -->
+				<div class="question-info-right task-done"  v-if="type===5">已完成</div>
 			</div>
 		</div>
 		<!-- 用户信息弹窗 -->

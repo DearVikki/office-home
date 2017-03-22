@@ -5,7 +5,7 @@
 				<div v-for="(nav,index) in navs"
 				class="column-nav"
 				:style="{backgroundImage: activeNav===index?'url('+nav.labelActive+')':'url('+nav.label+')'}"
-				@click="activeNav = index">{{nav.txt}}</div>
+				@click="clickNav(nav,index)">{{nav.txt}}</div>
 			</div>
 			<div class="column-nav-sub-container"
 			v-for="(nav,index) in navs"
@@ -16,7 +16,8 @@
 				:class="{opened:nav.opened}"
 				@click="nav.opened = !nav.opened">
 					<span v-for="(sub,subindex) in nav.subs"
-					:class="{active:nav.activeSub===subindex}">{{sub}}</span>
+					:class="{active:nav.activeSub===subindex}"
+					@click="clickSub2(nav,sub,subindex)">{{sub.type_name}}</span>
 				</div>
 				<!-- 其余子模块 -->
 				<div class="sub-container"
@@ -26,9 +27,10 @@
 			</div>
 		</div>
 		<div id="column_main_container">
-			<questionitem :question="test.question"
-			:type="test.type"
-			:index="test.index"></questionitem>
+			<questionitem v-for="q in questions"
+			:question="q"
+			:type="q.type"
+			:index="q.index"></questionitem>
 		</div>
 	</div>
 </template>
@@ -52,6 +54,7 @@
 			return{
 				// opened表示子模块是否打开 activeSub表示当前选中的子模块
 				navs:[{
+					type_id:'',
 					txt:'全部',
 					label:icon_all,
 					labelActive:icon_all_pressed,
@@ -107,7 +110,51 @@
 		            "praisenum":0},
 		            index:4,
             		type:3
-				}
+				},
+				questions:[]
+			}
+		},
+		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.type'
+			}).then((response)=>{
+				response.body.data.type.forEach((e,i)=>{
+					let nav = this.navs[i+1];
+					nav.type_id = e.type_id;
+					nav.subs = e.ToWtype;
+					nav.subs.push({
+						type_name:'全部',
+						type_id:''
+					})
+					nav.activeSub = nav.subs.length-1;
+					nav.sub = e.content;
+				})
+			})
+			this.getData('','',1,false);
+		},
+		methods:{
+			getData(type_id,type_label_id,page,clearOldData){
+				this.$http.post('',{
+					name:'xwlt.pc.questionList',
+					type_id:type_id,
+					type_label_id:type_label_id,
+					page:page
+				}).then((response)=>{
+					if(clearOldData) this.questions = [];
+					response.body.data.Question_list.forEach((e)=>{
+						e.index = 4;
+						if(Number(e.task_status)) e.type = Number(e.task_status) + 2;
+						this.questions.push(e);
+					})
+				})
+			},
+			clickNav(nav,index){
+				this.activeNav = index;
+				this.getData(nav.type_id,'',1,true);
+			},
+			clickSub2(nav,sub,subindex){
+				nav.activeSub = subindex;
+				this.getData(nav.type_id,sub.type_id,1,true);
 			}
 		},
 		components:{questionitem}

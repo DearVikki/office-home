@@ -83,6 +83,11 @@
 					list:[],
 					top:[],
 					page:1
+				},
+				credit:{
+					list:[],
+					top:[],
+					page:1
 				}
 			}
 		},
@@ -129,7 +134,24 @@
 				name:'xwlt.pc.toplist',
 				type:'money_top'
 			}).then((response)=>{
-				console.log(response.body.data)
+				let moneyTop = response.body.data.TopList;
+				if(moneyTop) this.money.top = moneyTop;
+			})
+			// 拉取积分榜
+			this.$http.post('',{
+				name:'xwlt.pc.MoneyRList',
+				types:'integral',
+				page:this.credit.page
+			}).then((response)=>{
+				this.credit.list = response.body.data.MoneyRList;
+			})
+			// 拉取积分榜置顶
+			this.$http.post('',{
+				name:'xwlt.pc.toplist',
+				type:'integral_top'
+			}).then((response)=>{
+				let creditTop = response.body.data.TopList;
+				if(creditTop) this.credit.top = creditTop;
 			})
 		},
 		methods:{
@@ -146,8 +168,10 @@
 						questionData = this.hotlist;
 						break;
 					case 1:
+						questionData = this.money.list;
 						break;
 					case 2:
+						questionData = this.credit.list;
 						break;
 					default:
 						questionData = [];
@@ -162,8 +186,10 @@
 						questionTop = this.hotlistTop;
 						break;
 					case 1:
+						questionTop = this.money.top;
 						break;
 					case 2:
+						questionTop = this.credit.top;
 						break;
 					default:
 						questionTop = {};

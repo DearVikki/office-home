@@ -84,7 +84,7 @@ window.onload = function(){
 	videoSelect = document.querySelector('select#videoSource');
 
 	// websocket
-	socket = new WebSocket('ws://121.40.91.157:8282');
+	socket = new WebSocket('wss://www.hzchuangxiangzhe.cn:8080');
 	socket.onopen = function(){
 		socket.send(JSON.stringify({type:10,user:user}));
 		socket.onmessage = function(event){
@@ -98,7 +98,7 @@ window.onload = function(){
 	// new Countdown('#pl_h_r .countdown',120);
 
 	initialSize();
-	// renderPPT(localPPTArr[0].content,0);
+	renderPPT(localPPTArr[0].content,0);
 	// size控制部分
 	FullScreen.onfullscreenchange(fullSize, initialSize);
 	document.getElementById('full').onclick = enterFull;
