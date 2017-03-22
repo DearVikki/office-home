@@ -10,6 +10,8 @@ function passiveChangeClassStatus(){
 				$actionBtn.style.display = 'none';
 				classStatus = 3;
 				join();
+				// 右上角倒计时
+				new Countdown('#pl_h_r .countdown',120);
 				if(!hasWebcam) socket.send(JSON.stringify({type:20,data:'no webcam!'}));
 				break;
 			case 3:
@@ -50,6 +52,8 @@ function activeChangeClassStatus(){
 		switch(classStatus){
 			case 2:
 				join();
+				// 右上角倒计时
+				new Countdown('#pl_h_r .countdown',120);
 				socket.send(JSON.stringify({type:13}));
 				$actionBtn.textContent = '结束课程';
 				classStatus = 3;

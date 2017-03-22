@@ -90,14 +90,13 @@ window.onload = function(){
 	// websocket
 	socket = new WebSocket('ws://121.40.91.157:8282')
 	socket.onopen = function(){
+		console.log('socket打开!')
 		socket.send(JSON.stringify({type:10,user:user}));
 		socket.onmessage = function(event){
 			if(typeof receive === 'function') receive(event,canvasW, canvasH);
 		};
 		socket.onclose = function(){};
 	}
-	// 右上角倒计时
-	new Countdown('#pl_h_r .countdown',120);
 
 	initialSize();
 	$pptTip.addClass('active');
@@ -150,11 +149,11 @@ window.onload = function(){
 		if(!devicePermission) {
 			deviceDetect += '老师不可正常开课喔！';
 			$actionBtn.addClass('disabled');
-			// alert(deviceDetect);
+			alert(deviceDetect);
 		} else {
 			$actionBtn.addClass('disabled');
 			$actionBtn.onclick = activeChangeClassStatus;
-			join();
+			// join();
 		}
 	},50)
 	// 离开提示

@@ -157,6 +157,7 @@ function receive(event,canvasW, canvasH){
 					var tip = addTitle(data.user);
 					tip += '已离线';
 					addTip(tip);
+					classStatus = 0;
 					break;
 				// 学生无摄像头
 				case 20:
