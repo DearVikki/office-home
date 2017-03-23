@@ -9,6 +9,7 @@ function initialSize(){
 	$body.style.width = winW;
 	$pl.removeClass('fullsize');
 	$pr.style.display = 'block';
+	$msgMainWrapper.style.maxHeight = winH - 320 + 'px';
 	$pr.addClass('slideOut');
 	if(!$pptItems.length) return;
 	pptSize();

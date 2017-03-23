@@ -33,6 +33,7 @@ var $color, $width, $shape, $eraser, $pen, $clear, $undo, $redo;
 var socket;
 var user = {user_type:0,user_name:'七七'}
 var devicePermission = true;
+var canvasReceivingData = false;
 // 0:等待老师上线 1:确认开课 2:等待老师开课 3:老师开课
 var classStatus = 0;
 window.onload = function(){
@@ -126,17 +127,19 @@ window.onload = function(){
 	setTimeout(function(){
 		if(!hasWebcam) {
 			document.querySelector('#video').checked = false;
+			// socket.send(JSON.stringify({type:20}));
 		}
 		if(!hasMicrophone) {
 			deviceDetect += '未检测到麦克风！';
 			devicePermission = false;
 		}
-		if(!devicePermission) {
-			deviceDetect += '学生不可正常开课喔！';
-			$actionBtn.addClass('disabled');
-			alert(deviceDetect);
-		} else {
+		// if(!devicePermission) {
+		// 	deviceDetect += '学生不可正常开课喔！';
+		// 	$actionBtn.addClass('disabled');
+		// 	alert(deviceDetect);
+		// } else {
 			$actionBtn.onclick = activeChangeClassStatus;
-		}
+			join();
+		// }
 	},0)
 }

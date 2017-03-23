@@ -130,3 +130,7 @@ var FullScreen = {
 		document.addEventListener("MSFullscreenChange", handler);
 	}
 }
+
+function myAlert(txt){
+	var div = document.createElement('div');
+}

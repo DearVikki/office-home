@@ -29,8 +29,16 @@ function receive(event,canvasW, canvasH){
 					ctx.lineWidth = width;
 					p = {x: dotCoord[0]*canvasW, y: dotCoord[1]*canvasH};
 
-					if(dotObj.dot.isStart) localPathArr_r.push([dotObj]);
+					if(dotObj.dot.isStart) {
+						localPathArr_r.push([dotObj]);
+						canvasReceivingData = true;
+					}
 					else localPathArr_r[localPathArr_r.length - 1].push(dotObj);
+
+					if(dotObj.dot.isEnd) {
+						canvasReceivingData = false;
+						return;
+					}
 
 					if(mode_r==1){
 						// 擦除
@@ -161,7 +169,7 @@ function receive(event,canvasW, canvasH){
 					break;
 				// 学生无摄像头
 				case 20:
-					document.getElementById('agora_local').addClass('big');
+					// document.getElementById('agora_local').addClass('big');
 					break;
 			}
 		}

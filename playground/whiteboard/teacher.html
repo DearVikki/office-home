@@ -34,7 +34,7 @@
 					<span class="countdown">
 						2:00:00
 					</span>
-					<div id="action_btn" class="c-btn cp yellow">等待学生上线</div>
+					<div id="action_btn" class="c-btn cp yellow" style="display:none">等待学生上线</div>
 				</div>
 			</div>
 			<!-- 白板主体 -->
@@ -42,6 +42,7 @@
 				<div id="ppt_tip">请点击左上角上传PPT喔😏</div>
 				<div id="ppt_holder"></div>
 				<canvas></canvas>
+				<div id="busy_toast">画布正忙，请稍后再绘制喔</div>
 			</div>
 			<!-- 底部 -->
 			<div id="pl_f">
@@ -111,7 +112,7 @@
 				</div>
 				<input id="video" type="checkbox" checked=true style="display:none"></input>
 				<div id="video" style="width:1022px;margin:0 auto;">
-				    <div id="agora_local"></div>
+				    <div id="agora_local" class="big"></div>
 				</div>
 				<div id="video_tip">课程未开始😅</div>
 			</div>

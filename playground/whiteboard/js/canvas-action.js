@@ -42,6 +42,9 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 	}
 
 	function startPath(e){
+		if(canvasReceivingData) {
+			return;
+		}
 		var pos = getPos(c, e);
 		var msg = 'Mouse position: ' + pos.x + ',' + pos.y;
 		var dotObj = {mode:0,style:{color:color,width:width},dot:{isStart:true,coord:[pos.x/canvasW, pos.y/canvasH]}};
@@ -66,6 +69,11 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 		$redo.addClass('disabled');
 		$undo.removeClass('disabled');
 		$body.addEventListener('mousemove',renderMode,false);
+	}
+
+	function endPath(e){
+		var dotObj = {mode:0,style:{color:color,width:width},dot:{isEnd:true,coord:['','']}};
+		socket.send(JSON.stringify({type:0, data:{dotObj:dotObj}}));
 	}
 
 	function renderMode(e){
@@ -99,8 +107,10 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 	}
 
 	function renderToWander(){
+		// 将线段结束点放在这里发送了
 		$body.removeEventListener('mousemove',renderMode,false);
 		$body.addEventListener('mousemove',wanderMode,false);
+		endPath();
 	}
 
 	function eraser(){
@@ -217,28 +227,32 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 		}
 	}
 
-function drawFromPathArr(ctx,arr,canvasW,canvasH){
-	canvasW = canvasW||1;
-	canvasH = canvasH||1;
-	if(arr.clear) {
-		ctx.clearRect(0,0,canvasW,canvasH);
-		return;
+	function drawFromPathArr(ctx,arr,canvasW,canvasH){
+		canvasW = canvasW||1;
+		canvasH = canvasH||1;
+		if(arr.clear) {
+			ctx.clearRect(0,0,canvasW,canvasH);
+			return;
+		}
+		if(arr[0].shape){
+		} else if(arr[0].eraser){
+			arr.forEach(function(d){
+				ctx.clearRect(d.dot.coord[0]*canvasW,d.dot.coord[1]*canvasH,7,7);
+			})
+		} else {
+			ctx.beginPath();
+			ctx.lineWidth = arr[0].style.width;
+			ctx.strokeStyle = arr[0].style.color;
+			ctx.moveTo(arr[0].dot.coord[0]*canvasW,arr[0].dot.coord[1]*canvasH);
+			arr.forEach(function(d){
+				ctx.lineTo(d.dot.coord[0]*canvasW,d.dot.coord[1]*canvasH);
+				ctx.stroke();
+			})
+		}
 	}
-	if(arr[0].shape){
-	} else if(arr[0].eraser){
-		arr.forEach(function(d){
-			ctx.clearRect(d.dot.coord[0]*canvasW,d.dot.coord[1]*canvasH,7,7);
-		})
-	} else {
-		ctx.beginPath();
-		ctx.lineWidth = arr[0].style.width;
-		ctx.strokeStyle = arr[0].style.color;
-		ctx.moveTo(arr[0].dot.coord[0]*canvasW,arr[0].dot.coord[1]*canvasH);
-		arr.forEach(function(d){
-			ctx.lineTo(d.dot.coord[0]*canvasW,d.dot.coord[1]*canvasH);
-			ctx.stroke();
-		})
+
+	function busyToast(){
+
 	}
-}
 
 

@@ -20,6 +20,7 @@ var $body,$main,
 	$pptBtn,
 	$pptInput,
 	$pptContainer,
+	$busyToast,
 	$msgMainContainer,
 	$msgMainWrapper,
 	$msgInput,
@@ -34,6 +35,7 @@ var socket;
 var user = {user_type:1,user_name:'Vincent'}
 var devicePermission = true;
 var rootURL = 'https://manyu.vicp.net/pcapi';
+var canvasReceivingData = false;
 // 0:等待学生上线 1:等待学生确认 2:开始课程
 var classStatus = 0;
 window.onload = function(){
@@ -61,6 +63,7 @@ window.onload = function(){
 	$pptBtn = document.querySelector('#ppt_modal .c-btn');
 	$pptInput = document.querySelector('#ppt_modal input');
 	$pptContainer = document.querySelector('#ppt_modal_container');
+	$busyToast = document.querySelector('#busy_toast');
 	$msgMainContainer = document.querySelector('#msg_main_container');
 	$msgMainWrapper = document.querySelector('#msg_main_wrapper');
 	$msgInput = document.querySelector('#msg_input');
@@ -153,7 +156,7 @@ window.onload = function(){
 		} else {
 			// $actionBtn.addClass('disabled');
 			$actionBtn.onclick = activeChangeClassStatus;
-			// join();
+			join();
 		}
 	},50)
 	// 离开提示

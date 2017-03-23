@@ -59,6 +59,7 @@ function join() {
 
   client.on('stream-subscribed', function (evt) {
     var stream = evt.stream;
+    document.getElementById("agora_local").removeClass('big');
     console.log("Subscribe remote stream successfully: " + stream.getId());
     if ($('div#video #agora_remote'+stream.getId()).length === 0) {
       $('#video_part').append('<div class="agora-remote big" id="agora_remote'+stream.getId()+'"></div>');
@@ -77,6 +78,7 @@ function join() {
   client.on('peer-leave', function (evt) {
     var stream = evt.stream;
     stream.stop();
+    document.getElementById("agora_local").addClass('big');
     $('#agora_remote' + stream.getId()).remove();
     console.log(evt.uid + " leaved from this channel");
   });
