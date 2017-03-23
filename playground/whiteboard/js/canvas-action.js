@@ -43,6 +43,7 @@ var colorObj = {red:'#ff0000',orange:'#fa8247',yellow:'#fece4d',blue:'#3fb4ff',
 
 	function startPath(e){
 		if(canvasReceivingData) {
+			myAlert($pm,'画布正忙，请稍后再画喔');
 			return;
 		}
 		var pos = getPos(c, e);

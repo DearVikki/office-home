@@ -111,18 +111,13 @@ function receive(event,canvasW, canvasH){
 					break;
 				// 上传ppt
 				case 6:
-					console.log(data)
 					var ppt = data.ppt;
 					localPPTArr.push(ppt);
-					console.log(localPPTArr)
 					break;
 				// 删除ppt
 				case 7:
 					var index = data.pptIndex;
-					console.log(index)
-					console.log(localPathArr)
 					localPPTArr.splice(index,1);
-					console.log(localPPTArr)
 					break;
 				// 对方发消息
 				case 8:

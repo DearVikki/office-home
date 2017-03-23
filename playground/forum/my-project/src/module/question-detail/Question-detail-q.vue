@@ -5,7 +5,7 @@
 				<img :src="question.head">
 				<span class="c-txt2">{{question.username}}</span>
 			</div>
-			<div id="q_header_right" class="c-praise">{{question.praisenum}}</div>
+			<div id="q_header_right" class="c-praise" :class="{active:Number(question.is_Praise)}">{{question.praisenum}}</div>
 		</div>
 		<div id="q_main">
 			<p id="q_title">{{question.question}}</p>
@@ -14,18 +14,20 @@
 		</div>
 		<div id="q_footer">
 			<div class="q-footer-left fl">
-				<span class="q-money ellipsis">{{Number(question.money).toFixed()}}</span>
+				<span class="q-money ellipsis" v-if="question.reward_type==='money'">{{Number(question.money).toFixed()}}</span>
+				<span class="q-credit ellipsis" v-else>{{Number(question.integral).toFixed()}}</span>
 				<span class="q-time">{{utcToDate(question.addtime)}}</span>
 			</div>
-			<div class="q-footer-right fr c-yellow-btn">回答</div>
+			<div class="q-footer-right fr c-yellow-btn" @click="$emit('answerQuestion')">回答</div>
 			<div class="clear"></div>
 			<!-- 跑腿抢任务 -->
 			<div v-if="type===1" class="c-btn">抢任务</div>
 			<div v-if="type===2" class="c-btn disabled">已被抢</div>
 			<div v-if="type===3" class="c-btn">取消任务</div>
-			<div v-if="type===4" class="c-btn">带被抢</div>
+			<div v-if="type===4" class="c-btn">待被抢</div>
 			<div v-if="type===5" class="c-btn">确认完成</div>
 			<div v-if="type===6" class="c-btn">已完成</div>
+			<div v-if="type===7" class="c-btn">任务过期</div>
 		</div>
 	</div>
 </template>
@@ -49,6 +51,9 @@
 				if(this.isOpen) return d;
 				else return d.length < 73 ? d: d.slice(0,73)+'...';
 			}
+		},
+		mounted(){
+			console.log(this.question.is_Praise)
 		},
 		// type:　０问题详情页　
 		// 他人看到：１跑腿抢任务 2跑腿已被抢 3跑腿取消任务
@@ -106,17 +111,20 @@
 			overflow:hidden;
 			border-top:1px solid #d3d3d3;
 			text-align:center;
-			.q-money{
+			.q-money,.q-credit{
 				width:1.4rem;
 				height: 0.48rem;
 				line-height:.48rem;
 				padding-left:0.61rem;
-				background:url(../../assets/img/index/icon_score.png) left no-repeat;
+				background:url(../../assets/img/index/icon_money.png) left no-repeat;
 				background-size: 0.47rem 0.48rem;
 				font-size:0.37rem;
 				color:#4c4c4c;
 				margin-top:0.24rem;
 				.vertical;
+			}
+			.q-credit{
+				background-image: url(../../assets/img/index/icon_score.png);
 			}
 			.q-time{
 				padding-left:0.13rem;

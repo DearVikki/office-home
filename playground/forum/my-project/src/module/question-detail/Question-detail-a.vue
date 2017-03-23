@@ -26,7 +26,7 @@
 			@click="isOpen = !isOpen">{{answerContent}}</div>
 			<div class="comment-main" v-if="answer.comment.length>0">
 				<div class="comment-item" v-for="c in commentContent"
-				@click="askMore">
+				@click="askMore(c)">
 					<span class="c-name">{{c.name}}:</span>
 					<span class="c-content">{{c.content}}</span>
 				</div>
@@ -38,7 +38,7 @@
 		</div>
 		<div class="answer-footer">
 			<div class="answer-time">{{utcToDate(answer.addtime)}}</div>
-			<div class="c-praise" :class="{active:answer.isPraised}">{{answer.praisenum}}</div>
+			<div class="c-praise" :class="{active:answer.isPraised}">{{answer.replyPraiseNum}}</div>
 		</div>
 		<!-- <transition name="custom-classes-transition"
 		enter-active-class="animated slideInUp"
@@ -65,6 +65,8 @@
 				inputStatus:false
 			}
 		},
+		mounted(){
+		},
 		computed:{
 			answerContent(){
 				let a = this.answer.content;
@@ -83,21 +85,8 @@
 			utcToDate(time){
 				return utcToDate(time);
 			},
-			askMore(){
-				this.$emit('askMore');
-				// 不知道这样绑定是否不好列！那反正要点击空白处让div滑下来的！
-				// document.querySelector('body').addEventListener('click',()=>{
-				// 	if(!this.inputStatus) this.inputStatus = true;
-				// 	else this.inputStatus = false;
-				// 	this.$emit('askMore');
-				// },false)
-				
-				
-			},
-			newComment(txt){
-				this.answer.comment.push({name:'新comment',content:txt});
-				this.inputStatus = false;
-				this.$emit('askMore');
+			askMore(comment){
+				this.$emit('askMore',this.answer,comment);
 			}
 		},
 		// type: 0无关人 1提问者自己且未采纳答案 2提问者自己且已采纳答案

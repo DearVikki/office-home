@@ -131,6 +131,12 @@ var FullScreen = {
 	}
 }
 
-function myAlert(txt){
+function myAlert(el,txt){
 	var div = document.createElement('div');
+	div.addClass('busy-toast');
+	div.textContent = txt;
+	el.appendChild(div);
+	setTimeout(function(){
+		el.removeChild(div);
+	},1500)
 }

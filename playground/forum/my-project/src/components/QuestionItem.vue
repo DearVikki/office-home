@@ -11,11 +11,11 @@
 				<span class="question-name"
 				@click="pop.show=true">{{question.username}}</span>
 			</div>
-			<div class="question-main">
+			<a class="question-main" :href="'./question-detail.html?id='+ question.question_id">
 				<div class="question-content ellipsis2L">{{question.question}}</div>
 				<div class="question-des ellipsis3L">{{question.question_describe}}</div>
-			</div>
-			<div class="question-footer">
+			</a>
+			<a class="question-footer" :href="'./question-detail.html?id=' + question.question_id">
 				<div class="question-info">
 					<div>{{question.browse_num}}</div>
 					<div>{{question.praisenum}}</div>
@@ -33,7 +33,7 @@
 				<div class="question-info-right task-done"  v-if="type===4">已被抢</div>
 				<!-- 已完成 -->
 				<div class="question-info-right task-done"  v-if="type===5">已完成</div>
-			</div>
+			</a>
 		</div>
 		<!-- 用户信息弹窗 -->
 		<pop :pop="pop">
@@ -138,6 +138,7 @@
 			}
 			.question-main{
 				padding: 0.27rem 0;
+				display: block;
 				.question-content{
 					.mainTxt;
 				}
@@ -153,6 +154,7 @@
 				border-top: 1px solid #d3d3d3;
 				padding:.27rem 0;
 				overflow: hidden;
+				display: block;
 				.question-info{
 					display: flex;
 					justify-content: left;

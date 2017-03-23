@@ -735,15 +735,28 @@ canvas{
 	}
 }
 
-#busy_toast{
+.busy-toast{
 	font-size: 14px;
-	    color: #fff;
-	    background: rgba(0, 0, 0, 0.5);
-	    position: absolute;
-	    top: 200px;
-	    left: 50%;
-	    z-index: 100;
-	    padding: 10px;
-	    transform: translateX(-50%);
+	color: #fff;
+	background: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	z-index: 100;
+	padding: 10px;
+	transform: translateX(-50%);
+	opacity: 0;
+	animation: fadeInAndOut 1.5s;
+}
+@keyframes fadeInAndOut{
+    20%{
+        opacity: 1;
+    }
+    80%{
+    	opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
 }
 
