@@ -34,7 +34,7 @@
 		methods:{
 			sign(){
 				this.is_sign = false;
-				myAlert('<p>签到成功获得5积分！</p><p>您已连续签到15天！</p><p>保持喔~</p>')
+				myAlert.big('<p>签到成功获得5积分！</p><p>您已连续签到15天！</p><p>保持喔~</p>')
 			}
 		},
 		components:{myfooter,homepage,columnn}

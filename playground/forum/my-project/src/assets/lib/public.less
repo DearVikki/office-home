@@ -257,7 +257,7 @@ textarea,input{
     .my-alert{
         width:4rem;
         margin:auto;
-        background:rgba(0,0,0,0.76);
+        background:rgba(0,0,0,0.5);
         border-radius:0.32rem;
         font-size:0.32rem;
         color:#ffffff;
@@ -265,6 +265,12 @@ textarea,input{
         line-height:0.48rem;
         text-align:center;
         padding:0.67rem 0.53rem;
+        &.small{
+            width: auto;
+            padding: .1rem .2rem;
+            border-radius: 0;
+            margin-bottom: 2rem;
+        }
     }
 }
 @keyframes fade{

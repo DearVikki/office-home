@@ -5,7 +5,8 @@
 				<img :src="question.head">
 				<span class="c-txt2">{{question.username}}</span>
 			</div>
-			<div id="q_header_right" class="c-praise" :class="{active:Number(question.is_Praise)}">{{question.praisenum}}</div>
+			<div id="q_header_right" class="c-praise" :class="{active:Number(question.is_Praise)}"
+			@click="praise">{{question.praisenum}}</div>
 		</div>
 		<div id="q_main">
 			<p id="q_title">{{question.question}}</p>
@@ -33,6 +34,7 @@
 </template>
 <script>
 	import {utcToDate} from '../../assets/js/utils.js'
+	import {myAlert} from '../../assets/js/utils.js';
 	export default{
 		name:'questionDetailQ',
 		data(){
@@ -43,6 +45,18 @@
 		methods:{
 			utcToDate(time){
 				return utcToDate(time);
+			},
+			praise(){
+				this.$http.post('',{
+					name:'xwlt.pc.Praise',
+					question_id: this.question.question_id
+				}).then((response)=>{
+					if(response.body.code === 1000){
+						if(this.question.is_Praise) myAlert.small('取消点赞成功');
+						else myAlert.small('点赞成功');
+						this.question.is_Praise = !this.question.is_Praise;
+					} else alert(response.body.msg);
+				})
 			}
 		},
 		computed:{

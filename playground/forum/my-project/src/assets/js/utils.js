@@ -21,18 +21,34 @@ export function utcToDate(timestamp) {
 }
 
 // myalert
-export function myAlert(txt){
-    let div0 = document.createElement('div'),
-        div = document.createElement('div');
-    div.innerHTML = txt;
-    div.classList.add('my-alert');
-    div0.appendChild(div);
-    div0.classList.add('my-alert-container');
-    document.querySelector('body').appendChild(div0);
-    setTimeout(()=>{
-        document.querySelector('body').removeChild(div0);
-    },1500)
+export let myAlert = {
+    big: function(txt){
+        let div0 = document.createElement('div'),
+            div = document.createElement('div');
+        div.innerHTML = txt;
+        div.classList.add('my-alert');
+        div0.appendChild(div);
+        div0.classList.add('my-alert-container');
+        document.querySelector('body').appendChild(div0);
+        setTimeout(()=>{
+            document.querySelector('body').removeChild(div0);
+        },1500)
+    },
+    small: function(txt){
+        let div0 = document.createElement('div'),
+            div = document.createElement('div');
+        div.innerHTML = txt;
+        div.classList.add('my-alert');
+        div.classList.add('small');
+        div0.appendChild(div);
+        div0.classList.add('my-alert-container');
+        document.querySelector('body').appendChild(div0);
+        setTimeout(()=>{
+            document.querySelector('body').removeChild(div0);
+        },1500)
+    }
 }
+// export myAlert;
 
 export function pullToRefresh(cb){
     document.body.onscroll = function(){

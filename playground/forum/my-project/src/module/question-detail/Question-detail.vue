@@ -5,11 +5,8 @@
 		<questionDetailA v-for="answer in answers"
 		:answer="answer" :type=answer.type
 		@askMore="askMore"></questionDetailA>
-		<!-- <questionDetailA :answer="answer1" :type=1
-		@askMore="askMore(answer1)"></questionDetailA>
-		<myfooter v-show="!inputStatus"></myfooter> -->
 		<!-- 弹出打字框的透明蒙版 -->
-		<div v-if="inputStatus" @click="inputStatus = false"
+		<div v-if="inputStatus || textareaStatus" @click="inputStatus = textareaStatus = false"
 		id="trans_mask"></div>
 		<transition name="custom-classes-transition"
 		enter-active-class="animated slideInUp"
@@ -19,13 +16,14 @@
 		<transition name="custom-classes-transition"
 		enter-active-class="animated slideInUp"
 		leave-active-class="animated slideOutDown">
-			<multiinput v-if="textareaStatus" @send="newAnswer"></multiinput>
+			<multitextarea v-if="textareaStatus" @send="newAnswer"></multitextarea>
 		</transition>
 	</div>
 </template>
 <script>
 	import myfooter from '../../components/Footer.vue'
 	import multiinput from '../../components/multiinput.vue';
+	import multitextarea from '../../components/multitextarea.vue';
 	import questionDetailQ from './question-detail-q.vue'
 	import questionDetailA from './question-detail-a.vue'
 	import {getParameterByName} from '../../assets/js/utils.js'
@@ -47,7 +45,6 @@
 		            "money":"10.00",
 		            "question":"帮忙送个外卖",
 		            "question_describe":
-		            // 
 		            "地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙",
 		            "path":null,
 		            "userid":"1",
@@ -96,6 +93,7 @@
 				page: this.page
 			}).then((response)=>{
 				let type, question = response.body.data.MoneyRList;
+				question.is_Praise = Number(question.is_Praise);
 				this.question = question;
 				switch(Number(question.task_status)){
 					// 抢任务
@@ -136,17 +134,12 @@
 			})
 		},
 		methods:{
-			closeInput(){
-				this.inputStatus = false;
-				document.querySelector('body').removeEventListener('click',this.closeInput,false);
-			},
 			askMore(answer,comment){
 				this.inputStatus = true;
 				this.activeAnswer = answer;
 				this.activeComment = comment;
 			},
-			newComment(){
-				var txt =  document.querySelector('.input-box').textContent;
+			newComment(txt){
 				this.inputStatus = false;
 				this.$http.post('',{
 					name:'xwlt.pc.questionReply',
@@ -162,10 +155,26 @@
 				})
 			},
 			answerQuestion(){
-				this.textareaStatus = 
+				this.textareaStatus = true;
+			},
+			newAnswer(txt){
+				this.textareaStatus = false;
+				this.$http.post('',{
+					name:'xwlt.pc.questionReply',
+					questionid:this.question_id,
+					b_user_id:this.question.userid,
+					top_reply_id:'',
+					reply_id:'',
+					content: txt
+				}).then((response)=>{
+					if(response.body.success){
+						// 需要返回其他信息！
+						// this.answers.push();
+					} else alert(response.body.msg);
+				})
 			}
 		},
-		components:{myfooter,multiinput,questionDetailQ,questionDetailA}
+		components:{myfooter,multiinput,multitextarea,questionDetailQ,questionDetailA}
 	}
 </script>
 <style lang='less' scoped>

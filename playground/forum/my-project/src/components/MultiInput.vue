@@ -17,7 +17,7 @@
 		},
 		methods:{
 			input(){
-				this.txt = document.querySelector('.input-box').innerText;
+				this.txt = document.querySelector('.input-box').textContent;
 			},
 			send(){
 				this.$emit('send',this.txt);
