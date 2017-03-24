@@ -22,24 +22,46 @@
 			<div class="q-footer-right fr c-yellow-btn" @click="$emit('answerQuestion')">回答</div>
 			<div class="clear"></div>
 			<!-- 跑腿抢任务 -->
-			<div v-if="type===1" class="c-btn">抢任务</div>
+			<div v-if="type===1" class="c-btn" @click="takeTask">抢任务</div>
 			<div v-if="type===2" class="c-btn disabled">已被抢</div>
-			<div v-if="type===3" class="c-btn">取消任务</div>
+			<div v-if="type===3" class="c-btn" @click="cancelTask">取消任务</div>
 			<div v-if="type===4" class="c-btn">待被抢</div>
-			<div v-if="type===5" class="c-btn">确认完成</div>
+			<div v-if="type===5" class="c-btn" @click="completeTask">确认完成</div>
 			<div v-if="type===6" class="c-btn">已完成</div>
 			<div v-if="type===7" class="c-btn">任务过期</div>
+			<!-- 取消任务弹窗 -->
+			<pop :pop="cancelPop">
+				<div id="cancel_pop">
+					<p>
+						取消任务将会扣除 <b class="c-color">{{cancelCredit}}</b> 积分，确定要取消任务吗？
+					</p>
+					<div class="btn-container">
+						<span class="c-yellow-btn" @click="cancelPop.show = false">去做任务</span>
+						<span class="c-yellow-btn" @click="confirmCancelTask">坚决取消</span>
+					</div>
+				</div>
+			</pop>
 		</div>
 	</div>
 </template>
 <script>
 	import {utcToDate} from '../../assets/js/utils.js'
 	import {myAlert} from '../../assets/js/utils.js';
+	import pop from '../../components/Pop.vue'
 	export default{
 		name:'questionDetailQ',
 		data(){
 			return{
-				isOpen:false
+				isOpen:false,
+				cancelPop:{
+					show:false,
+					style:{
+						width:'6rem',
+						height:'3rem',
+						padding:'.5rem'
+					}
+				},
+				cancelCredit:0
 			}
 		},
 		methods:{
@@ -51,11 +73,60 @@
 					name:'xwlt.pc.Praise',
 					question_id: this.question.question_id
 				}).then((response)=>{
-					if(response.body.code === 1000){
-						if(this.question.is_Praise) myAlert.small('取消点赞成功');
-						else myAlert.small('点赞成功');
-						this.question.is_Praise = !this.question.is_Praise;
-					} else alert(response.body.msg);
+					if(!response.loveU) return;
+					if(this.question.is_Praise) {
+						myAlert.small('取消点赞成功');
+						this.question.praisenum--;
+					}
+					else {
+						myAlert.small('点赞成功');
+						this.question.praisenum++;
+					}
+					this.question.is_Praise = !this.question.is_Praise;
+				})
+			},
+			// 抢任务
+			takeTask(){
+				this.$http.post('',{
+					name:'xwlt.pc.GrabTask',
+					question_id: this.question.question_id
+				}).then((response)=>{
+					if(!response.loveU) return;
+					myAlert.small('耶!成功抢到任务!');
+					this.$emit('changeQuestionType',3);
+				})
+			},
+			// 取消任务
+			cancelTask(){
+				this.$http.post('',{
+					name:'xwlt.pc.CancelTask',
+					question_id: this.question.question_id,
+					type:'click'
+				}).then((response)=>{
+					if(!response.loveU) return;
+					this.cancelCredit = Number(response.body.data.is_deduction)?5:0;
+					this.cancelPop.show = true;
+				})
+			},
+			// 确认取消任务
+			confirmCancelTask(){
+				this.cancelPop.show = false;
+				this.$http.post('',{
+					name:'xwlt.pc.CancelTask',
+					question_id: this.question.question_id,
+					type:'operation'
+				}).then((response)=>{
+					if(!response.loveU) return;
+					myAlert.small('已取消任务!');
+				})
+			},
+			completeTask(){
+				this.$http.post('',{
+					name:'xwlt.pc.CompleteTask',
+					question_id: this.question.question_id
+				}).then((response)=>{
+					if(!response.loveU) return;
+					myAlert.small('已确认任务完成!');
 				})
 			}
 		},
@@ -72,7 +143,8 @@
 		// type:　０问题详情页　
 		// 他人看到：１跑腿抢任务 2跑腿已被抢 3跑腿取消任务
 		// 自己看到：4跑腿待被抢 5跑腿确认完成 6跑腿已完成
-		props:['question','type']
+		props:['question','type'],
+		components:{pop}
 	}
 </script>
 <style lang='less' scoped>
@@ -156,6 +228,14 @@
 			.c-btn{
 				margin-top:0.27rem;
 			}
+		}
+	}
+	#cancel_pop{
+		.btn-container{
+			margin-top:.5rem;
+			margin-top: .2rem;
+			display: flex;
+			justify-content: space-around;
 		}
 	}
 </style>

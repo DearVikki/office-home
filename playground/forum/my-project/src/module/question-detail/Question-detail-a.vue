@@ -9,7 +9,7 @@
 			<div class="action-pop type1" v-if="type===1"
 			v-show="actionPop">
 				<span @click="askMore">追问</span>
-				<span>采纳</span>
+				<span @click="adoptAnswer">采纳</span>
 			</div>
 			<div class="action-pop type2" v-if="type===2"
 			v-show="actionPop">
@@ -38,7 +38,8 @@
 		</div>
 		<div class="answer-footer">
 			<div class="answer-time">{{utcToDate(answer.addtime)}}</div>
-			<div class="c-praise" :class="{active:answer.isPraised}">{{answer.replyPraiseNum}}</div>
+			<div class="c-praise" :class="{active:answer.isPraised}"
+			@click="praise">{{answer.replyPraiseNum}}</div>
 		</div>
 		<!-- <transition name="custom-classes-transition"
 		enter-active-class="animated slideInUp"
@@ -49,6 +50,7 @@
 </template>
 <script>
 	import {utcToDate} from '../../assets/js/utils.js';
+	import {myAlert} from '../../assets/js/utils.js';
 	import multiinput from '../../components/multiinput.vue';
 	import 'animate.css';
 	export default{
@@ -85,8 +87,29 @@
 			utcToDate(time){
 				return utcToDate(time);
 			},
+			praise(){
+				this.$http.post('',{
+					name:'xwlt.pc.ReplyPraise',
+					reply_id: this.answer.reply_id
+				}).then((response)=>{
+					if(response.body.code === 1000){
+						if(this.answer.isPraised) {
+							myAlert.small('取消点赞成功');
+							this.answer.replyPraiseNum--;
+						}
+						else {
+							myAlert.small('点赞成功');
+							this.answer.replyPraiseNum++;
+						}
+						this.answer.isPraised = !this.answer.isPraised;
+					} else alert(response.body.msg);
+				})
+			},
 			askMore(comment){
 				this.$emit('askMore',this.answer,comment);
+			},
+			adoptAnswer(){
+				this.$emit('adoptAnswer',this.answer);
 			}
 		},
 		// type: 0无关人 1提问者自己且未采纳答案 2提问者自己且已采纳答案

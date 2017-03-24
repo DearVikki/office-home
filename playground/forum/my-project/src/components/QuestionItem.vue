@@ -24,9 +24,9 @@
 				<!-- 热度 -->
 				<div class="question-info-right fire" v-if="type===0">{{question.hot}}</div>
 				<!-- 赏金 -->
-				<div class="question-info-right gold" v-if="type===1"></div>
+				<div class="question-info-right gold" v-if="type===1">{{Number(question.money).toFixed(0)}}</div>
 				<!-- 积分 -->
-				<div class="question-info-right coin" v-if="type===2"></div>
+				<div class="question-info-right coin" v-if="type===2">{{question.integral}}</div>
 				<!-- 待抢任务 -->
 				<div class="question-info-right task-to" v-if="type===3">待被抢</div>
 				<!-- 已抢任务 -->

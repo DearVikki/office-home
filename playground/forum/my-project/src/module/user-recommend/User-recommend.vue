@@ -41,6 +41,19 @@
 				}]
 			}
 		},
+		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.MyRecommend'
+			}).then((response)=>{
+				let lists = [];
+				response.body.data.RecommendList.forEach((e)=>{
+					if(e.reward_type==='money') e.type = 1;
+					else e.type = 2;
+					lists.push(e);
+				})
+				this.lists = lists;
+			})
+		},
 		components:{questionitem}
 	}
 </script>

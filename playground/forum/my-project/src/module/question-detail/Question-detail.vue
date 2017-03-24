@@ -4,7 +4,8 @@
 		@answerQuestion="answerQuestion"></questionDetailQ>
 		<questionDetailA v-for="answer in answers"
 		:answer="answer" :type=answer.type
-		@askMore="askMore"></questionDetailA>
+		@askMore="askMore"
+		@adoptAnswer="adoptAnswer"></questionDetailA>
 		<!-- 弹出打字框的透明蒙版 -->
 		<div v-if="inputStatus || textareaStatus" @click="inputStatus = textareaStatus = false"
 		id="trans_mask"></div>
@@ -27,6 +28,7 @@
 	import questionDetailQ from './question-detail-q.vue'
 	import questionDetailA from './question-detail-a.vue'
 	import {getParameterByName} from '../../assets/js/utils.js'
+	import {myAlert} from '../../assets/js/utils.js';
 	export default{
 		name:'questiondetail',
 		data(){
@@ -139,6 +141,7 @@
 				this.activeAnswer = answer;
 				this.activeComment = comment;
 			},
+			// 新增二级回复
 			newComment(txt){
 				this.inputStatus = false;
 				this.$http.post('',{
@@ -149,14 +152,15 @@
 					reply_id:this.activeComment.reply_id,
 					content: txt
 				}).then((response)=>{
-					if(response.body.success){
-						this.activeAnswer.comment.push({name:this.userInfo.username,content:txt});
-					} else alert(response.body.msg);
+					if(!response.loveU) return;
+					this.activeAnswer.comment.push({name:this.userInfo.username,content:txt});
+					myAlert.small('回复成功');
 				})
 			},
 			answerQuestion(){
 				this.textareaStatus = true;
 			},
+			// 新增一级回答
 			newAnswer(txt){
 				this.textareaStatus = false;
 				this.$http.post('',{
@@ -167,10 +171,25 @@
 					reply_id:'',
 					content: txt
 				}).then((response)=>{
-					if(response.body.success){
-						// 需要返回其他信息！
-						// this.answers.push();
-					} else alert(response.body.msg);
+					if(!response.loveU) return;
+					// 需要返回其他信息！
+					var answer = response.body.data.OneReply;
+					answer.type = 0;
+					answer.comment = [];
+					this.answers.push(answer);
+					myAlert.small('回答成功');
+				})
+			},
+			// 作者采纳回答
+			adoptAnswer(answer){
+				this.$http.post('',{
+					name:'xwlt.pc.Adopt',
+					question_id:this.question_id,
+					reply_id: answer.reply_id
+				}).then((response)=>{
+					if(!response.loveU) return;
+					answer.isAccepted = true;
+					myAlert.small('采纳成功');
 				})
 			}
 		},

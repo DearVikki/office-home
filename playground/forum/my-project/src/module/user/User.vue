@@ -3,7 +3,7 @@
 		<a id="user_info" href="./user-personal.html">
 			<img :src="img">
 			<span id="user_info_right">
-				<p id="user_name">楼二不二</p>
+				<p id="user_name">{{username}}</p>
 				<p id="user_praise">累计获赞数: 500</p>
 			</span>
 		</a>
@@ -44,6 +44,7 @@
 		data(){
 			return{
 				img:a,
+				username:'',
 				items1:[{
 					txt:'我的提问',
 					path:'./user-question.html',
@@ -79,6 +80,14 @@
 					img:customservice
 				}
 			}
+		},
+		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.PersonalInfo'
+			}).then((response)=>{
+				this.img = response.body.data.userInfo.head;
+				this.username = response.body.data.userInfo.username;
+			})
 		}
 	}
 </script>
