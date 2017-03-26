@@ -132,7 +132,7 @@
 				})
 			})
 			this.getData('','',1,false);
-			pullToRefresh(getData);
+			pullToRefresh(this.getData);
 		},
 		methods:{
 			getData(type_id,type_label_id,page,clearOldData){

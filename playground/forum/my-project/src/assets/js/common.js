@@ -24,6 +24,7 @@ var validatorMixin = {
 		},
 		handleValidate(field) {
 			let checked = true;
+			field.error = false;
 			for(var rule in field.validators){
 				if(!this[rule](field.val) && checked) {
 					field.error = true;

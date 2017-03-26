@@ -47,7 +47,13 @@
 					reward_type: this.type,
 					num: this.money
 				}).then((response)=>{
-					// location.href.replace('./user-question.html');
+					this.$http.post('',{
+						name:'xwlt.pc.QuestionDescribe',
+						question_id: this.questionId,
+						question_describe:this.des
+					}).then((response)=>{
+						location.href.replace('./user-question.html');
+					})
 				})
 			}
 		},

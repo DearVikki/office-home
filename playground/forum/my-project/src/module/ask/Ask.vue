@@ -1,37 +1,220 @@
 <template>
-	<div>
+	<div id="ask_container">
 		<div class="c-line">问题类别
-		<select v-model="type">
+		<select v-model="type" @change="typeChange">
 			<option value=1>生活</option>
-			<option value=2>跑腿</option>
+			<option value=2>学习</option>
+			<option value=3>跑腿</option>
+			<option value=4>拼拼</option>
+			<option value=5>失物</option>
 		</select>
 		</div>
+		<div class="c-line" v-show="type==1 || type==4">
+			<label for="subtype">问题子类别</label>
+				<select name="subtype" v-model="subtype">
+					<option v-if="type==1" v-for="(o,i) in type1Option"
+					:value=o.type_id>{{o.type_name}}</option>
+					<option v-else v-for="(o,i) in type4Option"
+					:value=o.type_id>{{o.type_name}}</option>
+				</select>
+		</div>
+		<div class="c-line" id="deadline" v-if="type==3">请选择截至日期
+			<Group>
+			     <Datetime v-model="deadline.val" @on-change="timeChange" title="截止时间" :start-date="deadline.today"
+			     confirm-text="确定" cancel-text="取消"></Datetime>
+			 </Group>
+		</div>
+		<div class="c-line">
+			悬赏类型
+			<select v-model="reward_type">
+				<option value="integral">积分悬赏</option>
+				<option value="money">金钱悬赏</option>
+			</select>
+		</div>
+		<div class="c-line" v-show="reward_type==='integral'">积分悬赏 <span class="c-color">(你的总积分为{{existingCredit}}分)</span>
+			<input placeholder="5(单位:分)" v-model="credit">
+		</div>
+		<div class="c-line" v-show="reward_type==='money'">金钱悬赏 <span class="c-color">(微信支付)</span>
+			<input placeholder="10(单位:元)" v-model="money">
+		</div>
+		<div id="ask_question_container">
+			<div class="c-line"><input placeholder="请写下你的问题，以问号结尾" v-model="question"></div>
+			<textarea class="c-line" placeholder="请填写问题相关描述 (选填)"></textarea>
+		</div>
+		<div id="ask_img_container" class="c-line">
+			<input ref="file" type="file" accept="image/jpg,image/png"
+			@change="fileChange">
+			<div class="img-holder" v-for="img in imgs">
+				<img :src="img">
+			</div>
+			<div class="img-holder" @click="$refs.file.click()"
+			v-show="imgs.length<2">+</div>
+			<span class="c-color">(最多可上传2张)</span>
+		</div>
+		<div class="c-big-btn" :class="{disabled:!allCheck}">发布</div>
 	</div>
 </template>
 <script>
+	import {Group, Datetime} from 'vux';
 	export default{
 		name:'ask',
 		data(){
 			return {
-				type:1
+				type:1,
+				subtype:'',
+				type1Option:[{
+					type_id:'1',
+					type_name:'jj'
+				},{
+					type_id:'2',
+					type_name:'def'
+				}],
+				type4Option:[],
+				deadline:{
+					today:'',
+					val:'',
+					utc:''
+				},
+				reward_type:'integral',
+				existingCredit:'',
+				credit:'',
+				money:'',
+				question:'',
+				questionDescibe:'',
+				imgs:[]
 			}
 		},
 		mounted(){
-		}
+			// 拉取生活和拼拼的子类别
+			this.$http.post('',{
+				name:'xwlt.pc.type'
+			}).then((response)=>{
+				let type = response.body.data.type;
+				this.type1Option = type[0].ToWtype;
+				this.type4Option = type[3].ToWtype;
+				this.subtype = this.type1Option[0].type_id;
+			})
+			this.setToday();
+			// 获取用户积分
+			this.$http.post('',{
+				name:'xwlt.pc.GetNowIntegral'
+			}).then((response)=>{
+				this.existingCredit = response.body.data.existing_integral;
+			})
+		},
+		methods:{
+			setToday (value) {
+			    let now = new Date()
+			    let cmonth = now.getMonth() + 1
+			    let day = now.getDate()
+			    if (cmonth < 10) cmonth = '0' + cmonth
+			    if (day < 10) day = '0' + day
+			    this.deadline.today = now.getFullYear() + '-' + cmonth + '-' + day;
+			    console.log(this.deadline.today)
+			},
+			typeChange(){
+				if(this.type == 1) this.subtype = this.type1Option[0].type_id;
+				else if(this.type == 4) this.subtype = this.type4Option[0].type_id;
+			},
+			timeChange(val){
+				this.deadline.utc = new Date(val).getTime() + '1000';
+			},
+			fileChange(){
+				var file = this.$refs.file.files[0];
+				var img = window.URL.createObjectURL(file);
+				this.imgs.push(img);
+			}
+		},
+		computed:{
+			allCheck(){
+				
+			}
+		},
+		components:{Group, Datetime}
 	}
 </script>
+<style lang='less'>
+	.dp-header .dp-item{
+		font-size: .4rem !important;
+		height: .85rem !important;
+		line-height: .85rem !important;
+	}
+	.scroller-item{
+		font-size: .4rem !important;
+	}
+</style>
 <style lang='less' scoped>
 	.c-line{
 		font-size: 0.43rem;
 		color:#545454;
+		select,input{
+			float: right;
+			font-size: 0.43rem;
+			color:#545454;
+			margin-top: 0.35rem;
+			border: none;
+			appearance: none;
+			padding-right:0.48rem;
+			background: transparent;
+		}
+		input{
+			width: 2.2rem;
+		}
 	}
-	select{
-		float: right;
-		font-size: 0.43rem;
-		color:#545454;
-		margin-top: 0.35rem;
-		border: none;
-		appearance: none;
-		padding-right:0.48rem;
+	/*设置截至日期的插件*/
+	#deadline > div{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		opacity: 0;
+	}
+	#ask_question_container{
+		margin-top: .26rem;
+		input{
+			float: left;
+			width: 100%;
+		}
+		textarea{
+			padding-top:.2rem;
+			padding-bottom: .2rem;
+			height: 2.9rem;
+			width: 100%;
+			font-size: .27rem;
+			line-height: .43rem;
+		}
+	}
+	#ask_img_container{
+		margin-top:.26rem;
+		padding-top:.4rem;
+		height:2.9rem;
+		input{
+			display:none;
+		}
+		.img-holder{
+			width:2.1rem;
+			height: 2.1rem;
+			border:2px dashed #d3d3d3;
+			margin-right:.2rem;
+			display: inline-block;
+			text-align:center;
+			font-size:1rem;
+			font-weight:lighter;
+			color:#d3d3d3;
+			line-height:2.1rem;
+			vertical-align:middle;
+			img{
+				width:100%;
+				height:100%;
+			}
+		}
+		.c-color{
+			vertical-align:bottom;
+			line-height:.7rem;
+		}
+	}
+	.c-big-btn{
+		margin-top:1rem;
 	}
 </style>

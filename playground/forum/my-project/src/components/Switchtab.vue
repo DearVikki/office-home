@@ -21,7 +21,7 @@
 		methods:{
 			clickTab(i){
 				this.activeTab = i;
-				this.$emit('clickTab',i);
+				this.$emit('clicktab',i);
 			}
 		},
 		props:{

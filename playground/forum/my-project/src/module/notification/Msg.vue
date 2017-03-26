@@ -47,6 +47,7 @@
 		font-size: 30px;
 		.vux-swipeout-item{
 			height: 1.87rem;
+			display: block;
 		}
 		.vux-swipeout-content{
 			height: 1.87rem;

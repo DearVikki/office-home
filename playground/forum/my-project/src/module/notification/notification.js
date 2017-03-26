@@ -27,8 +27,9 @@ var vm = new common.Vue({
   },
   router:router,
   methods:{
-  	clickTab(i){
-  		console.log(i)
+  	clicktab(i){
+  		if(i) this.$router.push('msg');
+      else this.$router.push('notice');
   	}
   },
   components:{notice,msg,switchtab,myfooter}

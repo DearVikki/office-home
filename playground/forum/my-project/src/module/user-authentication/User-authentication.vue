@@ -3,24 +3,25 @@
 		<div class="c-line" v-for="f in fields">
 			<input :placeholder="f.placeholder"
 			v-model="f.val"
-			@change="handleValidate(f.val)">
+			>
 		</div>
 		<div class="c-line" id="code">
 			<input :placeholder="code.placeholder" class="fl"
 			v-model="code.val">
 			<div id="send_code" class="fr"
-			:class="{disabled:!handleValidate(fields[2])}"
+			:class="{disabled:fields[2].error}"
 			@click="sendCode">
-				<sendCode :send="sendCode" :checked="!handleValidate(fields[2])"></sendCode>
+				<sendCode :send="sendCode" :checked="!fields[2].error"></sendCode>
 			</div>
 		</div>
-		<div class="c-big-btn" :class="{disabled:!allCheck}">
+		<div class="c-big-btn" :class="{disabled:!allCheck}" @click="authenticate">
 			认证
 		</div>
 	</div>
 </template>
 <script>
 	import sendCode from '../../components/SendCode.vue'
+	import {myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'authentication',
 		data(){
@@ -36,9 +37,10 @@
 					val:'',
 					validators:{required:{msg:''}}
 				},{
-					id:'name',
+					id:'phone',
 					placeholder:'请输入手机号码',
 					val:'',
+					error:true,
 					validators:{required:{msg:''},isPhone:{msg:''}}
 				}],
 				code:{
@@ -52,16 +54,42 @@
 		},
 		methods:{
 			sendCode(countdown){
-				countdown();
+				this.$http.post('',{
+					name:'xwlt.pc.GetMobileCode',
+					mobile:this.fields[2].val
+				}).then((response)=>{
+					if(response.body.code === 1000) {
+						myAlert.small('验证码已发送！');
+						countdown();
+					}
+					else myAlert.small(response.body.msg);
+				})
+			},
+			authenticate(){
+				if(!this.allCheck) return;
+				this.$http.post('',{
+					name:'xwlt.pc.RealName',
+					real_name:this.fields[0].val,
+					number:this.fields[1].val,
+					mobile:this.fields[2].val,
+					code:this.code.val
+				}).then((response)=>{
+					if(response.body.code === 1000) {
+						location.href = './user.html';
+					}
+					else myAlert.small(response.body.msg);
+				})
 			}
 		},
 		computed:{
+			// 其实这里每一步 都去调用了handleValidate
 			allCheck(){
 				let allCheck = true;
 				this.fields.forEach((f)=>{
 					if(!this.handleValidate(f)) allCheck = false;
 				})
 				 if(!this.handleValidate(this.code)) allCheck = false;
+				 // this.code.val = this.fields[2].error;
 				 return allCheck;
 			}
 		},
