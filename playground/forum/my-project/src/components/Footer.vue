@@ -1,7 +1,7 @@
 <template>
 	<div id="footer_container">
 		<div id="footer_half"></div>
-		<div id="footer_add"></div>
+		<a id="footer_add" href="./ask.html"></a>
 		<div id="footer_cover"></div>
 		<div id="footer_inner">
 			<a class="item" v-for="(item,index) in logos"
@@ -41,12 +41,12 @@
 					label:'',
 					labelActive:'',
 					txt:'问我',
-					href:''
+					href:'./ask.html'
 				},{
 					label:icon_shop,
 					labelActive:icon_shop_pressed,
 					txt:'商城',
-					href:'./shop.html'
+					href:'./market.html'
 				},{
 					label:icon_personal,
 					labelActive:icon_personal_pressed,

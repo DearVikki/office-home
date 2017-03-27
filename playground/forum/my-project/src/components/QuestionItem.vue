@@ -7,9 +7,9 @@
 			v-if="index>=0 && index<3">top{{index+1}}</div>
 			<div class="question-header">
 				<img :src="question.head"
-				@click="pop.show=true">
+				@click="popShow(question.userid)">
 				<span class="question-name"
-				@click="pop.show=true">{{question.username}}</span>
+				@click="popShow(question.userid)">{{question.username}}</span>
 			</div>
 			<a class="question-main" :href="'./question-detail.html?id='+ question.question_id">
 				<div class="question-content ellipsis2L">{{question.question}}</div>
@@ -38,20 +38,20 @@
 		<!-- 用户信息弹窗 -->
 		<pop :pop="pop">
 			<div class="question-item-pop">
-				<img class="pop-head" :src="img">
+				<img class="pop-head" :src="popuser.head">
 				<div class="pop-name">
-					<span>花花学长</span>
-					<span class="pop-label" v-if="label">{{label}}</span>
+					<span>{{popuser.username}}</span>
+					<span class="pop-label" v-if="popuser.label">{{popuser.label}}</span>
 				</div>
 				<div class="pop-info">
 					<div class="pop-info-item">
-						<span>积分</span><span>200</span>
+						<span>积分</span><span>{{popuser.total_integral}}</span>
 					</div>
 					<div class="pop-info-item">
-						<span>回答</span><span>233</span>
+						<span>回答</span><span>{{popuser.ReplyNum}}</span>
 					</div>
 					<div class="pop-info-item">
-						<span>获赞</span><span>209</span>
+						<span>获赞</span><span>{{popuser.PraiseNum}}</span>
 					</div>
 				</div>
 				<div class="btn">私信</div>
@@ -68,6 +68,7 @@
 			return{
 				img:img,
 				label:'飞毛腿',
+				popuser:{},
 				pop:{
 					show:false,
 					style:{
@@ -75,6 +76,17 @@
 						height:'3.83rem'
 					}
 				}
+			}
+		},
+		methods:{
+			popShow(id){
+				this.$http.post('',{
+					name:'xwlt.pc.UserInfo',
+					userid:id
+				}).then((response)=>{
+					this.popuser = response.body.data.userinfo;
+					this.pop.show = true;
+				})
 			}
 		},
 		// type:0表示热度 1表示赏金 2表示积分 3表示待被抢任务 4表示已被抢任务

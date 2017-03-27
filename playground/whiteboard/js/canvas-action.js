@@ -1,3 +1,8 @@
+/* Copyright (C) DearVikki - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by DearVikki <wanqicn@qq.com>, March 2017
+ */
 // 后端能否判定coordObj.dot.length===0时储存上一条数据？
 // 数据格式:
 // dotObj:{

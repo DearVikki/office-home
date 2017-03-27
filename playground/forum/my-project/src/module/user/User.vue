@@ -4,7 +4,7 @@
 			<img :src="img">
 			<span id="user_info_right">
 				<p id="user_name">{{username}}</p>
-				<p id="user_praise">累计获赞数: 500</p>
+				<p id="user_praise">累计获赞数: {{userpraise}}</p>
 			</span>
 		</a>
 		<div class="user-part">
@@ -45,6 +45,7 @@
 			return{
 				img:a,
 				username:'',
+				userpraise:0,
 				items1:[{
 					txt:'我的提问',
 					path:'./user-question.html',
@@ -87,6 +88,7 @@
 			}).then((response)=>{
 				this.img = response.body.data.userInfo.head;
 				this.username = response.body.data.userInfo.username;
+				this.userpraise = response.body.data.userInfo.PraiseNum;
 			})
 		}
 	}

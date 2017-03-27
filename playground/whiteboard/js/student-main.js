@@ -1,3 +1,8 @@
+/* Copyright (C) DearVikki - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by DearVikki <wanqicn@qq.com>, March 2017
+ */
 var $body,$main,
 	$pm,
 	$pptHolder,

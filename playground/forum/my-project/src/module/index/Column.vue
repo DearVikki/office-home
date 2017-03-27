@@ -197,16 +197,20 @@
 			position:relative;
 			transition:all .5s;
 			&:before{
-				content:'开';
+				content:'';
 				position:absolute;
 				font-size:20px;
 				right:.3rem;
 				bottom:.27rem;
+				width: .2rem;
+				height: .2rem;
+				background:url(../../assets/img/index/icon_zhankai.png) center no-repeat;
+				background-size:100% 100%;
 			}
 			&.opened{
 				-webkit-line-clamp: 1000;
 				&:before{
-					content:'关';
+					background-image: url(../../assets/img/index/icon_up.png);
 				}
 			}
 			span{

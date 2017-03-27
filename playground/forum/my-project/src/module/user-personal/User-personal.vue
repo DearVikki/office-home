@@ -62,6 +62,13 @@
 				let files = e.target.files;
 				if(!files.length) return;
 				this.img = window.URL.createObjectURL(files[0]);
+				let fm = new FormData();
+				fm.append('name','xwlt.pc.UploadHead');
+				fm.append('img[]',files[0]);
+				this.$http.post('',fm).then((response)=>{
+					if(response.body.code === 1000) myAlert.small('更新头像成功!');
+					else myAlert.small(data.body.msg);
+				})
 			},
 			// 考虑到如果input的v-model也=this.name的话 改变input内容再点击弹层背景弹层消失 显示的name也会跟着改变 所以索性不连接同一个数据好了
 			saveName(){

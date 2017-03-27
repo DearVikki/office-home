@@ -9,7 +9,7 @@
 			<option value=5>失物</option>
 		</select>
 		</div>
-		<div class="c-line" v-show="type==1 || type==4">
+		<div class="c-line" v-show="(type==1 && type1Option.length!==0) || (type==4 && type4Option.length!==0)">
 			<label for="subtype">问题子类别</label>
 				<select name="subtype" v-model="subtype">
 					<option v-if="type==1" v-for="(o,i) in type1Option"
@@ -51,11 +51,12 @@
 			v-show="imgs.length<2">+</div>
 			<span class="c-color">(最多可上传2张)</span>
 		</div>
-		<div class="c-big-btn" :class="{disabled:!allCheck}">发布</div>
+		<div class="c-big-btn" @click="post">发布</div>
 	</div>
 </template>
 <script>
 	import {Group, Datetime} from 'vux';
+	import {myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'ask',
 		data(){
@@ -81,7 +82,8 @@
 				money:'',
 				question:'',
 				questionDescibe:'',
-				imgs:[]
+				imgs:[],
+				files:[]
 			}
 		},
 		mounted(){
@@ -114,21 +116,88 @@
 			},
 			typeChange(){
 				if(this.type == 1) this.subtype = this.type1Option[0].type_id;
-				else if(this.type == 4) this.subtype = this.type4Option[0].type_id;
+				else if(this.type == 4 && this.type4Option.length !== 0) this.subtype = this.type4Option[0].type_id;
 			},
 			timeChange(val){
-				this.deadline.utc = new Date(val).getTime() + '1000';
+				if(isNaN(new Date(val).getTime())) this.deadline.utc = '';
+				else this.deadline.utc = new Date(val).getTime() + '1000';
 			},
 			fileChange(){
 				var file = this.$refs.file.files[0];
 				var img = window.URL.createObjectURL(file);
 				this.imgs.push(img);
+				this.files.push(file);
+			},
+			allCheck(){
+				if(this.type == 3 && !this.deadline.utc) {
+					myAlert.small('别忘了截止日期喔');
+					return false;
+				}
+				else if(this.reward_type === 'money'){
+					if(!this.money) {
+						myAlert.small('别忘了悬赏金额喔');
+						return false;
+					}
+					else if(isNaN(this.money)){
+						myAlert.small('悬赏金额须为数字喔');
+						return false;
+					}
+				}
+				else if(this.reward_type === 'integral'){
+					if(!this.credit) {
+						myAlert.small('别忘了悬赏积分喔');
+						return false;
+					}
+					else if(isNaN(this.credit)){
+						myAlert.small('悬赏积分须为数字喔');
+						return false;
+					}
+					else if(this.credit < this.existingCredit) {
+						myAlert.small('哎呀 积分不足喔');
+						return false;
+					}
+				}
+				else if(!this.question){
+					myAlert.small('别忘了标题喔');
+					return false;
+				}
+				return true;
+			},
+			post(){
+				if(!this.allCheck()) return;
+				console.log('要提交啦')
+				let fm = new FormData();
+				this.files.forEach((f)=>{
+					fm.append('img[]',f);
+				})
+				fm.append('name','xwlt.pc.AddQuestion');
+				fm.append('type_id',this.type);
+				fm.append('type_label_id',this.subtype);
+				fm.append('reward_type',this.reward_type);
+				fm.append('integral',this.credit);
+				fm.append('money',this.money);
+				fm.append('question',this.question);
+				fm.append('question_describe',this.questionDescibe);
+				fm.append('endtime',this.deadline.utc);
+				this.$http.post('',fm).then((response)=>{
+
+				})
 			}
 		},
 		computed:{
-			allCheck(){
-				
-			}
+			// allCheck(){
+			// 	if(this.type == 3 && this.deadline.utc==='NaN1000') return false;
+			// 	else if(this.reward_type === 'money'){
+			// 		console.log(isNaN(this.money))
+			// 		if(!this.money) return false;
+			// 		else if(isNaN(this.money)) return false;
+			// 	}
+			// 	else if(this.reward_type === 'integral'){
+			// 		if(!this.credit) return false;
+			// 		else if(isNaN(this.credit)) return false;
+			// 	}
+			// 	else if(!this.question) return false;
+			// }
 		},
 		components:{Group, Datetime}
 	}
