@@ -6,6 +6,11 @@
 		:answer="answer" :type=answer.type
 		@askMore="askMore"
 		@adoptAnswer="adoptAnswer"></questionDetailA>
+		<!-- 缺省页 -->
+		<div class="c-empty" v-if="answers.length === 0">
+			<p>还没有人回答过这个问题</p>
+			<a @click="answerQuestion">我来回答!</a>
+		</div>
 		<!-- 弹出打字框的透明蒙版 -->
 		<div v-if="inputStatus || textareaStatus" @click="inputStatus = textareaStatus = false"
 		id="trans_mask"></div>

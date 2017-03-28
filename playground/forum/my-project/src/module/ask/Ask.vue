@@ -23,6 +23,7 @@
 			     <Datetime v-model="deadline.val" @on-change="timeChange" title="截止时间" :start-date="deadline.today"
 			     confirm-text="确定" cancel-text="取消"></Datetime>
 			 </Group>
+			 <span id="deadline_time">{{deadline.val}}</span>
 		</div>
 		<div class="c-line">
 			悬赏类型
@@ -31,7 +32,7 @@
 				<option value="money">金钱悬赏</option>
 			</select>
 		</div>
-		<div class="c-line" v-show="reward_type==='integral'">积分悬赏 <span class="c-color">(你的总积分为{{existingCredit}}分)</span>
+		<div class="c-line" v-show="reward_type==='integral'">积分悬赏 <span class="c-color">(当前积分:{{existingCredit}}分)</span>
 			<input placeholder="5(单位:分)" v-model="credit">
 		</div>
 		<div class="c-line" v-show="reward_type==='money'">金钱悬赏 <span class="c-color">(微信支付)</span>
@@ -39,7 +40,8 @@
 		</div>
 		<div id="ask_question_container">
 			<div class="c-line"><input placeholder="请写下你的问题，以问号结尾" v-model="question"></div>
-			<textarea class="c-line" placeholder="请填写问题相关描述 (选填)"></textarea>
+			<textarea class="c-line" placeholder="请填写问题相关描述 (选填)"
+			v-model="questionDescibe"></textarea>
 		</div>
 		<div id="ask_img_container" class="c-line">
 			<input ref="file" type="file" accept="image/jpg,image/png"
@@ -133,8 +135,8 @@
 					myAlert.small('别忘了截止日期喔');
 					return false;
 				}
-				else if(this.reward_type === 'money'){
-					if(!this.money) {
+				if(this.reward_type === 'money'){
+					if(!Number(this.money)) {
 						myAlert.small('别忘了悬赏金额喔');
 						return false;
 					}
@@ -144,7 +146,7 @@
 					}
 				}
 				else if(this.reward_type === 'integral'){
-					if(!this.credit) {
+					if(!Number(this.credit)) {
 						myAlert.small('别忘了悬赏积分喔');
 						return false;
 					}
@@ -152,12 +154,13 @@
 						myAlert.small('悬赏积分须为数字喔');
 						return false;
 					}
-					else if(this.credit < this.existingCredit) {
+					else if(this.credit > this.existingCredit) {
+						console.log('当前积分:'+this.existingCredit+'; 积分悬赏:'+this.credit);
 						myAlert.small('哎呀 积分不足喔');
 						return false;
 					}
 				}
-				else if(!this.question){
+				if(!this.question){
 					myAlert.small('别忘了标题喔');
 					return false;
 				}
@@ -180,7 +183,12 @@
 				fm.append('question_describe',this.questionDescibe);
 				fm.append('endtime',this.deadline.utc);
 				this.$http.post('',fm).then((response)=>{
-
+					if(response.body.code === 1000) {
+						myAlert.small('发布成功!');
+						setTimeout(()=>{
+							location.replace(document.referrer);
+						},1000)
+					} else myAlert.small(response.body.msg);
 				})
 			}
 		},
@@ -207,6 +215,7 @@
 		font-size: .4rem !important;
 		height: .85rem !important;
 		line-height: .85rem !important;
+		color:#ffe857 !important;
 	}
 	.scroller-item{
 		font-size: .4rem !important;
@@ -220,11 +229,17 @@
 			float: right;
 			font-size: 0.43rem;
 			color:#545454;
-			margin-top: 0.35rem;
+			margin-top: 0.4rem;
 			border: none;
 			appearance: none;
-			padding-right:0.48rem;
+			padding-right:0.38rem;
 			background: transparent;
+		}
+		select{
+			background-image:url(../../assets/img/index/icon_next.png);
+			background-position:right .2rem;
+			background-size: .2rem .3rem;
+			background-repeat:no-repeat;
 		}
 		input{
 			width: 2.2rem;
@@ -238,6 +253,15 @@
 		right: 0;
 		bottom: 0;
 		opacity: 0;
+	}
+	#deadline_time{
+		float: right;
+		background-image:url(../../assets/img/index/icon_next.png);
+		background-position:right center;
+		background-size: .2rem .3rem;
+		background-repeat:no-repeat;
+		padding-right:0.38rem;
+		height: 1.3rem;
 	}
 	#ask_question_container{
 		margin-top: .26rem;

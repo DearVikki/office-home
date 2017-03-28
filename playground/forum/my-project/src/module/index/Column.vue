@@ -31,6 +31,11 @@
 			:question="q"
 			:type="q.type"
 			:index="q.index"></questionitem>
+			<!-- 缺省页 -->
+			<div class="c-empty" v-if="questions.length === 0">
+				<p>这里空空如也诶</p>
+				<a href="./ask.html">我来添砖加瓦!</a>
+			</div>
 		</div>
 	</div>
 </template>

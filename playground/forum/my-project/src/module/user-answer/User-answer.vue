@@ -13,6 +13,11 @@
 			</div>
 			<p>{{utcToDate(a.time)}}</p>
 		</a>
+		<!-- 缺省页 -->
+		<div class="c-empty" v-if="answers.length === 0">
+			<p>你还没有回答过问题</p>
+			<a href="./index.html">去回答!</a>
+		</div>
 	</div>
 </template>
 <script>

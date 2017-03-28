@@ -41,20 +41,25 @@
 					return;
 				}
 				if(this.type==='积分') this.money = Math.round(this.money);
-				this.$http.post('',{
-					name:'xwlt.pc.Add_Reward',
-					question_id: this.questionId,
-					reward_type: this.type,
-					num: this.money
-				}).then((response)=>{
+				// if(Number(this.money)) {
 					this.$http.post('',{
-						name:'xwlt.pc.QuestionDescribe',
+						name:'xwlt.pc.Add_Reward',
 						question_id: this.questionId,
-						question_describe:this.des
+						reward_type: this.type,
+						num: Number(this.money) ? this.money : 0
 					}).then((response)=>{
-						location.href.replace('./user-question.html');
+						this.$http.post('',{
+							name:'xwlt.pc.QuestionDescribe',
+							question_id: this.questionId,
+							question_describe:this.des
+						}).then((response)=>{
+							location.replace('./user-question.html');
+						})
 					})
-				})
+				// }
+				if(this.des){
+
+				}
 			}
 		},
 		components:{}

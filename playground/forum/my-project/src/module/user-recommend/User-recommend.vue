@@ -4,6 +4,11 @@
 		:question="list"
 		:type=1
 		:index=4></questionitem>
+		<!-- 缺省页 -->
+		<div class="c-empty" v-if="lists.length === 0">
+			<p>推荐功能在休息…</p>
+			<a href="./index.html">那我自己去浏览下!</a>
+		</div>
 	</div>
 </template>
 <script>

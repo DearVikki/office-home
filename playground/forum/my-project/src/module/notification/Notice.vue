@@ -4,12 +4,12 @@
 			<SwipeoutItem :right-menu-width="210" :sensitivity="15"
 			v-for="msg in msgs">
 				<div slot="right-menu">
-					<swipeoutButton  type="primary" :width="remToPx">删除</swipeoutButton>
+					<swipeoutButton type="primary" :width="remToPx">删除</swipeoutButton>
 				</div>
 				<a :href="'./question-detail.html?id='+msg.question_id" class="swipeout-content-inner" slot="content">
 					<img :src="msg.img">
 					<div class="content-info">
-						<p class="c-txt6 ellipsis">{{msg.username}}</p>
+						<p class="c-txt6 ellipsis" :class="{read:Number(msg.is_read)}">{{msg.username}}</p>
 						<p class="c-txt3 ellipsis">{{msg.content}}</p>
 					</div>
 					<div class="content-time">{{utcToDate(msg.addtime)}}</div>
@@ -19,7 +19,7 @@
 	</div>
 </template>
 <script>
-	import img from '../../assets/img/index/icon_personal_pressed.png'
+	import img from '../../assets/img/index/icon_message2.png'
 	import {utcToDate} from '../../assets/js/utils.js'
 	import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 	export default{
@@ -66,9 +66,8 @@
 <style lang='less' scoped>
 	.swipeout-content-inner{
 		img{
-			width:1.41rem;
-			height:1.41rem;
-			border-radius:100%;
+			width:1.3rem;
+			height:1.3rem;
 			vertical-align:middle;
 		}
 		.content-info{
@@ -78,6 +77,9 @@
 			.c-txt6{
 				margin-bottom:0.2rem;
 				max-width:4rem;
+				&.read{
+					color:#999;
+				}
 			}
 			.c-txt3{
 				max-width:6.67rem;

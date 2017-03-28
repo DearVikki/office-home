@@ -5,14 +5,14 @@
 				<span :class="{active:type}" @click="type = 1">首页</span>
 				<span :class="{active:!type}" @click="type = 0">分栏</span>
 			</div>
-			<div id="index_search"></div>
+			<a id="index_search" href="./search.html"></a>
 		</div>
 		<!-- 主体 -->
 		<homepage v-if="type"></homepage>
 		<columnn v-if="!type"></columnn>
 		<!-- 1签到 -->
 		<transition name="shrink">
-			<div id="index_sign" v-if="is_sign" @click="sign"></div>
+			<div id="index_sign" v-if="!is_sign" @click="sign"></div>
 		</transition>
 		<myfooter></myfooter>
 	</div>
@@ -28,13 +28,28 @@
 			return{
 				// 1表示首页 0表示分栏
 				type:1,
-				is_sign:true
+				is_sign:1
 			}
+		},
+		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.Sign'
+			}).then((response)=>{
+				this.is_sign = Number(response.body.data.Sign);
+			})
 		},
 		methods:{
 			sign(){
-				this.is_sign = false;
-				myAlert.big('<p>签到成功获得5积分！</p><p>您已连续签到15天！</p><p>保持喔~</p>')
+				this.$http.post('',{
+					name:'xwlt.pc.AddSign'
+				}).then((response)=>{
+					if(response.body.code === 1000){
+						let day = response.body.data.signNum;
+						let credit = response.body.data.sign_integral;
+						this.is_sign = 1;
+						myAlert.big('<p>签到成功获得'+ credit +'积分！</p><p>您已连续签到'+ day +'天！</p><p>保持喔~</p>')
+					} else myAlert.small(response.body.msg);
+				})
 			}
 		},
 		components:{myfooter,homepage,columnn}

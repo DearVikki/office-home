@@ -21,6 +21,11 @@
 				</div>
 			</div>
 		</a>
+		<!-- 缺省页 -->
+		<div class="c-empty" v-if="lists.length === 0">
+			<p>你还没有发起过提问</p>
+			<a href="./ask.html">去做个问题宝宝!</a>
+		</div>
 	</div>
 </template>
 <script>
@@ -98,12 +103,12 @@
 			font-size: 0.35rem;
 			color:#999;
 			line-height:0.48rem;
-			border-bottom:1px solid #d3d3d3;
-			padding-bottom:0.27rem;
 		}
 		.q-footer{
 			height:1rem;
 			line-height:1rem;
+			border-top:1px solid #d3d3d3;
+			margin-top:0.27rem;
 			.q-money,.q-credit{
 				width:1.4rem;
 				height: 0.48rem;

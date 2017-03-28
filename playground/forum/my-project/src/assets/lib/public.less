@@ -116,6 +116,7 @@ select,option{cursor: pointer;}
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    max-height: 100000px;
 }
 .ellipsis3L{
     overflow: hidden;
@@ -123,6 +124,7 @@ select,option{cursor: pointer;}
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    max-height: 100000px;
 }
 
 /*一条整行*/
@@ -284,4 +286,27 @@ textarea,input{
     100%{
         opacity: 0;
     }
+}
+/*缺省页*/
+.c-empty{
+    padding-top:2.9rem;
+    min-width:2.45rem;
+    background:url(../../assets/img/index/icon_null.png) top center no-repeat;
+    background-size: 2.45rem 2.58rem;
+    text-align: center;
+    color:#4c3a30;
+    font-size: .4rem;
+    margin: 2rem auto;
+    a {
+        color: #f9c13a;
+        margin-top: .2rem;
+        display: inline-block;
+    }
+}
+/*vue动画部分*/
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to, .fade-leave-active {
+  opacity: 0
 }

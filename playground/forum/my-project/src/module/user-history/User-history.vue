@@ -4,6 +4,11 @@
 		:question="list"
 		:type="list.type"
 		:index=4></questionitem>
+		<!-- 缺省页 -->
+		<div class="c-empty" v-if="lists.length === 0">
+			<p>你还没有任何浏览历史</p>
+			<a href="./index.html">去浏览!</a>
+		</div>
 	</div>
 </template>
 <script>
