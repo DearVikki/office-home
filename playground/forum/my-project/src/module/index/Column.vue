@@ -53,7 +53,7 @@
 	import icon_lost from '../../assets/img/index/icon_lost (1).png'
 	import icon_help from '../../assets/img/index/icon_help (1).png'
 	import questionitem from '../../components/QuestionItem.vue'
-	import {pullToRefresh} from '../../assets/js/utils.js'
+	import {getParameterByName, pullToRefresh} from '../../assets/js/utils.js'
 	export default{
 		name:'columnn',
 		data(){
@@ -121,6 +121,7 @@
 			}
 		},
 		mounted(){
+			// this.navs.activeNav = location.hash.slice(-1) || 0;
 			this.$http.post('',{
 				name:'xwlt.pc.type'
 			}).then((response)=>{
@@ -158,6 +159,7 @@
 			clickNav(nav,index){
 				this.activeNav = index;
 				this.getData(nav.type_id,'',1,true);
+				// location.hash = index;
 			},
 			clickSub2(nav,sub,subindex){
 				nav.activeSub = subindex;

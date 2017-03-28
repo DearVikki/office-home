@@ -40,6 +40,7 @@
 	import Swiper from '../../assets/lib/swiper.js';
 	import questionitem from '../../components/QuestionItem.vue'
 	import personal from './Homepage-personal.vue'
+	import {getParameterByName, myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'homepage',
 		data(){
@@ -92,6 +93,7 @@
 			}
 		},
 		mounted(){
+			// this.nav.activeNav = location.hash.slice(-1) || 0;
 			// 拉取轮播图数据
 			this.$http.post('',{
 				name:'xwlt.pc.banner'
@@ -158,6 +160,7 @@
 			clickNav(index){
 				this.nav.activeNav = index;
 				this.question.type = index;
+				// location.hash = index;
 			}
 		},
 		computed:{

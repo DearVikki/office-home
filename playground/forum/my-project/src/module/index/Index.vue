@@ -2,14 +2,14 @@
 	<div>
 		<div id="index_header">
 			<div id="column">
-				<span :class="{active:type}" @click="type = 1">首页</span>
-				<span :class="{active:!type}" @click="type = 0">分栏</span>
+				<span :class="{active:type}" @click="clickNav">首页</span>
+				<span :class="{active:!type}" @click="clickNav">分栏</span>
 			</div>
 			<a id="index_search" href="./search.html"></a>
 		</div>
 		<!-- 主体 -->
-		<homepage v-if="type"></homepage>
-		<columnn v-if="!type"></columnn>
+		<homepage v-show="type"></homepage>
+		<columnn v-show="!type"></columnn>
 		<!-- 1签到 -->
 		<transition name="shrink">
 			<div id="index_sign" v-if="!is_sign" @click="sign"></div>
@@ -21,7 +21,7 @@
 	import myfooter from '../../components/Footer.vue'
 	import homepage from './Homepage.vue'
 	import columnn from './Column.vue'
-	import {myAlert} from '../../assets/js/utils.js'
+	import {getParameterByName, myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'index',
 		data(){
@@ -32,6 +32,7 @@
 			}
 		},
 		mounted(){
+			this.type = location.hash.slice(-1) || 1;
 			this.$http.post('',{
 				name:'xwlt.pc.Sign'
 			}).then((response)=>{
@@ -39,6 +40,10 @@
 			})
 		},
 		methods:{
+			clickNav(){
+				this.type = this.type === 1?0:1;
+				location.hash = this.type;
+			},
 			sign(){
 				this.$http.post('',{
 					name:'xwlt.pc.AddSign'

@@ -6,14 +6,14 @@
 				<div slot="right-menu">
 					<swipeoutButton type="primary" :width="remToPx">删除</swipeoutButton>
 				</div>
-				<a :href="'./question-detail.html?id='+msg.question_id" class="swipeout-content-inner" slot="content">
+				<div @click="clickMsg(msg)" class="swipeout-content-inner" slot="content">
 					<img :src="msg.img">
 					<div class="content-info">
 						<p class="c-txt6 ellipsis" :class="{read:Number(msg.is_read)}">{{msg.username}}</p>
 						<p class="c-txt3 ellipsis">{{msg.content}}</p>
 					</div>
 					<div class="content-time">{{utcToDate(msg.addtime)}}</div>
-				</a>
+				</div>
 			</SwipeoutItem>
 		</Swipeout>
 	</div>
@@ -44,12 +44,20 @@
 				data.forEach((e)=>{
 					e.img = img;
 				})
-				this.msgs = data;
+				this.msgs = data.reverse();
 			})
 		},
 		methods:{
 			utcToDate(utc){
 				return utcToDate(utc);
+			},
+			clickMsg(msg){
+				this.$http.post('',{
+					name:'xwlt.pc.UpdateNoticeStatus',
+					notice_id:msg.notice_id
+				}).then((response)=>{
+					location.href = './question-detail.html?id='+msg.question_id;
+				})
 			}
 		},
 		computed:{

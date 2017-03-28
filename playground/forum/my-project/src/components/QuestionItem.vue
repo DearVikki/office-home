@@ -172,7 +172,6 @@
 					justify-content: left;
 					float: left;
 					div{
-						width:1.2rem;
 						height: .53rem;
 						line-height: .53rem;
 						padding-left: 0.53rem;
