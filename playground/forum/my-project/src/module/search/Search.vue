@@ -83,7 +83,7 @@
 				location.replace('./question-detail.html?id='+q.question_id);
 			},
 			goBackPage(){
-				location.replace(document.referrer);
+				history.back();
 			}
 		}
 	}

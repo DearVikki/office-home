@@ -53,7 +53,7 @@
 	import icon_lost from '../../assets/img/index/icon_lost (1).png'
 	import icon_help from '../../assets/img/index/icon_help (1).png'
 	import questionitem from '../../components/QuestionItem.vue'
-	import {getParameterByName, pullToRefresh} from '../../assets/js/utils.js'
+	import {getParameterByName, loadMore, myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'columnn',
 		data(){
@@ -117,11 +117,13 @@
 		            index:4,
             		type:3
 				},
+				page:1,
+				type_id:'',
+				type_label_id:'',
 				questions:[]
 			}
 		},
 		mounted(){
-			// this.navs.activeNav = location.hash.slice(-1) || 0;
 			this.$http.post('',{
 				name:'xwlt.pc.type'
 			}).then((response)=>{
@@ -137,33 +139,48 @@
 					nav.sub = e.content;
 				})
 			})
-			this.getData('','',1,false);
-			pullToRefresh(this.getData);
+			this.getData();
+			loadMore.config.cb = this.getData;
+			loadMore.open();
 		},
 		methods:{
-			getData(type_id,type_label_id,page,clearOldData){
+			getData(){
 				this.$http.post('',{
 					name:'xwlt.pc.questionList',
-					type_id:type_id,
-					type_label_id:type_label_id,
-					page:page
+					type_id:this.type_id,
+					type_label_id:this.type_label_id,
+					page:this.page
 				}).then((response)=>{
-					if(clearOldData) this.questions = [];
-					response.body.data.Question_list.forEach((e)=>{
+					let lists = response.body.data.Question_list;
+					if(lists.length === 0) myAlert.small('已经到底了喔');
+					lists.forEach((e)=>{
 						e.index = 4;
 						if(Number(e.task_status)) e.type = Number(e.task_status) + 2;
 						this.questions.push(e);
 					})
+					this.page++;
+					loadMore.loading = false;
 				})
 			},
 			clickNav(nav,index){
 				this.activeNav = index;
-				this.getData(nav.type_id,'',1,true);
-				// location.hash = index;
+				this.page = 1;
+				this.questions = [];
+				this.type_id = nav.type_id;
+				this.type_label_id = '';
+				this.getData();
+				loadMore.close();
+				loadMore.open();
 			},
 			clickSub2(nav,sub,subindex){
 				nav.activeSub = subindex;
-				this.getData(nav.type_id,sub.type_id,1,true);
+				this.page = 1;
+				this.questions = [];
+				this.type_id = nav.type_id;
+				this.type_label_id = sub.type_id;
+				this.getData();
+				loadMore.close();
+				loadMore.open();
 			}
 		},
 		components:{questionitem}

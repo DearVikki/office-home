@@ -32,7 +32,8 @@
 			}
 		},
 		mounted(){
-			this.type = location.hash.slice(-1) || 1;
+			this.showModule();
+			window.onhashchange = this.showModule;
 			this.$http.post('',{
 				name:'xwlt.pc.Sign'
 			}).then((response)=>{
@@ -40,9 +41,12 @@
 			})
 		},
 		methods:{
+			showModule(){
+				if(location.hash === '') this.type = 1;
+				else this.type = location.hash.slice(-1) != 0? 1: 0;
+			},
 			clickNav(){
-				this.type = this.type === 1?0:1;
-				location.hash = this.type;
+				location.hash = location.hash.slice(-1) != 0? 0: 1;
 			},
 			sign(){
 				this.$http.post('',{

@@ -48,15 +48,32 @@ export let myAlert = {
         },1500)
     }
 }
-// export myAlert;
 
-export function pullToRefresh(cb){
-    document.body.onscroll = function(){
+export let loadMore = {
+    config:{
+        cb:function(){}
+    },
+    loading:false,
+    loadMore(){
         let scrollTop = document.body.scrollTop;
         let windowH = window.innerHeight;
         let pageH = document.body.getBoundingClientRect().height;
+        console.log(scrollTop+windowH)
+        console.log(pageH)
         if(scrollTop + windowH > pageH - 5){
-             cb();
+            if(this.loading) return;
+            this.config.cb();
+            this.loading = true;
         }
+    },
+    open(){
+        window.addEventListener('scroll',this.loadMore.bind(this),false);
+    },
+    close(){
+        window.removeEventListener('scroll',this.loadMore);
+    },
+    reset(cb){
+        this.close();
+        this.config.cb = cb;
     }
 }

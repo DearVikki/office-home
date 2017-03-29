@@ -40,7 +40,7 @@
 	import Swiper from '../../assets/lib/swiper.js';
 	import questionitem from '../../components/QuestionItem.vue'
 	import personal from './Homepage-personal.vue'
-	import {getParameterByName, myAlert} from '../../assets/js/utils.js'
+	import {getParameterByName, loadMore, myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'homepage',
 		data(){
@@ -124,13 +124,7 @@
 				if(hotlistTop.question_id) this.hotlistTop = hotlistTop;
 			})
 			// 拉取悬赏榜
-			this.$http.post('',{
-				name:'xwlt.pc.MoneyRList',
-				types:'money',
-				page:this.money.page
-			}).then((response)=>{
-				this.money.list = response.body.data.MoneyRList;
-			})
+			this.getMoneyData();
 			// 拉取悬赏榜置顶
 			this.$http.post('',{
 				name:'xwlt.pc.toplist',
@@ -140,13 +134,7 @@
 				if(moneyTop) this.money.top = moneyTop;
 			})
 			// 拉取积分榜
-			this.$http.post('',{
-				name:'xwlt.pc.MoneyRList',
-				types:'integral',
-				page:this.credit.page
-			}).then((response)=>{
-				this.credit.list = response.body.data.MoneyRList;
-			})
+			this.getCreditData();
 			// 拉取积分榜置顶
 			this.$http.post('',{
 				name:'xwlt.pc.toplist',
@@ -157,10 +145,49 @@
 			})
 		},
 		methods:{
+			getMoneyData(){
+				loadMore.close();
+				this.$http.post('',{
+					name:'xwlt.pc.MoneyRList',
+					types:'money',
+					page:this.money.page
+				}).then((response)=>{
+					let lists = response.body.data.MoneyRList;
+					if(!lists.length) myAlert.small('全部加载完啦！');
+					this.money.list = this.money.list.concat(lists);
+					this.money.page++;
+					loadMore.open();
+				})
+			},
+			getCreditData(){
+				loadMore.close();
+				this.$http.post('',{
+					name:'xwlt.pc.MoneyRList',
+					types:'integral',
+					page:this.credit.page
+				}).then((response)=>{
+					let lists = response.body.data.MoneyRList;
+					if(!lists.length) myAlert.small('全部加载完啦！');
+					this.credit.list = this.credit.list.concat(lists);
+					this.credit.page++;
+					loadMore.open();
+				})
+			},
 			clickNav(index){
+				loadMore.loading = true;
+				this.money.list = this.credit.list = [];
+				this.money.page = this.credit.page = 1;
 				this.nav.activeNav = index;
 				this.question.type = index;
-				// location.hash = index;
+				if(index===1){
+					this.getMoneyData();
+					loadMore.config.cb = this.getMoneyData;
+					loadMore.open();
+				} else if(index===2){
+					this.getCreditData();
+					loadMore.config.cb = this.getCreditData;
+					loadMore.loading = false;
+				}
 			}
 		},
 		computed:{
