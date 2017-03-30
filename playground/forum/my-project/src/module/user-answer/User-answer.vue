@@ -21,13 +21,14 @@
 	</div>
 </template>
 <script>
-	import {utcToDate} from '../../assets/js/utils.js'
+	import {utcToDate, myAlert, loadMore} from '../../assets/js/utils.js'
 	export default{
 		name:'answer',
 		data(){
 			return{
 				page:1,
-				answers:[{
+				answers:[],
+				answersDemo:[{
 					content:'xxx',
 					question:'xxxx?',
 					is_task:0,
@@ -36,20 +37,31 @@
 			}
 		},
 		mounted(){
-			this.$http.post('',{
-				name:'xwlt.pc.MyAnswer',
-				page:this.page
-			}).then((response)=>{
-				let answers = [];
-				response.body.data.Answer_list.forEach((e)=>{
-					e.status = Number(e.status);
-					e.time = e.addtime1? e.addtime1 : e.addtime2;
-					answers.push(e);
-				})
-				this.answers = answers;
-			})
+			this.getData();
+			loadMore.config.cb = this.getData;
+			loadMore.open();
 		},
 		methods:{
+			getData(){
+				this.$http.post('',{
+					name:'xwlt.pc.MyAnswer',
+					page:this.page
+				}).then((response)=>{
+					let answers = [];
+					response.body.data.Answer_list.forEach((e)=>{
+						e.status = Number(e.status);
+						e.time = e.addtime1? e.addtime1 : e.addtime2;
+						answers.push(e);
+					})
+					this.answers = this.answers.concat(answers);
+					loadMore.loading = false;
+					this.page++;
+					if(answers.length === 0){
+						myAlert.small('没有更多拉!');
+						loadMore.loadAll = true;
+					}
+				})
+			},
 			utcToDate(time){
 				return utcToDate(time);
 			}

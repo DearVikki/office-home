@@ -36,46 +36,21 @@
 			</a>
 		</div>
 		<!-- 用户信息弹窗 -->
-		<pop :pop="pop">
-			<div class="question-item-pop">
-				<img class="pop-head" :src="popuser.head">
-				<div class="pop-name">
-					<span>{{popuser.username}}</span>
-					<span class="pop-label" v-if="popuser.label">{{popuser.label}}</span>
-				</div>
-				<div class="pop-info">
-					<div class="pop-info-item">
-						<span>积分</span><span>{{popuser.total_integral}}</span>
-					</div>
-					<div class="pop-info-item">
-						<span>回答</span><span>{{popuser.ReplyNum}}</span>
-					</div>
-					<div class="pop-info-item">
-						<span>获赞</span><span>{{popuser.PraiseNum}}</span>
-					</div>
-				</div>
-				<div class="btn">私信</div>
-			</div>
-		</pop>
+		<userpop :userpop="userpop" :userpopshow="userpopshow">
+		</userpop>
 	</div>
 </template>
 <script>
 	import img from '../assets/img/index/icon_personal_pressed.png'
-	import pop from './Pop.vue'
+	import userpop from './UserPop.vue'
 	export default{
 		name:'questionitem',
 		data(){
 			return{
 				img:img,
 				label:'飞毛腿',
-				popuser:{},
-				pop:{
-					show:false,
-					style:{
-						width:'7.87rem',
-						height:'3.83rem'
-					}
-				}
+				userpop:{},
+				userpopshow:false
 			}
 		},
 		methods:{
@@ -84,15 +59,15 @@
 					name:'xwlt.pc.UserInfo',
 					userid:id
 				}).then((response)=>{
-					this.popuser = response.body.data.userinfo;
-					this.pop.show = true;
+					this.userpop = response.body.data.userinfo;
+					this.userpopshow = true;
 				})
 			}
 		},
 		// type:0表示热度 1表示赏金 2表示积分 3表示待被抢任务 4表示已被抢任务
 		// index:-1表示置顶 1~3表示top1~3 4以上表示label无特殊显示
 		props:['question','type','index'],
-		components:{pop}
+		components:{userpop}
 	}
 </script>
 <style lang='less' scoped>
@@ -231,51 +206,6 @@
 				}
 			}
 
-		}
-	}
-	.question-item-pop{
-		position:relative;
-		padding:0.93rem 0 .4rem 0;
-		.pop-head{
-			position:absolute;
-			left:3.07rem;
-			top:-0.85rem;
-			border:0.05rem solid #ffffff;
-			box-shadow:0 0.05rem 0.11rem 0 rgba(0,0,0,0.22);
-			width:1.6rem;
-			height:1.6rem;
-			border-radius:100%;
-			background:#fff;
-		}
-		.pop-name{
-			text-align:center;
-			font-size:0.37rem;
-			color:#333;
-			padding-bottom:0.29rem;
-			border-bottom:1px solid #d3d3d3;
-			span{
-				.vertical;
-			}
-			.pop-label{
-				background:#ffe857;
-				border:1px solid #4c4c4c;
-				border-radius:100px;
-				padding:0 0.07rem;
-				margin-left:0.1rem;
-				font-size:0.27rem;			
-			}
-		}
-		.pop-info{
-			padding-top:.29rem;
-			margin-bottom:0.38rem;
-			display:flex;
-			justify-content:space-around;
-			font-size:0.32rem;
-			color:#999;
-			.pop-info-item span:nth-of-type(2){
-				color:#333;
-				margin-left:0.11rem;
-			}
 		}
 	}
 </style>

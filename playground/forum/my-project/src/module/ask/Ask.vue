@@ -46,7 +46,8 @@
 		<div id="ask_img_container" class="c-line">
 			<input ref="file" type="file" accept="image/jpg,image/png"
 			@change="fileChange">
-			<div class="img-holder" v-for="img in imgs">
+			<div class="img-holder" v-for="(img,i) in imgs">
+				<div class="delete" @click="deleteImg(i)">×</div>
 				<img :src="img">
 			</div>
 			<div class="img-holder" @click="$refs.file.click()"
@@ -129,6 +130,10 @@
 				var img = window.URL.createObjectURL(file);
 				this.imgs.push(img);
 				this.files.push(file);
+			},
+			deleteImg(i){
+				this.imgs.splice(i,1);
+				this.files.splice(i,1);
 			},
 			allCheck(){
 				if(this.type == 3 && !this.deadline.utc) {
@@ -297,9 +302,22 @@
 			color:#d3d3d3;
 			line-height:2.1rem;
 			vertical-align:middle;
+			position: relative;
 			img{
 				width:100%;
 				height:100%;
+			}
+			.delete{
+				position: absolute;
+				font-size: .35rem;
+				line-height: .35rem;
+				width: .4rem;
+				height: .4rem;
+				right: 0;
+				top: 0;
+				background: #ffe857;
+				border-radius: 100%;
+				color: #fff;
 			}
 		}
 		.c-color{

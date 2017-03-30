@@ -13,12 +13,14 @@
 </template>
 <script>
 	import questionitem from '../../components/QuestionItem.vue'
+	import {utcToDate, myAlert, loadMore} from '../../assets/js/utils.js'
 	export default{
 		name:'history',
 		data(){
 			return{
 				page:1,
-				lists:[{
+				lists:[],
+				listsDemo:[{
 					"question_id":"2",
 					"type_id":"4",
 					"type_label_id":"0",
@@ -48,18 +50,31 @@
 			}
 		},
 		mounted(){
-			this.$http.post('',{
-				name:'xwlt.pc.MyBrowseLog',
-				page:this.page
-			}).then((response)=>{
-				var lists = [];
-				response.body.data.BrowseList.forEach((e)=>{
-					if(e.reward_type==='money') e.type = 1;
-					else e.type = 2;
-					lists.push(e);
+			this.getData();
+			loadMore.config.cb = this.getData;
+			loadMore.open();
+		},
+		methods:{
+			getData(){
+				this.$http.post('',{
+					name:'xwlt.pc.MyBrowseLog',
+					page:this.page
+				}).then((response)=>{
+					var lists = [];
+					response.body.data.BrowseList.forEach((e)=>{
+						if(e.reward_type==='money') e.type = 1;
+						else e.type = 2;
+						lists.push(e);
+					})
+					this.lists = this.lists.concat(lists);
+					loadMore.loading = false;
+					this.page++;
+					if(lists.length === 0){
+						myAlert.small('没有更多拉!');
+						loadMore.loadAll = true;
+					}
 				})
-				this.lists = lists;
-			})
+			}
 		},
 		components:{questionitem}
 	}

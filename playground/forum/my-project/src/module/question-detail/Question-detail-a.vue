@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="answer-head c-head">
-			<img :src="answer.head">
+			<img :src="answer.head" @click="popShow(answer.h_user_id)">
 			<span class="c-txt2">{{answer.username}}</span>
 		</div>
 		<div class="answer-content">
@@ -41,17 +41,14 @@
 			<div class="c-praise" :class="{active:answer.isPraised}"
 			@click="praise">{{answer.replyPraiseNum}}</div>
 		</div>
-		<!-- <transition name="custom-classes-transition"
-		enter-active-class="animated slideInUp"
-		leave-active-class="animated slideOutDown">
-			<multiinput v-if="inputStatus" @send="newComment"></multiinput>
-		</transition> -->
+		<userpop :userpop="userpop" :userpopshow="userpopshow"></userpop>
 	</div>
 </template>
 <script>
 	import {utcToDate} from '../../assets/js/utils.js';
 	import {myAlert} from '../../assets/js/utils.js';
 	import multiinput from '../../components/multiinput.vue';
+	import userpop from '../../components/UserPop.vue';
 	import 'animate.css';
 	export default{
 		name:'questionDetailA',
@@ -64,7 +61,9 @@
 				// 评论打开层数
 				commentOpenLayer:0,
 				// 是否在追问状态
-				inputStatus:false
+				inputStatus:false,
+				userpop:{},
+				userpopshow:false
 			}
 		},
 		mounted(){
@@ -86,6 +85,15 @@
 		methods:{
 			utcToDate(time){
 				return utcToDate(time);
+			},
+			popShow(id){
+				this.$http.post('',{
+					name:'xwlt.pc.UserInfo',
+					userid:id
+				}).then((response)=>{
+					this.userpop = response.body.data.userinfo;
+					this.userpopshow = true;
+				})
 			},
 			praise(){
 				this.$http.post('',{
@@ -114,7 +122,7 @@
 		},
 		// type: 0无关人 1提问者自己且未采纳答案 2提问者自己且已采纳答案
 		props:['answer','type'],
-		components:{multiinput}
+		components:{multiinput,userpop}
 	}
 </script>
 <style lang='less' scoped>

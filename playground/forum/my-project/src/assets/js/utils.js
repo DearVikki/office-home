@@ -54,6 +54,7 @@ export let loadMore = {
         cb:function(){}
     },
     loading:false,
+    loadAll:false,
     loadMore(){
         let scrollTop = document.body.scrollTop;
         let windowH = window.innerHeight;
@@ -61,19 +62,26 @@ export let loadMore = {
         console.log(scrollTop+windowH)
         console.log(pageH)
         if(scrollTop + windowH > pageH - 5){
+            if(this.loadAll) {
+                // myAlert.small('全部加载完啦！');
+                return;
+            }
             if(this.loading) return;
-            this.config.cb();
             this.loading = true;
+            this.config.cb();
         }
     },
     open(){
         window.addEventListener('scroll',this.loadMore.bind(this),false);
     },
     close(){
-        window.removeEventListener('scroll',this.loadMore);
+        console.log('remove掉了啊 为什么还是会触发loadmore事件')
+        window.removeEventListener('scroll',this.loadMore,false);
     },
     reset(cb){
         this.close();
         this.config.cb = cb;
+        this.loading = false;
+        this.loadAll = false;
     }
 }

@@ -13,7 +13,7 @@
 			:href="'./question-detail.html?id='+s.question_id"
 			>{{s.question}}</a>
 			<div id="clear_history" v-show="searchHistory.length"
-			@click="clearHistory">清除历史记录</div>
+			@click="historyPop.show = true">清除历史记录</div>
 			<!-- 缺省页 -->
 			<div class="c-empty" v-show="!searchHistory.length">
 				<p>暂无搜索历史</p>
@@ -34,16 +34,37 @@
 				<a href="./ask.html">去提问啦!</a>
 			</div>
 		</div>
+		<!-- 清除历史记录弹窗 -->
+		<pop :pop="historyPop">
+			<div id="history_pop">
+				<p>
+					确定要清除所有历史记录吗？
+				</p>
+				<div class="btn-container">
+					<span class="c-yellow-btn" @click="historyPop.show = false">不要！</span>
+					<span class="c-yellow-btn" @click="clearHistory">要！</span>
+				</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
+	import pop from '../../components/Pop.vue'
 	export default{
 		name:'search',
 		data(){
 			return{
 				keywords:'',
 				searchHistory:[],
-				searchResult:[]
+				searchResult:[],
+				historyPop: {
+					show: false,
+					style: {
+						width:'6rem',
+						height:'3rem',
+						padding:'.7rem .6rem'
+					}
+				},
 			}
 		},
 		mounted(){
@@ -85,7 +106,8 @@
 			goBackPage(){
 				history.back();
 			}
-		}
+		},
+		components:{pop}
 	}
 </script>
 <style lang='less'>
@@ -169,6 +191,13 @@
 		.detail{
 			color: #d3d3d3;
 			margin-top: .1rem;
+		}
+	}
+	#history_pop{
+		.btn-container{
+			margin-top:.2rem;
+			display: flex;
+			justify-content: space-around;
 		}
 	}
 </style>

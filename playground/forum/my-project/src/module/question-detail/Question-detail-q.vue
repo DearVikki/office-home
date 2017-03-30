@@ -2,7 +2,7 @@
 	<div id="question_detail_q_container">
 		<div id="q_header">
 			<div id="q_header_left" class="c-head">
-				<img :src="question.head">
+				<img :src="question.head" @click="popShow(question.userid)">
 				<span class="c-txt2">{{question.username}}</span>
 			</div>
 			<div id="q_header_right" class="c-praise" :class="{active:Number(question.is_Praise)}"
@@ -42,12 +42,14 @@
 				</div>
 			</pop>
 		</div>
+		<userpop :userpop="userpop" :userpopshow="userpopshow"></userpop>
 	</div>
 </template>
 <script>
 	import {utcToDate} from '../../assets/js/utils.js'
 	import {myAlert} from '../../assets/js/utils.js';
 	import pop from '../../components/Pop.vue'
+	import userpop from '../../components/UserPop.vue';
 	export default{
 		name:'questionDetailQ',
 		data(){
@@ -61,12 +63,23 @@
 						padding:'.5rem'
 					}
 				},
-				cancelCredit:0
+				cancelCredit:0,
+				userpop:{},
+				userpopshow:false
 			}
 		},
 		methods:{
 			utcToDate(time){
 				return utcToDate(time);
+			},
+			popShow(id){
+				this.$http.post('',{
+					name:'xwlt.pc.UserInfo',
+					userid:id
+				}).then((response)=>{
+					this.userpop = response.body.data.userinfo;
+					this.userpopshow = true;
+				})
 			},
 			praise(){
 				this.$http.post('',{
@@ -144,7 +157,7 @@
 		// 他人看到：１跑腿抢任务 2跑腿已被抢 3跑腿取消任务
 		// 自己看到：4跑腿待被抢 5跑腿确认完成 6跑腿已完成
 		props:['question','type'],
-		components:{pop}
+		components:{pop,userpop}
 	}
 </script>
 <style lang='less' scoped>

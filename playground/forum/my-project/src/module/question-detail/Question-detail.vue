@@ -33,7 +33,7 @@
 	import questionDetailQ from './question-detail-q.vue'
 	import questionDetailA from './question-detail-a.vue'
 	import {getParameterByName} from '../../assets/js/utils.js'
-	import {myAlert} from '../../assets/js/utils.js';
+	import {myAlert, loadMore} from '../../assets/js/utils.js';
 	export default{
 		name:'questiondetail',
 		data(){
@@ -88,59 +88,74 @@
 			}
 		},
 		mounted(){
-			this.$http.post('',{
-				name:'xwlt.pc.PersonalInfo'
-			}).then((response)=>{
-				this.userInfo = response.body.data.userInfo;
-			})
-			this.question_id = getParameterByName('id');
-			this.$http.post('',{
-				name:'xwlt.pc.questionView',
-				questionid: this.question_id,
-				page: this.page
-			}).then((response)=>{
-				let type, question = response.body.data.MoneyRList;
-				question.is_Praise = Number(question.is_Praise);
-				this.question = question;
-				switch(Number(question.task_status)){
-					// 抢任务
-					case 1:
-						if(Number(question.oneself)) type = 4;
-						else type = 1;
-						break;
-					// 已被抢
-					case 2:
-						if(Number(question.oneself)) type = 5;
-						else if(Number(question.taskuser)) type = 3;
-						else type = 2;
-						break;
-					// 任务完成
-					case 3:
-						type = 6;
-						break;
-					// 任务过期
-					case 4:
-						type = 7;
-						break;
-				}
-				this.question_type = type;
-				let answers = response.body.data.ReplyRList;
-				answers.forEach((a)=>{
-					a.isAccepted = Number(a.adopt);
-					a.isPraised = Number(a.is_ReplyPraise);
-					if(!Number(question.oneself)) a.type = 0;
-					else if(!question.is_adopt) a.type = 1;
-					else a.type = 2;
-					a.comment = [];
-					a.TowReplyList.forEach((r)=>{
-						r.name = r.username;
-						a.comment.push(r);
-					})
-				})
-				this.answers = answers;
-			})
+			this.getData();
+			loadMore.config.cb = this.getData;
+			loadMore.open();
 		},
 		methods:{
+			getData(){
+				this.$http.post('',{
+					name:'xwlt.pc.PersonalInfo'
+				}).then((response)=>{
+					this.userInfo = response.body.data.userInfo;
+				})
+				this.question_id = getParameterByName('id');
+				this.$http.post('',{
+					name:'xwlt.pc.questionView',
+					questionid: this.question_id,
+					page: this.page
+				}).then((response)=>{
+					let type, question = response.body.data.MoneyRList;
+					if(this.page === 1) {
+						question.is_Praise = Number(question.is_Praise);
+						this.question = question;
+						switch(Number(question.task_status)){
+							// 抢任务
+							case 1:
+								if(Number(question.oneself)) type = 4;
+								else type = 1;
+								break;
+							// 已被抢
+							case 2:
+								if(Number(question.oneself)) type = 5;
+								else if(Number(question.taskuser)) type = 3;
+								else type = 2;
+								break;
+							// 任务完成
+							case 3:
+								type = 6;
+								break;
+							// 任务过期
+							case 4:
+								type = 7;
+								break;
+						}
+						this.question_type = type;
+					}
+					let answers = response.body.data.ReplyRList;
+					if(answers.length === 0){
+						loadMore.close();
+						loadMore.loadAll = true;
+						myAlert.small('没有更多拉!');
+					} else {
+						answers.forEach((a)=>{
+							a.isAccepted = Number(a.adopt);
+							a.isPraised = Number(a.is_ReplyPraise);
+							if(!Number(question.oneself)) a.type = 0;
+							else if(!question.is_adopt) a.type = 1;
+							else a.type = 2;
+							a.comment = [];
+							a.TowReplyList.forEach((r)=>{
+								r.name = r.username;
+								a.comment.push(r);
+							})
+						})
+						this.answers = this.answers.concat(answers);
+						this.page++;
+					}
+					loadMore.loading = false;
+				})
+			},
 			askMore(answer,comment){
 				this.inputStatus = true;
 				this.activeAnswer = answer;

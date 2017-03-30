@@ -20,7 +20,7 @@
 </template>
 <script>
 	import img from '../../assets/img/index/icon_message2.png'
-	import {utcToDate} from '../../assets/js/utils.js'
+	import {utcToDate, myAlert, loadMore} from '../../assets/js/utils.js'
 	import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 	export default{
 		name:'notice',
@@ -36,18 +36,30 @@
 			}
 		},
 		mounted(){
-			this.$http.post('',{
-				name:'xwlt.pc.NoticeList',
-				page:this.page
-			}).then((response)=>{
-				let data = response.body.data.NoticeList;
-				data.forEach((e)=>{
-					e.img = img;
-				})
-				this.msgs = data.reverse();
-			})
+			this.getData();
+			loadMore.config.cb = this.getData;
+			loadMore.open();
 		},
 		methods:{
+			getData(){
+				this.$http.post('',{
+					name:'xwlt.pc.NoticeList',
+					page:this.page
+				}).then((response)=>{
+					let data = response.body.data.NoticeList;
+					data.forEach((e)=>{
+						e.img = img;
+					})
+					// 哇这么小的细节我都注意到了我真棒！按时间后先顺序排列
+					this.msgs = this.msgs.concat(data.reverse());
+					loadMore.loading = false;
+					this.page++;
+					if(data.length === 0){
+						myAlert.small('没有更多拉!');
+						loadMore.loadAll = true;
+					}
+				})
+			},
 			utcToDate(utc){
 				return utcToDate(utc);
 			},

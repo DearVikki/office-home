@@ -18,7 +18,7 @@
 			<tr v-for="(r,i) in ranks">
 				<td>
 					<img v-if="i===0" src="../../assets/img/index/icon_1.png">
-					<span v-else>r.pm</span>
+					<span v-else>{{i+1}}</span>
 				</td>
 				<td><img :src="r.head"></td>
 				<td>{{r.username}}</td>

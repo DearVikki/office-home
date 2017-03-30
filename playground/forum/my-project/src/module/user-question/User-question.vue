@@ -29,7 +29,7 @@
 	</div>
 </template>
 <script>
-	import {utcToDate} from '../../assets/js/utils.js'
+	import {utcToDate, myAlert, loadMore} from '../../assets/js/utils.js'
 	export default{
 		name:'question',
 		data(){
@@ -65,19 +65,30 @@
 			}
 		},
 		mounted(){
-			this.$http.post('',{
-				name:'xwlt.pc.MyQuestion',
-				page:this.page
-			}).then((response)=>{
-				let question = [];
-				response.body.data.question.forEach((e)=>{
-					e.is_cn = Number(e.is_cn);
-					question.push(e);
-				})
-				this.lists = question;
-			})
+			this.getData();
+			loadMore.config.cb = this.getData;
+			loadMore.open();
 		},
 		methods:{
+			getData(){
+				this.$http.post('',{
+					name:'xwlt.pc.MyQuestion',
+					page:this.page
+				}).then((response)=>{
+					let question = [];
+					response.body.data.question.forEach((e)=>{
+						e.is_cn = Number(e.is_cn);
+						question.push(e);
+					})
+					this.lists = this.lists.concat(question);
+					loadMore.loading = false;
+					this.page++;
+					if(question.length === 0){
+						myAlert.small('没有更多拉!');
+						loadMore.loadAll = true;
+					}
+				})
+			},
 			utcToDate(time){
 				return utcToDate(time);
 			}
