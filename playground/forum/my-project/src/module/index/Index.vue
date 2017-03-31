@@ -32,6 +32,8 @@
 			}
 		},
 		mounted(){
+			if(location.hash === '') location.hash = 1;
+			document.getElementsByTagName('title')[0].textContent =  location.hash.slice(-1) == 0? '分栏': '首页';
 			this.showModule();
 			window.onhashchange = this.showModule;
 			this.$http.post('',{
@@ -42,11 +44,11 @@
 		},
 		methods:{
 			showModule(){
-				if(location.hash === '') this.type = 1;
-				else this.type = location.hash.slice(-1) != 0? 1: 0;
+				this.type = location.hash.slice(-1) != 0? 1: 0;
 			},
 			clickNav(){
 				location.hash = location.hash.slice(-1) != 0? 0: 1;
+				document.getElementsByTagName('title')[0].textContent =  location.hash.slice(-1) == 0? '分栏': '首页';
 			},
 			sign(){
 				this.$http.post('',{

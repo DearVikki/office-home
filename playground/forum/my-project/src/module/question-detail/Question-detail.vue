@@ -108,6 +108,7 @@
 					let type, question = response.body.data.MoneyRList;
 					if(this.page === 1) {
 						question.is_Praise = Number(question.is_Praise);
+						question.path = question.path.split(',');
 						this.question = question;
 						switch(Number(question.task_status)){
 							// 抢任务

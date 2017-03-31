@@ -4,6 +4,8 @@
 			<div id="q_header_left" class="c-head">
 				<img :src="question.head" @click="popShow(question.userid)">
 				<span class="c-txt2">{{question.username}}</span>
+				<!-- 私信弹窗 -->
+				<userpop :userpop="userpop" :userpopshow="userpopshow"></userpop>
 			</div>
 			<div id="q_header_right" class="c-praise" :class="{active:Number(question.is_Praise)}"
 			@click="praise">{{question.praisenum}}</div>
@@ -12,6 +14,11 @@
 			<p id="q_title">{{question.question}}</p>
 			<p id="q_des" :class="{isOpen:isOpen}"
 			@click="isOpen = true">{{describeContent}}</p>
+			<img v-for="img in question.path" :src="img" @click="expandImg(img)">
+			<!-- 大图弹窗 -->
+			<pop :pop="imgPop">
+				<img id="img_pop" :src="activeImg">
+			</pop>
 		</div>
 		<div id="q_footer">
 			<div class="q-footer-left fl">
@@ -42,7 +49,6 @@
 				</div>
 			</pop>
 		</div>
-		<userpop :userpop="userpop" :userpopshow="userpopshow"></userpop>
 	</div>
 </template>
 <script>
@@ -63,6 +69,19 @@
 						padding:'.5rem'
 					}
 				},
+				imgPop:{
+					show:false,
+					style:{
+						background:'transparent',
+						boxShadow:'none',
+						transform: 'translate3d(-50%,-50%,0)',
+						position: 'absolute',
+						left: '50%',
+						top: '50%',
+						margin: 'auto'
+					}
+				},
+				activeImg:'',
 				cancelCredit:0,
 				userpop:{},
 				userpopshow:false
@@ -141,6 +160,10 @@
 					if(!response.loveU) return;
 					myAlert.small('已确认任务完成!');
 				})
+			},
+			expandImg(img){
+				this.activeImg = img.slice(0,-9);
+				this.imgPop.show = true;
 			}
 		},
 		computed:{
@@ -205,6 +228,9 @@
 					content:'';
 				}
 			}
+			img{
+				margin-right: .2rem;
+			}
 		}
 		#q_footer{
 			overflow:hidden;
@@ -250,5 +276,8 @@
 			display: flex;
 			justify-content: space-around;
 		}
+	}
+	#img_pop{
+		max-width:7.5rem;
 	}
 </style>

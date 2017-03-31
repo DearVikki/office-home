@@ -12,6 +12,7 @@
 </template>
 <script>
 	import {myAlert,getParameterByName} from '../../assets/js/utils.js';
+	import pingpp from 'pingpp-js';
 	export default{
 		name:'questionedit',
 		data(){
@@ -40,26 +41,55 @@
 					this.money = '';
 					return;
 				}
-				if(this.type==='积分') this.money = Math.round(this.money);
-				// if(Number(this.money)) {
-					this.$http.post('',{
-						name:'xwlt.pc.Add_Reward',
-						question_id: this.questionId,
-						reward_type: this.type,
-						num: Number(this.money) ? this.money : 0
-					}).then((response)=>{
+				this.$http.post('',{
+					name:'xwlt.pc.QuestionDescribe',
+					question_id: this.questionId,
+					question_describe:this.des
+				}).then((response)=>{
+					if(this.money === '') return;
+					// 追加积分
+					if(this.type==='积分') {
+						this.money = Math.round(this.money);
 						this.$http.post('',{
-							name:'xwlt.pc.QuestionDescribe',
+							name:'xwlt.pc.Add_Reward',
 							question_id: this.questionId,
-							question_describe:this.des
+							reward_type: this.type,
+							num: Number(this.money) ? this.money : 0
 						}).then((response)=>{
 							location.replace('./user-question.html');
 						})
-					})
-				// }
-				if(this.des){
-
-				}
+					} else {
+						// 追加资金
+						this.$http.post('',{
+							name:'xwlt.pc.UpdatePay',
+							channel:'wx_pub',
+							amount:this.money+'000',
+							order_no:new Date().getTime()+Math.ceil(Math.random())*1000,
+							description:JSON.stringify({
+								type:'reward',
+								question_id:this.questionId
+							})
+						}).then((response)=>{
+							if(response.body.code === 1000){
+								this.createPayment(response.body.data.charge);
+							}
+						})
+					}
+				})
+			},
+			createPayment(charge){
+				pingpp.createPayment(charge, function(result, err){
+				    console.log(result);
+				    console.log(err.msg);
+				    console.log(err.extra);
+				    if (result == "success") {
+				        location.replace('./user-question.html');
+				    } else if (result == "fail") {
+				         myAlert.small('支付遇到问题了!');
+				    } else if (result == "cancel") {
+				        myAlert.small('支付被取消了!');
+				    }
+				});
 			}
 		},
 		components:{}

@@ -60,6 +60,7 @@
 <script>
 	import {Group, Datetime} from 'vux';
 	import {myAlert} from '../../assets/js/utils.js'
+	import pingpp from 'pingpp-js';
 	export default{
 		name:'ask',
 		data(){
@@ -141,22 +142,22 @@
 					return false;
 				}
 				if(this.reward_type === 'money'){
-					if(!Number(this.money)) {
-						myAlert.small('别忘了悬赏金额喔');
+					if(isNaN(this.money)){
+						myAlert.small('悬赏金额须为数字喔');
 						return false;
 					}
-					else if(isNaN(this.money)){
-						myAlert.small('悬赏金额须为数字喔');
+					else if(!Number(this.money)) {
+						myAlert.small('别忘了悬赏金额喔');
 						return false;
 					}
 				}
 				else if(this.reward_type === 'integral'){
-					if(!Number(this.credit)) {
-						myAlert.small('别忘了悬赏积分喔');
+					if(isNaN(this.credit)){
+						myAlert.small('悬赏积分须为数字喔');
 						return false;
 					}
-					else if(isNaN(this.credit)){
-						myAlert.small('悬赏积分须为数字喔');
+					else if(!Number(this.credit)) {
+						myAlert.small('别忘了悬赏积分喔');
 						return false;
 					}
 					else if(this.credit > this.existingCredit) {
@@ -173,7 +174,6 @@
 			},
 			post(){
 				if(!this.allCheck()) return;
-				console.log('要提交啦')
 				let fm = new FormData();
 				this.files.forEach((f)=>{
 					fm.append('img[]',f);
@@ -189,12 +189,46 @@
 				fm.append('endtime',this.deadline.utc);
 				this.$http.post('',fm).then((response)=>{
 					if(response.body.code === 1000) {
-						myAlert.small('发布成功!');
-						setTimeout(()=>{
-							location.replace(document.referrer);
-						},1000)
+						// 金额悬赏
+						if(this.reward_type==='money'){
+							this.$http.post('',{
+								name:'xwlt.pc.UpdatePay',
+								channel:'wx_pub',
+								amount:this.money+'000',
+								order_no:new Date().getTime()+Math.ceil(Math.random())*1000,
+								description:JSON.stringify({
+									type:'question',
+									question_id:response.body.data.id
+								})
+							}).then((response)=>{
+								if(response.body.code === 1000){
+									this.createPayment(response.body.data.charge);
+								}
+							})
+						} else this.publishSuccess();
 					} else myAlert.small(response.body.msg);
 				})
+			},
+			createPayment(charge){
+				pingpp.createPayment(charge, (result, err)=>{
+				    console.log(result);
+				    console.log(err.msg);
+				    console.log(err.extra);
+				    if (result == "success") {
+				       this.publishSuccess();
+				    } else if (result == "fail") {
+				         myAlert.small('支付遇到问题了!');
+				    } else if (result == "cancel") {
+				        myAlert.small('支付被取消了!');
+				    }
+				});
+			},
+			publishSuccess(){
+				myAlert.big('发布成功拉!');
+				setTimeout(()=>{
+					if(document.referrer) location.replace(document.referrer);
+					else location.replace('./index.html');
+				},1000)
 			}
 		},
 		computed:{
