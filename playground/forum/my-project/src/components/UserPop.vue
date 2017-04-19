@@ -1,7 +1,10 @@
 <template>
-	<pop :pop="pop">
+	<pop :pop="pop" :popReset="popReset">
 		<div class="question-item-pop">
 			<img class="pop-head" :src="userpop.head">
+			<div id="star1"></div>
+			<div id="star2"></div>
+			<div id="star3"></div>
 			<div class="pop-name">
 				<span>{{userpop.username}}</span>
 				<span class="pop-label" v-if="userpop.label">{{userpop.label}}</span>
@@ -28,7 +31,7 @@
 		data(){
 			return{
 				pop:{
-					show:false,
+					show: false,
 					style:{
 						width:'7.87rem',
 						height:'3.83rem'
@@ -36,12 +39,17 @@
 				}
 			}
 		},
-		watch:{
-			userpopshow(u){
-				if(u) this.pop.show = true;
+		methods:{
+			popReset(){
+				this.userpop.show = false;
 			}
 		},
-		props:['userpop','userpopshow'],
+		watch:{
+			userpop(u){
+				if(u.show) this.pop.show = true;
+			}
+		},
+		props:['userpop'],
 		components:{pop}
 	}
 </script>
@@ -90,6 +98,32 @@
 				color:#333;
 				margin-left:0.11rem;
 			}
+		}
+		#star1,#star2,#star3{
+			position: absolute;
+			width: .5rem;
+			height: .5rem;
+			background-size: contain;
+			background-repeat: no-repeat;
+		}
+		#star1{
+			left: 2.7rem;
+			top: .3rem;
+			height: .8rem;
+			width: .5rem;
+			background-image: url(../assets/img/index/1.png);
+		}
+		#star2{
+			left: 4.35rem;
+			top: .6rem;
+			height: .6rem;
+			background-image: url(../assets/img/index/2.png);
+		}
+		#star3{
+			left: 4.7rem;
+			top: .17rem;
+			height: .6rem;
+			background-image: url(../assets/img/index/3.png);
 		}
 	}
 </style>

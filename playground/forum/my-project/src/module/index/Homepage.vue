@@ -253,6 +253,7 @@
 	}
 	#homepage_main{
 		margin-top: .16rem;
+		position: relative;
 	}
 	#homepage_nav{
 		border-top:1px solid #bbb;

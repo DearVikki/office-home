@@ -59,7 +59,7 @@
 </template>
 <script>
 	import {Group, Datetime} from 'vux';
-	import {myAlert} from '../../assets/js/utils.js'
+	import {getParameterByName, myAlert} from '../../assets/js/utils.js'
 	import pingpp from 'pingpp-js';
 	export default{
 		name:'ask',
@@ -91,6 +91,8 @@
 			}
 		},
 		mounted(){
+			// 获取入口类别
+			this.type = getParameterByName('type') || 1;
 			// 拉取生活和拼拼的子类别
 			this.$http.post('',{
 				name:'xwlt.pc.type'

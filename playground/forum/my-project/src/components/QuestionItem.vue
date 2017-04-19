@@ -36,7 +36,7 @@
 			</a>
 		</div>
 		<!-- 用户信息弹窗 -->
-		<userpop :userpop="userpop" :userpopshow="userpopshow">
+		<userpop :userpop="userpop">
 		</userpop>
 	</div>
 </template>
@@ -49,8 +49,7 @@
 			return{
 				img:img,
 				label:'飞毛腿',
-				userpop:{},
-				userpopshow:false
+				userpop:{}
 			}
 		},
 		methods:{
@@ -60,7 +59,7 @@
 					userid:id
 				}).then((response)=>{
 					this.userpop = response.body.data.userinfo;
-					this.userpopshow = true;
+					this.userpop.show = true;
 				})
 			}
 		},
@@ -170,8 +169,9 @@
 				}
 				.question-info-right{
 					float:right;
-					width:1.07rem;
+					min-width:1.07rem;
 					height: 0.53rem;
+					line-height: .56rem;
 					padding-left: 0.56rem;
 					background-repeat: no-repeat;
 					background-position: 0 center;

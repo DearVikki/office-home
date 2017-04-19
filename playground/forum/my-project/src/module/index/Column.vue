@@ -34,7 +34,7 @@
 			<!-- 缺省页 -->
 			<div class="c-empty" v-if="questions.length === 0">
 				<p>这里空空如也诶</p>
-				<a href="./ask.html">我来添砖加瓦!</a>
+				<p @click="add">我来添砖加瓦!</p>
 			</div>
 		</div>
 	</div>
@@ -181,6 +181,9 @@
 				this.getData();
 				loadMore.close();
 				loadMore.open();
+			},
+			add(){
+				location.href = './ask.html?type='+this.activeNav;
 			}
 		},
 		components:{questionitem}

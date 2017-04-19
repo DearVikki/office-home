@@ -28,15 +28,26 @@
 			return{
 				// 1表示首页 0表示分栏
 				type:1,
-				is_sign:1
+				is_sign:1,
+				iosVersion: 10
 			}
 		},
 		mounted(){
+			// alert(navigator.userAgent)
+			// alert('window.__wxjs_is_wkwebview:'+window.__wxjs_is_wkwebview);
+			// 测试iosversion
+			if(!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
+				var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+				this.iosVersion = parseInt(v[1], 10);  
+			}
+
+			this.$http.post('selectSession').then((response) => {
+				if(!response.body.user_id)  window.location.href="http://121.40.91.157/xwlt/php/index.php/PcApi/login";
+			})
 			if(location.hash === '') location.hash = 1;
-			document.getElementsByTagName('title')[0].textContent =  location.hash.slice(-1) == 0? '分栏': '首页';
 			this.showModule();
 			window.onhashchange = this.showModule;
-			this.$http.post('',{
+			this.$http.get('',{
 				name:'xwlt.pc.Sign'
 			}).then((response)=>{
 				this.is_sign = Number(response.body.data.Sign);
@@ -44,11 +55,14 @@
 		},
 		methods:{
 			showModule(){
+				document.title =  location.hash.slice(-1) == 0? '分栏': '首页';
 				this.type = location.hash.slice(-1) != 0? 1: 0;
 			},
 			clickNav(){
 				location.hash = location.hash.slice(-1) != 0? 0: 1;
-				document.getElementsByTagName('title')[0].textContent =  location.hash.slice(-1) == 0? '分栏': '首页';
+				if(this.iosVersion < 10) {
+					location.reload();
+				}
 			},
 			sign(){
 				this.$http.post('',{

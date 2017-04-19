@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<div id="search_box">
-			<p @click="goBackPage">&#8617;</p>
+			<div id="go_back" @click="goBackPage"></div>
 			<input v-model="keywords" placeholder="搜索..." @keyup="search">
 			<transition name="fade">
-				<p v-show="keywords" @click="keywords=''">×</p>
+				<div id="clear_words" v-show="keywords" @click="keywords=''"></div>
 			</transition>
 		</div>
 		<div id="search_history" v-show="!keywords">
@@ -132,6 +132,14 @@
 		background: #fff;
 		border-radius: .5rem;
 		padding: 0 .2rem;
+		#go_back{
+			float: left;
+			width: .5rem;
+			height: .4rem;
+			margin-top: .25rem;
+			background: url(../../assets/img/index/arr.png) no-repeat;
+			background-size: 100% 100%;
+		}
 		input{
 			height: .65rem;
 			width: 7rem;
@@ -141,13 +149,13 @@
 			color: #333;
 			float: left;
 		}
-		p{
-			float: left;
-			color: @baseColor;
-			font-size: .6rem;
-			&:first-of-type{
-				margin-top:.05rem;
-			}
+		#clear_words{
+			float: right;
+			width: .3rem;
+			height: .3rem;
+			margin-top: .3rem;
+			margin-right: .15rem;
+			background: url(../../assets/img/index/cross.png) center no-repeat;
 		}
 	}
 	#search_history{

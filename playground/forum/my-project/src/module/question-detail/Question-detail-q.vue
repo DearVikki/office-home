@@ -174,7 +174,6 @@
 			}
 		},
 		mounted(){
-			console.log(this.question.is_Praise)
 		},
 		// type:　０问题详情页　
 		// 他人看到：１跑腿抢任务 2跑腿已被抢 3跑腿取消任务
