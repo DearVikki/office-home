@@ -196,7 +196,7 @@
 							this.$http.post('',{
 								name:'xwlt.pc.UpdatePay',
 								channel:'wx_pub',
-								amount:this.money+'000',
+								amount:this.money*100,
 								order_no:new Date().getTime()+Math.ceil(Math.random())*1000,
 								description:JSON.stringify({
 									type:'question',

@@ -96,10 +96,10 @@
 	    top: 0;
 	    background: rgba(0, 0, 0, 0.2);
 	    z-index: 100;
-	    display:flex;
+	    /*display:flex;*/
 	    .pop{
 	    	background: #fff;
-	    	margin:55% auto;
+	    	margin:50% auto;
 	    	background:#ffffff;
 	    	box-shadow:0 0.03rem 0.11rem 0 rgba(0,0,0,0.36);
 	    	border-radius:0.32rem;

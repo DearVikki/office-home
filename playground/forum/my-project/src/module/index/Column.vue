@@ -156,6 +156,9 @@
 					lists.forEach((e)=>{
 						e.index = 4;
 						if(Number(e.task_status)) e.type = Number(e.task_status) + 2;
+						else{
+							e.type = e.reward_type === 'money' ? 1 : 2;
+						}
 						this.questions.push(e);
 					})
 					this.page++;

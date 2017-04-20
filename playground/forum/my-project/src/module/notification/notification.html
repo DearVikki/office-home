@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>通知</title>
+	<title></title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=.5" />
 </head>
@@ -17,7 +17,7 @@
 <body>
 	<div id="app">
 		<div id="noti_header">
-			<switchtab :tabs="tabs" @clicktab="clicktab"></switchtab>
+			<switchtab :tabs="tabs" :initialtab="initialtab" @clicktab="clicktab"></switchtab>
 		</div>
 		<router-view></router-view>
 		<myfooter :type=1></myfooter>

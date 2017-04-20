@@ -12,14 +12,47 @@
 			<!-- from自己 -->
 			<div class="msg-item type0">
 				<div class="msg-item-inner">
-					<div class="msg-content c-txt2">喔</div>
+					<div class="msg-content c-txt2">喔{{height}}</div>
 					<img class="msg-head" :src="img2">
 				</div>
 			</div>
+			<button @click="test=!test">打开更多</button>
+			<div v-show="test">
+				<div class="msg-item type0">
+					<div class="msg-item-inner">
+						<div class="msg-content c-txt2">喔</div>
+						<img class="msg-head" :src="img2">
+					</div>
+				</div>
+				<div class="msg-item type0">
+					<div class="msg-item-inner">
+						<div class="msg-content c-txt2">喔我要说好多话说好多话说好多话说好多话</div>
+						<img class="msg-head" :src="img2">
+					</div>
+				</div>
+				<div class="msg-item type0">
+					<div class="msg-item-inner">
+						<div class="msg-content c-txt2">喔</div>
+						<img class="msg-head" :src="img2">
+					</div>
+				</div>
+				<div class="msg-item type0">
+					<div class="msg-item-inner">
+						<div class="msg-content c-txt2">喔今天天气不错耶天气不错耶天气不错耶天气不错耶天气不错耶</div>
+						<img class="msg-head" :src="img2">
+					</div>
+				</div>
+				<div class="msg-item type0">
+					<div class="msg-item-inner">
+						<div class="msg-content c-txt2">喔</div>
+						<img class="msg-head" :src="img2">
+					</div>
+				</div>
+			</div>
 		</div>
-		<div id="msg_footer_container">
+		<div id="msg_footer_container" :class="{focus:focus}">
 			<div class="input-box c-txt2">
-				<div ref="input" contenteditable="true" @input="inputWords"></div>
+				<div ref="input" contenteditable="true" @focus="focusInput" @blur="focus=false" @input="inputWords"></div>
 			</div>
 			<div class="send c-txt2"
 			:class="{disabled:!txt}">发送</div>
@@ -35,20 +68,39 @@
 			return{
 				img1:img1,
 				img2:img2,
-				txt:''
+				txt:'',
+				height:'',
+				test: false,
+				focus:false,
+				top:''
 			}
 		},
 		methods:{
 			inputWords(){
 				this.txt = this.$refs.input.textContent;
+			},
+			focusInput(){
+				// document.getElementById('msg_footer_container').style.position = 'absolute';
+				// document.getElementById('msg_footer_container').style.top = document.body.scrollTop + 'px';
 			}
+		},
+		mounted(){
+			this.height = document.body.getBoundingClientRect().height;
 		}
 	}
 </script>
+<style lang='less'>
+	html,body{
+	   /* -webkit-overflow-scrolling : touch !important;
+	    overflow: auto !important;
+	    height: 100% !important;*/
+	}
+</style>
 <style lang='less' scoped>
 	@baseColor:#ffe857;
 	#msg_body_container{
 		padding: .4rem;
+		position: relative;
 		.msg-time{
 			font-size:0.32rem;
 			color:#999;
@@ -117,7 +169,11 @@
 		padding:0.29rem 0.16rem 0.3rem .4rem;
 		border-top:1px solid #d3d3d3;
 		background: #f7f7f7;
-		/*伪输入框*/
+		&.focus{
+			position:absolute;
+			bottom:0;
+			left: 0;
+		}
 		.input-box{
 			width:7.87rem;
 			min-height: 0.77rem;
@@ -129,15 +185,6 @@
 			float: left;
 			overflow: scroll;
 			position:relative;
-			p:after{
-				content:'|';
-				margin-left:0.03rem;
-				vertical-align:top;
-				font-size:.34rem;
-				font-weight:lighter;
-				color:#aaa;
-				animation:fakeCursor 1.5s infinite;
-			}
 			input{
 				width:100%;
 				height:100%;
@@ -165,18 +212,5 @@
 			}
 		}
 	}
-	@keyframes fakeCursor{
-		1%{
-			opacity:0;
-		}
-		50%{
-			opacity:0;
-		}
-		51%{
-			opacity:1;
-		}
-		100%{
-			opacity:1;
-		}
-	}
+	
 </style>

@@ -154,6 +154,6 @@
 		font-size:0.37rem;
 		color:#999999;
 		text-align:center;
-		margin:0.53rem auto;
+		margin: .53rem 0 1rem 0;
 	}
 </style>

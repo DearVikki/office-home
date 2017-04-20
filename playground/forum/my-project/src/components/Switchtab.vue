@@ -1,7 +1,7 @@
 <template>
 	<div class="switchtab_container">
 		<span v-for="(t,i) in tabs" class="switchtab"
-		:class="{active:activeTab===i}"
+		:class="{active:activeTab == i}"
 		@click="clickTab(i)">
 			{{t.content}}
 		</span>
@@ -16,7 +16,7 @@
 			}
 		},
 		mounted(){
-			this.activeTab = this.initialTab;
+			this.activeTab = this.initialtab;
 		},
 		methods:{
 			clickTab(i){
@@ -24,9 +24,14 @@
 				this.$emit('clicktab',i);
 			}
 		},
+		watch:{
+			initialtab(){
+				this.activeTab = this.initialtab;
+			}
+		},
 		props:{
 			tabs:{},
-			initialTab:{
+			initialtab:{
 				default:0
 			}
 		}

@@ -14,14 +14,15 @@
 					</div>
 				</div>
 			</div>
+			<div id="page_container">
+				<span>{{currentPage}}</span>
+				<span>/{{ShoppingList.length}}</span>
+			</div>
 		</div>
-		<div id="page_container">
-			<span>{{currentPage}}</span>
-			<span>/{{ShoppingList.length}}</span>
-		</div>
+		<!-- 兑换弹窗 -->
 		<pop :pop="pop">
 			<div id="exchange_pop">
-				<div id="exchange_pop_part1">测试商品各种商品</div>
+				<div id="exchange_pop_part1">{{exchangeMethod.content}}</div>
 				<div id="exchange_pop_part2">
 					<div>兑换方式: 
 						<span class="credit" v-show="exchangeMethod.integral">{{exchangeMethod.integral}}</span>
@@ -33,7 +34,15 @@
 						<span class="credit">{{existingCredit}}</span>
 					</div>
 				</div>
-				<div class="c-yellow-btn">兑换</div>
+				<div class="c-yellow-btn" @click="exchangeStep2">兑换</div>
+			</div>
+		</pop>
+		<!-- 兑换成功弹窗 -->
+		<pop :pop="successPop">
+			<div id="success_pop">
+				<p>兑换成功!</p>
+				<p>凭兑换记录到<span>{{exchangeAddress}}</span>领取</p>
+				<div class="c-yellow-btn" @click="successPop.show = false">确定</div>
 			</div>
 		</pop>
 	</div>
@@ -41,6 +50,8 @@
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
 	import pop from '../../components/Pop.vue';
+	import {myAlert} from '../../assets/js/utils.js';
+	import pingpp from 'pingpp-js';
 	export default{
 		name:'market',
 		data(){
@@ -62,14 +73,21 @@
 		        		width:'7.8rem'
 		        	}
 		        },
-		        exchangeMethod:{
-		        	content:'',
-		        	"mode_id":"1",
-		        	"integral":10,
-		        	"money":50.00,
-		        	"goods_id":"1"
+		        successPop:{
+		        	show:false,
+		        	style:{
+		        		width:'7.8rem'
+		        	}
 		        },
-		        existingCredit:0
+		        exchangeMethod:{
+		        	content:'测试商品各种商品',
+		        	mode_id:"1",
+		        	integral:10,
+		        	money:50.00,
+		        	goods_id:"1"
+		        },
+		        existingCredit:0,
+		        exchangeAddress:''
 			}
 		},
 		mounted(){
@@ -108,6 +126,54 @@
 					this.exchangeMethod = mode;
 					this.pop.show = true;
 				})
+			},
+			exchangeStep2(){
+				this.$http.post('',{
+					name:'xwlt.pc.ShoppingMode',
+					goods_id: this.exchangeMethod.goods_id
+				}).then((response) => {
+					if(response.body.code !== 1000){
+						myAlert(response.body.msg);
+					}
+					this.exchangeAddress = response.body.data.address;
+					if(!this.exchangeMethod.money) {
+						this.exchangeSuccess();
+					} else {
+						// 转到支付
+						this.$http.post('',{
+							name:'xwlt.pc.UpdatePay',
+							channel:'wx_pub',
+							amount:Number(this.exchangeMethod.money)*100,
+							order_no:new Date().getTime()+Math.ceil(Math.random())*1000,
+							description:JSON.stringify({
+								type:'shopping',
+								question_id:this.exchangeMethod.goods_id
+							})
+						}).then((response)=>{
+							if(response.body.code === 1000){
+								this.createPayment(response.body.data.charge);
+							}
+						})
+					}
+				})
+			},
+			createPayment(charge){
+				pingpp.createPayment(charge, (result, err)=>{
+				    console.log(result);
+				    console.log(err.msg);
+				    console.log(err.extra);
+				    if (result == "success") {
+				       this.exchangeSuccess();
+				    } else if (result == "fail") {
+				         myAlert.small('支付遇到问题了!');
+				    } else if (result == "cancel") {
+				        myAlert.small('支付被取消了!');
+				    }
+				});
+			},
+			exchangeSuccess(){
+				this.pop.show = false;
+				this.successPop.show = true;
 			}
 		},
 		components:{pop}
@@ -125,7 +191,7 @@
 		#page_container{
 			position:absolute;
 			right:.67rem;
-			bottom:2.2rem;
+			bottom:.2rem;
 			color:#999;
 			font-size:.5rem;
 			span:nth-of-type(1){
@@ -177,6 +243,7 @@
 		}
 	}
 	#exchange_pop{
+		padding-bottom: .1rem;
 		#exchange_pop_part1{
 			min-height: 3rem;
 			border-bottom: 2px dashed #d3d3d3;
@@ -208,6 +275,20 @@
 			}
 			.plus{
 				color:#979797;
+			}
+		}
+	}
+	#success_pop{
+		padding: .5rem 0 .1rem 0;
+		p:nth-of-type(1){
+			font-size: .48rem;
+			margin-bottom: .2rem;
+		}
+		p:nth-of-type(2){
+			border-bottom: 2px dashed #bbb;
+			padding: 0 .2rem .5rem .2rem;
+			span{
+				color: #ffe857;
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 	<div>
 		<div id="search_box">
 			<div id="go_back" @click="goBackPage"></div>
-			<input v-model="keywords" placeholder="搜索..." @keyup="search">
+			<input v-model="keywords" placeholder="搜索..." autofocus=true @keyup="search">
 			<transition name="fade">
 				<div id="clear_words" v-show="keywords" @click="keywords=''"></div>
 			</transition>

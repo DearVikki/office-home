@@ -12,7 +12,7 @@
 		</div>
 		<div id="q_main">
 			<p id="q_title">{{question.question}}</p>
-			<p id="q_des" :class="{isOpen:isOpen}"
+			<p id="q_des" :class="{tooLong: question.question_describe.length>=73, isOpen:isOpen}"
 			@click="isOpen = true">{{describeContent}}</p>
 			<img v-for="img in question.path" :src="img" @click="expandImg(img)">
 			<!-- 大图弹窗 -->
@@ -215,7 +215,7 @@
 				max-height:1000px;
 				word-wrap:break-word;
 				position:relative;
-				&:before{
+				&.tooLong:before{
 					content:'显示全部';
 					font-size:0.32rem;
 					color:#f9c13a;
