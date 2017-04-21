@@ -11,6 +11,8 @@
 			<p>还没有人回答过这个问题</p>
 			<a @click="answerQuestion">我来回答!</a>
 		</div>
+		<!-- 到底部 -->
+		<div class="c-end" v-if="loadAll && answers.length">都被你看完拉吼!</div>
 		<!-- 弹出打字框的透明蒙版 -->
 		<div v-if="inputStatus || textareaStatus" @click="inputStatus = textareaStatus = false"
 		id="trans_mask"></div>
@@ -70,6 +72,7 @@
 		            "praisenum":0
 				},
 				answers:[],
+				loadAll:false,
 				answer1:{
 					content:'地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙',
 					username:'楼二学长',
@@ -134,9 +137,9 @@
 						this.question_type = type;
 					}
 					let answers = response.body.data.ReplyRList;
-					if(answers.length === 0){
+					if(!answers.length && this.answers.length){
 						loadMore.close();
-						loadMore.loadAll = true;
+						loadMore.loadAll = this.loadAll = true;
 						myAlert.small('没有更多拉!');
 					} else {
 						answers.forEach((a)=>{

@@ -5,10 +5,14 @@
 		:type="list.type"
 		:index=4></questionitem>
 		<!-- 缺省页 -->
-		<div class="c-empty" v-if="lists.length === 0">
-			<p>你还没有任何浏览历史</p>
-			<a href="./index.html">去浏览!</a>
+		<div class="c-empty-bg" v-if="lists.length === 0">
+			<div class="c-empty">
+				<p>你还没有任何浏览历史</p>
+				<a href="./index.html">去浏览!</a>
+			</div>
 		</div>
+		<!-- 到底部 -->
+		<div class="c-end" v-if="loadAll && lists.length">都被你看完拉!</div>
 	</div>
 </template>
 <script>
@@ -20,6 +24,7 @@
 			return{
 				page:1,
 				lists:[],
+				loadAll:false,
 				listsDemo:[{
 					"question_id":"2",
 					"type_id":"4",
@@ -69,9 +74,9 @@
 					this.lists = this.lists.concat(lists);
 					loadMore.loading = false;
 					this.page++;
-					if(lists.length === 0){
+					if(!lists.length && this.lists.length){
 						myAlert.small('没有更多拉!');
-						loadMore.loadAll = true;
+						loadMore.loadAll = this.loadAll = true;
 					}
 				})
 			}

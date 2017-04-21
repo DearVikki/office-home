@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=.5" />
 </head>
@@ -10,6 +9,15 @@
 		background: #f2f2f2 !important;
 	}
 </style>
+<script>
+	var xhr = new XMLHttpRequest();
+	xhr.open('post', 'http://www.bmwenwo.com/index.php/PcApi/selectSession', true);
+	xhr.withCredentials = true;
+	xhr.send();
+	xhr.onload = function(r){
+		if(!JSON.parse(xhr.response).user_id) window.location.href="http://www.bmwenwo.com/index.php/PcApi/login";
+	}
+</script>
 <body>
 	<div id="app">
 		<index></index>

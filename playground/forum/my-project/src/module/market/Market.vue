@@ -14,6 +14,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- 奇怪！这个a标签为什么点不了！ -->
 			<a id="view_history" href="./market-history.html">查看兑换历史</a>
 			<div id="page_container">
 				<span>{{currentPage}}</span>
@@ -210,6 +211,7 @@
 			color:#F9C13A;
 			font-size: .35rem;
 			text-decoration: underline;
+			z-index: 3;
 		}
 	}
 	#product_container{

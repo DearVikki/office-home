@@ -14,10 +14,14 @@
 			<p>{{utcToDate(a.time)}}</p>
 		</a>
 		<!-- 缺省页 -->
-		<div class="c-empty" v-if="answers.length === 0">
-			<p>你还没有回答过问题</p>
-			<a href="./index.html">去回答!</a>
+		<div class="c-empty-bg" v-if="answers.length === 0">
+			<div class="c-empty">
+				<p>你还没有回答过问题</p>
+				<a href="./index.html">去回答!</a>
+			</div>
 		</div>
+		<!-- 到底部 -->
+		<div class="c-end" v-if="loadAll && answers.length">都被你看完拉吼!</div>
 	</div>
 </template>
 <script>
@@ -28,6 +32,7 @@
 			return{
 				page:1,
 				answers:[],
+				loadAll:false,
 				answersDemo:[{
 					content:'xxx',
 					question:'xxxx?',
@@ -56,9 +61,9 @@
 					this.answers = this.answers.concat(answers);
 					loadMore.loading = false;
 					this.page++;
-					if(answers.length === 0){
+					if(!answers.length && this.answers.length){
 						myAlert.small('没有更多拉!');
-						loadMore.loadAll = true;
+						loadMore.loadAll = this.loadAll = true;
 					}
 				})
 			},

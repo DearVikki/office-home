@@ -44,18 +44,24 @@
 				</div>
 				<div class="msg-item type0">
 					<div class="msg-item-inner">
+						<div class="msg-content c-txt2">喔今天天气不错耶天气不错耶天气不错耶天气不错耶天气不错耶</div>
+						<img class="msg-head" :src="img2">
+					</div>
+				</div>
+				<div class="msg-item type0">
+					<div class="msg-item-inner">
 						<div class="msg-content c-txt2">喔</div>
 						<img class="msg-head" :src="img2">
 					</div>
 				</div>
 			</div>
-		</div>
-		<div id="msg_footer_container" :class="{focus:focus}">
-			<div class="input-box c-txt2">
-				<div ref="input" contenteditable="true" @focus="focusInput" @blur="focus=false" @input="inputWords"></div>
+			<div id="msg_footer_container" :class="{focus:true}">
+				<div class="input-box c-txt2">
+					<div ref="input" contenteditable="true" @focus="focusInput" @blur="focus=false" @input="inputWords"></div>
+				</div>
+				<div class="send c-txt2"
+				:class="{disabled:!txt}">发送</div>
 			</div>
-			<div class="send c-txt2"
-			:class="{disabled:!txt}">发送</div>
 		</div>
 	</div>
 </template>
@@ -82,10 +88,11 @@
 			focusInput(){
 				// document.getElementById('msg_footer_container').style.position = 'absolute';
 				// document.getElementById('msg_footer_container').style.top = document.body.scrollTop + 'px';
+				document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
 			}
 		},
 		mounted(){
-			this.height = document.body.getBoundingClientRect().height;
+			document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
 		}
 	}
 </script>
@@ -98,6 +105,9 @@
 </style>
 <style lang='less' scoped>
 	@baseColor:#ffe857;
+	body{
+		padding-bottom: 0;
+	}
 	#msg_body_container{
 		padding: .4rem;
 		position: relative;

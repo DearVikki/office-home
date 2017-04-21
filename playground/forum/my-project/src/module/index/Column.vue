@@ -36,6 +36,8 @@
 				<p>这里空空如也诶</p>
 				<p @click="add">我来添砖加瓦!</p>
 			</div>
+			<!-- 到底部 -->
+			<div class="c-end" v-if="loadAll && questions.length">都被你看完拉吼!</div>
 		</div>
 	</div>
 </template>
@@ -120,7 +122,8 @@
 				page:1,
 				type_id:'',
 				type_label_id:'',
-				questions:[]
+				questions:[],
+				loadAll:false
 			}
 		},
 		mounted(){
@@ -152,7 +155,6 @@
 					page:this.page
 				}).then((response)=>{
 					let lists = response.body.data.Question_list;
-					if(lists.length === 0) myAlert.small('已经到底了喔');
 					lists.forEach((e)=>{
 						e.index = 4;
 						if(Number(e.task_status)) e.type = Number(e.task_status) + 2;
@@ -163,9 +165,14 @@
 					})
 					this.page++;
 					loadMore.loading = false;
+					if(!lists.length && this.questions.length) {
+						myAlert.small('已经到底了喔');
+						loadMore.loadAll = this.loadAll = true;
+					}
 				})
 			},
 			clickNav(nav,index){
+				this.loadAll = false;
 				this.activeNav = index;
 				this.page = 1;
 				this.questions = [];
@@ -176,6 +183,7 @@
 				loadMore.open();
 			},
 			clickSub2(nav,sub,subindex){
+				this.loadAll = false;
 				nav.activeSub = subindex;
 				this.page = 1;
 				this.questions = [];
@@ -259,5 +267,8 @@
 				}
 			}
 		}
+	}
+	#column_main_container{
+		padding-bottom: 1rem;
 	}
 </style>

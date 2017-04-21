@@ -5,10 +5,14 @@
 		:type=1
 		:index=4></questionitem>
 		<!-- 缺省页 -->
-		<div class="c-empty" v-if="lists.length === 0">
-			<p>推荐功能在休息…</p>
-			<a href="./index.html">那我自己去浏览下!</a>
+		<div class="c-empty-bg" v-if="!lists.length">
+			<div class="c-empty">
+				<p>推荐功能在休息…</p>
+				<a href="./index.html">那我自己去浏览下!</a>
+			</div>
 		</div>
+		<!-- 到底部 -->
+		<div class="c-end" v-if="lists.length">都被你看完拉吼!</div>
 	</div>
 </template>
 <script>

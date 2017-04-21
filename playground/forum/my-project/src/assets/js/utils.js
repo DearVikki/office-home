@@ -59,14 +59,8 @@ export let loadMore = {
         let scrollTop = document.body.scrollTop;
         let windowH = window.innerHeight;
         let pageH = document.body.getBoundingClientRect().height;
-        console.log(scrollTop+windowH)
-        console.log(pageH)
         if(scrollTop + windowH > pageH - 5){
-            if(this.loadAll) {
-                // myAlert.small('全部加载完啦！');
-                return;
-            }
-            if(this.loading) return;
+            if(this.loadAll || this.loading) return;
             this.loading = true;
             this.config.cb();
         }

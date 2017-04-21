@@ -33,6 +33,11 @@
 			}
 		},
 		mounted(){
+			// this.$http.post('selectSession').then((response) => {
+			// 	console.log(response.body.user_id)
+			// 	if(!response.body.user_id)  window.location.href="http://www.bmwenwo.com/index.php/PcApi/login";
+			// })
+			// 测试是否支持webview
 			// alert(navigator.userAgent)
 			// alert('window.__wxjs_is_wkwebview:'+window.__wxjs_is_wkwebview);
 			// 测试iosversion
@@ -41,9 +46,6 @@
 				this.iosVersion = parseInt(v[1], 10);  
 			}
 
-			this.$http.post('selectSession').then((response) => {
-				if(!response.body.user_id)  window.location.href="http://121.40.91.157/xwlt/php/index.php/PcApi/login";
-			})
 			if(location.hash === '') location.hash = 1;
 			this.showModule();
 			window.onhashchange = this.showModule;

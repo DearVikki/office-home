@@ -22,10 +22,14 @@
 			</div>
 		</a>
 		<!-- 缺省页 -->
-		<div class="c-empty" v-if="lists.length === 0">
-			<p>你还没有发起过提问</p>
-			<a href="./ask.html">去做个问题宝宝!</a>
+		<div class="c-empty-bg" v-if="lists.length === 0">
+			<div class="c-empty">
+				<p>你还没有发起过提问</p>
+				<a href="./ask.html">去做个问题宝宝!</a>
+			</div>
 		</div>
+		<!-- 到底部 -->
+		<div class="c-end" v-if="loadAll && lists.length">都被你看完拉吼!</div>
 	</div>
 </template>
 <script>
@@ -61,7 +65,8 @@
 					"username":"狐狸的味道",
 					"replynum":0,
 					"praisenum":0
-				}]
+				}],
+				loadAll:false
 			}
 		},
 		mounted(){
@@ -83,9 +88,9 @@
 					this.lists = this.lists.concat(question);
 					loadMore.loading = false;
 					this.page++;
-					if(question.length === 0){
+					if(!question.length && this.lists.length){
 						myAlert.small('没有更多拉!');
-						loadMore.loadAll = true;
+						loadMore.loadAll = this.loadAll = true;
 					}
 				})
 			},
