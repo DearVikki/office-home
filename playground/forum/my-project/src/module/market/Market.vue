@@ -14,6 +14,7 @@
 					</div>
 				</div>
 			</div>
+			<a id="view_history" href="./market-history.html">查看兑换历史</a>
 			<div id="page_container">
 				<span>{{currentPage}}</span>
 				<span>/{{ShoppingList.length}}</span>
@@ -202,6 +203,14 @@
 				vertical-align: -.05rem;
 			}
 		}
+		#view_history{
+			position:absolute;
+			left:.67rem;
+			bottom:.2rem;
+			color:#F9C13A;
+			font-size: .35rem;
+			text-decoration: underline;
+		}
 	}
 	#product_container{
 		.swiper-slide{
@@ -288,7 +297,7 @@
 			border-bottom: 2px dashed #bbb;
 			padding: 0 .2rem .5rem .2rem;
 			span{
-				color: #ffe857;
+				color: #F9C13A;
 			}
 		}
 	}
