@@ -92,7 +92,7 @@
 		},
 		mounted(){
 			// 获取入口类别
-			this.type = getParameterByName('type') || 1;
+			this.type = Number(getParameterByName('type')) || 1;
 			// 拉取生活和拼拼的子类别
 			this.$http.post('',{
 				name:'xwlt.pc.type'
@@ -100,7 +100,9 @@
 				let type = response.body.data.type;
 				this.type1Option = type[0].ToWtype;
 				this.type4Option = type[3].ToWtype;
-				this.subtype = this.type1Option[0].type_id;
+				// 匹配入口子类别
+				if(this.type == 1) this.subtype = Number(getParameterByName('subtype')) || this.type1Option[0].type_id;
+				else if(this.type == 4 && this.type4Option.length !== 0) this.subtype = getParameterByName('subtype') || this.type4Option[0].type_id;
 			})
 			this.setToday();
 			// 获取用户积分

@@ -11,36 +11,22 @@
 		</div>
 		<!-- nav条 -->
 		<div id="homepage_nav">
-			<div v-for="(n,index) in nav.items" class="nav"
+			<router-link v-for="(n,index) in nav.items" class="nav"
 			:class="{active:index === nav.activeNav}"
-			@click="clickNav(index)">
+			:to="n.router">
 				{{n.name}}
-			</div>
+			</router-link>
 		</div>
 		<div id="homepage_main">
-			<!-- 热度榜/赏金榜/积分榜 -->
-			<div v-show="nav.activeNav < 3">
-				<questionitem v-if="questionTop.question_id"
-				:question="questionTop"
-				:type="nav.activeNav"
-				:index=-1></questionitem>
-				<questionitem v-for="(d,index) in questionData"
-				:question="d"
-				:type="nav.activeNav"
-				:index="index"></questionitem>
-			</div>
-			<!-- 个人榜 -->
-			<div v-show="nav.activeNav == 3">
-				<personal></personal>
-			</div>
+			<router-view></router-view>
 		</div>
 	</div>
 </template>
 <script>
-	import Swiper from '../../assets/lib/swiper.js';
-	import questionitem from '../../components/QuestionItem.vue'
-	import personal from './Homepage-personal.vue'
-	import {getParameterByName, loadMore, myAlert} from '../../assets/js/utils.js'
+	import Swiper from '../assets/lib/swiper.js';
+	
+	import questionitem from '../components/QuestionItem.vue'
+	import {getParameterByName, loadMore, myAlert} from '../assets/js/utils.js'
 	export default{
 		name:'homepage',
 		data(){
@@ -50,50 +36,53 @@
 				}],
 				nav:{
 					// 0:热度 1:赏金 2:积分 3:个人
-					activeNav: 0,
+					activeNav: '',
 					items:[{
 						name:'热度榜',
-						id:1
+						router:'board/hot'
 					},{
 						name:'赏金榜',
-						id:1
+						router:'board/money'
 					},{
 						name:'积分榜',
-						id:1
+						router:'board/credit'
 					},{
 						name:'个人榜',
-						id:1
+						router:'rank'
 					}]
 				},
-				question:{
-					type:3,
-					data:[{
-						question_id:'',
-						question:'',
-						question_describe:'',
-						money:'',
-						hot:'',
-						browse_num:'',
-						replynum:'',
-						praisenum:''
-					}]
-				},
-				hotlist:[],
-				hotlistTop:{},
-				money:{
-					list:[],
-					top:[],
-					page:1
-				},
-				credit:{
-					list:[],
-					top:[],
-					page:1
+					question:{
+						type:3,
+						data:[{
+							question_id:'',
+							question:'',
+							question_describe:'',
+							money:'',
+							hot:'',
+							browse_num:'',
+							replynum:'',
+							praisenum:''
+						}]
+					},
+					hotlist:[],
+					hotlistTop:{},
+					money:{
+						list:[],
+						top:[],
+						page:1
+					},
+					credit:{
+						list:[],
+						top:[],
+						page:1
+					}
 				}
 			}
 		},
 		mounted(){
-			// this.nav.activeNav = location.hash.slice(-1) || 0;
+			let type = Number(getParameterByName('type')) || 1,
+				subtype = Number(getParameterByName('subtype')) || 0;
+			if(type === 1) this.clickNav(subtype);
 			// 拉取轮播图数据
 			this.$http.post('',{
 				name:'xwlt.pc.banner'
@@ -108,7 +97,7 @@
 				          loop:true
 				      })
 				})
-			})
+			}),
 			// 拉取热度榜
 			this.$http.post('',{
 				name:'xwlt.pc.hotlist'
@@ -175,6 +164,7 @@
 				})
 			},
 			clickNav(index){
+				history.pushState({},'','./index.html?type=1&subtype=' + index);
 				loadMore.loading = true;
 				this.money.list = this.credit.list = [];
 				this.money.page = this.credit.page = 1;

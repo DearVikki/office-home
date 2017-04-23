@@ -1,7 +1,8 @@
 <template>
 	<div style="margin-bottom:2rem">
 		<questionDetailQ :question="question" :type="question_type"
-		@answerQuestion="answerQuestion"></questionDetailQ>
+		@answerQuestion="answerQuestion"
+		@changeQuestionType="changeQuestionType"></questionDetailQ>
 		<questionDetailA v-for="answer in answers"
 		:answer="answer" :type=answer.type
 		@askMore="askMore"
@@ -26,12 +27,15 @@
 		leave-active-class="animated slideOutDown">
 			<multitextarea v-if="textareaStatus" @send="newAnswer"></multitextarea>
 		</transition>
+		<!-- scrollTop -->
+		<scrollTop></scrollTop>
 	</div>
 </template>
 <script>
 	import myfooter from '../../components/Footer.vue'
 	import multiinput from '../../components/multiinput.vue';
 	import multitextarea from '../../components/multitextarea.vue';
+	import scrollTop from '../../components/scrollTop.vue'
 	import questionDetailQ from './question-detail-q.vue'
 	import questionDetailA from './question-detail-a.vue'
 	import {getParameterByName} from '../../assets/js/utils.js'
@@ -215,9 +219,13 @@
 					answer.isAccepted = true;
 					myAlert.small('采纳成功');
 				})
+			},
+			// 改变question type
+			changeQuestionType(type){
+				this.question_type = type;
 			}
 		},
-		components:{myfooter,multiinput,multitextarea,questionDetailQ,questionDetailA}
+		components:{myfooter,multiinput,multitextarea,scrollTop,questionDetailQ,questionDetailA}
 	}
 </script>
 <style lang='less' scoped>

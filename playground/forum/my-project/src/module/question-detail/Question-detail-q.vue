@@ -150,6 +150,7 @@
 				}).then((response)=>{
 					if(!response.loveU) return;
 					myAlert.small('已取消任务!');
+					this.$emit('changeQuestionType',4);
 				})
 			},
 			completeTask(){
@@ -159,6 +160,7 @@
 				}).then((response)=>{
 					if(!response.loveU) return;
 					myAlert.small('已确认任务完成!');
+					this.$emit('changeQuestionType',6);
 				})
 			},
 			expandImg(img){

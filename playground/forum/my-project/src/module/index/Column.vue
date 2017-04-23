@@ -2,26 +2,26 @@
 	<div id="column_container">
 		<div id="column_nav_container">
 			<div id="column_nav_main_container">
-				<div v-for="(nav,index) in navs"
+				<div v-for="nav in navs"
 				class="column-nav"
-				:style="{backgroundImage: activeNav===index?'url('+nav.labelActive+')':'url('+nav.label+')'}"
-				@click="clickNav(nav,index)">{{nav.txt}}</div>
+				:style="{backgroundImage: activeNav.type_id===nav.type_id?'url('+nav.labelActive+')':'url('+nav.label+')'}"
+				@click="clickNav(nav)">{{nav.txt}}</div>
 			</div>
 			<div class="column-nav-sub-container"
-			v-for="(nav,index) in navs"
-			v-show="activeNav===index">
+			v-for="nav in navs"
+			v-show="activeNav.type_id===nav.type_id">
 				<!-- 生活/拼拼子模块 -->
 				<div class="sub-container2"
-				v-if="activeNav===1 || activeNav===4"
+				v-if="activeNav.type_id===1 || activeNav.type_id===4"
 				:class="{opened:nav.opened}"
 				@click="nav.opened = !nav.opened">
-					<span v-for="(sub,subindex) in nav.subs"
-					:class="{active:nav.activeSub===subindex}"
-					@click="clickSub2(nav,sub,subindex)">{{sub.type_name}}</span>
+					<span v-for="sub in nav.subs"
+					:class="{active: activeSub.type_id===sub.type_id}"
+					@click="clickSub2(nav,sub)">{{sub.type_name}}</span>
 				</div>
 				<!-- 其余子模块 -->
 				<div class="sub-container"
-				v-if="activeNav!==1 && activeNav!==4">
+				v-if="activeNav.type_id!==1 && activeNav.type_id!==4">
 					{{nav.sub}}
 				</div>
 			</div>
@@ -39,23 +39,25 @@
 			<!-- 到底部 -->
 			<div class="c-end" v-if="loadAll && questions.length">都被你看完拉吼!</div>
 		</div>
+		<scrollTop></scrollTop>
 	</div>
 </template>
 <script>
-	import icon_all_pressed from '../../assets/img/index/icon_all.png'
-	import icon_life_pressed from '../../assets/img/index/icon_life.png'
-	import icon_pencil_pressed from '../../assets/img/index/icon_pencil.png'
-	import icon_puttogether_pressed from '../../assets/img/index/icon_puttogether.png'
-	import icon_lost_pressed from '../../assets/img/index/icon_lost.png'
-	import icon_help_pressed from '../../assets/img/index/icon_help.png'
-	import icon_all from '../../assets/img/index/icon_all (1).png'
-	import icon_life from '../../assets/img/index/icon_life (1).png'
-	import icon_pencil from '../../assets/img/index/icon_pencil (1).png'
-	import icon_puttogether from '../../assets/img/index/icon_puttogether (1).png'
-	import icon_lost from '../../assets/img/index/icon_lost (1).png'
-	import icon_help from '../../assets/img/index/icon_help (1).png'
-	import questionitem from '../../components/QuestionItem.vue'
-	import {getParameterByName, loadMore, myAlert} from '../../assets/js/utils.js'
+	import icon_all_pressed from '../assets/img/index/icon_all.png'
+	import icon_life_pressed from '../assets/img/index/icon_life.png'
+	import icon_pencil_pressed from '../assets/img/index/icon_pencil.png'
+	import icon_puttogether_pressed from '../assets/img/index/icon_puttogether.png'
+	import icon_lost_pressed from '../assets/img/index/icon_lost.png'
+	import icon_help_pressed from '../assets/img/index/icon_help.png'
+	import icon_all from '../assets/img/index/icon_all (1).png'
+	import icon_life from '../assets/img/index/icon_life (1).png'
+	import icon_pencil from '../assets/img/index/icon_pencil (1).png'
+	import icon_puttogether from '../assets/img/index/icon_puttogether (1).png'
+	import icon_lost from '../assets/img/index/icon_lost (1).png'
+	import icon_help from '../assets/img/index/icon_help (1).png'
+	import questionitem from '../components/QuestionItem.vue'
+	import {getParameterByName, loadMore, myAlert} from '../assets/js/utils.js'
+	import scrollTop from '../components/scrollTop.vue'
 	export default{
 		name:'columnn',
 		data(){
@@ -72,7 +74,6 @@
 					label:icon_life,
 					labelActive:icon_life_pressed,
 					subs:['求书','拼车','家教','拥抱','神奇','哈哈','less','组团学车','落','great','电脑维修','电脑重装','其他','全部'],
-					activeSub:0,
 					opened:false
 				},{
 					txt:'学习',
@@ -91,7 +92,8 @@
 					label:icon_lost,
 					labelActive:icon_lost_pressed
 				}],
-				activeNav:0,
+				activeNav:'',
+				activeSub:'',
 				test:{
 					question:{ "question_id":"2",
 		            "type_id":"4",
@@ -127,9 +129,13 @@
 			}
 		},
 		mounted(){
+			// 给生活/拼拼加入子模块
 			this.$http.post('',{
 				name:'xwlt.pc.type'
 			}).then((response)=>{
+				let type = Number(getParameterByName('type')) || 1,
+					navId = Number(getParameterByName('subtype')) || '',
+					subId = Number(getParameterByName('subtype2')) || ''
 				response.body.data.type.forEach((e,i)=>{
 					let nav = this.navs[i+1];
 					nav.type_id = e.type_id;
@@ -138,11 +144,21 @@
 						type_name:'全部',
 						type_id:''
 					})
-					nav.activeSub = nav.subs.length-1;
 					nav.sub = e.content;
+					if(nav.type_id === navId) {
+						this.activeNav = nav;
+						let sub0 = nav.subs.find((s) => {return s.type_id == subId});
+						if(sub0) this.clickSub2(nav, sub0);
+						else this.clickNav(nav);
+					}
 				})
+				// 默认全部
+				if(!navId) {
+					this.activeNav = this.navs[0];
+					this.clickNav(this.navs[0]);
+				}
 			})
-			this.getData();
+			// this.getData();
 			loadMore.config.cb = this.getData;
 			loadMore.open();
 		},
@@ -171,9 +187,11 @@
 					}
 				})
 			},
-			clickNav(nav,index){
+			clickNav(nav){
+				history.pushState({},'','./index.html?type=2&subtype='+nav.type_id);
 				this.loadAll = false;
-				this.activeNav = index;
+				this.activeNav =  nav;
+				if(nav.subs) this.activeSub = nav.subs[nav.subs.length - 1];
 				this.page = 1;
 				this.questions = [];
 				this.type_id = nav.type_id;
@@ -182,9 +200,10 @@
 				loadMore.close();
 				loadMore.open();
 			},
-			clickSub2(nav,sub,subindex){
+			clickSub2(nav,sub){
+				history.pushState({},'','./index.html?type=2&subtype='+nav.type_id+'&subtype2='+sub.type_id);
 				this.loadAll = false;
-				nav.activeSub = subindex;
+				this.activeSub = sub;
 				this.page = 1;
 				this.questions = [];
 				this.type_id = nav.type_id;
@@ -194,10 +213,10 @@
 				loadMore.open();
 			},
 			add(){
-				location.href = './ask.html?type='+this.activeNav;
+				location.href = './ask.html?type='+this.activeNav.type_id+'&subtype='+this.activeSub.type_id;
 			}
 		},
-		components:{questionitem}
+		components:{questionitem,scrollTop}
 	}
 </script>
 <style scoped lang='less'>
@@ -212,7 +231,7 @@
 			color:#4c4c4c;
 			background-repeat:no-repeat;
 			background-position:center 0;
-			background-size: auto 0.47rem;
+			background-size: auto 0.5rem;
 			height:0.93rem;
 			padding-top:0.53rem;
 		}
@@ -242,13 +261,13 @@
 				bottom:.27rem;
 				width: .2rem;
 				height: .2rem;
-				background:url(../../assets/img/index/icon_zhankai.png) center no-repeat;
+				background:url(../assets/img/index/icon_zhankai.png) center no-repeat;
 				background-size:100% 100%;
 			}
 			&.opened{
 				-webkit-line-clamp: 1000;
 				&:before{
-					background-image: url(../../assets/img/index/icon_up.png);
+					background-image: url(../assets/img/index/icon_up.png);
 				}
 			}
 			span{

@@ -2,14 +2,14 @@
 	<div>
 		<div id="index_header">
 			<div id="column">
-				<span :class="{active:type}" @click="clickNav">首页</span>
-				<span :class="{active:!type}" @click="clickNav">分栏</span>
+				<span :class="{active:type == 1}" @click="clickNav(1)">首页</span>
+				<span :class="{active:type == 2}" @click="clickNav(2)">分栏</span>
 			</div>
 			<a id="index_search" href="./search.html"></a>
 		</div>
 		<!-- 主体 -->
-		<homepage v-show="type"></homepage>
-		<columnn v-show="!type"></columnn>
+		<homepage v-if="type == 1"></homepage>
+		<columnn v-if="type == 2"></columnn>
 		<!-- 1签到 -->
 		<transition name="shrink">
 			<div id="index_sign" v-if="!is_sign" @click="sign"></div>
@@ -26,7 +26,7 @@
 		name:'index',
 		data(){
 			return{
-				// 1表示首页 0表示分栏
+				// 1表示首页 2表示分栏
 				type:1,
 				is_sign:1,
 				iosVersion: 10
@@ -46,25 +46,26 @@
 				this.iosVersion = parseInt(v[1], 10);  
 			}
 
-			if(location.hash === '') location.hash = 1;
-			this.showModule();
-			window.onhashchange = this.showModule;
-			this.$http.get('',{
+			this.type = getParameterByName('type') || 1;
+			// console.log(this.type)
+
+			window.onpopstate = function(){
+				// 为什么此时不会重新渲染页面呢？
+				this.type = getParameterByName('type') || 1;
+				console.log(this.type)
+			}
+			this.$http.post('',{
 				name:'xwlt.pc.Sign'
 			}).then((response)=>{
 				this.is_sign = Number(response.body.data.Sign);
 			})
 		},
 		methods:{
-			showModule(){
-				document.title =  location.hash.slice(-1) == 0? '分栏': '首页';
-				this.type = location.hash.slice(-1) != 0? 1: 0;
-			},
-			clickNav(){
-				location.hash = location.hash.slice(-1) != 0? 0: 1;
-				if(this.iosVersion < 10) {
-					location.reload();
-				}
+			clickNav(type){
+				this.type = type;
+				// alert(type)
+				history.pushState({},'','./index.html?type=' + type);
+				// if(this.iosVersion < 10) location.reload();
 			},
 			sign(){
 				this.$http.post('',{
