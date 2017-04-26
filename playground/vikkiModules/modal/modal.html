@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>弹窗</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width:device-width, initial-scale=.5">
+</head>
+<link rel="stylesheet" type="text/css" href="./modal.css">
+<body>
+	<button class="btn1">Modal 1</button>
+	<button class="btn2">Modal 2</button>
+	<button class="btn3">Modal 3</button>
+	<div class="modal-wrapper m1">
+		<div class="modal">
+			<div class="modal-close">×</div>
+			<img class="m1-img" src="http://www.seejs.com/imgserv/?bgc=f4b509">
+			<div class="m1-inner">
+				<div class="m1-title">有毒的玫瑰</div>
+				<div class="m1-line">
+					<span>预计打印时长</span><span>5分钟</span>
+				</div>
+				<div class="m1-line">
+					<span>前方排队人数</span><span>5人</span>
+				</div>
+				<div class="m1-line">
+					<span>预计等待时间</span><span>23分钟</span>
+				</div>
+			</div>
+			<div class="modal-next">下一步</div>
+		</div>
+	</div>
+	<div class="modal-wrapper m2">
+		<div class="modal">
+			<div class="modal-close">×</div>
+			<div class="m2-inner">
+				<div class="m2-title">请输入打印机序列号</div>
+				<input class="m2-input" placeholder="请输入序列号或询问工作人员">
+			</div>
+			<div class="modal-next disabled m2-next">下一步</div>
+		</div>
+	</div>
+	<div class="modal-wrapper m3">
+		<div class="modal">
+			<div class="modal-close">×</div>
+			<div class="m3-inner">
+				<div class="m3-title">添加标签</div>
+				<input class="m3-input" placeholder="自定义标签">
+			</div>
+			<div class="modal-next disabled m3-next">确定</div>
+		</div>
+	</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+	var viewport = document.querySelector("meta[name=viewport]");
+	var winWidths=window.innerWidth;
+	var densityDpi=640/winWidths;
+	  densityDpi= densityDpi>1?300*640*densityDpi/640:densityDpi;
+	if(isWeixin()){
+	  viewport.setAttribute('content', 'width=640,initial-scale=.5,maximum-scale=.5, minimum-scale=.5,user-scalable=no, target-densityDpi='+densityDpi);
+	}
+	function isWeixin(){
+	  var ua = navigator.userAgent.toLowerCase();
+	  if(ua.match(/MicroMessenger/i)=="micromessenger") {
+	  return true;
+	  } else {
+	  return false;
+	  }
+	}
+	document.getElementsByTagName('html')[0].style.fontSize = window.innerWidth / 10 + 'px';
+</script>
+<script>
+	$('.modal-wrapper').css('height', window.innerHeight);
+	function Modal(config){
+		var self = this;
+		this.$el = $(config.el);
+		this.nextCb = config.next || function(cb){cb()};
+		this.closeCb = config.close || function(){};
+
+		Modal.prototype.open = function(){
+			this.$el.fadeIn();
+		}
+		Modal.prototype.close = function(){
+			self.$el.fadeOut();
+			self.closeCb();
+		}
+		Modal.prototype.next = function(){
+			self.nextCb(function(){
+				self.$el.fadeOut();
+			});
+		}
+
+		this.$el.find('.modal-close').on('click', this.close)
+		this.$el.find('.modal-next').on('click', this.next)
+	}
+</script>
+<script>
+	// 用法:
+	// var m = new Modal({
+	// 	el: '.modal-wrapper',
+	// 	close: 关闭后的回调 选填,
+	// 	next: 下一步的回调 选填。若填一定要传入cb并在最后一步调用cb。
+	// })
+	// 打开弹窗：m.open();
+
+	// 弹窗一
+	var m1 = new Modal({
+		el:'.m1',
+		close: function(){
+			alert('点击关闭')
+		},
+		next: function(cb){
+			cb();
+		}
+	})
+	$('.btn1').on('click',function(){ m1.open() });
+
+	// 弹窗二
+	var m2 = new Modal({
+		el:'.m2',
+		next: function(cb){
+			if(!$m2Input.val())　alert('请输入序列号');
+			else cb();
+		}
+	})
+	var $m2Input = $('.m2-input'), $m2Next = $('.m2-next');
+	$m2Input.on('keyup',function(){
+		if($m2Input.val()) $m2Next.removeClass('disabled');
+		else $m2Next.addClass('disabled');
+	})
+	$('.btn2').on('click',function(){ m2.open() });
+
+	// 弹窗三
+	var m3 = new Modal({
+		el:'.m3',
+		next: function(cb){
+			cb();
+		}
+	})
+	var $m3Input = $('.m3-input'), $m3Next = $('.m3-next');
+	$m3Input.on('keyup',function(){
+		if($m3Input.val()) $m3Next.removeClass('disabled');
+		else $m3Next.addClass('disabled');
+	})
+	$('.btn3').on('click',function(){ m3.open() });
+</script>
+</html>
