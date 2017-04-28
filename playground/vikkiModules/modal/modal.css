@@ -6,7 +6,7 @@ button{
 }
 .modal-wrapper{
 	position: absolute;
-	top: 0;
+	top: 1rem;
 	left: 0;
 	width: 100%;
 	background: rgba(0,0,0,.3);
