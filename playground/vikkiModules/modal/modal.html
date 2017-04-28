@@ -10,6 +10,7 @@
 	<button class="btn1">Modal 1</button>
 	<button class="btn2">Modal 2</button>
 	<button class="btn3">Modal 3</button>
+	<button class="btn4">close 1</button>
 	<div class="modal-wrapper m1">
 		<div class="modal">
 			<div class="modal-close">×</div>
@@ -76,11 +77,15 @@
 		this.$el = $(config.el);
 		this.nextCb = config.next || function(cb){cb()};
 		this.closeCb = config.close || function(){};
-
+		Modal.prototype.self = !function(config){
+			return config;
+		}()
 		Modal.prototype.open = function(){
 			this.$el.fadeIn();
 		}
 		Modal.prototype.close = function(){
+			
+			console.log(self) //最后一个的Self
 			self.$el.fadeOut();
 			self.closeCb();
 		}
@@ -107,7 +112,6 @@
 	var m1 = new Modal({
 		el:'.m1',
 		close: function(){
-			alert('点击关闭')
 		},
 		next: function(cb){
 			cb();
@@ -143,5 +147,7 @@
 		else $m3Next.addClass('disabled');
 	})
 	$('.btn3').on('click',function(){ m3.open() });
+
+	$('.btn4').on('click',function(){ m1.close() });
 </script>
 </html>
