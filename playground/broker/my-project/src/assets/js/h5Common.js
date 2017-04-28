@@ -14,3 +14,5 @@ function isWeixin(){
   }
 }
 document.getElementsByTagName('html')[0].style.fontSize = window.innerWidth / 10 + 'px';
+
+document.getElementById('app').style.minHeight = window.innerHeight + 'px';

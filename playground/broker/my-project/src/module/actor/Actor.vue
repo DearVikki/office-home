@@ -63,11 +63,13 @@
 			<div class="empty-tip"
 			v-else>暂无相关信息喔</div>
 		</div>
+		<info></info>
 	</div>
 </template>
 <script>
 	import {getParameterByName} from '../../assets/js/queryString.js'
 	import mynav from '../../components/nav.vue'
+	import info from '../../components/info.vue'
 	import basicInfo from '../../components/basicInfo.vue'
 	import download from '../../components/download.vue'
 	export default{
@@ -193,7 +195,7 @@
 				alert('点击顶部下载APP查看更多喔！');
 			}
 		},
-		components:{mynav,basicInfo,download}
+		components:{mynav,basicInfo,download,info}
 	}
 </script>
 <style scoped lang='less'>

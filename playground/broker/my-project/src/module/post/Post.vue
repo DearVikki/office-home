@@ -62,10 +62,12 @@
 				</div>
 			</div>
 		</div>
+		<info></info>
 	</div>
 </template>
 <script>
 	import {getParameterByName} from '../../assets/js/queryString.js';
+	import info from '../../components/info.vue'
 	import download from '../../components/download.vue'
 	export default{
 		name:'post',
@@ -140,7 +142,7 @@
 				alert('点击顶部下载APP查看更多喔！')
 			}
 		},
-		components:{download}
+		components:{download,info}
 	}
 </script>
 <style scoped lang='less'>
