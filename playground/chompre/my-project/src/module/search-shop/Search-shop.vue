@@ -18,7 +18,7 @@
 			return{
 				keyword:'',
 				page:1,
-				dealer_info:{
+				dealer_info:[{
 					city:'',
 					collect_num:'',
 					dealer_id:0,
