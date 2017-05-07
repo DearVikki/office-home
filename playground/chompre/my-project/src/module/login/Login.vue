@@ -6,32 +6,38 @@
 			<div class="form-container">
 				<!--包住form表单的-->
 				<div id='form_wrapper' style="font-size:20px">
-					<validation name="validation1">
-						<div class="common-field" v-for="(value, field) in fields" :class="fields[field].class">
-							<label :for="fields[field].id">{{fields[field].name}}</label>
+						<div class="common-field" v-for="field in fields" :class="field.class">
+							<label :for="field.id">{{field.name}}</label>
 							<a class="forget-pw"
 							href="./forget-pw.html#/Step1"
-							 v-if="fields[field].id==='pw'">Recuperar contraseña?</a>
-							<div class="input-container" :class="{ warn: fields[field].error || fields[field].focus}">
-								<validity :ref='fields[field].id' :field='fields[field].id' :validators="fields[field].validator">
-									<input v-if="fields[field].id === 'account'" :id="fields[field].id" type="text"  :placeholder="fields[field].placeholder" @blur="handleValidate(fields[field].id)" @focus="focusing(fields[field].id)" v-model="fields[field].val">
-									<input v-else :id="fields[field].id" type="password"  :placeholder="fields[field].placeholder" @blur="handleValidate(fields[field].id)" @focus="focusing(fields[field].id)" v-model="fields[field].val">
-								</validity>
+							 v-if="field.id==='pw'">Recuperar contraseña?</a>
+							<div class="input-container"
+							:class="{ warn: field.error || field.focus}">
+									<input v-if="field.id === 'account'"
+									:name="field.id"
+									:placeholder="field.placeholder"
+									@blur="fieldBlur(field)"
+									@focus="fieldFocus(field)"
+									v-model="field.val">
+									<input v-else
+									:name="field.id"
+									type="password"
+									@blur="fieldBlur(field)"
+									@focus="fieldFocus(field)"
+									v-model="field.val">
 							</div>
-							<p class="error" v-if="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
+							<p class="error" v-if="field.error && !field.focus">{{field.msg}}</p>
 						</div>
 						<!--<pre style="font-size:12px">{{$validation}}</pre>-->
 						<div class="account-btn" @click="login">Ingresar</div>
-					</validation>
 					<a class="signup" href="./signup.html">Registrarme</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
-
 <script>
-	import a from 'vue-validator';
+	import { myAlert } from '../../assets/js/utils.js'
 	export default{
 		name:'Vali',
 		mounted(){
@@ -48,7 +54,9 @@
 			            type: 'text',
 			            error: false,
 			            msg: '',
-			            validator: { required: true},
+			            validators: {
+			            	required: { msg:'账号不能为空'}
+			            },
 			            val: '',
 						focus: false
 		          	},
@@ -59,65 +67,42 @@
 			            placeholder: '请输入6-20位密码',
 			            error: false,
 			            msg:'',
-			            validator: { required: true, minlength: 6, maxlength: 20},
+			            validators: {
+			            	required: {msg: '密码不能为空'},
+			            	minlen: {
+			            		msg: '密码长度最小为6位',
+			            		extra: { len: 6 }
+			            	},
+			            	maxlen: {
+			            		msg: '密码长度最长为20位',
+			            		extra: { len: 20 }
+			            	}
+			            },
 			            val: '',
 						focus: false
 			          }
 		        }
 			}
 		},
-		watch:{
-			$validation(){
-				try{
-					if(this.$validation.validation1.account.invalid) {
-						this.fields.account.error = true;
-						this.fields.account.msg = '账号不能为空';
-					} else if(this.$validation.validation1.account.valid){
-						this.fields.account.error = false;
-					}
-					if(this.$validation.validation1.pw.invalid) {
-						this.fields.pw.error = true;
-						var err0 = this.$validation.validation1.pw.errors[0].validator;
-						if(err0 === 'required') this.fields.pw.msg = '密码不能为空';
-						else if(err0 === 'minlength') this.fields.pw.msg = '密码长度最小为6位';
-						else if(err0 === 'maxlength') this.fields.pw.msg = '密码长度最长为20位';
-					} else if(this.$validation.validation1.pw.valid){
-						this.fields.pw.error = false;
-					}
-				} catch(err) {}
-			}
-		},
 		methods: {
-			handleValidate(field) {
-				this.$refs[field][0].validate();
-				this.fields[field].focus = false;
-				},
-			focusing(field){
-				this.fields[field].focus = true;
-			},
-			//是否接触过input框 结果有差
 			login(){
-				let n = 4;
-				for (var validity in this.$refs){
-					this.$refs[validity][0].validate(() => {
-						n--;
-						if(n>0) return;
-						if(this.$validation.validation1.invalid) return;
-						else {
-							this.$http.post('',{name:'zl.shopping.sys.pc.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
-								if(response.body.code === 1000){
-									console.log('login success!')
-								} else if(response.body.code === 1011) {
-									this.fields.account.error = true;
-									this.fields.account.msg = response.body.msg;
-								} else if(response.body.code === 1014){
-									this.fields.pw.error = true;
-									this.fields.pw.msg = response.body.msg;
-								}
-							})
-						}
-					});
-				}
+				if(!this.checkAll(this.fields)) return;
+				this.$http.post('',{name:'zl.shopping.sys.pc.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
+					if(response.body.code === 1000){
+						myAlert('login success!', ()=>{
+							let referrer = document.referrer;
+							if(referrer.slice(-10) === 'login.html' || referrer.slice(-11) === 'signup.html')
+								referrer = './index.html';
+							location.replace(referrer);
+						})
+					} else if(response.body.code === 1011) {
+						this.fields.account.error = true;
+						this.fields.account.msg = response.body.msg;
+					} else if(response.body.code === 1014){
+						this.fields.pw.error = true;
+						this.fields.pw.msg = response.body.msg;
+					}
+				})
 			}
 		}
 	}

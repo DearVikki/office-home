@@ -12,7 +12,7 @@ export function getParameterByName(name, url) {
 }
 
 //顶部提示栏
-export function myAlert(txt) {
+export function myAlert(txt, cb) {
 	let div = document.createElement('div');
 	div.innerHTML = txt;
 	div.classList.add('my-alert');
@@ -20,6 +20,7 @@ export function myAlert(txt) {
     setTimeout(()=>{
         document.querySelector('body').removeChild(div);
     },1000)
+    setTimeout(() => cb, 700);
 }
 
 //处理时间到日期

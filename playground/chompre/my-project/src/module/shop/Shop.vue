@@ -27,6 +27,7 @@
 			<div id="goods_container">
 				<goodsitem :item='item' v-for="item in pre_goods_info"></goodsitem>
 				<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
+				<empty v-if="!pre_goods_info.length"></empty>
 			</div>
 			<!-- 分页 -->
 			<pagination :allPage="allPage"
@@ -55,6 +56,7 @@
 	import pop from '../../components/Pop.vue';
 	import goodsitem from '../../components/GoodsItem.vue';
 	 import pagination from '../../components/Pagination.vue';
+	 import empty from '../../components/Empty.vue';
 	export default{
 		name:'shop',
 		data(){
@@ -154,7 +156,7 @@
 				this.getProducts();
 			}
 		},
-		components:{pop,goodsitem,pagination}
+		components:{pop,goodsitem,pagination,empty}
 	}
 </script>
 <style lang='less' scoped>
@@ -245,6 +247,8 @@
 		    width: 100%;
 		    flex-flow: row wrap;
 		    justify-content: space-between;
+		    min-height: 700px;
+		    position: relative;
 		    &:after{
 		    	content: '';
 			    flex: auto;

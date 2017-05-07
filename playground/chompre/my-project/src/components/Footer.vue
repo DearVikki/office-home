@@ -19,6 +19,9 @@
 			return {
 			}
 		},
+		mounted(){
+			if(document.getElementsByTagName('html')[0].getBoundingClientRect().height + 214 <= window.innerHeight) this.onepage = true;
+		},
 		props:{
 			onepage:{
 				default:false

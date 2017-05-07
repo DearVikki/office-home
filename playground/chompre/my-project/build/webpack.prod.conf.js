@@ -42,7 +42,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: config.build.index,
-      template: 'index.html',
+      template: path.resolve(__dirname, '../dist/index.html'),
       inject: true,
       minify: {
         removeComments: true,
@@ -118,9 +118,10 @@ for (var pathname in pages) {
     filename: pathname + '.html',
     template: pages[pathname],
     inject: true,
-    chunks: Object.keys(pages).filter(item => {
-      return (item == pathname)
-    })
+    excludeChunks: Object.keys(pages).filter(item => {
+      return (item !== pathname)
+    }),
+    chunksSortMode: 'dependency'
   };
   webpackConfig.plugins.push(new HtmlWebpackPlugin(conf));
 }

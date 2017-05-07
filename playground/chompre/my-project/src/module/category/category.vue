@@ -19,7 +19,8 @@
 					:value="brand.brand_id"
 					@click="clickBrand(brand.brand_id)">
 					<span class="radio-input"></span>
-					<span class="text">{{brand.brand_name}}</span>
+					<!-- 本来这儿是brand name的 -->
+					<span class="text">{{brand.brand}}</span>
 				</label>
 			</div>
 			<div class="divider"></div>
@@ -51,8 +52,8 @@
 					<star :activeNum="star.num"></star>
 					<span class="star-size">（{{star.size}}）</span>
 				</label>
-				<p class="text">{{filter.star}}</p>
-				<span class="text" id="all_stars" @click="clickStar('all')">全部评分</span>
+				<!-- <p class="text">{{filter.star}}</p> -->
+				<!-- <span class="text" id="all_stars" @click="clickStar('all')">全部评分</span> -->
 			</div>
 		</div>
 		<!--商品展示框-->
@@ -102,7 +103,8 @@
 				},
 				brands:[{
 					brand_name:'',
-					brand_id:''
+					brand_id:'',
+					brand:''
 				}],
 				filterPriceActive: false,
 				stars:[

@@ -76,9 +76,12 @@
 			<!--左侧店铺信息-->
 			<div id="product_part2_left_container">
 				<div id="shop_name">{{dealer_info.dealer_name}}</div>
-				<a class="dealer-info">进入店铺</a>
+				<a class="dealer-info"
+				:href=" './shop.html?id=' +dealer_info.dealer_id ">进入店铺</a>
 				<div class="dealer-info"
-				v-for="(c,i) in dealer_info.connect">客服{{i+1}}</div>
+				v-for="(c,i) in dealer_info.connect"
+				:title=" 'WHATS APP: ' + c"
+				@click="connectShow = true">客服{{i+1}}</div>
 			</div>
 			<!--右侧主要内容-->
 			<div id="product_part2_main_container">
@@ -168,6 +171,7 @@
 		name:'product',
 		data(){
 			return {
+				connectShow: false,
 				dealer_info:{
 					dealer_name:'',
 					connect:[]

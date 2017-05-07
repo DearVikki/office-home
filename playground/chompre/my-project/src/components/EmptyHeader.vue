@@ -1,9 +1,9 @@
 <template>
 	<!--header-->
 	<div class='emptyheader_container'>
-		<div class="img-container">
+		<a class="img-container" href="./index.html">
 			<img src="../assets/img/index/index_logo.png" />
-		</div>
+		</a>
 	</div>
 </template>
 <script>

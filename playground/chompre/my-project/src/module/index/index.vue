@@ -40,7 +40,8 @@
 		<div id='hot_shop_container'>
 			<div class="sub-header">优秀商家</div>
 			<ul>
-				<a class='hot-shop' v-for='hotshopItem in hotshopItems'>
+				<a class='hot-shop' v-for='hotshopItem in hotshopItems'
+				:href="'./shop.html?id='+hotshopItem.dealer_id">
 					<img :src="hotshopItem.dealer_logo">
 					<p>{{hotshopItem.dealer_name}}</p>
 				</a>
@@ -50,7 +51,7 @@
 	</div>
 </template>
 <script>
-	import Swiper from '../../assets/lib/swiper.js';
+	// import Swiper from '../../assets/lib/swiper.js';
 	import goodsitem from '../../components/GoodsItem.vue';
 	import icontop from '../../components/ScrollToTop.vue';
 	export default{
@@ -70,38 +71,35 @@
 				this.hotshopItems = response.body.data.hot_dealer;
 				console.log(response.body.data.hot_dealer)
 				//const className = 'mypagi';
-				this.$nextTick(()=>{
-				  	 //初始化第一部分banner板块
-		          new Swiper('#activity_banner_container',{
-			          pagination: '#activity_banner_container .swiper-pagination',
-			          slidesPerView: 1,
-			          paginationClickable: true,
-			          autoplay: 5000,
-			          loop:true
-			          /*paginationBulletRender: function (swiper, index, clssName) {
-					      return '<span class="' + className + '">' + (index + 1) + '</span>';
-					  }*/
-			      })
-			      //初始化第三部分推荐商品板块
-			      new Swiper('#hot_goods_container > .swiper-container',{
-			          nextButton: '#hot_goods_container .swiper-button-next',
-				      prevButton: '#hot_goods_container .swiper-button-prev',
-				      slidesPerView:5,
-				      slidesPerGroup:5,
-				      spaceBetween:25
-			      })
-		      })
+				// this.$nextTick(()=>{
+				//   	 //初始化第一部分banner板块
+		  //         new Swiper('#activity_banner_container',{
+			 //          pagination: '#activity_banner_container .swiper-pagination',
+			 //          slidesPerView: 1,
+			 //          paginationClickable: true,
+			 //          autoplay: 5000,
+			 //          loop:true
+			 //      })
+			 //      //初始化第三部分推荐商品板块
+			 //      new Swiper('#hot_goods_container > .swiper-container',{
+			 //          nextButton: '#hot_goods_container .swiper-button-next',
+				//       prevButton: '#hot_goods_container .swiper-button-prev',
+				//       slidesPerView:5,
+				//       slidesPerGroup:5,
+				//       spaceBetween:25
+			 //      })
+		  //     })
 			  //初始化第二部分促销商品板块
 			  this.$http.post('',{name:'zl.shopping.sys.banner.info',banner_homepage_id:response.body.data.sale_banner.banner_homepage_id,type:1}).then((response)=>{
 				  this.saleItems = response.body.data.goods_list;
 				  this.$nextTick(()=>{
-				  new Swiper('#sale_container > .swiper-container',{
-			          nextButton: '#sale_container .swiper-button-next',
-				      prevButton: '#sale_container .swiper-button-prev',
-				      slidesPerView:5,
-				      slidesPerGroup:5,
-				      spaceBetween:25
-			      })
+				  // new Swiper('#sale_container > .swiper-container',{
+			   //        nextButton: '#sale_container .swiper-button-next',
+				  //     prevButton: '#sale_container .swiper-button-prev',
+				  //     slidesPerView:5,
+				  //     slidesPerGroup:5,
+				  //     spaceBetween:25
+			   //    })
 				})
 			})
 			},(response)=>{
@@ -153,6 +151,7 @@
 		position: relative;
 		.swiper-slide{
 			width:220px;
+			margin-right: 20px;
 		}
 		.swiper-button-prev, .swiper-container-rtl .swiper-button-next{
 			background: url(../../assets/img/index/icon_left.png) no-repeat center;
