@@ -23,7 +23,7 @@
 				<input v-model="searchKey">
 				<span id="search_btn" @click="search"></span>
 			</div>
-			<span id="shop_all" @click="getAll">全部</span>
+			<span id="shop_all" @click="getAll">全部商品</span>
 			<!-- 店铺商品内容 -->
 			<div id="goods_container">
 				<goodsitem :item='item' v-for="item in pre_goods_info"></goodsitem>
@@ -87,7 +87,8 @@
 						padding:'70px 120px 35px 120px'
 					}
 				},
-				allPage:1
+				allPage:1,
+				page: 1
 			}
 		},
 		mounted(){
@@ -96,7 +97,8 @@
 		},
 		methods:{
 			getAll(){
-
+				this.page = 1;
+				this.getProducts();
 			},
 			getProducts(){
 				this.$http.post('',{
@@ -149,11 +151,6 @@
 						this.is_collect = 1;
 					})
 				}
-			}
-		},
-		computed:{
-			page(){
-				return getParameterByName('page')||1;
 			}
 		},
 		watch:{
@@ -231,13 +228,14 @@
 			vertical-align:middle;
 		}
 		input{
-			height:32px;
+			height:30px;
 			margin-top:-4px;
 			border:none;
 			border-left:1px solid @baseColor;
 			vertical-align:middle;
 			font-size: 14px;
 			padding-left: 10px;
+			cursor: text;
 		}
 		#search_btn{
 			width:44px;
