@@ -8,58 +8,42 @@
 		</div>
 		<!--问题找回密码-->
 		<div id='q_body' v-show='!emailActive'>
-			<validation name="validation1">
-				<div class="common-field" v-for="(value, field) in fieldsA" :class="fieldsA[field].class">
-					<label :for="fieldsA[field].id">{{fieldsA[field].name}}</label>
-					<div class="input-container" :class="{ warn: fieldsA[field].error || fieldsA[field].focus}">
-						<validity
-						:ref='fieldsA[field].id'
-						:field='fieldsA[field].id'
-						:validators="fieldsA[field].validator">
-							<input
+				<div class="common-field" v-for="field in fieldsA" :class="field.class">
+					<label :for="field.id">{{field.name}}</label>
+					<div class="input-container" :class="{ warn: field.error || field.focus}">								<input
 							type="text"
-							:id="fieldsA[field].id"
-							:placeholder="fieldsA[field].placeholder"
-							@blur="handleValidate(fieldsA[field].id)"
-							@focus="focusing(fieldsA[field].id)"
-							v-model="fieldsA[field].val"
-							v-if="fieldsA[field].id === 'answer'">
-							<p class="grey20" v-else>{{fieldsA[field].val}}</p>
-						</validity>
+							:id="field.id"
+							:placeholder="field.placeholder"
+							@blur="fieldBlur(field)"
+							@focus="fieldFocus(field)"
+							v-model="field.val"
+							v-if="field.id === 'answer'">
+							<p class="grey20" v-else>{{field.val}}</p>
 					</div>
-					<p class="error" v-if="fieldsA[field].error && !fieldsA[field].focus">{{fieldsA[field].msg}}</p>
+					<p class="error" v-if="field.error && !field.focus">{{field.msg}}</p>
 				</div>
-		   </validation>
 		</div>
 		<!--邮箱找回密码-->
 		<div id='e_body' v-show='emailActive'>
-		 	<validation name="validation2">
-				<div class="common-field" v-for="(value, field) in fieldsB" :class="fieldsB[field].class">
-					<label :for="fieldsB[field].id">{{fieldsB[field].name}}</label>
-					<div class="input-container" :class="{ warn: fieldsB[field].error || fieldsB[field].focus}">
-						<validity
-						:ref='fieldsB[field].id'
-						:field='fieldsB[field].id'
-						:validators="fieldsB[field].validator">
+				<div class="common-field" v-for="field in fieldsB" :class="field.class">
+					<label :for="field.id">{{field.name}}</label>
+					<div class="input-container" :class="{ warn: field.error || field.focus}">
 							<input
 							type="text"
-							:id="fieldsB[field].id"
-							:placeholder="fieldsB[field].placeholder"
-							@blur="handleValidate(fieldsB[field].id)"
-							@focus="focusing(fieldsB[field].id)"
-							v-model="fieldsB[field].val" />
-						</validity>
+							:id="field.id"
+							:placeholder="field.placeholder"
+							@blur="fieldBlur(field)"
+							@focus="fieldFocus(field)"
+							v-model="field.val" />
 					</div>
-					<p class="send-code" :class="{disabled: scDisabled}" v-if="fieldsB[field].id === 'email'" @click='sendCode'>{{countdown}}</p>
-					<p class="error" v-if="fieldsB[field].error && !fieldsB[field].focus">{{fieldsB[field].msg}}</p>
+					<p class="send-code" :class="{disabled: scDisabled}" v-if="field.id === 'email'" @click='sendCode'>{{countdown}}</p>
+					<p class="error" v-if="field.error && !field.focus">{{field.msg}}</p>
 				</div>
-			</validation>
 		</div>
 		<div class="account-btn">下一步</div>
 	</div>
 </template>
 <script>
-    import a from 'vue-validator';
 	export default{
 		name: 'step2',
 		data(){
@@ -72,7 +56,9 @@
 					question: {
 		            id: 'question',
 		            class: 'question-field',
-		            validator: {required: true},
+		            validators: {
+		            	required: { msg:'' }
+		            },
 		            name: '问题',
 		            val:'你好吗'
 		         },
@@ -81,7 +67,9 @@
 		            class: 'answer-field',
 		            name: '答案',
 		            placeholder: '',
-		            validator: {required: true},
+		            validators: {
+		            	required: { msg: '答案不能为空' }
+		            },
 		            error: '',
 		            msg:'',
 		            val:'',
@@ -94,7 +82,10 @@
 		            class: 'email-field',
 		            name: '邮箱',
 		            placeholder: '',
-		            validator: {required: true, isEmail:true},
+		            validators: {
+		            	required: { msg: '邮箱不能为空' },
+		            	isEmail: { msg: '邮箱不合法' }
+		            },
 		            error: '',
 		            msg:'',
 		            val:'',
@@ -105,46 +96,15 @@
 		            class: 'code-field',
 		            name: '验证码',
 		            placeholder: '',
-		            validator: {required: true},
+		            validators: {
+		            	required: { msg: '验证码不能为空' }
+		            },
 		            error: '',
 		            msg:'',
 		            val:'',
 		            focus: false
 		      	}
 		      }
-			}
-		},
-		validators:{
-			isEmail(val){
-				return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(val);
-			}
-		},
-		watch:{
-			$validation(){
-				var va1 = this.$validation.validation1;
-				var va2 = this.$validation.validation2;
-				try{
-					if(va1.answer.invalid){
-						this.fieldsA.answer.error = true;
-						this.fieldsA.answer.msg = '答案不能为空';
-					} else {
-						this.fieldsA.answer.error = false;
-					}
-					if(va2.email.invalid){
-						this.fieldsB.email.error = true;
-						var err0 = va2.email.errors[0].validator;
-						if(err0 === 'required') this.fieldsB.email.msg = '邮箱不能为空';
-						else this.fieldsB.email.msg = '邮箱不合法';
-					} else {
-						this.fieldsB.email.error = false;
-					}
-					if(va2.code.invalid){
-						this.fieldsB.code.error = true;
-						this.fieldsB.code.msg = '验证码不能为空';
-					} else {
-						this.fieldsA.code.error = false;
-					}
-				} catch(e){}
 			}
 		},
 		mounted(){
@@ -155,40 +115,25 @@
 			//countdown({text: '.send-code', time:60});
 		},
 		methods: {
-			handleValidate(field) {
-				this.$refs[field][0].validate();
-				if(this.fieldsA[field]) this.fieldsA[field].focus = false;
-				else this.fieldsB[field].focus = false;
-				},
-			focusing(field){
-				if(this.fieldsA[field]) this.fieldsA[field].focus = true;
-				else this.fieldsB[field].focus = true;
-			},
 			//点击问题找回密码
 			clickQ(){
 				if(this.qDisabled) return;
 				this.emailActive = false;
 			},
 			sendCode(){
-				var i = 2;
-				if(this.scDisabled) return;
-				this.$refs.email[0].validate(()=>{
-					i--;
-					if(this.$validation.validation2.email.invalid || i > 0) return;
-					this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
-						console.log(response.body)
-					})
-					let t = 60;
-					let cd = setInterval(() => {
-						t--;
-						this.countdown = t+'秒重新发送';
-						this.scDisabled = true;
-						if(t <= 1){
-							clearInterval(cd);
-							this.scDisabled = false;
-						}
-					},1000)
+				this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
+					console.log(response.body)
 				})
+				let t = 60;
+				let cd = setInterval(() => {
+					t--;
+					this.countdown = t+'秒重新发送';
+					this.scDisabled = true;
+					if(t <= 1){
+						clearInterval(cd);
+						this.scDisabled = false;
+					}
+				},1000)
 			}
 		}
 	}

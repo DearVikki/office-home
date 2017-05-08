@@ -1,12 +1,14 @@
 <template>
 	<div id="searchshop_container">
-		<div v-for="shop in dealer_info" class="shop">
+		<a v-for="shop in dealer_info" class="shop"
+		:href="'./shop.html?id='+shop.dealer_id">
 			<img :src="shop.dealer_logo">
 			<span class="name-container">
-				<div class="name">{{shop.dealer_name}}</div>
-				<p>{{shop.city}}</p>
+				<p class="name">{{shop.dealer_name}}</p>
+				<p class="city">{{shop.city}}</p>
 			</span>
-		</div>
+			<div class="enter">进入店铺 >></div>
+		</a>
 	</div>
 </template>
 <script>
@@ -28,7 +30,8 @@
 			}
 		},
 		mounted(){
-			this.keyword = getParameterByName('key')||'';
+			this.keyword = getParameterByName('search')||'';
+			document.title = '店铺搜索-' + this.keyword;
 			this.$http.post('',{
 				name:'zl.shopping.sys.search.dealer',
 				search:this.keyword,
@@ -49,14 +52,33 @@
 		width: 100%;
 		padding: 10px;
 		height: 118px;
-		border-top:1px solid #e7e7e7;
+		border:1px solid #e7e7e7;
+		font-size:12px;
+		color:#5c5c5c;
+		position: relative;
+		display: block;
 		>img{
-			width: 100%;
+			width: 100px;
 			height: 100%;
+			vertical-align: middle;
 		}
 		.name-container{
 			width: 380px;
 			padding: 10px;
+			vertical-align: middle;
+			display: inline-block;
+			height: 100%;
+			.name{
+				font-weight: bold;
+				margin-bottom: 40px;
+			}
+		}
+		.enter{
+			font-size:14px;
+			color:#d0021b;
+			position: absolute;
+			right: 30px;
+			bottom: 18px;
 		}
 	}
 </style>

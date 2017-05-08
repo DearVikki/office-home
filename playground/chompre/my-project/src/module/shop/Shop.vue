@@ -20,9 +20,10 @@
 			<!-- 店铺搜索 -->
 			<div id="search_container">
 				<span id="search_txt">商铺内搜索</span>
-				<input v-model="search">
+				<input v-model="searchKey">
 				<span id="search_btn" @click="search"></span>
 			</div>
+			<span id="shop_all" @click="getAll">全部</span>
 			<!-- 店铺商品内容 -->
 			<div id="goods_container">
 				<goodsitem :item='item' v-for="item in pre_goods_info"></goodsitem>
@@ -62,7 +63,7 @@
 		data(){
 			return{
 				id:'',
-				search:'ha',
+				searchKey:'',
 				dealer_info:{
 					dealer_id: 1,
 					dealer_name: '',
@@ -94,6 +95,9 @@
 			this.getProducts();
 		},
 		methods:{
+			getAll(){
+
+			},
 			getProducts(){
 				this.$http.post('',{
 					name:'zl.shopping.sys.dealer.info',
@@ -110,16 +114,17 @@
 				})
 			},
 			search(){
+				if(!this.searchKey) return;
 				this.$http.post('',{
 					name:'zl.shopping.sys.search.dealer.goods',
 					dealer_id: this.id,
-					page:this.page,
-					search:this.search
+					page: this.page,
+					search: this.searchKey
 				}).then((response)=>{
-					// this.pre_goods_info = response.body.data.goods_info;
+					this.pre_goods_info = response.body.data.goods_info;
 					// 为什么会无限啊！
 					// console.log(this.pre_goods_info)
-					// this.search = '';
+					this.searchKey = '';
 				})
 			},
 			collect(){
@@ -219,6 +224,7 @@
 		width:100%;
 		max-width:600px;
 		margin-top:24px;
+		display: inline-block;
 		#search_txt{
 			padding: 0 12px;
 			display:inline-block;
@@ -230,6 +236,8 @@
 			border:none;
 			border-left:1px solid @baseColor;
 			vertical-align:middle;
+			font-size: 14px;
+			padding-left: 10px;
 		}
 		#search_btn{
 			width:44px;
@@ -240,6 +248,12 @@
 			background:url(../../assets/img/index/index_search.png) center no-repeat;
 			background-color:@baseColor;
 		}
+	}
+	#shop_all{
+		font-size: 14px;
+		margin-left: 50px;
+		color: @baseColor;
+		cursor: pointer;
 	}
 	/*店铺商品*/
 	#goods_container{

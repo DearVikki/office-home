@@ -149,6 +149,7 @@
 		width: 100%;
 		margin-top: 70px;
 		position: relative;
+		min-height: 347px;
 		.swiper-slide{
 			width:220px;
 			margin-right: 20px;
@@ -168,6 +169,7 @@
 	#hot_shop_container{
 		margin-top: 70px;
 		margin-bottom: 100px;
+		min-height: 277px;
 		ul{
 			margin-top:24px;
 			display: flex;

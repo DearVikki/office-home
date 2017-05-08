@@ -3,16 +3,16 @@
 		<!--条件过滤框-->
 		<div id="filter_container" class="fl">
 			<!--二级分类-->
-			<div>
-				<h5>{{cateName}}</h5>
+			<div v-if="types.length">
+				<h5>{{cate.name}}</h5>
 				<p class="text"
-				v-for="(value, type) in types"
-				:class="{active:types[type].id===subid}"
-				@click="clickSub(types[type].id)">{{types[type].name}}</p>
+				v-for="type in types"
+				:class="{active:type.id===subcate.id}"
+				@click="clickSub(type)">{{type.name}}</p>
+				<div class="divider"></div>
 			</div>
-			<div class="divider"></div>
 			<!--品牌-->
-			<div>
+			<div v-if="brands.length">
 				<h5>品牌</h5>
 				<label v-for="brand in brands">
 					<input type="checkbox"
@@ -22,8 +22,8 @@
 					<!-- 本来这儿是brand name的 -->
 					<span class="text">{{brand.brand}}</span>
 				</label>
+				<div class="divider"></div>
 			</div>
-			<div class="divider"></div>
 			<!--价格区间-->
 			<div style="overflow:hidden">
 				<h5 style="margin-bottom:10px">价格</h5>
@@ -38,8 +38,8 @@
 				<div id="filter_price" class="fr"
 				:class="{active:filterPriceActive}"
 				@click="clickPrice">GO</div>
+				<div class="divider"></div>
 			</div>
-			<div class="divider"></div>
 			<!--评分区间-->
 			<div>
 				<h5>评分</h5>
@@ -60,11 +60,13 @@
 		<div id="display_container" class="fr">
 			<div id="display_header">
 				<span>共{{items.goods_count}}件商品</span>
-				<span>{{cateName}}/{{types[subid].name}}</span>
+				<span v-if="!search">{{cate.name}}/{{subcate.name}}</span>
+				<span v-else>{{search}}</span>
 				<div class="order-container fr">
 					<span style="vertical-align:top">排序方式:</span>
 					<div style="display:inline-block; position:relative;">
-						<div class="order-header" @click="orderShow = !orderShow">{{filter.order.name}}</div>
+						<div class="order-header"
+						@click="orderShow = !orderShow">{{filter.order.name}}</div>
 						<ul v-show="orderShow">
 							<li class="order-option"
 								v-for="order in orders"
@@ -95,17 +97,11 @@
 		name:'category',
 		data(){
 			return{
-				types:{
-					1:{
-						name:'',
-						id:''
-					}
-				},
-				brands:[{
-					brand_name:'',
-					brand_id:'',
-					brand:''
-				}],
+				search: false,
+				subcate: {},
+				cate: {},
+				types:[],
+				brands:[],
 				filterPriceActive: false,
 				stars:[
 				{
@@ -161,26 +157,33 @@
 					goods_list:[],
 					goods_num:{}
 				},
-				allPage:1
+				allPage:1,
+				page:1
 			}
 		},
 		mounted(){
-			//拉取所有二级分类
-			this.$http.post('',{name:'zl.shopping.sys.subcatalog.info', class_id:this.id}).then((response)=>{
-				let types = {};
-				response.body.data.forEach((e)=>{
-					types[e.class_append_id] = {
-						name: e.class_name,
-						id: e.class_append_id
-					}
+			this.search = getParameterByName('search');
+			this.subcate = JSON.parse(getParameterByName('subcate'));
+			this.cate =  JSON.parse(getParameterByName('cate'));
+			if(!this.search){
+				this.title = this.cate.name + '-' +this.subcate.name;
+				//拉取所有二级分类
+				this.$http.post('',{name:'zl.shopping.sys.subcatalog.info', class_id:this.cate.id}).then((response)=>{
+					let types = [];
+					response.body.data.forEach((e)=>{
+						types.push({
+							name: e.class_name,
+							id: e.class_append_id
+						})
+					})
+					this.types = types;
 				})
-				this.types = types;
-			})
-			//拉取品牌
-			this.$http.post('',{name:'zl.shopping.sys.subcatalog.brand',  class_append_id:this.subid}).then((response)=>{
-				//如果我不用brand_img的话就还是不会下下来吧？
-				this.brands = response.body.data;
-			})
+				//拉取品牌
+				this.$http.post('',{name:'zl.shopping.sys.subcatalog.brand',  class_append_id:this.subcate.id}).then((response)=>{
+					//如果我不用brand_img的话就还是不会下下来吧？
+					this.brands = response.body.data;
+				})
+			} else document.title = 'search-'+ this.search;
 			//拉取该分类下的商品
 			this.getProducts();
 		},
@@ -204,16 +207,30 @@
 			},
 			//拉取商品数据
 			getProducts(){
-				let obj = {
-					name:'zl.shopping.sys.pc.category.goods',
-					class_append_id:this.subid,
-					page: this.page,
-					type: this.filter.order.id,
-					brand_id: this.filter.brand.toString(),
-					min_price: this.filter.min||-1,
-					max_price: this.filter.max||-1,
-					star_num:this.filter.star
-				}
+				let obj;
+				if(!this.search)
+					obj = {
+						name:'zl.shopping.sys.pc.category.goods',
+						class_append_id:this.subcate.id,
+						page: this.page,
+						type: this.filter.order.id,
+						brand_id: this.filter.brand.toString(),
+						min_price: this.filter.min||-1,
+						max_price: this.filter.max||-1,
+						star_num:this.filter.star
+					}
+				else
+					obj = {
+						name:'zl.shopping.sys.search.goods',
+						search:this.search,
+						page: this.page,
+						type: this.filter.order.id,
+						brand_id: this.filter.brand.toString(),
+						min_price: this.filter.min||-1,
+						max_price: this.filter.max||-1,
+						star_num:this.filter.star,
+						limit:20
+					}
 				this.$http.post('',obj).then((response)=>{
 					this.items = response.body.data;
 					//总页数
@@ -225,12 +242,18 @@
 						starNumArr.unshift(stars[i]);
 					for(let j = 0; j<5; j++)
 						this.stars[j].size = starNumArr[j];
+					// 针对search的品牌
+					if(this.search) this.brands = response.body.data.brand_info;
 				})
 			},
 			//点击其他二级分类条目
-			clickSub(subid){
-				console.log(this.$router)
-				this.$router.push({query: {name:this.cateName, id:this.id, subid:subid}});
+			clickSub(sub){
+				let cate = {name:this.cate.name, id:this.cate.id},
+					subcate = {name: sub.name, id: sub.id}
+				history.pushState({}, '', './category.html?cate='+ JSON.stringify(cate) +'&subcate='+ JSON.stringify(subcate));
+				this.cate = cate;
+				this.subcate = subcate;
+				this.getProducts();
 			},
 			//点击品牌
 			clickBrand(id){
@@ -256,24 +279,7 @@
 				this.getProducts();
 			}
 		},
-		computed:{
-			id(){
-				return Number(getParameterByName('id'));
-			},
-			subid(){
-				return Number(getParameterByName('subid'));
-			},
-			cateName(){
-				return getParameterByName('name');
-			},
-			page(){
-				return getParameterByName('page')||1;
-			}
-		},
 		watch:{
-			'$router'(){
-				this.getProducts();
-			},
 			filter(){
 				console.log('filter有变!')
 				console.log(this.filter.star)
@@ -403,6 +409,7 @@
 	#display_container{
 		max-width: 960px;
 		width:~'calc(100% - 212px)';
+		min-height: 1000px;
 		#display_header{
 			width: 100%;
 			height: 38px;

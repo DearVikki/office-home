@@ -15,8 +15,8 @@
 						@click.stop="clickHeaderDp(searchOptions[option].name)">{{searchOptions[option].name}}</div>
 					</div>
 				</div>
-				<input type="text" :value='value' @input="onInput"/>
-				<span id='header_search_btn'></span>
+				<input type="text" v-model="searchKey" @enter="search">
+				<span id='header_search_btn' @click="search"></span>
 			</div>
 			<!--非登录状态-->
 			<div id='login_container' v-if='!logged'>
@@ -42,11 +42,11 @@
 						<span>{{productType[cate].name}}</span>
 						<!--二级分类-->
 						<ul class="subcate-ul" v-show="productType[cate].active">
-							<a class="cate-item"
+							<div class="cate-item"
 							v-for="subcate in productType[cate].sub"
-							:href="'category.html?name='+productType[cate].name+'&id='+productType[cate].id+'&subid='+subcate.id">
+							@click= "clickCate(productType[cate], subcate)">
 								<span>{{subcate.name}}</span>
-							</a>
+							</div>
 						</ul>
 					</li>
 				</ul>
@@ -102,14 +102,11 @@
 					first:'',
 					sub:'',
 					status: false
-				}
+				},
+				searchKey: ''
 			}
 		},
-		props:['value'],
 		methods: {
-			onInput(event) {
-				this.$emit('input', event.target.value)
-			},
 			clickHeaderType(){
 				this.headerDpActive = true;
 			},
@@ -127,6 +124,21 @@
 			},
 			leaveCate(cateId){
 				this.productType[cateId].active = false;
+			},
+			clickCate(cate, subcate){
+				let ca = {
+					id: cate.id,
+					name: cate.name
+				}
+				location.href = './category.html?cate=' + JSON.stringify(ca) + '&subcate=' + JSON.stringify(subcate);
+			},
+			search(){
+				if(!this.searchKey) return;
+				// 搜索商品
+				if(this.searchActive.type === 1)
+					location.href = './category.html?search='+this.searchKey;
+				// 搜索店铺
+				else location.href = './search-shop.html?search='+this.searchKey;
 			}
 		},
 		mounted(){
@@ -239,6 +251,9 @@
 				vertical-align: middle;
 				border: none;
 				padding-left: 10px;
+				width: 200px;
+				height: 30px;
+				font-size: 14px;
 			}
 			#header_search_btn{
 				width: 44px;
@@ -246,6 +261,7 @@
 				float: right;
 				background: url(../assets/img/index/index_search.png) center no-repeat;
 				background-color: @baseColor;
+				cursor: pointer;
 			}
 		}
 		#login_container{
@@ -293,6 +309,7 @@
 			    left: 0;
 			    top: 43px;
 			    width: 100%;
+			    background: #fff;
 		    }
 		    /*分类条目*/
 		    .cate-item{
@@ -330,6 +347,7 @@
 			    left: 100%;
 			    margin-left: 1px;
 			    width: 100%;
+			    background: #fff;
 		    }
 		}
 		#user_container{

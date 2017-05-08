@@ -1,5 +1,5 @@
 <template>
-	<div id='footer_container' :class='{onepage: onepage}'>
+	<div id='footer_container' v-show="show" :class='{onepage: onepage}'>
 		<div id='footer_part1'>
 			<table>
 				<caption>Chompre用户指南</caption>
@@ -17,15 +17,15 @@
 		name:'myfooter',
 		data(){
 			return {
+				onepage:false,
+				show:false
 			}
 		},
 		mounted(){
-			if(document.getElementsByTagName('html')[0].getBoundingClientRect().height + 214 <= window.innerHeight) this.onepage = true;
-		},
-		props:{
-			onepage:{
-				default:false
-			}
+			setTimeout(() => {
+				if(document.getElementsByTagName('html')[0].getBoundingClientRect().height <= window.innerHeight) this.onepage = true;
+				this.show = true;
+			}, 1000)
 		}
 	}
 </script>
@@ -38,7 +38,7 @@
 		border-top:6px solid @baseColor;
 		background: #fff;
 		&.onepage{
-			position: absolute;
+			position: fixed;
 			bottom: 0;
 			left: 0;
 		}
