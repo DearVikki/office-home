@@ -56,7 +56,7 @@
 			</div>
 		</div>
 		<!-- 总结条 -->
-		<div id="conclu_container">
+		<div id="conclu_container" v-if="carts.length">
 			<!-- 全选 -->
 			<div class="fl">
 				<label class="common-check-container">
@@ -82,6 +82,11 @@
 				<div class="btn reverse" @click="pop.show = false">关闭</div>
 			</div>
 		</pop>
+		<!-- 缺省页 -->
+		<div class="empty-tip" v-if="!carts.length">
+			<img src="">
+			<p>Tu carro de la compra está vacía</p>
+		</div>
 	</div>
 </template>
 <script>
@@ -91,32 +96,34 @@
 		name:'cart',
 		data(){
 			return{
-				carts:[{
-	                dealer_info: {
-	                    dealer_id: '',
-	                    dealer_name: '',
-	                    checked:false
-	                },
-	                goods_info: [
-	                    {
-	                        goods_id: '',
-	                        goods_num: '',
-	                        pre_goods_id: '',
-	                        stores: '',
-	                        description: [],
-	                        goods_name: '',
-	                        cover_pic: '',
-	                        price: '',
-	                        //numEditor
-	                        numEditorData:{
-	                        	num:1,
-	                        	max:1,
-	                        	min:1
-	                        },
-	                        checked:false
-	                    }
-	                ]
-	            }],
+				carts:[
+					// {
+		   //              dealer_info: {
+		   //                  dealer_id: '',
+		   //                  dealer_name: '',
+		   //                  checked:false
+		   //              },
+		   //              goods_info: [
+		   //                  {
+		   //                      goods_id: '',
+		   //                      goods_num: '',
+		   //                      pre_goods_id: '',
+		   //                      stores: '',
+		   //                      description: [],
+		   //                      goods_name: '',
+		   //                      cover_pic: '',
+		   //                      price: '',
+		   //                      //numEditor
+		   //                      numEditorData:{
+		   //                      	num:1,
+		   //                      	max:1,
+		   //                      	min:1
+		   //                      },
+		   //                      checked:false
+		   //                  }
+		   //              ]
+		   //          }
+	            ],
 	            // 所有已选商品
 	            goodsArr:[],
 	            // 所有需要删除或收藏的商品id

@@ -24,7 +24,7 @@
 				<a id='signup' href="./signup.html">crear cuenta</a>
 			</div>
 			<!--登录状态-->
-			<div id='name_container' v-else>DearVikki</div>
+			<div id='name_container' v-else>{{nickname}}</div>
 		</div>
 		<div id='header_part2'>
 			<div id='cate_container'
@@ -66,7 +66,8 @@
 		name:'myheader',
 		data(){
 			return{
-				logged:true,
+				logged:false,
+				nickname:'',
 				headerDpActive: false,
 				searchOptions:{
 					Productos: {
@@ -142,6 +143,18 @@
 			}
 		},
 		mounted(){
+			// 是否是登录状态
+			this.$http.post('',{
+			    name:'zl.shopping.sys.shop.cart'
+			}).then((response) => {
+			    if(response.body.code === 1004) {
+			        this.logged = false;
+			        localStorage.removeItem('userInfo');
+			    } else {
+			    	this.logged = true;
+			    	this.nickname = JSON.parse(localStorage.getItem('userInfo')).nickname;
+			    }
+			})
 			//拉取一级分类
 			this.$http.post('',{name:'zl.shopping.sys.category.info'}).then((response)=>{
 				let data = response.body.data.CategoryInfo;
@@ -251,7 +264,7 @@
 				vertical-align: middle;
 				border: none;
 				padding-left: 10px;
-				width: 200px;
+				width: 600px;
 				height: 30px;
 				font-size: 14px;
 			}

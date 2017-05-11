@@ -63,12 +63,21 @@ var interceptors = function(vm) {
     Vue.http.interceptors.push((request, next) => {
         vm.showLoading = true
         next((response) => {
-            vm.showLoading = false
-            console.log(vm.showLoading)
+            vm.showLoading = false;
             return response;
         });
     });
 }
+// 判断是否是登录状态
+// let isLogin = true;
+// Vue.http.post('',{
+//     name:'zl.shopping.sys.shop.cart'
+// }).then((response) => {
+//     if(response.body.code === 1004) {
+//         isLogin = false;
+//         localStorage.removeItem('userInfo');
+//     }
+// })
 export default {
     VueRouter: VueRouter,
     Vue: Vue,

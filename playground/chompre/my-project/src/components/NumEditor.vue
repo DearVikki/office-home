@@ -62,6 +62,7 @@
 		text-align: center;
 		vertical-align: middle;
 		display: inline-block;
+		font-size: 14px;
 	}
 	.minus,.plus{
 		cursor: pointer;

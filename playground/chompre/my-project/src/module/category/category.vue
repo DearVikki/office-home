@@ -17,7 +17,7 @@
 				<label v-for="brand in brands">
 					<input type="checkbox"
 					:value="brand.brand_id"
-					@click="clickBrand(brand.brand_id)">
+					@click="clickBrand(1)">
 					<span class="radio-input"></span>
 					<!-- 本来这儿是brand name的 -->
 					<span class="text">{{brand.brand}}</span>
@@ -77,12 +77,18 @@
 					</div>
 				</div>
 			</div>
-			<div id="display_body">
+			<div id="display_body" v-show="items.goods_list.length">
 				<goodsitem :item='item' v-for="item in items.goods_list"></goodsitem>
 				<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
 			</div>
-			<pagination :allPage="allPage"
-			v-show="allPage>1"></pagination>
+			<pagination v-show="allPage>1"
+			:allPage="allPage"
+			:reset="pageReset"
+			@clickPagination="clickPagination"></pagination>
+			<div class="empty-tip" v-show="!items.goods_list.length">
+				<img src="">
+				<p>暂无符合条件的商品</p>
+			</div>
 		</div>
 		<icontop></icontop>
 	</div>
@@ -158,7 +164,8 @@
 					goods_num:{}
 				},
 				allPage:1,
-				page:1
+				page:1,
+				pageReset:1
 			}
 		},
 		mounted(){
@@ -253,29 +260,46 @@
 				history.pushState({}, '', './category.html?cate='+ JSON.stringify(cate) +'&subcate='+ JSON.stringify(subcate));
 				this.cate = cate;
 				this.subcate = subcate;
+				// 请求页数回到1
+				this.page = 1;
+				// pagination组件页数回到1
+				this.pageReset = Math.random();
 				this.getProducts();
 			},
 			//点击品牌
 			clickBrand(id){
 				let index = this.filter.brand.indexOf(id);
+				// 加入品牌或删除品牌
 				if(index === -1) this.filter.brand.push(id);
 				else this.filter.brand.splice(index,1);
+				this.page = 1;
+				this.pageReset = Math.random();
 				this.getProducts();
 			},
 			//点击价格
 			clickPrice(){
 				if(!this.filterPriceActive) return;
+				this.page = 1;
+				this.pageReset = Math.random();
 				this.getProducts();
 			},
 			//全部价格
 			allPrice(){
 				this.filter.min = this.filter.max = '';
+				this.page = 1;
+				this.pageReset = Math.random();
 				this.getProducts();
 			},
 			//点击星星
 			clickStar(a){
 				if(a === 'all') this.filter.star = 0;
-				console.log(this.filter.star)
+				this.page = 1;
+				this.pageReset = Math.random();
+				this.getProducts();
+			},
+			// 点击某一页
+			clickPagination(page){
+				this.page = page;
 				this.getProducts();
 			}
 		},
@@ -366,6 +390,7 @@
 			padding-left: 10px;
 			border: 1px solid @bla;
 			border-radius: 2px;
+			font-size: 14px;
 		}
 		.vertical-divider{
 			width: 2px;
