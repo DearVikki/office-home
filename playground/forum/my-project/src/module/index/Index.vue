@@ -1,4 +1,4 @@
-<template>
+	<template>
 	<div>
 		<div id="index_header">
 			<div id="column">

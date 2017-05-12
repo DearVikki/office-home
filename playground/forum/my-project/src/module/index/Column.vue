@@ -43,21 +43,21 @@
 	</div>
 </template>
 <script>
-	import icon_all_pressed from '../assets/img/index/icon_all.png'
-	import icon_life_pressed from '../assets/img/index/icon_life.png'
-	import icon_pencil_pressed from '../assets/img/index/icon_pencil.png'
-	import icon_puttogether_pressed from '../assets/img/index/icon_puttogether.png'
-	import icon_lost_pressed from '../assets/img/index/icon_lost.png'
-	import icon_help_pressed from '../assets/img/index/icon_help.png'
-	import icon_all from '../assets/img/index/icon_all (1).png'
-	import icon_life from '../assets/img/index/icon_life (1).png'
-	import icon_pencil from '../assets/img/index/icon_pencil (1).png'
-	import icon_puttogether from '../assets/img/index/icon_puttogether (1).png'
-	import icon_lost from '../assets/img/index/icon_lost (1).png'
-	import icon_help from '../assets/img/index/icon_help (1).png'
-	import questionitem from '../components/QuestionItem.vue'
-	import {getParameterByName, loadMore, myAlert} from '../assets/js/utils.js'
-	import scrollTop from '../components/scrollTop.vue'
+	import icon_all_pressed from '../../assets/img/index/icon_all.png'
+	import icon_life_pressed from '../../assets/img/index/icon_life.png'
+	import icon_pencil_pressed from '../../assets/img/index/icon_pencil.png'
+	import icon_puttogether_pressed from '../../assets/img/index/icon_puttogether.png'
+	import icon_lost_pressed from '../../assets/img/index/icon_lost.png'
+	import icon_help_pressed from '../../assets/img/index/icon_help.png'
+	import icon_all from '../../assets/img/index/icon_all (1).png'
+	import icon_life from '../../assets/img/index/icon_life (1).png'
+	import icon_pencil from '../../assets/img/index/icon_pencil (1).png'
+	import icon_puttogether from '../../assets/img/index/icon_puttogether (1).png'
+	import icon_lost from '../../assets/img/index/icon_lost (1).png'
+	import icon_help from '../../assets/img/index/icon_help (1).png'
+	import questionitem from '../../components/QuestionItem.vue'
+	import {getParameterByName, loadMore, myAlert} from '../../assets/js/utils.js'
+	import scrollTop from '../../components/scrollTop.vue'
 	export default{
 		name:'columnn',
 		data(){
@@ -261,13 +261,13 @@
 				bottom:.27rem;
 				width: .2rem;
 				height: .2rem;
-				background:url(../assets/img/index/icon_zhankai.png) center no-repeat;
+				background:url(../../assets/img/index/icon_zhankai.png) center no-repeat;
 				background-size:100% 100%;
 			}
 			&.opened{
 				-webkit-line-clamp: 1000;
 				&:before{
-					background-image: url(../assets/img/index/icon_up.png);
+					background-image: url(../../assets/img/index/icon_up.png);
 				}
 			}
 			span{

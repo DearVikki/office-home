@@ -23,10 +23,9 @@
 	</div>
 </template>
 <script>
-	import Swiper from '../assets/lib/swiper.js';
-	
-	import questionitem from '../components/QuestionItem.vue'
-	import {getParameterByName, loadMore, myAlert} from '../assets/js/utils.js'
+	import Swiper from '../../assets/lib/swiper.js';
+	import questionitem from '../../components/QuestionItem.vue'
+	import {getParameterByName, loadMore, myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'homepage',
 		data(){
@@ -51,31 +50,30 @@
 						router:'rank'
 					}]
 				},
-					question:{
-						type:3,
-						data:[{
-							question_id:'',
-							question:'',
-							question_describe:'',
-							money:'',
-							hot:'',
-							browse_num:'',
-							replynum:'',
+				question:{
+					type:3,
+					data:[{
+						question_id:'',
+						question:'',
+						question_describe:'',
+						money:'',
+						hot:'',
+						browse_num:'',
+						replynum:'',
 							praisenum:''
-						}]
-					},
-					hotlist:[],
-					hotlistTop:{},
-					money:{
-						list:[],
-						top:[],
-						page:1
-					},
-					credit:{
-						list:[],
-						top:[],
-						page:1
-					}
+					}]
+				},
+				hotlist:[],
+				hotlistTop:{},
+				money:{
+					list:[],
+					top:[],
+					page:1
+				},
+				credit:{
+					list:[],
+					top:[],
+					page:1
 				}
 			}
 		},

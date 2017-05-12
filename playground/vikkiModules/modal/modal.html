@@ -73,30 +73,26 @@
 <script>
 	$('.modal-wrapper').css('height', window.innerHeight);
 	function Modal(config){
-		var self = this;
 		this.$el = $(config.el);
 		this.nextCb = config.next || function(cb){cb()};
 		this.closeCb = config.close || function(){};
-		Modal.prototype.self = !function(config){
-			return config;
-		}()
+
 		Modal.prototype.open = function(){
 			this.$el.fadeIn();
 		}
 		Modal.prototype.close = function(){
-			
-			console.log(self) //最后一个的Self
-			self.$el.fadeOut();
-			self.closeCb();
+			console.log(this.$el) //最后一个的Self
+			this.$el.fadeOut();
+			this.closeCb();
 		}
 		Modal.prototype.next = function(){
-			self.nextCb(function(){
-				self.$el.fadeOut();
+			this.nextCb(function(){
+				this.$el.fadeOut();
 			});
 		}
 
-		this.$el.find('.modal-close').on('click', this.close)
-		this.$el.find('.modal-next').on('click', this.next)
+		this.$el.find('.modal-close').on('click', this.close.bind(this))
+		this.$el.find('.modal-next').on('click', this.next.bind(this))
 	}
 </script>
 <script>
