@@ -150,6 +150,11 @@
 								<div class="comment-time">{{comment.time}}</div>
 							</div>
 						</li>
+						<!-- 缺省页 -->
+						<div class="empty-tip" v-if="!comment.comment_info.length">
+							<img src="~assets/img/product/icon_nothing.png">
+							<p>暂无相关评论</p>
+						</div>
 					</ul>
 					<!-- 页码 -->
 					<pagination
@@ -364,7 +369,7 @@
 						e.active_pic = -1;
 						this.comment.comment_info.push(e);
 						// 视窗滚到评论区
-						document.querySelector('#product_part2').scrollIntoView();
+						// document.querySelector('#product_part2').scrollIntoView();
 					})
 				})
 			},
@@ -648,6 +653,7 @@
 				}
 				/*评论主体*/
 				#comment_main{
+					min-height: 700px;
 					.comment-item{
 						padding: 10px 15px;
 						border-bottom:1px dashed #cbcbcb;

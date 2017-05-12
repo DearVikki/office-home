@@ -34,6 +34,10 @@
 			<pop :pop="address.pop" :popReset="addressPopReset">
 				<addressPop :address="address.selectedForPop" @saveAddress="saveAddress"></addressPop>
 			</pop>
+			<!-- 缺省图 -->
+			<div class="small-empty-tip" v-show="!address.addressList.length">
+				<p>暂无可用地址</p>
+			</div>
 		</div>
 		<!-- 确认发票信息 -->
 		<div id="invoice_container">
@@ -66,10 +70,14 @@
 				<div v-show="!invoice.fold" class="fold" @click="invoice.fold = true">收起发票 <img src="~assets/img/order/Trianglegreen_up.png"></div>
 				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">展开发票 <img src="~assets/img/order/Trianglegreen_down.png"></div>
 			</div>
-			<!-- 地址弹窗 -->
+			<!-- 发票弹窗 -->
 			<pop :pop="invoice.pop" :popReset="invoicePopReset">
 				<invoicePop :invoice="invoice.selectedForPop" @saveInvoice="saveInvoice"></invoicePop>
 			</pop>
+			<!-- 缺省图 -->
+			<div class="small-empty-tip" v-show="!invoice.invoiceList.length">
+				<p>暂无可用发票</p>
+			</div>
 		</div>
 		<!-- 选择托运公司 -->
 		<div id="delivery_container">
@@ -397,13 +405,25 @@
 					})
 				}
 			},
-			// 支付
-			pay(){
-				// 是否选择地址
+			// 支付前检测
+			checkBeforePay(){
+				if(!this.address.selected.address_id) {
+					this.conclu.tip = '请选择收货地址';
+					return false;
+				}
+				if(!this.invoice.selected.invoice_id) {
+					this.conclu.tip = '请选择发票';
+					return false;
+				}
 				if(!this.delivery.dropdown.selectedValue) {
 					this.conclu.tip = '请选择托运公司';
-					return;
+					return false;
 				}
+				return true;
+			},
+			// 支付
+			pay(){
+				if(!this.checkBeforePay()) return;
 				let goods_id = [];
 				this.order.goods_info.forEach((g)=>{
 					goods_id.push(g.goods_id);
@@ -460,6 +480,7 @@
 			span{
 				float:right;
 				margin-top: 5px;
+				cursor: pointer;
 			}
 		}
 		.item{
@@ -607,6 +628,7 @@
 		#select_delivery{
 			width: 560px;
 			height: 36px;
+			position: relative;
 		}
 	}
 	/*#order部分已移入order-item.less了*/

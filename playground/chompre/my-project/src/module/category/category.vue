@@ -86,7 +86,7 @@
 			:reset="pageReset"
 			@clickPagination="clickPagination"></pagination>
 			<div class="empty-tip" v-show="!items.goods_list.length">
-				<img src="">
+				<img src="~assets/img/product/icon_nothing.png">
 				<p>暂无符合条件的商品</p>
 			</div>
 		</div>
