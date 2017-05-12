@@ -12,7 +12,7 @@
 						<input type="checkbox" @change="shopCheck(shop)" :checked="shop.dealer_info.checked">
 						<span class="check-input"></span>
 					</label>
-					<a class="shop-name">{{shop.dealer_info.dealer_name}}</a>
+					<a class="shop-name" :href='"./shop.html?id="+shop.dealer_info.dealer_id'>{{shop.dealer_info.dealer_name}}</a>
 				</div>
 				<!-- 所含商品 -->
 				<div class="goods-item-container">
@@ -24,10 +24,12 @@
 								<input type="checkbox" @change="goodsCheck(shop,goods)" :checked="goods.checked">
 								<span class="check-input"></span>
 							</label>
+							<a :href="'product.html?id='+goods.pre_goods_id">
 							<!-- 商品图片 -->
 							<img :src="goods.cover_pic">
 							<!-- 商品名字 -->
 							<div class="goods-name"><div class="goods-name-inner">{{goods.goods_name}}</div></div>
+							</a>
 							<!-- 商品选择信息 -->
 							<div class="goods-des">
 								<p v-for="des in goods.description">{{des}}</p>
@@ -56,7 +58,7 @@
 			</div>
 		</div>
 		<!-- 总结条 -->
-		<div id="conclu_container">
+		<div id="conclu_container" v-if="carts.length">
 			<!-- 全选 -->
 			<div class="fl">
 				<label class="common-check-container">
@@ -82,6 +84,11 @@
 				<div class="btn reverse" @click="pop.show = false">关闭</div>
 			</div>
 		</pop>
+		<!-- 缺省页 -->
+		<div class="empty-tip" v-if="!carts.length">
+			<img src="~assets/img/product/icon_cart_null.png">
+			<p>Tu carro de la compra está vacía</p>
+		</div>
 	</div>
 </template>
 <script>
@@ -91,32 +98,34 @@
 		name:'cart',
 		data(){
 			return{
-				carts:[{
-	                dealer_info: {
-	                    dealer_id: '',
-	                    dealer_name: '',
-	                    checked:false
-	                },
-	                goods_info: [
-	                    {
-	                        goods_id: '',
-	                        goods_num: '',
-	                        pre_goods_id: '',
-	                        stores: '',
-	                        description: [],
-	                        goods_name: '',
-	                        cover_pic: '',
-	                        price: '',
-	                        //numEditor
-	                        numEditorData:{
-	                        	num:1,
-	                        	max:1,
-	                        	min:1
-	                        },
-	                        checked:false
-	                    }
-	                ]
-	            }],
+				carts:[
+					// {
+		   //              dealer_info: {
+		   //                  dealer_id: '',
+		   //                  dealer_name: '',
+		   //                  checked:false
+		   //              },
+		   //              goods_info: [
+		   //                  {
+		   //                      goods_id: '',
+		   //                      goods_num: '',
+		   //                      pre_goods_id: '',
+		   //                      stores: '',
+		   //                      description: [],
+		   //                      goods_name: '',
+		   //                      cover_pic: '',
+		   //                      price: '',
+		   //                      //numEditor
+		   //                      numEditorData:{
+		   //                      	num:1,
+		   //                      	max:1,
+		   //                      	min:1
+		   //                      },
+		   //                      checked:false
+		   //                  }
+		   //              ]
+		   //          }
+	            ],
 	            // 所有已选商品
 	            goodsArr:[],
 	            // 所有需要删除或收藏的商品id
@@ -148,6 +157,7 @@
 			}
 		},
 		mounted(){
+			if(!localStorage.getItem('userInfo')) location.replace('./login.html');
 			// 拉取数据
 			this.$http.post('',{
 				name:'zl.shopping.sys.shop.cart'
@@ -422,10 +432,9 @@
 						width: 100%;
 						overflow: hidden;
 						text-overflow: ellipsis;
-						/*display: -webkit-box;
+						display: -webkit-box;
 						-webkit-line-clamp: 3;
 						-webkit-box-orient: vertical;
-						white-space: nowrap;*/
 					}
 				}
 				/*尺码颜色*/

@@ -89,7 +89,6 @@
 					if(!this.handleValidate(f)) allCheck = false;
 				})
 				 if(!this.handleValidate(this.code)) allCheck = false;
-				 // this.code.val = this.fields[2].error;
 				 return allCheck;
 			}
 		},

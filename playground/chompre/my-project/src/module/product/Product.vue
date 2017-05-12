@@ -3,7 +3,7 @@
 		<!--第一部分-->
 		<div id="product_part1">
 			<!--一级分类/二级分类-->
-			<div id="referrer_container">
+			<div id="referrer_container" style="opacity:0">
 				一级分类/二级分类
 			</div>
 			<!--左侧图片展示部分-->
@@ -150,6 +150,11 @@
 								<div class="comment-time">{{comment.time}}</div>
 							</div>
 						</li>
+						<!-- 缺省页 -->
+						<div class="empty-tip" v-if="!comment.comment_info.length">
+							<img src="~assets/img/product/icon_nothing.png">
+							<p>暂无相关评论</p>
+						</div>
 					</ul>
 					<!-- 页码 -->
 					<pagination
@@ -163,7 +168,7 @@
 	</div>
 </template>
 <script>
-    import {getParameterByName,timestamp} from '../../assets/js/utils.js';
+    import {getParameterByName,timestamp,myAlert} from '../../assets/js/utils.js';
     import numeditor from '../../components/NumEditor.vue';
     import star from '../../components/Stars.vue';
     import pagination from '../../components/Pagination.vue';
@@ -248,23 +253,6 @@
 		                    content: "哈哈哈哈"
 		                },
 		                active_pic:-1
-		            },{
-		                comment_id: "151",
-		                user_id: "100093",
-		                content: "这是一件好好好好好好好好好好好产品",
-		                comment_pic: [
-		                    "http://121.40.91.157/shopping/php/assets/test/3.jpg","http://121.40.91.157/shopping/php/assets/test/3.jpg"
-		                ],
-		                star_num: 1,
-		                time: timestamp(1477627108),
-		                is_reply: 1,
-		                comment_user_nickname: "9**************m",
-		                comment_user_head: "http://121.40.91.157/upload/pic/default_avatar_rectangle-1.jpg",
-		                is_picture: 1,
-		                reply_comment: {
-		                    content: "哈哈哈哈"
-		                },
-		                active_pic:-1
 		            }]
 				}
 			}
@@ -278,7 +266,6 @@
 			//拉取商品详情页-上半部分
 			this.$http.post('',{name:'zl.shopping.sys.goods.info', pre_goods_id:this.pre_goods_id})
 			.then((response)=>{
-				console.log(response.body)
 				this.comment_info = response.body.data.comment_info;
 				this.dealer_info = response.body.data.dealer_info;
 				this.pre_goods_info = response.body.data.pre_goods_info;
@@ -288,7 +275,6 @@
 			//拉取商品详细属性
 			this.$http.post('',{name:'zl.shopping.sys.goods.attribute',pre_goods_id:this.pre_goods_id})
 			.then((response)=>{
-				console.log(response.body)
 				this.attribute_info = response.body.data.attribute_info;
 			})
 			//拉取商品详情大图
@@ -357,7 +343,7 @@
 					goods_id: this.goods_info.goods_id,
 					goods_num: this.numEditorData.num
 			}).then((response)=>{
-				console.log('加入购物车成功')
+				myAlert('已加入购物车！')
 			})
 			},
 			//点击小星星
@@ -383,7 +369,7 @@
 						e.active_pic = -1;
 						this.comment.comment_info.push(e);
 						// 视窗滚到评论区
-						document.querySelector('#product_part2').scrollIntoView();
+						// document.querySelector('#product_part2').scrollIntoView();
 					})
 				})
 			},
@@ -667,6 +653,7 @@
 				}
 				/*评论主体*/
 				#comment_main{
+					min-height: 700px;
 					.comment-item{
 						padding: 10px 15px;
 						border-bottom:1px dashed #cbcbcb;

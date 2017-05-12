@@ -94,6 +94,8 @@ body {
 body, input, textarea {
     font-family: '微软雅黑', microsoft yahei, Arial, Helvetica, sans-serif;
     font-size: 0;
+}
+body{
     cursor: default;
 }
 
@@ -272,7 +274,6 @@ input.checkbox:checked+.checkbox-input:after {
 
 
 /*保存*/
-
 .common-save {
     background: #d42b1e;
     border-radius: 4px;
@@ -280,4 +281,23 @@ input.checkbox:checked+.checkbox-input:after {
     height: 49px;
     line-height: 49px;
     color: #fff;
+}
+/*缺省页*/
+.empty-tip{
+    font-size:24px;
+    color:#b5b5b5;
+    letter-spacing:-0.82px;
+    text-align: center;
+    margin-top: 100px;
+    img{
+        width: 168px;
+        height: 168px;
+        margin-bottom: 10px;
+    }
+}
+.small-empty-tip{
+    font-size: 18px;
+    margin-top: 50px;
+    text-align: center;
+    color:#b5b5b5;
 }

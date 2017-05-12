@@ -5,13 +5,13 @@ import VueResource from 'vue-resource'
 //import Bus from './bus.js';
 if (location.protocol != 'https:')
 {
-  location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+  // location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
 }
 
 Vue.config.debug = true;
 Vue.use(VueRouter);
 Vue.use(VueResource);
-Vue.http.options.root = 'https://www.hzchuangxiangzhe.cn/php/PcApi';
+Vue.http.options.root = 'http://www.zhuobangedu.com/php/PcApi';
 Vue.http.options.emulateJSON = true;
 Vue.http.options.credentials = true;
 import '../lib/public.less'

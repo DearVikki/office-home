@@ -89,6 +89,7 @@
 				if(!this.checkAll(this.fields)) return;
 				this.$http.post('',{name:'zl.shopping.sys.pc.login',account:this.fields.account.val,password:this.fields.pw.val}).then((response)=>{
 					if(response.body.code === 1000){
+						localStorage.setItem('userInfo', JSON.stringify(response.body.data));
 						myAlert('login success!', ()=>{
 							let referrer = document.referrer;
 							if(referrer.slice(-10) === 'login.html' || referrer.slice(-11) === 'signup.html')
@@ -136,6 +137,7 @@
 	.account-btn{
 		display: block;
 		max-width: 173px;
+		cursor: pointer;
 	}
 	.input-container.active,.input-container.warn{
 		border-bottom: 2px solid @baseColor !important;
