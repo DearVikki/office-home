@@ -1,12 +1,12 @@
 <template>
 	<div id="personal_side" class="fl">
 		<p class="text">Mi Chompre</p>
-		<router-link class="text"
+		<a class="text"
 		v-for="item in items"
-		:class="{active:activeId === item.id}"
-		:to="item.href">
+		:href="item.href"
+		:class="{active:activeId === item.id}">
 			{{item.name}}
-		</router-link>
+		</a>
 	</div>
 </template>
 <script>
@@ -17,15 +17,15 @@
 			return{
 					items:[{
 					name:'Mis pedidos',
-					href:'/order',
+					href:'./order.html',
 					id:1
 				},{
 					name:'Gestión de direcciones de envío',
-					href:'/address',
+					href:'./address.html',
 					id:2
 				},{
 					name:'Gestión de las Facturas',
-					href:'/receipt',
+					href:'./receipt.html',
 					id:3
 				},{
 					name:'Cambiar contraseña',

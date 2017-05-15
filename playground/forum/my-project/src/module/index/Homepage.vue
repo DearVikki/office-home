@@ -11,20 +11,31 @@
 		</div>
 		<!-- nav条 -->
 		<div id="homepage_nav">
-			<router-link v-for="(n,index) in nav.items" class="nav"
+			<span v-for="(n,index) in nav.items" class="nav"
 			:class="{active:index === nav.activeNav}"
-			:to="n.router">
+			@click="clickNav(index)">
 				{{n.name}}
-			</router-link>
+			</span>
 		</div>
 		<div id="homepage_main">
-			<router-view></router-view>
+			<div v-show="nav.activeNav != 3">
+				<questionitem v-if="questionTop.question_id"
+				:question="questionTop"
+				:type="nav.activeNav"
+				:index=-1></questionitem>
+				<questionitem v-for="(d,index) in questionData"
+				:question="d"
+				:type="nav.activeNav"
+				:index="index"></questionitem>
+			</div>
+			<personal v-show="nav.activeNav == 3"></personal>
 		</div>
 	</div>
 </template>
 <script>
 	import Swiper from '../../assets/lib/swiper.js';
 	import questionitem from '../../components/QuestionItem.vue'
+	import personal from './Homepage-personal.vue'
 	import {getParameterByName, loadMore, myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'homepage',

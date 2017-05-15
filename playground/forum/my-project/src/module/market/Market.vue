@@ -9,24 +9,24 @@
 							{{s.title}}
 						</div>
 						<div class="s-inner-bottom">
-							<div class="c-yellow-btn" :class="{disabled:!Number(s.exchange)}" @click="exchangeStep1(s.goods_id,s.content)">兑换</div>
+							<div class="c-yellow-btn" :class="{disabled:!Number(s.exchange)}" @click="exchangeStep1(s.goods_id,s.content)">购买</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<!-- 奇怪！这个a标签为什么点不了！ -->
-			<a id="view_history" href="./market-history.html">查看兑换历史</a>
+			<a id="view_history" href="./market-history.html">查看购买历史</a>
 			<div id="page_container">
 				<span>{{currentPage}}</span>
 				<span>/{{ShoppingList.length}}</span>
 			</div>
 		</div>
-		<!-- 兑换弹窗 -->
+		<!-- 购买弹窗 -->
 		<pop :pop="pop">
 			<div id="exchange_pop">
 				<div id="exchange_pop_part1">{{exchangeMethod.content}}</div>
 				<div id="exchange_pop_part2">
-					<div>兑换方式: 
+					<div>购买方式: 
 						<span class="credit" v-show="exchangeMethod.integral">{{exchangeMethod.integral}}</span>
 						<span class="plus" v-show="exchangeMethod.integral&&exchangeMethod.money"> + </span>
 						<span class="money" v-show="exchangeMethod.money">{{exchangeMethod.money}}</span>
@@ -36,14 +36,14 @@
 						<span class="credit">{{existingCredit}}</span>
 					</div>
 				</div>
-				<div class="c-yellow-btn" @click="exchangeStep2">兑换</div>
+				<div class="c-yellow-btn" @click="exchangeStep2">购买</div>
 			</div>
 		</pop>
-		<!-- 兑换成功弹窗 -->
+		<!-- 购买成功弹窗 -->
 		<pop :pop="successPop">
 			<div id="success_pop">
-				<p>兑换成功!</p>
-				<p>凭兑换记录到<span>{{exchangeAddress}}</span>领取</p>
+				<p>购买成功!</p>
+				<p>凭购买记录到<span>{{exchangeAddress}}</span>领取</p>
 				<div class="c-yellow-btn" @click="successPop.show = false">确定</div>
 			</div>
 		</pop>
@@ -94,7 +94,7 @@
 		},
 		mounted(){
 			let self = this;
-			// 获取兑换商品列表
+			// 获取购买商品列表
 			this.$http.post('',{
 				name:'xwlt.pc.ShoppingList'
 			}).then((response)=>{

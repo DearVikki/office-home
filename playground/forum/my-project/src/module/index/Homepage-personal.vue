@@ -18,9 +18,9 @@
 			</tr>
 			<tr v-for="(r,i) in ranks">
 				<td>
-					<img v-if="i===0" src="../assets/img/index/icon_1.png">
-					<img v-if="i===1" src="../assets/img/index/icon_2.png">
-					<img v-if="i===2" src="../assets/img/index/icon_3.png">
+					<img v-if="i===0" src="../../assets/img/index/icon_1.png">
+					<img v-if="i===1" src="../../assets/img/index/icon_2.png">
+					<img v-if="i===2" src="../../assets/img/index/icon_3.png">
 					<span v-if="i > 2">{{i+1}}</span>
 				</td>
 				<td><img :src="r.head"></td>
@@ -55,7 +55,7 @@
 	#fake_user_back{
 		width: 100%;
 		height: 1.71rem;
-		background: url(../assets/img/index/mine_bg.png);
+		background: url(../../assets/img/index/mine_bg.png);
 		position: absolute;
 		top: .78rem;
 		left: 0;

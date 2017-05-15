@@ -19,6 +19,7 @@
 		width: 100%;
 		height: 96px;
 		padding-top: 36px;
+		padding-left: 30px;
 		border-bottom: 2px solid @baseColor;
 		background: #fff;
 	}

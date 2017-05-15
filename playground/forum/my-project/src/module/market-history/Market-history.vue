@@ -14,21 +14,21 @@
 			</div>
 			<div class="item-footer">
 				<div class="fl">{{utcToDate(item.addtime)}}</div>
-				<div class="c-yellow-btn fr" v-if="item.status == 1" @click="clickAddress(item)">兑换地址</div>
+				<div class="c-yellow-btn fr" v-if="item.status == 1" @click="clickAddress(item)">购买地址</div>
 				<div class="c-yellow-btn disabled fr" v-else>已领取</div>
 			</div>
 		</div>
 		<pop :pop="pop">
 			<div id="address_pop">
-				<p>兑换地址</p>
-				<p>凭兑换记录到<span>{{address}}</span>领取</p>
+				<p>购买地址</p>
+				<p>凭购买记录到<span>{{address}}</span>领取</p>
 				<div class="c-yellow-btn" @click="pop.show = false">确定</div>
 			</div>
 		</pop>
 		<!-- 缺省页 -->
 		<div class="c-empty" v-if="ModeLogList.length === 0">
-			<p>你还没有任何兑换历史</p>
-			<a href="./market.html">去兑换!</a>
+			<p>你还没有任何购买历史</p>
+			<a href="./market.html">去购买!</a>
 		</div>
 	</div>
 </template>

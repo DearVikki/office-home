@@ -30,7 +30,7 @@
 						</div>
 						<!--<pre style="font-size:12px">{{$validation}}</pre>-->
 						<div class="account-btn" @click="login">Ingresar</div>
-					<a class="signup" href="./signup.html">Registrarme</a>
+					<a class="signup" href="./signup.html">Registrarse</a>
 				</div>
 			</div>
 		</div>

@@ -27,7 +27,7 @@
 		},
 		mounted(){
 			setTimeout(() => {
-				if(document.getElementsByTagName('html')[0].getBoundingClientRect().height <= window.innerHeight) this.onepage = true;
+				if(document.getElementsByTagName('html')[0].getBoundingClientRect().height + 223 <= window.innerHeight) this.onepage = true;
 				this.show = true;
 			}, 1000)
 		}
