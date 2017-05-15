@@ -2,13 +2,17 @@
 	<div id='footer_container' v-show="show" :class='{onepage: onepage}'>
 		<div id='footer_part1'>
 			<table>
-				<caption>Chompre用户指南</caption>
+				<!-- <caption>Chompre用户指南</caption>
 				<tr><td>支付说明</td><td>发票说明</td><td>售后说明</td></tr>
-				<tr><td>平台介绍</td><td>配送说明</td><td>用户协议</td></tr>
+				<tr><td>平台介绍</td><td>配送说明</td><td>用户协议</td></tr> -->
+				<caption>Guía de Chompre</caption>
+				<tr><td>Descripción de pago</td><td>Descripción de factura</td><td>Descripción de venta</td></tr>
+				<tr><td>Introducción de Chompre</td><td>Descripción de transporte</td><td>Condiciones de usuario</td></tr>
 			</table>
 		</div>
 		<div id='footer_part2'>
-		浙公网安备 110000020055650088号  |  浙ICP证4454333号  |  互联网药品信息服务资格证编号(京)-经营性-2017-0006  |  新出发浙零 字第大120007号互联网出版许可证编号新出网证(浙)字150号  |  出版物经营许可证  |  网络文化经营许可证折网文[2017]2548-448号  |  违法和不良信息举报电话：40061155Copyright © 2016 - 2017 chompre.com 版权所有  |  消费者维权热线：4008066744
+			<!-- 版权所有 -->
+			Todos Los Derechos Reservados
 		</div>
 	</div>
 </template>
@@ -69,5 +73,6 @@
 		margin:20px auto;
 		font-size: 12px;
 		color: @bla;
+		text-align: center;
 	}
 </style>

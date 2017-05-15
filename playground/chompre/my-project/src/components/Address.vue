@@ -17,7 +17,7 @@
 				@focus="fieldFocus(field)"
 				@blur="fieldBlur(field)"
 				v-model="field.val"></textarea>
-				<p class="tip" :class="{error:field.error}">{{field.msg}}</p>
+				<p class="tip" v-show="field.error && !field.focus">{{field.msg}}</p>
 			</div>
 		</div>
 		<!-- 设为默认保存地址 -->
@@ -26,11 +26,11 @@
 				<input type="checkbox" class="checkbox" :checked="isDefault"
 				@change="isDefault = !isDefault">
 				<span class="checkbox-input"></span>
-				<span>设置为默认地址</span>
+				<span>Establecer como dirección por defecto</span>
 			</label>
 		</div>
 		<!-- 保存 -->
-		<div class="common-save" @click="save">保存</div>
+		<div class="common-save" @click="save">Guardar</div>
 	</div>
 </template>
 <script>
@@ -42,7 +42,7 @@
 				type:0,
 				fields:[{
 					id:'name',
-					title:'名字',
+					title:'Nombre',
 					placeholder:'请输入名字',
 					validators:{required:{msg:'名字不能为空'}},
 					error:false,
@@ -60,7 +60,7 @@
 					val:''
 				},{
 					id:'address',
-					title:'详细地址',
+					title:'Dirección',
 					placeholder:'请输入地址',
 					validators:{required:{msg:'详细地址不能为空'}},
 					error:false,
@@ -69,7 +69,7 @@
 					val:''
 				},{
 					id:'district',
-					title:'地区',
+					title:'Comuna',
 					placeholder:'请输入地区',
 					validators:{required:{msg:'地区不能为空'}},
 					error:false,
@@ -78,7 +78,7 @@
 					val:''
 				},{
 					id:'city',
-					title:'城市',
+					title:'Ciudad',
 					placeholder:'请输入城市',
 					validators:{required:{msg:'城市不能为空'}},
 					error:false,
@@ -87,7 +87,7 @@
 					val:''
 				},{
 					id:'phone',
-					title:'手机',
+					title:'Tel',
 					placeholder:'请输入手机',
 					validators:{required:{msg:'手机不能为空'},isNum:{msg:'手机号不合法'}},
 					error:false,
@@ -138,6 +138,8 @@
 					address.name = 'zl.shopping.sys.address.update';
 					address.address_id = this.addressId;
 					this.$http.post('',address).then((response)=>{
+						// 留：应当更新新id的 同时新增old_id字段
+						// address.address_id = response.body.data.address_id;
 					})
 				} else {
 					// 新增

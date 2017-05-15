@@ -26,11 +26,11 @@
 				<input type="checkbox" class="checkbox" :checked="isDefault"
 				@change="isDefault = !isDefault">
 				<span class="checkbox-input"></span>
-				<span>设置为默认发票</span>
+				<span>Establecer como información de factura por defecto</span>
 			</label>
 		</div>
 		<!-- 保存 -->
-		<div class="common-save" @click="save">保存</div>
+		<div class="common-save" @click="save">Guardar</div>
 	</div>
 </template>
 <script>
@@ -42,7 +42,7 @@
 				type:0,
 				fields:[{
 					id:'name',
-					title:'公司名称',
+					title:'Nombre',
 					placeholder:'请输入公司名称',
 					validators:{required:{msg:'公司名称不能为空'}},
 					error:false,
@@ -51,7 +51,7 @@
 					val:''
 				},{
 					id:'taxid',
-					title:'税号',
+					title:'R.U.T',
 					placeholder:'请输入税号',
 					validators:{required:{msg:'税号不能为空'}},
 					error:false,
@@ -60,7 +60,7 @@
 					val:''
 				},{
 					id:'address',
-					title:'详细地址',
+					title:'Dirección',
 					placeholder:'请输入地址',
 					validators:{required:{msg:'详细地址不能为空'}},
 					error:false,
@@ -69,7 +69,7 @@
 					val:''
 				},{
 					id:'district',
-					title:'地区',
+					title:'Comuna',
 					placeholder:'请输入地区',
 					validators:{required:{msg:'地区不能为空'}},
 					error:false,
@@ -78,7 +78,7 @@
 					val:''
 				},{
 					id:'city',
-					title:'城市',
+					title:'Ciudad',
 					placeholder:'请输入城市',
 					validators:{required:{msg:'城市不能为空'}},
 					error:false,
@@ -87,7 +87,7 @@
 					val:''
 				},{
 					id:'phone',
-					title:'电话号码',
+					title:'Tel',
 					placeholder:'请输入电话号码',
 					validators:{required:{msg:'手机不能为空'},isNum:{msg:'手机号不合法'}},
 					error:false,
@@ -96,7 +96,7 @@
 					val:''
 				},{
 					id:'scope',
-					title:'经营范围',
+					title:'Giro',
 					placeholder:'请输入经营范围',
 					validators:{required:{msg:'经营范围不能为空'}},
 					error:false,
@@ -126,7 +126,7 @@
 				return !isNaN(val);
 			},
 			required(val){
-				return val!=='';
+				return val;
 			},
 			handleValidate(field) {
 				let checked = true;

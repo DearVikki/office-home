@@ -12,7 +12,7 @@
 		</div>
 		<!--促销商品开始-->
 		<div id='sale_container'>
-			<div class="sub-header">促销商品<span class="more fr">更多 ></span></div>
+			<div class="sub-header">Promociones<span class="more fr">Ver más ></span></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="saleItem in saleItems">
@@ -25,7 +25,7 @@
 		</div>
 		<!--热门商品开始-->
 		<div id='hot_goods_container'>
-			<div class="sub-header">推荐商品<span class="more fr">更多 ></span></div>
+			<div class="sub-header">Recomendaciónes<span class="more fr">Ver más ></span></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="hotgoodsItem in hotgoodsItems">
@@ -38,7 +38,8 @@
 		</div>
 		<!--优秀商家开始-->
 		<div id='hot_shop_container'>
-			<div class="sub-header">优秀商家</div>
+			<div class="sub-header">Mejores tiendas
+</div>
 			<ul>
 				<a class='hot-shop' v-for='hotshopItem in hotshopItems'
 				:href="'./shop.html?id='+hotshopItem.dealer_id">

@@ -7,11 +7,11 @@
 				<div id="shop_header_fr">
 					<div id="contact_container" @click="contactPop.show = true">
 						<img src="~assets/img/product/icon_service.png">
-						联系客服
+						servicio al cliente
 					</div>
 					<div id="collect_container" :class="{active:is_collect}" @click="collect">
 						<span v-if="is_collect">取消收藏</span>
-						<span v-else>收藏店铺</span>
+						<span v-else>Tienda favorita</span>
 					</div>
 				</div>
 			</div>
@@ -19,11 +19,12 @@
 		<div id="shop_main">
 			<!-- 店铺搜索 -->
 			<div id="search_container">
-				<span id="search_txt">商铺内搜索</span>
+				<span id="search_txt">Búscar en la tienda</span>
 				<input v-model="searchKey">
 				<span id="search_btn" @click="search"></span>
 			</div>
-			<span id="shop_all" @click="getAll">全部商品</span>
+			<!-- 全部商品 -->
+			<span id="shop_all" @click="getAll">todos los productos</span>
 			<!-- 店铺商品内容 -->
 			<div id="goods_container">
 				<goodsitem :item='item' v-for="item in pre_goods_info"></goodsitem>
@@ -189,7 +190,7 @@
     		line-height: 90px;
 		}
 		#contact_container,#collect_container{
-			width:140px;
+			margin-right: 20px;
 			padding-left:25px;
 			font-size:18px;
 			color:#d42b1e;

@@ -1,19 +1,11 @@
 import common from '../../assets/js/common.js'
 import '../../assets/lib/personalModule.less'
 import receipt from './Receipt.vue'
-/*const router = new common.VueRouter({
-	routes:[{
-		path:'index.html',
-		component: index
-	}],
-	mode:'history'
-})*/
-/* eslint-disable no-new */
+
 const myheader = common.myHeader;
 const myfooter = common.myFooter;
 
-import VueValidator from 'vue-validator'
-common.Vue.use(VueValidator);
+common.Vue.mixin(common.validatorMixin);
 
 new common.Vue({
   el: '#app',

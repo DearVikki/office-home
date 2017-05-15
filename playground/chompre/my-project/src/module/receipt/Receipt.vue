@@ -3,46 +3,43 @@
 		<div id="personal_main_container">
 			<personalside :activeId=3></personalside>
 			<div id="personal_right_container">
-				<validation name="validation1">
-					<h1>发票管理</h1>
+					<h1>Gestión de las Facturas</h1>
 					<h3>{{status.title}}</h3>
-					<div class="input-group" v-for="(value, field) in fields" :class="fields[field].class">
-						<label :for="fields[field].id">{{fields[field].name}}</label>
+					<div class="input-group" v-for="field in fields" :class="field.class">
+						<label :for="field.id">{{field.name}}</label>
 						<div class="input-container"
-						:class="{ active: fields[field].error || fields[field].focus, big:fields[field].id === 'address'}">
-							<validity :ref='fields[field].id' :field='fields[field].id' :validators="fields[field].validator">
+						:class="{ active: field.error || field.focus, big:field.id === 'address'}">
 								<input
-								v-if="fields[field].id !== 'address'"
-								:id="fields[field].id" type="text"
-								:placeholder="fields[field].placeholder"
-								@blur="handleValidate(fields[field].id)"
-								@focus="focusing(fields[field].id)"
-								v-model="fields[field].val">
+								v-if="field.id !== 'address'"
+								:id="field.id" type="text"
+								:placeholder="field.placeholder"
+								@blur="fieldBlur(field)"
+								@focus="fieldFocus(field)"
+								v-model="field.val">
 								<textarea
 								v-else
-								:id="fields[field].id" type="text"
-								:placeholder="fields[field].placeholder"
-								@blur="handleValidate(fields[field].id)"
-								@focus="focusing(fields[field].id)"
-								v-model="fields[field].val"></textarea>
-							</validity>
-							<p class="error" v-show="fields[field].error && !fields[field].focus">{{fields[field].msg}}</p>
+								:id="field.id" type="text"
+								:placeholder="field.placeholder"
+								@blur="fieldBlur(field)"
+								@focus="fieldFocus(field)"
+								v-model="field.val"></textarea>
+							<p class="error" v-show="field.error && !field.focus">{{field.msg}}</p>
 						</div>
 					</div>
 					<label class="check-container">
 						<input type="checkbox" value="1" v-model="isDefault">
 						<span class="radio-input"></span>
-						<span>设置为默认发票</span>
+						<!-- 设置为默认发票 -->
+						<span>Establecer como información de factura por defecto</span>
 					</label>
-					<div class="side-btn" @click="save">保存</div>
-				</validation>
-				<div class="table-container">
+					<div class="side-btn" @click="save">Guardar</div>
+				<div class="table-container" v-show="Object.keys(table.tds).length">
 					<personaltable
 					tableWid="1000px"
 					:cols="table.cols"
 					:tds="table.tds"
 					@editar="editar"
-					@deletar="deletar"></personaltable>
+					@deletar="callPop"></personaltable>
 				</div>
 			</div>
 		</div>
@@ -59,127 +56,131 @@
 	</div>
 </template>
 <script>
-	import a from 'vue-validator';
 	import personalside from '../../components/PersonalSide.vue'
 	import personaltable from '../../components/Table.vue'
 	import pop from '../../components/Pop.vue';
+	import {myAlert} from '../../assets/js/utils.js';
 	export default{
 		name:'receipt',
 		data(){
 				return{
 					//当前页面状态
 					status:{
-						title:'添加新发票',
+						title:'Añadir nueva informacion de factura',
 						type:0
 					},
 					fields:{
 						name: {
 				            id: 'name',
 				            class: 'name-field',
-				            name: '名字',
+				            name: 'Nombre',
 				            placeholder: '请输入',
 				            error: false,
 				            msg: '',
-				            validator: { required: true},
+				            validators: { required: { msg: '名字不能为空' }},
 				            val: '',
 							focus: false
 			          	},
 			         	taxid: {
 				            id: 'taxid',
 				            class: 'taxid-field',
-				            name: '税号',
+				            name: 'R.U.T',
 				            placeholder: '请输入',
 				            error: false,
 				            msg:'',
-				            validator: { required: true},
+				            validators: { required: { msg: 'R.U.T不能为空' } },
 				            val: '',
 							focus: false
 				        },
 				        address: {
 				            id: 'address',
 				            class: 'address-field',
-				            name: '详细地址',
+				            name: 'Dirección',
 				            placeholder: '请输入',
 				            error: false,
 				            msg:'',
-				            validator: { required: true},
+				            validators: { required: { msg: 'Dirección不能为空' } },
 				            val: '',
 							focus: false
 				        },
 				        district: {
 				            id: 'district',
 				            class: 'district-field',
-				            name: '地区',
+				            name: 'Comuna',
 				            placeholder: '请输入',
 				            error: false,
 				            msg:'',
-				            validator: { required: true},
+				            validators: { required: { msg: 'Comuna不能为空' } },
 				            val: '',
 							focus: false
 				        },
 				        city: {
 				            id: 'city',
 				            class: 'city-field',
-				            name: '城市',
+				            name: 'Ciudad',
 				            placeholder: '请输入',
 				            error: false,
 				            msg:'',
-				            validator: { required: true},
+				            validators: { required: { msg: 'Ciudad不能为空' } },
 				            val: '',
 							focus: false
 				        },
 				        phone: {
 				            id: 'phone',
 				            class: 'phone-field',
-				            name: '手机',
+				            name: 'Tel',
 				            placeholder: '请输入',
 				            error: false,
 				            msg:'',
-				            validator: { required: true, isNumber:true},
+				            validators: {
+				            	required: { msg: 'Tel不能为空' } ,
+				            	isNum: { msg: 'Tel号不合法' }
+				            },
 				            val: '',
 							focus: false
 				        },
 				        scope: {
 				            id: 'scope',
 				            class: 'scope-field',
-				            name: '经营范围',
+				            name: 'Giro',
 				            placeholder: '请输入',
 				            error: false,
 				            msg:'',
-				            validator: { required: true},
+				            validators: { required: { msg: 'Giro不能为空' } },
 				            val: '',
 							focus: false
 				        }
 			    },
 			    isDefault:'',
 			    invoiceId:'',
+			    deletarId:'',
 			    table:{
 				    	cols:[{
 						name:'名称',
 						key:'company_name',
 						width:'10%'
 					},{
-						name:'税号',
+						name:'R.U.T',
 						key:'company_taxid',
 						width:'10%'
 					},{
-						name:'详细地址',
+						name:'Dirección',
 						key:'company_address',
 						width:'20%'
 					},{
-						name:'地区',
+						name:'Comuna',
 						key:'company_area',
 						width:'20%'
 					},{
-						name:'城市',
+						name:'Ciudad',
 						key:'company_city',
 						width:'15%'
 					},{
-						name:'电话号码',
+						name:'Tel',
 						key:'company_tel',
 						width:'10%'
 					},{
-						name:'经营范围',
+						name:'Giro',
 						key:'business_scope',
 						width:'10%'
 					},{
@@ -188,30 +189,19 @@
 						width:'15%'
 					}],
 					tds:{
-					13:{
-						invoice_id: "13",
-			            user_id: 100093,
-			            company_name: "chuanxiangzhe",
-			            company_taxid: "1111",
-			            company_address: "zheda",
-			            company_area: "zhejiang",
-			            company_city: "hangzhou",
-			            business_scope: "kaixin",
-			            company_tel: "111111",
-			            is_default: 0
-					},
-					16:{
-						invoice_id: "16",
-			            user_id: 100093,
-			            company_name: "chuanxiangzhe",
-			            company_taxid: "1111",
-			            company_address: "zheda da frgg bhfgb bbbbb bbfg rrgda dfr fgv",
-			            company_area: "zhejiang",
-			            company_city: "hangzhou",
-			            business_scope: "kaixin",
-			            company_tel: "111111",
-			            is_default: 1
-					}}
+						13:{
+							invoice_id: "13",
+				            user_id: 100093,
+				            company_name: "chuanxiangzhe",
+				            company_taxid: "1111",
+				            company_address: "zheda",
+				            company_area: "zhejiang",
+				            company_city: "hangzhou",
+				            business_scope: "kaixin",
+				            company_tel: "111111",
+				            is_default: 0
+						}
+					}
 			    },
 			    pop:{
 			    	show:false,
@@ -220,6 +210,7 @@
 			}
 		},
 		mounted(){
+			if(!localStorage.getItem('userInfo')) location.href = './login.html';
 			//拉取发票列表
 			this.$http.post('',{name:'zl.shopping.sys.invoice.list'}).then((response)=>{
 				let invoiceList = response.body.data;
@@ -232,7 +223,7 @@
 			//if编辑发票
 			if(location.hash === '#editar') {
 				let receiptInfo = JSON.parse(localStorage.getItem('receipt'));
-				this.status = {title:"编辑发票", type:1};
+				this.status = {title:"Editar factura", type:1};
 				this.fields.name.val = receiptInfo.company_name;
 				this.fields.taxid.val = receiptInfo.company_taxid;
 				this.fields.address.val = receiptInfo.company_address;
@@ -244,111 +235,38 @@
 				this.invoiceId = receiptInfo.invoice_id;
 			}
 		},
-		validators:{
-			isNumber(val){
-				return parseInt(val) === 'NaN' ? false : true;
-			}
-		},
-		watch:{
-			$validation(){
-				try{
-					if(this.$validation.validation1.name.invalid) {
-						this.fields.name.error = true;
-						this.fields.name.msg = '名字不能为空';
-					} else if(this.$validation.validation1.name.valid){
-						this.fields.name.error = false;
-					}
-					if(this.$validation.validation1.taxid.invalid) {
-						this.fields.taxid.error = true;
-						this.fields.taxid.msg = '税号不能为空';
-					} else if(this.$validation.validation1.taxid.valid){
-						this.fields.taxid.error = false;
-					}
-					if(this.$validation.validation1.address.invalid) {
-						this.fields.address.error = true;
-						this.fields.address.msg = '详细地址不能为空';
-					} else if(this.$validation.validation1.address.valid){
-						this.fields.address.error = false;
-					}
-					if(this.$validation.validation1.district.invalid) {
-						this.fields.district.error = true;
-						this.fields.district.msg = '地区不能为空';
-					} else if(this.$validation.validation1.district.valid){
-						this.fields.district.error = false;
-					}
-					if(this.$validation.validation1.city.invalid) {
-						this.fields.city.error = true;
-						this.fields.city.msg = '城市不能为空';
-					} else if(this.$validation.validation1.city.valid){
-						this.fields.city.error = false;
-					}
-					if(this.$validation.validation1.phone.invalid) {
-						this.fields.phone.error = true;
-						var err0 = this.$validation.validation1.phone.errors[0].validator;
-						if(err0 === 'required') this.fields.phone.msg = '手机不能为空';
-						else this.fields.phone.msg = '手机不合法';
-					} else if(this.$validation.validation1.phone.valid){
-						this.fields.phone.error = false;
-					}
-					if(this.$validation.validation1.scope.invalid) {
-						this.fields.scope.error = true;
-						this.fields.scope.msg = '经营范围不能为空';
-					} else if(this.$validation.validation1.scope.valid){
-						this.fields.scope.error = false;
-					}
-				} catch(err) {}
-			}
-		},
 		methods:{
-			handleValidate(field){
-				this.$refs[field][0].validate(()=>{
-					console.log(this.$validation.validation1.phone)
-				});
-				this.fields[field].focus = false;
-			},
-			focusing(field){
-				this.fields[field].focus = true;
-			},
 			//提交新发票/修改发票
 			save(){
-				let n = 8;
-				for (var validity in this.$refs){
-					this.$refs[validity][0].validate(() => {
-						n--;
-						if(n>0) return;
-						if(this.$validation.validation1.invalid) return;
-						else {
-							let request = {
-								company_name: this.fields.name.val,
-								company_taxid: this.fields.taxid.val,
-								company_address: this.fields.address.val,
-								company_area: this.fields.district.val,
-								company_city: this.fields.city.val,
-								business_scope: this.fields.scope.val,
-								company_tel: this.fields.phone.val,
-								is_default: Number(this.isDefault)
-							}
-							if(this.status.type === 0) request.name = 'zl.shopping.sys.add.invoice';
-							else {
-								request.name = 'zl.shopping.sys.update.invoice',
-								request.invoice_id = Number(this.invoiceId);
-							}
-							console.log(request)
-							/*this.$http.post('',request).then((response)=>{
-								if(response.body.code === 1000)
-									request.invoice_id = response.body.data.new_invoice_id;
-							})*/
-							delete request.name;
-							if(this.status.type === 0) {
-								this.table.tds['100'] = request;
-								this.fields.name.val = this.fields.taxid.val = this.fields.address.val = 
-								this.fields.district.val = this.fields.city.val = this.fields.scope.val = 
-								this.fields.phone.val = this.isDefault = '';
-							} else {
-								this.table.tds[request.invoice_id] = request;
-							}
-						}
-					});
+				if(!this.checkAll(this.fields)) return;
+				let request = {
+					company_name: this.fields.name.val,
+					company_taxid: this.fields.taxid.val,
+					company_address: this.fields.address.val,
+					company_area: this.fields.district.val,
+					company_city: this.fields.city.val,
+					business_scope: this.fields.scope.val,
+					company_tel: this.fields.phone.val,
+					is_default: Number(this.isDefault)
+				}
+				if(this.status.type === 0) request.name = 'zl.shopping.sys.add.invoice';
+				else {
+					request.name = 'zl.shopping.sys.update.invoice',
+					request.invoice_id = Number(this.invoiceId);
+				}
+				console.log(request)
+				/*this.$http.post('',request).then((response)=>{
+					if(response.body.code === 1000)
+						request.invoice_id = response.body.data.new_invoice_id;
+				})*/
+				delete request.name;
+				if(this.status.type === 0) {
+					this.table.tds['100'] = request;
+					this.fields.name.val = this.fields.taxid.val = this.fields.address.val = 
+					this.fields.district.val = this.fields.city.val = this.fields.scope.val = 
+					this.fields.phone.val = this.isDefault = '';
+				} else {
+					this.table.tds[request.invoice_id] = request;
 				}
 			},
 			//编辑
@@ -356,15 +274,20 @@
 				localStorage.setItem('receipt',JSON.stringify(td));
 				window.open("./receipt.html#editar");
 			},
+			callPop(id){
+				this.pop.show=true;
+				this.deletarId = id;
+			},
 			// 删除发票
-			deletar(id){
-				id = 98;
+			deletar(){
 				this.$http.post('',{
 					name:'zl.shopping.sys.delete.invoice',
-					invoice_id:id
+					invoice_id:this.deletarId
 				}).then((response)=>{
 					// 删除这一条地址
-					if(response.body.code === 1000) console.log('删除成功!')
+					if(response.body.code === 1000) myAlert('删除成功!');
+					this.pop.show = false;
+					delete this.table.tds[this.deletarId];
 				})
 			}
 		},

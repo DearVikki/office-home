@@ -52,10 +52,10 @@
 				</ul>
 			</div>
 			<ul id='user_container'>
-				<li>Mi chompres</li>
+				<li><a href="./order.html">Mi chompres</a></li>
 				<li><a href="./cart.html">Carro</a></li>
 				<li>Misfavoritos</li>
-				<li>Mitienda</li>
+				<!-- <li>Mitienda</li> -->
 			</ul>
 			<div class="clear"></div>
 		</div>

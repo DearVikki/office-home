@@ -31,13 +31,21 @@
 					<li class="product-price"
 					v-for="p in price_info">
 						<p>${{p.price}}</p>
-						<p>数量>{{p.salesnum_low}}</p>
+						<!-- 数量> -->
+						<p>Cantidad>{{p.salesnum_low}}</p>
 					</li>
 				</ul>
 				<!--销量与收藏-->
 				<div id="product_sale_container">
-					<div class="fl sale">总销量: {{pre_goods_info.sales_num}}</div>
-					<div class="fr collect">收藏商品</div>
+					<!-- 总销量 -->
+					<div class="fl sale">Vendidos: {{pre_goods_info.sales_num}}</div>
+					<div class="fr collect"
+					:class="{active: pre_goods_info.is_collected}"
+					@click="collectAction">
+						<span v-show="!pre_goods_info.is_collected">Producto favorito</span>
+						<!-- 取消收藏 -->
+						<span v-show="pre_goods_info.is_collected">No favorito</span>
+					</div>
 				</div>
 				<!--最重头的选择框!-->
 				<div id="product_select_container">
@@ -54,21 +62,21 @@
 					</div>
 					<!--选择数量-->
 					<div class="select-item">
-						<span class="name">数量选择</span>
+						<span class="name">Cantidad</span>
 						<!--数量框-->
 						<numeditor
 						:numEditorStyle="numEditorStyle"
 						:numEditorClass="numEditorClass"
 						:numEditorData="numEditorData"></numeditor>
-						<span class="name">库存: {{stock}}件</span>
+						<span class="name">Stock: {{stock}}</span>
 					</div>
 				</div>
 				<div id="product_select_tip">
 					<p v-show="selectTip.show">{{selectTip.msg}}</p>
 				</div>
 				<!--立即购买与加入购物车-->
-				<div class="add" @click="toBuy">立即购买</div>
-				<div class="add" @click="toAdd">加入购物车</div>
+				<div class="add" @click="toBuy">Comprar</div>
+				<div class="add" @click="toAdd">Agregar a carro</div>
 			</div>
 		</div>
 		<!--第二部分-->
@@ -76,23 +84,26 @@
 			<!--左侧店铺信息-->
 			<div id="product_part2_left_container">
 				<div id="shop_name">{{dealer_info.dealer_name}}</div>
+				<!-- 进入店铺 -->
 				<a class="dealer-info"
-				:href=" './shop.html?id=' +dealer_info.dealer_id ">进入店铺</a>
+				:href=" './shop.html?id=' +dealer_info.dealer_id ">Servicio al cliente</a>
 				<div class="dealer-info"
 				v-for="(c,i) in dealer_info.connect"
 				:title=" 'WHATS APP: ' + c"
-				@click="connectShow = true">客服{{i+1}}</div>
+				@click="connectShow = true">Servicio al cliente{{i+1}}</div>
 			</div>
 			<!--右侧主要内容-->
 			<div id="product_part2_main_container">
 				<!--navbar-->
 				<div id="part2_nav_container">
+					<!-- 商品详情 -->
 					<div class="part2-nav"
 					:class="{active:!isComment}"
-					@click="isComment=false">商品详情</div>
+					@click="isComment=false">Información del producto</div>
+					<!-- 商品评价 -->
 					<div class="part2-nav"
 					:class="{active:isComment}"
-					@click="isComment=true">商品评价</div>
+					@click="isComment=true">Comentarios del producto</div>
 				</div>
 				<!--商品详情-->
 				<div id="product_container"
@@ -108,7 +119,7 @@
 							<input name="star" type="radio" checked
 							@click="clickStar(0)">
 							<span class="radio-input"></span>
-							<span class="radio-tip">全部评价</span>
+							<span class="radio-tip">Todas las calificaciones</span>
 						</label>
 						<label v-for="n in 5">
 							<input name="star" type="radio" value=n
@@ -334,6 +345,12 @@
 			//立即购买
 			toBuy(){
 				if(!this.beforeBuy()) return;
+				localStorage.setItem('buyDirectly',JSON.stringify({
+					name:'zl.shopping.sys.directly.buy',
+					goods_id: this.goods_info.goods_id,
+					goods_num: this.numEditorData.num
+				}));
+				location.href = './create-order.html'
 			},
 			//加入购物车
 			toAdd(){
@@ -342,9 +359,9 @@
 					name:'zl.shopping.sys.add.goods',
 					goods_id: this.goods_info.goods_id,
 					goods_num: this.numEditorData.num
-			}).then((response)=>{
-				myAlert('已加入购物车！')
-			})
+				}).then((response)=>{
+					myAlert('已加入购物车！')
+				})
 			},
 			//点击小星星
 			clickStar(n){
@@ -368,8 +385,6 @@
 						e.time = timestamp(e.time);
 						e.active_pic = -1;
 						this.comment.comment_info.push(e);
-						// 视窗滚到评论区
-						// document.querySelector('#product_part2').scrollIntoView();
 					})
 				})
 			},
@@ -383,6 +398,35 @@
 			clickPagination(page){
 				this.comment.page = page;
 				this.getComment();
+				// 视窗滚到评论区
+				document.querySelector('#product_part2').scrollIntoView();
+			},
+			// 收藏商品
+			collect(){
+				this.$http.post('', {
+					name: 'zl.shopping.sys.collect',
+					for_id: this.pre_goods_id,
+					for_type: 'pre_goods'
+				}).then((response) => {
+					myAlert('收藏成功!');
+					this.pre_goods_info.is_collected = 1;
+				})
+			},
+			// 取消收藏
+			cancelCollect(){
+				this.$http.post('', {
+					name: 'zl.shopping.sys.collect.cancel',
+					for_id: this.pre_goods_id,
+					for_type: 'pre_goods'
+				}).then((response) => {
+					myAlert('已取消收藏!')
+					this.pre_goods_info.is_collected = 0;
+				})
+			},
+			collectAction(){
+				if(!localStorage.getItem('userInfo')) location.href = './login.html';
+				if(this.pre_goods_info.is_collected) this.cancelCollect();
+				else this.collect();
 			}
 		},
 		watch:{
@@ -492,6 +536,9 @@
 					cursor: pointer;
 					padding-left: 24px;
 					background: url(../../assets/img/product/Star_null.png) left center no-repeat;
+					&.active{
+						background-image: url(../../assets/img/product/Star.png);
+					}
 				}
 			}
 			/*选择部分*/
@@ -561,7 +608,7 @@
 			.dealer-info{
 				display: block;
 				margin: 16px auto;
-				width: 120px;
+				max-width: 190px;
 				height: 40px;
 				line-height: 40px;
 				color: @baseColor;
@@ -590,7 +637,7 @@
 					font-size: 20px;
 					color: #666;
 					text-align: center;
-					width: 140px;
+					padding: 0 20px;
 					cursor: pointer;
 					display: inline-block;
 					&.active{

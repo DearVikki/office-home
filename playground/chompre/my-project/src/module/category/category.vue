@@ -13,7 +13,7 @@
 			</div>
 			<!--品牌-->
 			<div v-if="brands.length">
-				<h5>品牌</h5>
+				<h5>marcas</h5>
 				<label v-for="brand in brands">
 					<input type="checkbox"
 					:value="brand.brand_id"
@@ -26,7 +26,7 @@
 			</div>
 			<!--价格区间-->
 			<div style="overflow:hidden">
-				<h5 style="margin-bottom:10px">价格</h5>
+				<h5 style="margin-bottom:10px">precio</h5>
 				<input type="text" placeholder="min"
 				v-model="filter.min"
 				@input="checkPrice">
@@ -34,7 +34,7 @@
 				<input type="text" placeholder="max"
 				v-model="filter.max"
 				@input="checkPrice">
-				<span class="text" id="all_price" @click="allPrice">全部价格</span>
+				<span class="text" id="all_price" @click="allPrice">todos los precios</span>
 				<div id="filter_price" class="fr"
 				:class="{active:filterPriceActive}"
 				@click="clickPrice">GO</div>
@@ -42,7 +42,7 @@
 			</div>
 			<!--评分区间-->
 			<div>
-				<h5>评分</h5>
+				<h5>calificaciones</h5>
 				<label class="star" v-for="star in stars">
 					<input name="star" type="radio"
 					:value="star.num"
@@ -59,11 +59,11 @@
 		<!--商品展示框-->
 		<div id="display_container" class="fr">
 			<div id="display_header">
-				<span>共{{items.goods_count}}件商品</span>
+				<span>Total: {{items.goods_count}} productos</span>
 				<span v-if="!search">{{cate.name}}/{{subcate.name}}</span>
 				<span v-else>{{search}}</span>
 				<div class="order-container fr">
-					<span style="vertical-align:top">排序方式:</span>
+					<span style="vertical-align:top">Ordenar por：</span>
 					<div style="display:inline-block; position:relative;">
 						<div class="order-header"
 						@click="orderShow = !orderShow">{{filter.order.name}}</div>
@@ -137,13 +137,13 @@
 					checked: false
 				}],
 				orders:[{
-					name:'销量',
+					name:'los más vendidos',
 					id:2
 				},{
-					name:'价格从低到高',
+					name:'Precio min a max',
 					id:3
 				},{
-					name:'价格从高到低',
+					name:'Precio max a min',
 					id:4
 				}],
 				orderShow:false,
@@ -154,7 +154,7 @@
 					brand:[],
 					star:0,
 					order:{
-						name:'销量',
+						name:'los más vendidos',
 						id:2
 					}
 				},
@@ -465,6 +465,7 @@
 					padding-left: 5px;
 					background: #fff;
 					cursor:pointer;
+					width: 150px;
 				}
 				.order-header{
 					display: inline-block;

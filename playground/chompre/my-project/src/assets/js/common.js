@@ -59,15 +59,15 @@ var validatorMixin = {
         }
     }
 }
-var interceptors = function(vm) {
-    Vue.http.interceptors.push((request, next) => {
-        vm.showLoading = true
-        next((response) => {
-            vm.showLoading = false;
-            return response;
-        });
-    });
-}
+// var interceptors = function(vm) {
+//     Vue.http.interceptors.push((request, next) => {
+//         vm.showLoading = true
+//         next((response) => {
+//             vm.showLoading = false;
+//             return response;
+//         });
+//     });
+// }
 // 判断是否是登录状态
 // let isLogin = true;
 // Vue.http.post('',{
@@ -85,5 +85,5 @@ export default {
     myFooter: Myfooter,
     loading: loading,
     validatorMixin: validatorMixin,
-    interceptors: interceptors
+    // interceptors: interceptors
 }

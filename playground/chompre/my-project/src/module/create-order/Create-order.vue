@@ -2,18 +2,19 @@
 	<div id="createOrder_container">
 		<!-- 确认收货地址 -->
 		<div id="address_container">
-			<div class="title">确认收货地址
+			<div class="title">Confirmar dirección de envío
 				<!-- 新增地址 -->
 				<span class="fr smallBlue" @click="addAddress">Añadir nueva dirección</span>
 			</div>
 			<!-- 地址内容 -->
-			<div class="address-item item" v-for="(add,index) in address.addressList"
+			<div class="address-item item"
+			v-for="(add,index) in address.addressList"
 			v-show="index < 4 || !address.fold"
 			:class="{active:add.address_id === address.selected.address_id}"
 			@click="address.selected = add">
 				<span class="pre txt">
 					<img class="vm" src="~assets/img/order/location.png">
-					<span class="vm">寄送至</span>
+					<span class="vm">To</span>
 				</span>
 				<span class="dot"></span>
 				<span class="txt name" :title="add.receive_name">{{add.receive_name}}</span>
@@ -28,7 +29,7 @@
 			<!-- 收起地址 -->
 			<div v-if="address.addressList.length > 4">
 				<div v-show="!address.fold" class="fold" @click="address.fold = true">收起地址 <img src="~assets/img/order/Trianglered_up.png"></div>
-				<div v-show="address.fold" class="fold" @click="address.fold = false">展开地址 <img src="~assets/img/order/Trianglered_down.png"></div>
+				<div v-show="address.fold" class="fold" @click="address.fold = false">Ver más <img src="~assets/img/order/Trianglered_down.png"></div>
 			</div>
 			<!-- 地址弹窗 -->
 			<pop :pop="address.pop" :popReset="addressPopReset">
@@ -41,9 +42,9 @@
 		</div>
 		<!-- 确认发票信息 -->
 		<div id="invoice_container">
-			<div class="title">确认发票信息
+			<div class="title">Confirmar la información de factura
 				<!-- 新增地址 -->
-				<span class="fr smallBlue" @click="addInvoice">新增发票</span>
+				<span class="fr smallBlue" @click="addInvoice">Añadir nueva informacion de factura</span>
 			</div>
 			<!-- 发票内容 -->
 			<div class="invoice-item item" v-for="(inv,index) in invoice.invoiceList"
@@ -52,7 +53,7 @@
 			@click="invoice.selected = inv">
 				<span class="pre txt">
 					<img class="vm" src="~assets/img/order/invoice.png">
-					<span class="vm">小发票</span>
+					<span class="vm">factura</span>
 				</span>
 				<span class="dot"></span>
 				<span class="txt name" :title="inv.company_name">{{inv.company_name}}</span>
@@ -61,14 +62,14 @@
 				<span class="txt address" :title="inv.company_address+' '+inv.company_area+' '+inv.company_city">
 					{{inv.company_address}} {{inv.company_area}} {{inv.company_city}}
 				</span>
-				<!-- <span class="txt" :title="inv.company_scope">{{inv.company_scope}}</span> -->
+				<span class="txt" :title="inv.company_scope">{{inv.company_scope}}</span>
 				<span class="txt" v-if="inv.is_default"> Defecto</span>
-				<span class="edit fr" @click="editInvoice(inv)">修改发票</span>
+				<span class="edit fr" @click="editInvoice(inv)">Modificar la información de factura</span>
 			</div>
 			<!-- 收起发票 -->
 			<div v-if="invoice.invoiceList.length > 4">
 				<div v-show="!invoice.fold" class="fold" @click="invoice.fold = true">收起发票 <img src="~assets/img/order/Trianglegreen_up.png"></div>
-				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">展开发票 <img src="~assets/img/order/Trianglegreen_down.png"></div>
+				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">Ver más <img src="~assets/img/order/Trianglegreen_down.png"></div>
 			</div>
 			<!-- 发票弹窗 -->
 			<pop :pop="invoice.pop" :popReset="invoicePopReset">
@@ -81,14 +82,14 @@
 		</div>
 		<!-- 选择托运公司 -->
 		<div id="delivery_container">
-			<div class="title">选择托运公司</div>
+			<div class="title">Seleccionar transporte</div>
 			<div id="select_delivery">
 				<simpleDropdown :sDropdown="delivery.dropdown"></simpleDropdown>
 			</div>
 		</div>
 		<!-- 订单确认 -->
 		<div id="order_container">
-			<div class="title">确认订单信息</div>
+			<div class="title">Confirmar los datos de pedido</div>
 			<div id="order_header">
 				<div class="header-item"
 				v-for="h in order.headers"
@@ -112,20 +113,24 @@
 			</div>
 			<div id="order_address">
 				<img src="~assets/img/order/location.png">
-				<span class="txt" :title="address.selected.receive_name">{{address.selected.receive_name}}</span>
-				<span class="txt" :title="address.selected.idcard">{{address.selected.idcard}}</span>
-				<span class="txt" :title="address.selected.receive_mobile">{{address.selected.receive_mobile}}</span>
-				<span class="txt" :title="address.selected.receive_address+' '+address.selected.receive_area+' '+address.selected.receive_city">
-					{{address.selected.receive_address}} {{address.selected.receive_area}} {{address.selected.receive_city}}
+				<span v-if="address.selected">
+					<span class="txt" :title="address.selected.receive_name">{{address.selected.receive_name}}</span>
+					<span class="txt" :title="address.selected.idcard">{{address.selected.idcard}}</span>
+					<span class="txt" :title="address.selected.receive_mobile">{{address.selected.receive_mobile}}</span>
+					<span class="txt" :title="address.selected.receive_address+' '+address.selected.receive_area+' '+address.selected.receive_city">
+						{{address.selected.receive_address}} {{address.selected.receive_area}} {{address.selected.receive_city}}
+					</span>
 				</span>
 			</div>
 			<div id="order_invoice">
 				<img src="~assets/img/order/invoice.png">
-				<span class="txt name" :title="invoice.selected.company_name">{{invoice.selected.company_name}}</span>
-				<span class="txt" :title="invoice.selected.company_taxid">{{invoice.selected.company_taxid}}</span>
-				<span class="txt mobile" :title="invoice.selected.company_tel">{{invoice.selected.company_tel}}</span>
-				<span class="txt address" :title="invoice.selected.company_address+' '+invoice.selected.company_area+' '+invoice.selected.company_city">
-					{{invoice.selected.company_address}} {{invoice.selected.company_area}} {{invoice.selected.company_city}}
+				<span v-if="invoice.selected">
+					<span class="txt name" :title="invoice.selected.company_name">{{invoice.selected.company_name}}</span>
+					<span class="txt" :title="invoice.selected.company_taxid">{{invoice.selected.company_taxid}}</span>
+					<span class="txt mobile" :title="invoice.selected.company_tel">{{invoice.selected.company_tel}}</span>
+					<span class="txt address" :title="invoice.selected.company_address+' '+invoice.selected.company_area+' '+invoice.selected.company_city">
+						{{invoice.selected.company_address}} {{invoice.selected.company_area}} {{invoice.selected.company_city}}
+					</span>
 				</span>
 			</div>
 			<div id="order_delivery" v-show="delivery.dropdown.selectedValue">
@@ -137,14 +142,14 @@
 		<div id="conclu_container">
 			<div id="conclu_inner">
 				<div id="conclu_price">
-					店铺合计:
+					Total:
 					<span>${{conclu.sumprice}}</span>
 				</div>
 				<!-- <div id="conclu_delivery"  v-show="delivery.dropdown.selectedValue">{{delivery.dropdown.title}}</div> -->
 			</div>
 			<p class="clear"></p>
 			<div id="conclu_pay_container">
-				<div id="conclu_pay"  @click="pay">去支付</div>
+				<div id="conclu_pay"  @click="pay">ir a pagar</div>
 				<div id="conclu_tip">{{conclu.tip}}</div>
 			</div>
 		</div>
@@ -155,6 +160,7 @@
 	import addressPop from '../../components/Address.vue';
 	import invoicePop from '../../components/Invoice.vue';
 	import simpleDropdown from '../../components/SimpleDropdown.vue';
+	import { myAlert } from '../../assets/js/utils.js'
 	import '../../assets/lib/order-item.less'
 	export default{
 		name:'createorder',
@@ -183,7 +189,7 @@
 						selected:''
 					}],
 					// 当前选中的地址。本来只有这一个的，可是新增地址传给addressPop时不就相当于selected = ''了!所以要新增selectedForPop
-					selected:'',
+					selected:{},
 					selectedForPop:'',
 					fold:true,
 					pop:{
@@ -208,7 +214,7 @@
 						is_default:''
 					}],
 					// 当前选中的地址。本来只有这一个的，可是新增地址传给addressPop时不就相当于selected = ''了!所以要新增selectedForPop
-					selected:'',
+					selected:{},
 					selectedForPop:'',
 					fold:true,
 					pop:{
@@ -223,7 +229,7 @@
 				delivery:{
 					dropdown:{
 						type:1,
-						title:'请选择托运公司',
+						title:'seleccionar transporte',
 						options:[{
 							name:'顺丰快递',
 							value:1
@@ -234,19 +240,24 @@
 				},
 				order:{
 					headers:[{
-						name:'店铺宝贝',
+						// 店铺宝贝
+						name:'Nombre de producto',
 						style:'width:38%'
 					},{
-						name:'商品属性',
+						// 商品属性
+						name:'Información de producto ',
 						style:'width:16%'
 					},{
-						name:'单价(比索)',
+						// 单价(比索)
+						name:'Precio unidario (CLP)',
 						style:'width:13%'
 					},{
-						name:'数量',
+						// 数量
+						name:'Cantidad',
 						style:'width:13%'
 					},{
-						name:'小计',
+						// 小计
+						name:'Total parcial',
 						style:'width:20%'
 					}],
 					dealer_info:{
@@ -270,16 +281,22 @@
 			}
 		},
 		mounted(){
+			let requestData,
+				goodsIdOrder = localStorage.getItem('goodsIdOrder'),
+				buyDirectly = localStorage.getItem('buyDirectly');
 			// 检测是否有可供结算商品
-			if(!localStorage.getItem('goodsIdOrder')){
-				location = './cart.html';
-				return;
-			}
-			// 拉取要结算商品信息
-			this.$http.post('',{
+			if(!goodsIdOrder) {
+				if(buyDirectly) {
+					buyDirectly = JSON.parse(buyDirectly);
+					requestData = buyDirectly;
+				}
+				else location.replace('./cart.html');
+			} else requestData = {
 				name: 'zl.shopping.sys.settle.account',
 				goods_id: localStorage.getItem('goodsIdOrder')
-			}).then((response)=>{
+			}
+			// 拉取要结算商品信息
+			this.$http.post('', requestData).then((response)=>{
 				// 此时商品还留在购物车中
 				let shipping_info = response.body.data.shipping_info;
 				let dealer_info = response.body.data.dealer_info;
@@ -307,28 +324,35 @@
 			this.$http.post('',{
 				name:'zl.shopping.sys.address.list'
 			}).then((response)=>{
-				let add  = [];
+				let add  = [], hasDefault = false;
 				response.body.data.list.forEach((e) => {
 					if(e.selected === 1) {
+						// 默认地址保持第一条
 						add.unshift(e);
 						this.address.selected = e;
+						hasDefault = true;
 					}
 					else add.push(e);
 				})
+				// 无默认地址情况下
+				if(!hasDefault) this.address.selected = add[0];
 				this.address.addressList = add;
+				console.log(this.address.addressList)
 			})
 			// 拉取发票
 			this.$http.post('',{
 				name:'zl.shopping.sys.invoice.list'
 			}).then((response)=>{
-				let inv = [];
+				let inv = [], hasDefault = false;
 				response.body.data.forEach((e) => {
 					if(e.is_default === 1) {
 						inv.unshift(e);
 						this.invoice.selected = e;
+						hasDefault = true;
 					}
 					else inv.push(e);
 				})
+				if(!hasDefault) this.invoice.selected = inv[0];
 				this.invoice.invoiceList = inv;
 			})
 		},
@@ -372,14 +396,27 @@
 							}
 							a.receive_name = address.receive_name;
 							console.log('新的收件人姓名已变为'+a.receive_name)
-							// this.$forceUpdate();
+							this.$forceUpdate();
 						}
 					})
 				}
 			},
 			// 点击新增发票
-			addInvoice(){
+			addInvoice(invoice, type){
 				this.invoice.pop.show = true;
+				// 新增
+				if(!type) {
+					this.invoice.invoiceList.unshift(invoice);
+					this.invoice.selected = invoice;
+				}
+				// 编辑
+				else {
+					this.invoice.invoiceList.forEach((a)=>{
+						if(a.invoice_id === invoice.invoice_id) {
+							a = invoice;
+						}
+					})
+				}
 			},
 			// 点击编辑发票
 			editInvoice(invoice){
@@ -407,11 +444,11 @@
 			},
 			// 支付前检测
 			checkBeforePay(){
-				if(!this.address.selected.address_id) {
+				if(!this.address.selected) {
 					this.conclu.tip = '请选择收货地址';
 					return false;
 				}
-				if(!this.invoice.selected.invoice_id) {
+				if(!this.invoice.selected) {
 					this.conclu.tip = '请选择发票';
 					return false;
 				}
@@ -439,7 +476,11 @@
 				}).then((response)=>{
 					if(response.body.code === 1000) {
 						localStorage.setItem('goodsIdOrder','');
+						localStorage.setItem('buyDirectly', '');
 						console.log('提交订单成功!')
+						myAlert('提交订单成功！',() => {
+							location.replace('./order.html');
+						});
 					}
 				})
 			}

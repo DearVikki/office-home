@@ -71,7 +71,7 @@
 			</div>
 			<div class="fr">
 				<span style="margin-right:20px">Productosseleccionados: <span class="amount">{{goodsArr.length}}</span></span>
-				<span style="margin-right:20px" >Total (sin despacho):<span class="price" style="margin:0 10px">${{price}}</span></span>
+				<span style="margin-right:20px" >Total (sin despacho):<span class="price" style="margin:0 10px">${{totalPrice}}</span></span>
 				<span class="pay"
 				:class="{disabled:goodsArr.length === 0}"
 				@click="pay">pagar</span>
@@ -159,8 +159,8 @@
 		mounted(){
 			if(!localStorage.getItem('userInfo')) location.replace('./login.html');
 			// 拉取数据
-			this.$http.post('',{
-				name:'zl.shopping.sys.shop.cart'
+			this.$http.post('', {
+				name: 'zl.shopping.sys.shop.cart'
 			}).then((response)=>{
 				let data = response.body.data.shop_cart_info;
 				data.forEach((e)=>{
@@ -297,6 +297,7 @@
 				}).then((response)=>{
 					if(response.body.code === 1000) console.log('删除成功');
 					this.pop.show = false;
+					location.reload();
 					this.actionGoods.forEach((obj)=>{
 						console.log(obj.shopIndex)
 						console.log(this.carts[obj.shopIndex]);
@@ -354,7 +355,7 @@
 			}
 		},
 		computed:{
-			price(){
+			totalPrice(){
 				let price = 0;
 				this.goodsArr.forEach((obj)=>{
 					let goods = this.carts[obj.shopIndex].goods_info[obj.goodsIndex];

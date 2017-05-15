@@ -221,6 +221,7 @@
 				}
 				this.$http.post('',request).then((response)=>{
 					if(response.body.code === 1000){
+						localStorage.setItem('userInfo', JSON.stringify(response.body.data));
 						myAlert('signup success!', () => {
 							location.replace('./index.html');
 						})
@@ -264,6 +265,12 @@
 	}
 	.input-container.active,.input-container.warn{
 		border-bottom: 2px solid @baseColor !important;
+	}
+	.common-field .input-container input{
+		width: 100%;
+	}
+	.account-btn{
+		cursor: pointer;
 	}
 	select{
 		width: 100%;

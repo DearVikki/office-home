@@ -1,6 +1,6 @@
 <template>
 	<div id="personal_side" class="fl">
-		<p class="text">我的Chompres</p>
+		<p class="text">Mi Chompre</p>
 		<a class="text"
 		v-for="item in items"
 		:href="item.href"
@@ -13,26 +13,29 @@
 	export default{
 		name:'personalSide',
 		data(){
+			// 我的订单收货地址管理发票管理修改密码个人信息完善
 			return{
 					items:[{
-					name:'我的订单',
+					name:'Mis pedidos',
 					href:'./order.html',
 					id:1
 				},{
-					name:'收货地址管理',
+					name:'Gestión de direcciones de envío',
 					href:'./address.html',
 					id:2
 				},{
-					name:'发票管理',
+					name:'Gestión de las Facturas',
 					href:'./receipt.html',
 					id:3
 				},{
-					name:'修改密码',
-					href:'./reset-pw.html',
+					name:'Cambiar contraseña',
+					href:'',
+					// href:'./reset-pw.html',
 					id:4
 				},{
-					name:'个人安全信息完善',
-					href:'./info.html',
+					name:'completa la información',
+					href:'',
+					// href:'./info.html',
 					id:5
 				}]
 			}

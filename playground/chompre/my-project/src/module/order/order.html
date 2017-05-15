@@ -2,13 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>chompre</title>
+    <title>Order</title>
   </head>
   <body>
     <div id="app">
       <myheader v-model='msg'></myheader>
-      <router-view></router-view>
+      <order></order>
       <myfooter></myfooter>
+      <loading v-show="showLoading"></loading>
     </div>
     <!-- built files will be auto injected -->
   </body>
