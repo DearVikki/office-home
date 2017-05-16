@@ -1,12 +1,12 @@
 <template>
 	<div id="personal_side" class="fl">
 		<p class="text">Mi Chompre</p>
-		<a class="text"
+		<router-link class="text"
 		v-for="item in items"
-		:href="item.href"
-		:class="{active:activeId === item.id}">
+		:class="{active:activeid === item.id}"
+		:to="item.href">
 			{{item.name}}
-		</a>
+		</router-link>
 	</div>
 </template>
 <script>
@@ -17,15 +17,15 @@
 			return{
 					items:[{
 					name:'Mis pedidos',
-					href:'./order.html',
+					href:'/order',
 					id:1
 				},{
 					name:'Gestión de direcciones de envío',
-					href:'./address.html',
+					href:'/address',
 					id:2
 				},{
 					name:'Gestión de las Facturas',
-					href:'./receipt.html',
+					href:'/receipt',
 					id:3
 				},{
 					name:'Cambiar contraseña',
@@ -43,7 +43,7 @@
 		mounted(){
 			if(!localStorage.getItem('userInfo')) location.replace('./login.html');
 		},
-		props:['activeId']
+		props:['activeid']
 	}
 </script>
 <style scoped lang="less">

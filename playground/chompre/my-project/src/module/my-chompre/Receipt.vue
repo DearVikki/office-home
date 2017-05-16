@@ -1,56 +1,52 @@
 <template>
-	<div id="personal_container">
-		<div id="personal_main_container">
-			<div id="personal_right_container">
-					<h1>Gestión de las Facturas</h1>
-					<h3>{{status.title}}</h3>
-					<div class="input-group" v-for="field in fields" :class="field.class">
-						<label :for="field.id">{{field.name}}</label>
-						<div class="input-container"
-						:class="{ active: field.error || field.focus, big:field.id === 'address'}">
-								<input
-								v-if="field.id !== 'address'"
-								:id="field.id" type="text"
-								:placeholder="field.placeholder"
-								@blur="fieldBlur(field)"
-								@focus="fieldFocus(field)"
-								v-model="field.val">
-								<textarea
-								v-else
-								:id="field.id" type="text"
-								:placeholder="field.placeholder"
-								@blur="fieldBlur(field)"
-								@focus="fieldFocus(field)"
-								v-model="field.val"></textarea>
-							<p class="error" v-show="field.error && !field.focus">{{field.msg}}</p>
-						</div>
-					</div>
-					<label class="check-container">
-						<input type="checkbox" value="1" v-model="isDefault">
-						<span class="radio-input"></span>
-						<!-- 设置为默认发票 -->
-						<span>Establecer como información de factura por defecto</span>
-					</label>
-					<div class="side-btn" @click="save">Guardar</div>
-				<div class="table-container" v-show="Object.keys(table.tds).length">
-					<personaltable
-					tableWid="1000px"
-					:cols="table.cols"
-					:tds="table.tds"
-					@editar="editar"
-					@deletar="callPop"></personaltable>
-				</div>
+	<div id="personal_right_container">
+		<h1>Gestión de las Facturas</h1>
+		<h3>{{status.title}}</h3>
+		<div class="input-group" v-for="field in fields" :class="field.class">
+			<label :for="field.id">{{field.name}}</label>
+			<div class="input-container"
+			:class="{ active: field.error || field.focus, big:field.id === 'address'}">
+					<input
+					v-if="field.id !== 'address'"
+					:id="field.id" type="text"
+					:placeholder="field.placeholder"
+					@blur="fieldBlur(field)"
+					@focus="fieldFocus(field)"
+					v-model="field.val">
+					<textarea
+					v-else
+					:id="field.id" type="text"
+					:placeholder="field.placeholder"
+					@blur="fieldBlur(field)"
+					@focus="fieldFocus(field)"
+					v-model="field.val"></textarea>
+				<p class="error" v-show="field.error && !field.focus">{{field.msg}}</p>
 			</div>
+		</div>
+		<label class="check-container">
+			<input type="checkbox" value="1" v-model="isDefault">
+			<span class="radio-input"></span>
+			<!-- 设置为默认发票 -->
+			<span>Establecer como información de factura por defecto</span>
+		</label>
+		<div class="side-btn" @click="save">Guardar</div>
+		<div class="table-container" v-show="Object.keys(table.tds).length">
+			<personaltable
+			tableWid="1000px"
+			:cols="table.cols"
+			:tds="table.tds"
+			@editar="editar"
+			@deletar="callPop"></personaltable>
 		</div>
 		<!-- 删除弹窗 -->
 		<pop :pop="pop">
-			<div id="delete_container">
-				<p>您确定要删除该发票吗？</p>
-				<div class="btn-container">
-					<div class="btn" @click="deletar">确认删除</div>
-					<div class="btn reverse">关闭</div>
-				</div>
-			</div>
+					<div id="delete_container">
+						<p>您确定要删除该发票吗？</p>
+						<div class="btn-container">
+							<div class="btn" @click="deletar">确认删除</div>
+							<div class="btn reverse">关闭</div>
+						</div>
+					</div>
 		</pop>
 	</div>
 </template>

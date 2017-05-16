@@ -52,7 +52,7 @@
 				</ul>
 			</div>
 			<ul id='user_container'>
-				<li><a href="./order.html">Mi chompres</a></li>
+				<li><a href="./my-chompre.html">Mi chompres</a></li>
 				<li><a href="./cart.html">Carro</a></li>
 				<li>Misfavoritos</li>
 				<!-- <li>Mitienda</li> -->

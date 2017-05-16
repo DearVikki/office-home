@@ -1,7 +1,5 @@
 <template>
-	<div id="personal_container">
-		<div id="personal_main_container">
-			<div id="personal_right_container">
+	<div id="personal_right_container">
 					<!-- 收货地址管理 -->
 					<h1>Gestión de direcciones de envío</h1>
 					<h3>{{status.title}}</h3>
@@ -32,15 +30,13 @@
 						<span>Establecer como dirección por defecto</span>
 					</label>
 					<div class="side-btn" @click="save">Guardar</div>
-				<div class="table-container" v-show="Object.keys(table.tds).length">
+		<div class="table-container" v-show="Object.keys(table.tds).length">
 					<personaltable
 					tableWid="913px"
 					:cols="table.cols"
 					:tds="table.tds"
 					@editar="editar"
 					@deletar="callPop"></personaltable>
-				</div>
-			</div>
 		</div>
 		<!-- 删除弹窗 -->
 		<pop :pop="pop">
@@ -99,7 +95,7 @@
 				            msg:'',
 				            validators: {
 				            	required: { msg: '手机号不能为空' },
-				            	isNumber: { msg: '手机号不合法' }
+				            	isNum: { msg: '手机号不合法' }
 				            },
 				            val: '',
 							focus: false
@@ -156,7 +152,7 @@
 						width:'20%'
 					},{
 						name:'Comuna',
-						key:'receive_address',
+						key:'receive_area',
 						width:'20%'
 					},{
 						name:'Ciudad',
@@ -171,20 +167,19 @@
 						key:'selected',
 						width:'15%'
 					}],
-					tds:{
-						//这里用了对象是为了考虑到修改地址后保存应该更新对应地址
-						// 1:{
-						// 	address_id: 1,
-			   //              user_id: 100093,
-			   //              receive_name: "王美丽",
-			   //              receive_mobile: "18868028394",
-			   //              receive_city: "杭州市",
-			   //              receive_area: "西湖区",
-			   //              receive_address: "三墩镇三墩人民公园东门",
-			   //              selected: 0,
-			   //              idcard: ""
-						// }
-					}
+					tds:[
+					// {
+					// 		address_id: 1,
+			  //               user_id: 100093,
+			  //               receive_name: "王美丽",
+			  //               receive_mobile: "18868028394",
+			  //               receive_city: "杭州市",
+			  //               receive_area: "西湖区",
+			  //               receive_address: "三墩镇三墩人民公园东门",
+			  //               selected: 0,
+			  //               idcard: ""
+					// 	}
+					]
 			    },
 			    pop:{
 			    	show:false,
@@ -220,6 +215,22 @@
 		},
 		methods:{
 			save(){
+				// let request1 = {
+				// 	receive_name: this.fields.name.val,
+				// 	idcard: this.fields.rut.val,
+				// 	receive_address: this.fields.address.val,
+				// 	receive_area: this.fields.district.val,
+				// 	receive_city: this.fields.city.val,
+				// 	receive_mobile: this.fields.phone.val,
+				// 	selected: Number(this.isDefault)
+				// }
+				// this.table.tds[Math.ceil(Math.random()*1000)] = request1;
+				// let name = this.table.tds['245'].receive_name
+				// this.table.tds['245'].receive_name = 'what'
+				// this.table.tds['245'].receive_name = name
+				// console.log(this.table.tds)
+				// this.$forceUpdate();
+				// return;
 				if(!this.checkAll(this.fields)) return;
 				let request = {
 					receive_name: this.fields.name.val,
@@ -236,7 +247,8 @@
 					this.$http.post('',request).then((response)=>{
 						if(response.body.code === 1000)
 							request.address_id = response.body.data.address_id;
-							this.table.tds['100'] = request;
+							this.table.tds[request.address_id] = request;
+						    console.log(this.table.tds)
 							this.fields.name.val = this.fields.rut.val = this.fields.address.val = 
 							this.fields.district.val = this.fields.city.val = 
 							this.fields.phone.val = this.isDefault = '';

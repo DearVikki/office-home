@@ -479,7 +479,6 @@
 	}
 	/*order部分*/
 	#order_container{
-		padding-top: 1rem;
 		min-height: 500px;
 		.order{
 			width: 100%;

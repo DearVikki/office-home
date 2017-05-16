@@ -21,25 +21,28 @@ const router = new common.VueRouter({
 	},{
 		path: '/address',
 		component: Addresss
+	},{
+		path: '/receipt',
+		component: Receipt
 	}]
 })
+
+
+common.Vue.mixin(common.validatorMixin);
 
 var vm = new common.Vue({
   el: '#app',
   data: {
-  	showLoading:false,
-  	type:0
+  	showLoading:false
   },
   mounted(){
-  	console.log(this.$route.path)
-  	console.log(this.$route)
   },
   computed:{
   	type(){
   		let type;
   		switch(this.$route.path){
   			case '/':
-  				type = 0;
+  				type = 1;
   				break;
   			case '/order':
   				type = 1;
@@ -57,11 +60,11 @@ var vm = new common.Vue({
   				type = 5;
   				break;
   		}
-
+  		return type;
   	}
   },
   router: router,
-  components:{myheader, myfooter, Order, loading, side, Addresss}
+  components:{myheader, myfooter, Order, loading, side, Addresss, Receipt}
 })
 
 // common.interceptors(vm);
