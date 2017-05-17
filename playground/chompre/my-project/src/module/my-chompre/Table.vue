@@ -5,19 +5,19 @@
 				{{col.name}}
 			</th>
 		</tr>
-		<!-- tds[td]代表每一条地址列表 -->
-		<tr v-for="(val, td) in tds">
+		<!-- td代表每一条地址列表 -->
+		<tr v-for="td in tds">
 			<!-- 也就是取到每一个项目的值 -->
 			<td v-for="sCol in spliceCols">
-				{{tds[td][sCol.key]}}
+				{{td[sCol.key]}}
 			</td>
 			<td class="action">
 				<span>
-					<a @click="editar(tds[td])">editar</a>
-					<a @click="deletar(tds[td].address_id)">eliminar</a>
+					<a @click="editar(td)">editar</a>
+					<a @click="deletar(td)">eliminar</a>
 				</span>
-				<!-- tds[td].selected -->
-				<span :class="{active:tds[td][cols[cols.length-1].key]}"></span>
+				<!-- td.selected -->
+				<span :class="{active:td[cols[cols.length-1].key]}"></span>
 			</td>
 		</tr>
 	</table>
@@ -86,7 +86,7 @@
 				display: inline-block;
 				margin-left: 5px;
 				&.active{
-					background: url(../assets/img/personal/icon_select.png) center no-repeat;
+					background: url(../../assets/img/personal/icon_select.png) center no-repeat;
 				}
 			}
 		}

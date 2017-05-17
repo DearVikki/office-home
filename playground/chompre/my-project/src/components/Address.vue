@@ -17,7 +17,7 @@
 				@focus="fieldFocus(field)"
 				@blur="fieldBlur(field)"
 				v-model="field.val"></textarea>
-				<p class="tip" v-show="field.error && !field.focus">{{field.msg}}</p>
+				<p class="tip" :class="{show:field.error && !field.focus}">{{field.msg}}</p>
 			</div>
 		</div>
 		<!-- 设为默认保存地址 -->
@@ -99,21 +99,6 @@
 				addressId:''
 			}
 		},
-		mounted(){
-			// 初始化 以及为什么以下es6的写法会报错
-			// {receive_name:this.fields[0].val, idcard:this.fields[1].val, receive_city:this.fields[4].val, receive_area:this.fields[3].val,
-			// receive_address:this.fields[2].val, receive_mobile:this.fields[5].val, selected:this.isDefault} = val;
-			this.fields[0].val = this.address.receive_name;
-			this.fields[1].val = this.address.idcard;
-			this.fields[2].val = this.address.receive_address;
-			this.fields[3].val = this.address.receive_area;
-			this.fields[4].val = this.address.receive_city;
-			this.fields[5].val = this.address.receive_mobile;
-			this.isDefault = this.address.selected;
-			this.addressId = this.address.address_id;
-			// 编辑/新增
-			this.type = this.address ? 1 : 0;
-		},
 		methods:{
 			checkAll(){
 				let allchecked = true;
@@ -152,6 +137,18 @@
 			}
 		},
 		watch:{
+			address(){
+				this.fields[0].val = this.address.receive_name;
+				this.fields[1].val = this.address.idcard;
+				this.fields[2].val = this.address.receive_address;
+				this.fields[3].val = this.address.receive_area;
+				this.fields[4].val = this.address.receive_city;
+				this.fields[5].val = this.address.receive_mobile;
+				this.isDefault = this.address.selected;
+				this.addressId = this.address.address_id;
+				// 编辑/新增
+				this.type = this.address ? 1 : 0;
+			}
 		},
 		props:['address']
 	}
@@ -202,6 +199,10 @@
 				color: @baseColor;
 				text-align: left;
 				height: 16px;
+				opacity: 0;
+				&.show{
+					opacity: 1;
+				}
 			}
 		}
 	}
@@ -211,7 +212,6 @@
 		color:#666666;
 		letter-spacing:0.28px;
 		margin-left: 80px;
-		margin-top: -10px;
 		.checkbox-input{
 			border:1px solid #b0b0b0;
 			width:12px;
@@ -222,5 +222,7 @@
 		margin-top: 30px;
 		margin-left: 80px;
 		cursor: pointer;
+		font-size: 20px;
+		text-align: center;
 	}
 </style>

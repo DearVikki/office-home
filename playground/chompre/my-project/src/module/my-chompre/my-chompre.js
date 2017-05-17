@@ -22,9 +22,15 @@ const router = new common.VueRouter({
 		path: '/address',
 		component: Addresss
 	},{
+    path: '/addressEdit',
+    component: Addresss
+  },{
 		path: '/receipt',
 		component: Receipt
-	}]
+	},{
+    path: '/receiptEdit',
+    component: Receipt
+  }]
 })
 
 

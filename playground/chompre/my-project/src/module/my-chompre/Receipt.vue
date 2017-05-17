@@ -51,7 +51,7 @@
 	</div>
 </template>
 <script>
-	import personaltable from '../../components/Table.vue'
+	import personaltable from './Table.vue'
 	import pop from '../../components/Pop.vue';
 	import {myAlert} from '../../assets/js/utils.js';
 	export default{
@@ -215,7 +215,7 @@
 				})
 			})
 			//if编辑发票
-			if(location.hash === '#editar') {
+			if(this.$route.path === '/receiptEdit') {
 				let receiptInfo = JSON.parse(localStorage.getItem('receipt'));
 				this.status = {title:"Editar factura", type:1};
 				this.fields.name.val = receiptInfo.company_name;

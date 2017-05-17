@@ -1,35 +1,11 @@
 <template>
 	<div id="personal_right_container">
-					<!-- 收货地址管理 -->
-					<h1>Gestión de direcciones de envío</h1>
-					<h3>{{status.title}}</h3>
-					<div class="input-group" v-for="field in fields" :class="field.class">
-						<label :for="field.id">{{field.name}}</label>
-						<div class="input-container"
-						:class="{ active: field.error || field.focus, big:field.id === 'address'}">
-								<input
-								v-if="field.id !== 'address'"
-								:id="field.id" type="text"
-								:placeholder="field.placeholder"
-								@blur="fieldBlur(field)"
-								@focus="fieldFocus(field)"
-								v-model="field.val">
-								<textarea
-								v-else
-								:id="field.id" type="text"
-								:placeholder="field.placeholder"
-								@blur="fieldBlur(field)"
-								@focus="fieldFocus(field)"
-								v-model="field.val"></textarea>
-							<p class="error" v-show="field.error && !field.focus">{{field.msg}}</p>
-						</div>
-					</div>
-					<label class="check-container">
-						<input type="checkbox" value="1" v-model="isDefault">
-						<span class="radio-input"></span>
-						<span>Establecer como dirección por defecto</span>
-					</label>
-					<div class="side-btn" @click="save">Guardar</div>
+		<!-- 收货地址管理 -->
+		<h1>Gestión de direcciones de envío</h1>
+		<h3>{{status.title}}</h3>
+		<div id="address_container">
+			<addressPop :address="address" @saveAddress="saveAddress"></addressPop>
+		</div>
 		<div class="table-container" v-show="Object.keys(table.tds).length">
 					<personaltable
 					tableWid="913px"
@@ -51,93 +27,24 @@
 	</div>
 </template>
 <script>
-	import personaltable from '../../components/Table.vue'
+	import personaltable from './Table.vue'
+	import addressPop from '../../components/Address.vue';
 	import pop from '../../components/Pop.vue';
 	import {myAlert} from '../../assets/js/utils.js'
 	export default{
 		name:'receipt',
 		data(){
-				return{
-					//当前页面状态
-					status:{
-						title:'Añadir nueva dirección',
-						type:0
-					},
-					fields:{
-						name: {
-				            id: 'name',
-				            class: 'name-field',
-				            name: 'Consignatario',
-				            placeholder: '请输入',
-				            error: false,
-				            msg: '',
-				            validators: { required: { msg: '名字不能为空' }},
-				            val: '',
-							focus: false
-			          	},
-			         	rut: {
-				            id: 'rut',
-				            class: 'rut-field',
-				            name: 'R.U.T',
-				            placeholder: '请输入',
-				            error: false,
-				            msg:'',
-				            validators: { required: { msg: 'rut不能为空' } },
-				            val: '',
-							focus: false
-				        },
-				        phone: {
-				            id: 'phone',
-				            class: 'phone-field',
-				            name: 'Tel',
-				            placeholder: '请输入',
-				            error: false,
-				            msg:'',
-				            validators: {
-				            	required: { msg: '手机号不能为空' },
-				            	isNum: { msg: '手机号不合法' }
-				            },
-				            val: '',
-							focus: false
-				        },
-				        district: {
-				            id: 'district',
-				            class: 'district-field',
-				            name: 'Comuna',
-				            placeholder: '请输入',
-				            error: false,
-				            msg:'',
-				            validators: { required: { msg: '地区不能为空' }},
-				            val: '',
-							focus: false
-				        },
-				        city: {
-				            id: 'city',
-				            class: 'city-field',
-				            name: 'Ciudad',
-				            placeholder: '请输入',
-				            error: false,
-				            msg:'',
-				            validators: { required: { msg: '城市不能为空' }},
-				            val: '',
-							focus: false
-				        },
-				         address: {
-				            id: 'address',
-				            class: 'address-field',
-				            name: 'Dirección',
-				            placeholder: '请输入',
-				            error: false,
-				            msg:'',
-				            validators: { required:  { msg: '详细地址不能为空' }},
-				            val: '',
-							focus: false
-				        }
-			    },
-			    isDefault:'',
-			    addressId:'',
-			    deletarId:'',
-			    table:{
+			return{
+				//当前页面状态
+				status:{
+					title:'Añadir nueva dirección',
+					type:0
+				},
+				address:{},
+				isDefault:'',
+				addressId:'',
+				deleteItem:'',
+				table:{
 				    cols:[{
 						name:'Consignatario',
 						key:'receive_name',
@@ -170,131 +77,88 @@
 					tds:[
 					// {
 					// 		address_id: 1,
-			  //               user_id: 100093,
-			  //               receive_name: "王美丽",
-			  //               receive_mobile: "18868028394",
-			  //               receive_city: "杭州市",
-			  //               receive_area: "西湖区",
-			  //               receive_address: "三墩镇三墩人民公园东门",
-			  //               selected: 0,
-			  //               idcard: ""
-					// 	}
+					  //               user_id: 100093,
+					  //               receive_name: "王美丽",
+					  //               receive_mobile: "18868028394",
+					  //               receive_city: "杭州市",
+					  //               receive_area: "西湖区",
+					  //               receive_address: "三墩镇三墩人民公园东门",
+					  //               selected: 0,
+					  //               idcard: ""
+							// 	}
 					]
-			    },
-			    pop:{
-			    	show:false,
-			    	style:{width:'780px',height:'292px'}
-			    }
+				},
+				pop:{
+					show:false,
+					style:{width:'780px',height:'292px'}
+				}
 			}
 		},
 		mounted(){
 			if(!localStorage.getItem('userInfo')) location.href = './login.html';
 			//拉取地址列表
 			this.$http.post('',{name:'zl.shopping.sys.address.list'}).then((response)=>{
-				let addressList = response.body.data.list, tds = {};
+				let addressList = response.body.data.list, tds = [];
 				addressList.forEach((a)=>{
-					// 这样直接赋值不行喔 要整个替换喔
-					// this.table.tds[a.address_id] = a;
-					tds[a.address_id] = a;
+					tds.push(a);
 				})
 				this.table.tds = tds;
 			})
 			//if编辑地址
-			if(location.hash === '#editar') {
-				let addressInfo = JSON.parse(localStorage.getItem('address'));
+			if(this.$route.path === '/addressEdit') {
 				this.status = {title:"Editar dirección", type:1};
-				this.fields.name.val = addressInfo.receive_name;
-				this.fields.rut.val = addressInfo.idcard;
-				this.fields.phone.val = addressInfo.receive_mobile;
-				this.fields.district.val = addressInfo.receive_area;
-				this.fields.city.val = addressInfo.receive_city;
-				this.fields.address.val = addressInfo.receive_address;
-				this.isDefault = addressInfo.selected;
-				this.addressId = addressInfo.address_id;
+				this.address = JSON.parse(localStorage.getItem('address'));
 			}
 		},
 		methods:{
-			save(){
-				// let request1 = {
-				// 	receive_name: this.fields.name.val,
-				// 	idcard: this.fields.rut.val,
-				// 	receive_address: this.fields.address.val,
-				// 	receive_area: this.fields.district.val,
-				// 	receive_city: this.fields.city.val,
-				// 	receive_mobile: this.fields.phone.val,
-				// 	selected: Number(this.isDefault)
-				// }
-				// this.table.tds[Math.ceil(Math.random()*1000)] = request1;
-				// let name = this.table.tds['245'].receive_name
-				// this.table.tds['245'].receive_name = 'what'
-				// this.table.tds['245'].receive_name = name
-				// console.log(this.table.tds)
-				// this.$forceUpdate();
-				// return;
-				if(!this.checkAll(this.fields)) return;
-				let request = {
-					receive_name: this.fields.name.val,
-					idcard: this.fields.rut.val,
-					receive_address: this.fields.address.val,
-					receive_area: this.fields.district.val,
-					receive_city: this.fields.city.val,
-					receive_mobile: this.fields.phone.val,
-					selected: Number(this.isDefault)
+			saveAddress(address, type){
+				// 新增
+				if(!type) {
+					this.table.tds.push(request);
 				}
-				// 新增地址
-				if(this.status.type === 0) {
-					request.name = 'zl.shopping.sys.address.add';
-					this.$http.post('',request).then((response)=>{
-						if(response.body.code === 1000)
-							request.address_id = response.body.data.address_id;
-							this.table.tds[request.address_id] = request;
-						    console.log(this.table.tds)
-							this.fields.name.val = this.fields.rut.val = this.fields.address.val = 
-							this.fields.district.val = this.fields.city.val = 
-							this.fields.phone.val = this.isDefault = '';
-					})
-				}
-				// 保存地址
 				else {
-					request.name = 'zl.shopping.sys.address.update',
-					request.address_id = Number(this.addressId);
-					this.$http.post('',request).then((response)=>{
-						if(response.body.code === 1000)
-							request.address_id = response.body.data.address_id;
-							this.table.tds[request.address_id] = request;
+					this.table.tds.forEach((e) => {
+						if(e.address_id === address.address_id) e = address;
+						myAlert('保存成功');
+						this.$router.push('address');
 					})
 				}
-				delete request.name;
-				myAlert('保存成功');
+				this.address = {};
 			},
 			//编辑
 			editar(td){
 				localStorage.setItem('address',JSON.stringify(td));
-				window.open("./address.html#editar");
+				this.address = td;
+				this.$router.push('addressEdit');
 			},
 			// 删除弹窗
-			callPop(id){
+			callPop(deleteItem){
 				this.pop.show=true;
-				this.deletarId = id;
+				this.deleteItem = deleteItem;
 			},
 			// 删除地址
 			deletar(){
 				this.$http.post('',{
 					name:'zl.shopping.sys.address.del',
-					address_id: this.deletarId
+					address_id: this.deleteItem.address_id
 				}).then((response)=>{
 					// 删除这一条地址
 					if(response.body.code === 1000) myAlert('删除成功!')
-						this.pop.show = false;
-						delete this.table.tds[this.deletarId];
+					this.pop.show = false;
+					this.table.tds.forEach((e,i) => {
+						if(e.address_id === this.deleteItem.address_id) this.table.tds.splice(i,1);
+					})
 				})
 			}
 		},
-		components:{personaltable, pop}
+		components:{personaltable, pop, addressPop}
 	}
 </script>
 <style scoped lang="less">
 	@baseColor: #d42b1e;
+	#address_container{
+		margin: 0 62px;
+	}
 	#delete_container{
 		margin-top: 20px;
 	}
