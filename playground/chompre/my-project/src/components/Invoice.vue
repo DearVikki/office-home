@@ -89,7 +89,10 @@
 					id:'phone',
 					title:'Tel',
 					placeholder:'请输入电话号码',
-					validators:{required:{msg:'手机不能为空'},isNum:{msg:'手机号不合法'}},
+					validators:{
+						required:{msg:'手机不能为空'},
+						isNum:{msg:'手机号不合法'}
+					},
 					error:false,
 					focus:false,
 					msg:'',
@@ -108,55 +111,9 @@
 				invoiceId:''
 			}
 		},
-		mounted(){
-			this.fields[0].val = this.invoice.company_name;
-			this.fields[1].val = this.invoice.company_taxid;
-			this.fields[2].val = this.invoice.company_address;
-			this.fields[3].val = this.invoice.company_area;
-			this.fields[4].val = this.invoice.company_city;
-			this.fields[5].val = this.invoice.company_tel;
-			this.fields[6].val = this.invoice.business_scope;
-			this.isDefault = this.invoice.is_default;
-			this.invoiceId = this.invoice.invoice_id;
-			// 编辑/新增
-			this.type = this.invoice ? 1 : 0;
-		},
 		methods:{
-			isNum(val){
-				return !isNaN(val);
-			},
-			required(val){
-				return val;
-			},
-			handleValidate(field) {
-				let checked = true;
-				for(var rule in field.validators){
-					if(!this[rule](field.val) && checked) {
-						field.error = true;
-						field.msg = field.validators[rule].msg;
-						checked = false;
-						break;
-					}
-				}
-				return checked?true:false;
-			},
-			fieldFocus(field){
-				field.focus = true;
-				field.error = false;
-			},
-			fieldBlur(field){
-				this.handleValidate(field);
-				field.focus = false;
-			},
-			checkAll(){
-				let allchecked = true;
-				for(var field in this.fields){
-					if(!this.handleValidate(this.fields[field])) allchecked = false;
-				}
-				return allchecked;
-			},
 			save(){
-				if(!this.checkAll()) return;
+				if(!this.checkAll(this.fields)) return;
 				let invoice = {
 					company_name: this.fields[0].val,
 					company_taxid: this.fields[1].val,
@@ -176,7 +133,7 @@
 				} else {
 					// 新增
 					invoice.name = 'zl.shopping.sys.add.invoice';
-					this.$http.post('',invoice).then((response)=>{
+					this.$http.post('', invoice).then((response)=>{
 						invoice.invoice_id = response.body.data.invoice_id;
 						if(response.body.code === 1000) console.log('已新建发票!')
 					})
@@ -185,75 +142,23 @@
 			}
 		},
 		watch:{
+			invoice(){
+				this.fields[0].val = this.invoice.company_name;
+				this.fields[1].val = this.invoice.company_taxid;
+				this.fields[2].val = this.invoice.company_address;
+				this.fields[3].val = this.invoice.company_area;
+				this.fields[4].val = this.invoice.company_city;
+				this.fields[5].val = this.invoice.company_tel;
+				this.fields[6].val = this.invoice.business_scope;
+				this.isDefault = this.invoice.is_default;
+				this.invoiceId = this.invoice.invoice_id;
+				// 编辑/新增
+				this.type = this.invoice ? 1 : 0;
+			}
 		},
 		props:['invoice']
 	}
 </script>
 <style lang='less' scoped>
-	@baseColor: #d42b1e;
-	.inline{
-		display: inline-block;
-	}
-	.vm{
-		display: inline-block;
-		vertical-align: middle;
-	}
-	.txt{
-		font-size:16px;
-		color:#666666;
-	}
-	.item{
-		.txt;
-		letter-spacing:0.36px;
-		margin-bottom: 10px;
-		label{
-			.inline;
-			vertical-align: 7px;
-			width: 74px;
-			text-align: right;
-			&.address{
-				vertical-align: 45px;
-			}
-		}
-		.input-container{
-			.vm;
-			margin-left: 5px;
-			input,textarea{
-				padding: 0 10px;
-				border:1px solid #d3d3d3;
-				width:534px;
-				height:38px;
-				.txt;
-			}
-			textarea{
-				height: 100px;
-				resize: none;
-				padding: 8px 10px;
-			}
-			.tip{
-				font-size: 12px;
-				color: @baseColor;
-				text-align: left;
-				height: 16px;
-			}
-		}
-	}
-	#check_container{
-		text-align: left;
-		font-size:14px;
-		color:#666666;
-		letter-spacing:0.28px;
-		margin-left: 80px;
-		margin-top: -10px;
-		.checkbox-input{
-			border:1px solid #b0b0b0;
-			width:12px;
-			height:12px;
-		}
-	}
-	.common-save{
-		margin-top: 30px;
-		margin-left: 80px;
-		cursor: pointer;
-	}
+	@import '../assets/lib/form.less';
 </style>

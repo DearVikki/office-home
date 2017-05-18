@@ -100,15 +100,8 @@
 			}
 		},
 		methods:{
-			checkAll(){
-				let allchecked = true;
-				for(var field in this.fields){
-					if(!this.handleValidate(this.fields[field])) allchecked = false;
-				}
-				return allchecked;
-			},
 			save(){
-				if(!this.checkAll()) return;
+				if(!this.checkAll(this.fields)) return;
 				let address = {
 					receive_name: this.fields[0].val,
 					idcard: this.fields[1].val,
@@ -123,8 +116,6 @@
 					address.name = 'zl.shopping.sys.address.update';
 					address.address_id = this.addressId;
 					this.$http.post('',address).then((response)=>{
-						// 留：应当更新新id的 同时新增old_id字段
-						// address.address_id = response.body.data.address_id;
 					})
 				} else {
 					// 新增
@@ -154,75 +145,5 @@
 	}
 </script>
 <style scoped lang='less'>
-	@baseColor: #d42b1e;
-	.inline{
-		display: inline-block;
-	}
-	.vm{
-		display: inline-block;
-		vertical-align: middle;
-	}
-	.txt{
-		font-size:16px;
-		color:#666666;
-	}
-	.item{
-		.txt;
-		letter-spacing:0.36px;
-		margin-bottom: 10px;
-		label{
-			.inline;
-			vertical-align: 7px;
-			width: 74px;
-			text-align: right;
-			&.address{
-				vertical-align: 45px;
-			}
-		}
-		.input-container{
-			.vm;
-			margin-left: 5px;
-			input,textarea{
-				padding: 0 10px;
-				border:1px solid #d3d3d3;
-				width:534px;
-				height:38px;
-				.txt;
-			}
-			textarea{
-				height: 100px;
-				resize: none;
-				padding: 8px 10px;
-			}
-			.tip{
-				font-size: 12px;
-				color: @baseColor;
-				text-align: left;
-				height: 16px;
-				opacity: 0;
-				&.show{
-					opacity: 1;
-				}
-			}
-		}
-	}
-	#check_container{
-		text-align: left;
-		font-size:14px;
-		color:#666666;
-		letter-spacing:0.28px;
-		margin-left: 80px;
-		.checkbox-input{
-			border:1px solid #b0b0b0;
-			width:12px;
-			height:12px;
-		}
-	}
-	.common-save{
-		margin-top: 30px;
-		margin-left: 80px;
-		cursor: pointer;
-		font-size: 20px;
-		text-align: center;
-	}
+	@import '../assets/lib/form.less';
 </style>

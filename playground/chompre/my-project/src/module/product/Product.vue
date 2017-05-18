@@ -87,10 +87,10 @@
 				<!-- 进入店铺 -->
 				<a class="dealer-info"
 				:href=" './shop.html?id=' +dealer_info.dealer_id ">Servicio al cliente</a>
-				<div class="dealer-info"
+				<button class="dealer-info"
 				v-for="(c,i) in dealer_info.connect"
 				:title=" 'WHATS APP: ' + c"
-				@click="connectShow = true">Servicio al cliente{{i+1}}</div>
+				@click="connectShow = true">Servicio al cliente{{i+1}}</button>
 			</div>
 			<!--右侧主要内容-->
 			<div id="product_part2_main_container">
@@ -183,6 +183,7 @@
     import numeditor from '../../components/NumEditor.vue';
     import star from '../../components/Stars.vue';
     import pagination from '../../components/Pagination.vue';
+    import Tippy from 'tippy.js'
 	export default{
 		name:'product',
 		data(){
@@ -282,6 +283,13 @@
 				this.pre_goods_info = response.body.data.pre_goods_info;
 				this.price_info = response.body.data.price_info;
 				this.stock = response.body.data.pre_goods_info.stock;
+				this.$nextTick(() => {
+					new Tippy('.dealer-info',{
+						theme: 'light',
+						// trigger: 'mouseover',
+						// interactive: true
+					});
+				})
 			})
 			//拉取商品详细属性
 			this.$http.post('',{name:'zl.shopping.sys.goods.attribute',pre_goods_id:this.pre_goods_id})
@@ -442,6 +450,7 @@
 	}
 </script>
 <style scoped lang='less'>
+	@import '../../assets/lib/tippy.css';
 	@baseColor: #d42b1e;
 	@bla: #666;
 	#product_container{
@@ -596,6 +605,7 @@
 		#product_part2_left_container{
 			width: 220px;
 			float: left;
+			font-size: 20px;
 			#shop_name{
 				width: 100%;
 				height: 60px;

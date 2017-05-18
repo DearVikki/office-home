@@ -56,9 +56,15 @@ var vm = new common.Vue({
   			case '/address':
   				type = 2;
   				break;
+        case '/addressEdit':
+          type = 2;
+          break;
   			case '/receipt':
   				type = 3;
   				break;
+        case '/receiptEdit':
+          type = 3;
+          break;
   			case '/pw':
   				type = 4;
   				break;
