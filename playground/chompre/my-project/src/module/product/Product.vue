@@ -87,10 +87,10 @@
 				<!-- 进入店铺 -->
 				<a class="dealer-info"
 				:href=" './shop.html?id=' +dealer_info.dealer_id ">Servicio al cliente</a>
-				<button class="dealer-info"
+				<div class="dealer-info"
 				v-for="(c,i) in dealer_info.connect"
 				:title=" 'WHATS APP: ' + c"
-				@click="connectShow = true">Servicio al cliente{{i+1}}</button>
+				@click="connectShow = true">Servicio al cliente{{i+1}}</div>
 			</div>
 			<!--右侧主要内容-->
 			<div id="product_part2_main_container">
@@ -283,13 +283,20 @@
 				this.pre_goods_info = response.body.data.pre_goods_info;
 				this.price_info = response.body.data.price_info;
 				this.stock = response.body.data.pre_goods_info.stock;
-				this.$nextTick(() => {
+				// this.$nextTick(() => {
+				// 	new Tippy('.dealer-info',{
+				// 		theme: 'light',
+				// 		// trigger: 'mouseover',
+				// 		// interactive: true
+				// 	});
+				// })
+				setTimeout(()=>{
 					new Tippy('.dealer-info',{
 						theme: 'light',
 						// trigger: 'mouseover',
 						// interactive: true
 					});
-				})
+				}, 1000)
 			})
 			//拉取商品详细属性
 			this.$http.post('',{name:'zl.shopping.sys.goods.attribute',pre_goods_id:this.pre_goods_id})
