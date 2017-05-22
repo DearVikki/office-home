@@ -5,7 +5,7 @@
 			<label :for="field.id">{{field.name}}</label>
 			<div class="input-container" :class="{ warn: field.error || field.focus}">
 				<input :id="field.id"
-				tyoe="password"
+				type="password"
 				:placeholder="field.placeholder"
 				@blur="fieldBlur(field)"
 				@focus="fieldFocus(field)"
@@ -17,9 +17,11 @@
 	</div>
 </template>
 <script>
+	import {getParameterByName,timestamp,myAlert} from '../../assets/js/utils.js';
 	export default{
 		name:'Vali',
 		mounted(){
+			if(!localStorage.getItem('email')) this.$router.push('/step1');
 		},
 		data(){
 			return{
@@ -66,11 +68,19 @@
 			},
 			setPW(){
 				if(!this.checkAll(this.fields)) return;
-				// this.$http.post('',{
-				// 	name: 'zl.shopping.sys.forget.pwd'
-				// }).then((response) => {
-				// 	if(response.code === 1000) location.href = ('./login.html');
-				// })
+				this.$http.post('',{
+					name: 'zl.shopping.sys.forget.pwd',
+					mail:  localStorage.getItem('email'),
+					password: this.fields[0].val
+				}).then((response) => {
+					if(response.body.code === 1000){
+						myAlert('重置密码成功', () => {
+							localStorage.removeItem('email');
+							location.href = ('./login.html');
+						})
+					}
+					else alert(response.body.msg);
+				})
 			}
 		}
 	}

@@ -3,7 +3,8 @@
 		<!--首页banner开始-->
 		<div id='activity_banner_container' class="swiper-container">
 		   <div class="swiper-wrapper">
-               <a class='swiper-slide' v-for="activityItem in activityItems">
+               <a class='swiper-slide' v-for="activityItem in activityItems"
+               @click="clickBanner(activityItem)">
                		<img :src="activityItem.path"/>
                </a>
           </div>
@@ -12,7 +13,7 @@
 		</div>
 		<!--促销商品开始-->
 		<div id='sale_container'>
-			<div class="sub-header">Promociones<span class="more fr">Ver más ></span></div>
+			<div class="sub-header">Promociones<a href="./home-more.html#sale" class="more fr">Ver más ></a></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="saleItem in saleItems">
@@ -25,7 +26,7 @@
 		</div>
 		<!--热门商品开始-->
 		<div id='hot_goods_container'>
-			<div class="sub-header">Recomendaciónes<span class="more fr">Ver más ></span></div>
+			<div class="sub-header">Recomendaciónes<a href="./home-more.html#hot" class="more fr">Ver más ></a></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="hotgoodsItem in hotgoodsItems">
@@ -106,6 +107,15 @@
 			},(response)=>{
 
 			})
+		},
+		methods:{
+			clickBanner(banner){
+				localStorage.setItem('banner',JSON.stringify(banner));
+				location.href = './home-banner.html'
+			},
+			clickMore(){
+
+			}
 		},
 		components:{goodsitem, icontop}
 	}
@@ -204,6 +214,7 @@
 		.more{
 			font-size: 14px;
 			margin-top:10px;
+			color: @baseColor;
 		}
 	}
 </style>

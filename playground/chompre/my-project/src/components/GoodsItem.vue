@@ -3,6 +3,11 @@
 	    <img :src="item.cover_pic"/>
 	    <p>{{item.description}}</p>
 	    <p>${{item.price}}</p>
+        <div class="mask delete"
+        v-if="hasDelete"
+        @click.stop.prevent="test(item)"></div>
+        <!-- <div class="mask add"
+        @click="$emit('add',item)">加入购物车</div> -->
 	</a>
 </template>
 <script>
@@ -13,7 +18,12 @@
 
 			}
 		},
-		props:['item']
+        methods:{
+            test(item){
+                this.$emit('delete', item);
+            }
+        },
+		props:['item','hasDelete']
 	}
 </script>
 <style lang='less'>
@@ -31,8 +41,10 @@
     margin-top: 20px;
     width: 220px;
     display: inline-block;
+    position: relative;
     img {
-        width: 100%;
+        width: 220px;
+        height: 220px;
     }
     p {
         font-size: 12px;
@@ -48,6 +60,34 @@
         font-size: 14px;
         color: @baseColor;
         margin-top: 10px;
+    }
+    .mask{
+        position: absolute;
+        background-color: rgba(50, 50, 50, .48);
+        font-size: 12px;
+        color: #fff;
+        text-align: center;
+        opacity: 0;
+        transition: all .4s;
+        &.delete{
+            right: 0;
+            top:0;
+            width: 28px;
+            height: 28px;
+            background-image: url(../assets/img/product/icon_delete.png);
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        &.add{
+            left: 0;
+            top: 184px;
+            height: 36px;
+            line-height: 36px;
+            width: 100%;
+        }
+    }
+    &:hover .mask{
+        opacity: 1;
     }
 }
 </style>

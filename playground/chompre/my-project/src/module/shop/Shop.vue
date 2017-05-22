@@ -57,8 +57,8 @@
 	import {myAlert} from '../../assets/js/utils.js';
 	import pop from '../../components/Pop.vue';
 	import goodsitem from '../../components/GoodsItem.vue';
-	 import pagination from '../../components/Pagination.vue';
-	 import empty from '../../components/Empty.vue';
+	import pagination from '../../components/Pagination.vue';
+	import empty from '../../components/Empty.vue';
 	export default{
 		name:'shop',
 		data(){

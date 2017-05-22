@@ -54,7 +54,7 @@
 			<ul id='user_container'>
 				<li><a href="./my-chompre.html">Mi chompres</a></li>
 				<li><a href="./cart.html">Carro</a></li>
-				<li>Misfavoritos</li>
+				<li><a href="./collect.html">Misfavoritos</a></li>
 				<!-- <li>Mitienda</li> -->
 			</ul>
 			<div class="clear"></div>

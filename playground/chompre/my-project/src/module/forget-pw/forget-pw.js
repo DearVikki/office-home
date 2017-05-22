@@ -1,5 +1,4 @@
 import common from '../../assets/js/common.js'
-import Forgetpw from './Forget-pw.vue'
 
 import Emptyheader from '../../components/EmptyHeader'
 const Myfooter = common.myFooter;

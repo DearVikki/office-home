@@ -36,8 +36,14 @@
 		methods: {
 			nextStep(){
 				if(!this.handleValidate(this.account)) return;
-				this.$http.post('',{name:'zl.shopping.sys.pc.user.question',account:this.account.val}).then((response)=>{
-					if(response.body.code === 1000) this.$router.push({path: 'Step2'});
+				this.$http.post('',{
+					name:'zl.shopping.sys.pc.user.question',
+					account:this.account.val
+				}).then((response)=>{
+					if(response.body.code === 1000) {
+						localStorage.setItem('email', this.account.val);
+						this.$router.push({path: 'Step2'});
+					}
 					else{
 						this.account.error = true;
 						this.account.msg = response.body.msg;

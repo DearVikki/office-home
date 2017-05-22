@@ -272,6 +272,27 @@ input.checkbox:checked+.checkbox-input:after {
     font-weight: bold;
 }
 
+/*商品展示的大框*/
+.common-goods-container{
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    min-height: 600px;
+    &:after{
+            content: '';
+            flex: auto;
+    }
+    .item{
+        /*flex-grow: 1;
+        max-width: 25%;
+        min-width: 20%;*/
+    }
+    .empty-space-filling-item{
+        width: 220px;
+        height: 0;
+    }
+}
 
 /*保存*/
 .common-save {

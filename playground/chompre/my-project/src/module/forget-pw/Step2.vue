@@ -36,11 +36,14 @@
 							@focus="fieldFocus(field)"
 							v-model="field.val" />
 					</div>
-					<p class="send-code" :class="{disabled: scDisabled}" v-if="field.id === 'email'" @click='sendCode'>{{countdown}}</p>
+					<p class="send-code"
+					:class="{disabled: scDisabled}"
+					v-if="field.id === 'email'"
+					@click='sendCode'>{{countdown}}</p>
 					<p class="error" v-if="field.error && !field.focus">{{field.msg}}</p>
 				</div>
 		</div>
-		<div class="account-btn">下一步</div>
+		<div class="account-btn" @click="nextStep">下一步</div>
 	</div>
 </template>
 <script>
@@ -49,7 +52,8 @@
 		data(){
 			return{
 				emailActive: true,
-				qDisabled: false,
+				qDisabled: true,
+				question_id:'',
 				scDisabled: false,
 				countdown: '发送验证码',
 				fieldsA: {
@@ -108,11 +112,17 @@
 			}
 		},
 		mounted(){
-			console.log('mounted')
-			/*setTimeout(function() {
-				location.reload();
-			},100)*/
-			//countdown({text: '.send-code', time:60});
+			if(!localStorage.getItem('email')) this.$router.push('/step1');
+			this.$http.post('',{
+				name:'zl.shopping.sys.pc.user.question',
+				account: localStorage.getItem('email')
+			}).then((response) => {
+				if(response.body.code === 1000) {
+					this.qDisabled = false;
+					this.fieldsA.question.val = response.body.data.question;
+					this.question_id = response.body.data.question_id;
+				}
+			})
 		},
 		methods: {
 			//点击问题找回密码
@@ -121,19 +131,64 @@
 				this.emailActive = false;
 			},
 			sendCode(){
+				if(this.scDisabled) return;
 				this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
-					console.log(response.body)
-				})
-				let t = 60;
-				let cd = setInterval(() => {
-					t--;
-					this.countdown = t+'秒重新发送';
-					this.scDisabled = true;
-					if(t <= 1){
-						clearInterval(cd);
-						this.scDisabled = false;
+					if(response.body.code === 1000) {
+						let t = 60;
+						this.countdown = t+'秒重新发送';
+						let cd = setInterval(() => {
+							t--;
+							this.countdown = t+'秒重新发送';
+							this.scDisabled = true;
+							if(t <= 1){
+								clearInterval(cd);
+								this.scDisabled = false;
+								this.countdown = '重新发送'
+							}
+						},1000)
 					}
-				},1000)
+				})
+			},
+			nextStep(){
+				if(this.emailActive){
+					// 邮箱找回密码
+					if(!this.fieldsB.code.val) {
+						this.fieldsB.code.msg = '验证码不能为空';
+						this.fieldsB.code.error = true;
+						return;
+					}
+					this.$http.post('',{
+						name:'zl.shopping.sys.forget.sms.confirm',
+						mail: this.fieldsB.email.val,
+						code: this.fieldsB.code.val
+					}).then((response) => {
+						if(response.body.code === 1000) this.$router.push({path: 'Step3'});
+						else {
+							this.fieldsB.code.msg = response.body.msg;
+							this.fieldsB.code.error = true;
+						}
+					})
+				} else {
+					// 问题找回密码
+					if(!this.fieldsA.answer.val) {
+						this.fieldsA.answer.msg = '回答不能为空';
+						this.fieldsA.answer.error = true;
+						return;
+					}
+					this.$http.post('',{
+						name:'zl.shopping.pc.check.question',
+						mail:localStorage.getItem('email'),
+						register_question_id:this.question_id,
+						answer:this.fieldsA.answer.val
+					}).then((response) => {
+						if(response.body.code === 1000) this.$router.push({path: 'Step3'});
+						else {
+							this.fieldsA.answer.msg = response.body.msg;
+							this.fieldsA.answer.error = true;
+						}
+					})
+
+				}
 			}
 		}
 	}
