@@ -112,10 +112,9 @@
 			}
 		},
 		mounted(){
-			if(!localStorage.getItem('email')) this.$router.push('/step1');
 			this.$http.post('',{
 				name:'zl.shopping.sys.pc.user.question',
-				account: localStorage.getItem('email')
+				account: JSON.parse(localStorage.getItem('userInfo')).mail
 			}).then((response) => {
 				if(response.body.code === 1000) {
 					this.qDisabled = false;
@@ -141,10 +140,10 @@
 					if(response.body.code === 1000) {
 						let t = 60;
 						this.countdown = t+'秒重新发送';
-						this.scDisabled = true;
 						let cd = setInterval(() => {
 							t--;
 							this.countdown = t+'秒重新发送';
+							this.scDisabled = true;
 							if(t <= 1){
 								clearInterval(cd);
 								this.scDisabled = false;
@@ -170,7 +169,7 @@
 						mail: this.fieldsB.email.val,
 						code: this.fieldsB.code.val
 					}).then((response) => {
-						if(response.body.code === 1000) this.$router.push({path: 'Step3'});
+						if(response.body.code === 1000) this.$emit('nextStep');
 						else {
 							this.fieldsB.code.msg = response.body.msg;
 							this.fieldsB.code.error = true;
@@ -189,7 +188,7 @@
 						register_question_id:this.question_id,
 						answer:this.fieldsA.answer.val
 					}).then((response) => {
-						if(response.body.code === 1000) this.$router.push({path: 'Step3'});
+						if(response.body.code === 1000) this.$emit('nextStep');
 						else {
 							this.fieldsA.answer.msg = response.body.msg;
 							this.fieldsA.answer.error = true;
@@ -209,6 +208,7 @@
 	    margin-bottom: 40px;
 	    width:100%;
 	    min-width: 300px;
+	    text-align: center;
 	}
 	#method_header{
 		width: 100%;
@@ -239,7 +239,7 @@
 	}
 	#e_body{
 		max-width: 355px;
-    	margin: 45px 80px 0;
+    	margin: 45px 180px 0;
     	display: relative;
     	.send-code{
     		color: @baseColor;

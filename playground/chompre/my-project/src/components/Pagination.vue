@@ -3,7 +3,7 @@
 		<!-- 上一页 -->
 		<span class="pagination-item prev"
 		:class="{disabled:currentPage === 1}"
-		@click="clickPage(currentPage-1)">上一页</span>
+		@click="clickPage(currentPage-1)">Anterior</span>
 		<!-- 第一页 -->
 		<span class="pagination-item"
 		:class="{active:1===currentPage}"
@@ -25,7 +25,7 @@
 		<!-- 下一页 -->
 		<span class="pagination-item next"
 		:class="{disabled:currentPage === allPage}"
-		@click="clickPage(currentPage+1)">下一页</span>
+		@click="clickPage(currentPage+1)">Siguiente</span>
 	</div>
 </template>
 <script>

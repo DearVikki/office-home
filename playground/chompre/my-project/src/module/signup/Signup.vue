@@ -53,7 +53,7 @@
 							</li>
 						</ul>
 						<div class="clear"></div>
-				<div class="account-btn" @click='register'>Registrarme</div>
+				<div class="account-btn" @click='register'>Registrarse</div>
 			</div>
 		</div>
 	</div>

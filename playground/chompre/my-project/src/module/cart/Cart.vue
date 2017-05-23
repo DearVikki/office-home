@@ -74,7 +74,7 @@
 				<span style="margin-right:20px" >Total (sin despacho):<span class="price" style="margin:0 10px">${{totalPrice}}</span></span>
 				<span class="pay"
 				:class="{disabled:goodsArr.length === 0}"
-				@click="pay">pagar</span>
+				@click="pay">Pagar</span>
 			</div>
 		</div>
 		<pop :pop="pop">

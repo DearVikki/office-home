@@ -9,7 +9,7 @@
 		name:'sendCode',
 		data(){
 			return{
-				txt:'发送验证码',
+				txt:'发送Código',
 				counting:false,
 				countdown:''
 			}
@@ -40,7 +40,7 @@
 		},
 		watch:{
 			reset(){
-				this.txt = '发送验证码';
+				this.txt = '发送Código';
 				this.counting = false;
 				clearInterval(this.countdown);
 			}

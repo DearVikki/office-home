@@ -19,7 +19,8 @@
 						<span class="order-time">{{order.order_info.start_time}}</span>
 						<span class="order-price">总价: ${{order.order_info.sum_price}}</span>
 						<a class="order-no cp" :href="'./order-detail.html?id='+order.order_info.order_id">订单编号: {{order.order_info.order_no}}</a>
-						<span class="order-shop">{{order.dealer_info.dealer_name}}</span>
+						<a class="order-shop"
+						:href="'./shop.html?id='+order.dealer_info.dealer_id">{{order.dealer_info.dealer_name}}</a>
 					</div>
 					<div class="fr" @click="contactPop.show = true">
 						consulta la tienda
@@ -27,11 +28,15 @@
 				</div>
 				<!-- 订单商品列条 -->
 				<div class="order-goods">
-					<div class="goods-part12-container">
-						<div class="goods-part1">
-							<img :src="order.goods_info.cover_pic">
+					<a class="goods-part12-container">
+						<a class="goods-part1"
+						:href="'./order-detail.html?id='+order.order_info.order_id">
+							<a :href="'./product.html?id='+order.goods_info.pre_goods_id">
+								<img :src="order.goods_info.cover_pic">
+							</a>
 							<div class="goods-part1-inner">
-								<div class="goods-name">{{order.goods_info.goods_name}}</div>
+								<a class="goods-name"
+								:href="'./product.html?id='+order.goods_info.pre_goods_id">{{order.goods_info.goods_name}}</a>
 								<div class="goods-detail">
 									<!-- 商品详细信息 -->
 									<span class="goods-detail1">
@@ -43,7 +48,7 @@
 									</span>
 								</div>
 							</div>
-						</div>
+						</a>
 						<div class="goods-part2">
 							<!-- 待付款 -->
 							<div v-if="order.order_info.status === 1">
@@ -91,20 +96,23 @@
 								<p>退货完成</p>
 							</div>
 						</div>
-					</div>
+					</a>
 					<div class="goods-part3">
 						<!-- 待付款 -->
 						<div  v-if="order.order_info.status === 1">
-							<div class="btn main">付款</div>
+							<div class="btn main"
+							@click="pay(order.order_info)">付款</div>
 						</div>
 						<!-- 待发货 -->
 						<div v-if="order.order_info.status === 2">
-							<div class="btn main">确认收货</div>
+							<div class="btn main"
+							@click="confirm(order.order_info)">确认收货</div>
 							<div class="btn">取消订单</div>
 						</div>
 						<!-- 待收货 -->
 						<div v-if="order.order_info.status === 3">
-							<div class="btn main">确认收货</div>
+							<div class="btn main"
+							@click="confirm(order.order_info)">确认收货</div>
 						</div>
 						<!-- 待评价 -->
 						<div v-if="order.order_info.status === 4">
@@ -416,7 +424,6 @@
 				this.comment.star = n;
 			},
 			uploadImg(){
-				console.log(this.comment.files)
 				if(this.commentDisabled) return;
 				var fm = new FormData();
 				fm.append('name','zl.shopping.sys.upload.multi.img');
@@ -425,9 +432,10 @@
 				})
 				this.$http.post('',fm).then((response)=>{
 					let picData = [];
-					response.body.data.list.forEach((e)=>{
-						picData.push(e.compress);
-					});
+					if(response.body.data.length)
+						response.body.data.list.forEach((e)=>{
+							picData.push(e.compress);
+						});
 					// 评价订单
 					this.$http.post('',{
 						name:'zl.shopping.sys.comment.order',
@@ -447,6 +455,25 @@
 				this.comment.content = '';
 				this.comment.pics = [];
 				this.comment.star = 0;
+			},
+			// 付款
+			pay(order){
+				this.$http.post('',{
+					name:'zl.shopping.sys.pay',
+					order_id: order.order_id,
+					amount: order.sum_price
+				}).then((response) => {
+					this.getOrder();
+				})
+			},
+			// 确认收货
+			confirm(order){
+				this.$http.post('',{
+					name:'zl.shopping.sys.confirm.order',
+					order_id: order.order_id
+				}).then((response) => {
+					this.getOrder();
+				})
 			}
 		},
 		computed:{
@@ -511,6 +538,9 @@
 					width: 250px;
 					margin-right:20px;
 					color:#666;
+				}
+				.order-shop{
+					color: #666;
 				}
 				.fr{
 					color: @baseColor;
@@ -670,6 +700,9 @@
 			resize:none;
 			width:544px;
 			height:148px;
+			font-size: 14px;
+			padding: 5px;
+			color: #5b5b5b;
 		}
 		#comment_pic_container{
 			margin-top:10px;

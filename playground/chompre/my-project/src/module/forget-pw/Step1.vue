@@ -2,19 +2,19 @@
 	<!--包住form表单的-->
 	<div id='form_wrapper' style="font-size:20px">
 			<div class="common-field account-field">
-				<label for="account">账号</label>
+				<label for="account">Usuario</label>
 				<div class="input-container" :class="{warn: account.error || account.focus}">
 						<input
 						id="account"
 						type="text"
-						placeholder="请输入邮箱或者身份证号"
+						placeholder="Ingresar correo"
 						v-model="account.val"
 						@blur="fieldBlur(account)"
 						@focus="fieldFocus(account)">
 				</div>
 				<p class="error" v-if="account.error && !account.focus">{{account.msg}}</p>
 			</div>
-		<div class="account-btn" @click="nextStep">下一步</div>
+		<div class="account-btn" @click="nextStep">Siguiente</div>
 	</div>
 </template>
 <script>

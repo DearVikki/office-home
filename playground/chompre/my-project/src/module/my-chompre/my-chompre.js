@@ -1,9 +1,9 @@
 import common from '../../assets/js/common.js'
 import '../../assets/lib/personalModule.less'
 import Order from './Order.vue'
-import OrderDetail from './Order-detail.vue'
 import Addresss from './Address.vue'
 import Receipt from './Receipt.vue'
+import Pw from './Reset-pw.vue'
 import side from './Side.vue'
 
 const myheader = common.myHeader;
@@ -30,6 +30,9 @@ const router = new common.VueRouter({
 	},{
     path: '/receiptEdit',
     component: Receipt
+  },{
+    path:'/pw',
+    component: Pw
   }]
 })
 

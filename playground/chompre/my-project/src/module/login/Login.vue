@@ -138,6 +138,7 @@
 		display: block;
 		max-width: 173px;
 		cursor: pointer;
+		margin: 38px auto;
 	}
 	.input-container.active,.input-container.warn{
 		border-bottom: 2px solid @baseColor !important;

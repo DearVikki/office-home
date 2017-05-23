@@ -70,14 +70,11 @@
 				if(!this.checkAll(this.fields)) return;
 				this.$http.post('',{
 					name: 'zl.shopping.sys.forget.pwd',
-					mail:  localStorage.getItem('email'),
+					mail:  JSON.parse(localStorage.getItem('userInfo')).mail,
 					password: this.fields[0].val
 				}).then((response) => {
 					if(response.body.code === 1000){
-						myAlert('重置密码成功', () => {
-							localStorage.removeItem('email');
-							location.href = ('./login.html');
-						})
+						this.$emit('nextStep');
 					}
 					else alert(response.body.msg);
 				})
@@ -94,6 +91,7 @@
 	    margin-bottom: 40px;
 	    width:100%;
 	    min-width: 300px;
+	    text-align: center;
 	}
 	.common-field{
 		margin: 6px auto;

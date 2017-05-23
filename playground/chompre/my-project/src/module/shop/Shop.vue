@@ -202,7 +202,7 @@
 			}
 		}
 		#collect_container{
-			width:100px;
+			width:200px;
 			background:url(../../assets/img/product/Star_null.png) no-repeat left;
 			&.active{
 				background-image: url(../../assets/img/product/Star.png);

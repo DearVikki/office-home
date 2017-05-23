@@ -13,7 +13,7 @@
 			</div>
 			<!--品牌-->
 			<div v-if="brands.length">
-				<h5>marcas</h5>
+				<h5>Marcas</h5>
 				<label v-for="brand in brands">
 					<input type="checkbox"
 					:value="brand.brand_id"
@@ -26,7 +26,7 @@
 			</div>
 			<!--价格区间-->
 			<div style="overflow:hidden">
-				<h5 style="margin-bottom:10px">precio</h5>
+				<h5 style="margin-bottom:10px">Precio</h5>
 				<input type="text" placeholder="min"
 				v-model="filter.min"
 				@input="checkPrice">
@@ -42,7 +42,7 @@
 			</div>
 			<!--评分区间-->
 			<div>
-				<h5>calificaciones</h5>
+				<h5>Calificaciones</h5>
 				<label class="star" v-for="star in stars">
 					<input name="star" type="radio"
 					:value="star.num"

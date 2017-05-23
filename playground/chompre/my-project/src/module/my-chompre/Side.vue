@@ -29,8 +29,7 @@
 					id:3
 				},{
 					name:'Cambiar contraseña',
-					href:'',
-					// href:'./reset-pw.html',
+					href:'/pw',
 					id:4
 				},{
 					name:'completa la información',

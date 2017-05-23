@@ -20,11 +20,14 @@
 			</div>
 			<!--非登录状态-->
 			<div id='login_container' v-if='!logged'>
-				<a id='login' href="./login.html">ingresar</a>
-				<a id='signup' href="./signup.html">crear cuenta</a>
+				<a id='login' href="./login.html">Ingresar</a>
+				<a id='signup' href="./signup.html">Crear cuenta</a>
 			</div>
 			<!--登录状态-->
-			<div id='name_container' v-else>{{nickname}}</div>
+			<div id='name_container' v-else
+			title="hhhhhh">{{nickname}}</div>
+			<div id="logout" style="display: none"
+			@click="logout">Cerrar sesión</div>
 		</div>
 		<div id='header_part2'>
 			<div id='cate_container'
@@ -62,6 +65,7 @@
 	</div>
 </template>
 <script>
+	import Tippy from 'tippy.js'
 	export default{
 		name:'myheader',
 		data(){
@@ -140,6 +144,14 @@
 					location.href = './category.html?search='+this.searchKey;
 				// 搜索店铺
 				else location.href = './search-shop.html?search='+this.searchKey;
+			},
+			logout(){
+				this.$http.post('',{
+					name: 'zl.shopping.sys.pc.login.out'
+				}).then((response) => {
+					localStorage.removeItem('userInfo');
+					location.href = './login.html'
+				})
 			}
 		},
 		mounted(){
@@ -153,6 +165,19 @@
 			    } else {
 			    	this.logged = true;
 			    	this.nickname = JSON.parse(localStorage.getItem('userInfo')).nickname;
+			    	setTimeout(()=>{
+			    		let a = new Tippy('#name_container',{
+			    			theme: 'light',
+			    			position: 'bottom',
+			    			arrow: true,
+			    			interactive: true,
+			    			distance: -30,
+			    			size: 'small',
+			    			html:'#logout',
+			    			trigger:'click'
+			    		});
+			    		console.log(a)
+			    	}, 1000)
 			    }
 			})
 			//拉取一级分类
@@ -183,6 +208,7 @@
 	}
 </script>
 <style scoped lang='less'>
+	@import '../assets/lib/tippy.css';
 	@baseColor: #d42b1e;
 	@backColor: #fff7f7;
 	@bla: #5c5c5c;
@@ -278,7 +304,7 @@
 			}
 		}
 		#login_container{
-			font-size: 12px;
+			font-size: 14px;
 			position: absolute;
 			right: 0;
 			bottom: 0;
@@ -291,11 +317,15 @@
 			}
 		}
 		#name_container{
-			font-size: 12px;
+			font-size: 14px;
 			position: absolute;
 			right: 0;
 			bottom: 0;
 			color: @baseColor;
+			cursor: pointer;
+		}
+		#logout{
+			
 		}
 	}
 	#header_part2{
@@ -368,7 +398,7 @@
 			margin-top: 10px;
 			color: @bla;
 			li{
-				font-size: 12px;
+				font-size: 14px;
 				margin-left: 30px;
 				display: inline-block;
 			}
@@ -376,5 +406,11 @@
 				color: @bla;
 			}
 		}
+	}
+</style>
+<style lang='less'>
+	.tippy-tooltip[data-template-id="#logout"] {
+	  cursor: pointer;
+	  color: #666 !important;
 	}
 </style>
