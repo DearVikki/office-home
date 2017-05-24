@@ -63,7 +63,7 @@
 								<p>待收货</p>
 								<p class="main" @click="comment.pop.show = true">评价</p>
 								<!-- 为什么这里会报el.setAttribute的错吖！ -->
-								<p class="main" @click="test">退货</p>
+								<p class="main" @click="changePop.show = true">退货</p>
 								<p class="main" @click="changePop.show = true">换货</p>
 							</div>
 							<!-- 待评价 -->
@@ -104,15 +104,16 @@
 							@click="pay(order.order_info)">付款</div>
 						</div>
 						<!-- 待发货 -->
+						<!-- 为什么！！为什么contactPop就没问题confirmPop就有问题！！明明是一样的！ -->
 						<div v-if="order.order_info.status === 2">
 							<div class="btn main"
-							@click="confirm(order.order_info)">确认收货</div>
+							@click="confirmPop.show = true">确认收货</div>
 							<div class="btn">取消订单</div>
 						</div>
 						<!-- 待收货 -->
 						<div v-if="order.order_info.status === 3">
 							<div class="btn main"
-							@click="confirm(order.order_info)">确认收货</div>
+							@click="clickConfirm">确认收货</div>
 						</div>
 						<!-- 待评价 -->
 						<div v-if="order.order_info.status === 4">
@@ -198,7 +199,7 @@
 				<div class="btn-container">
 					<div class="btn" :class="{disabled:commentDisabled}"
 					@click="uploadImg">发表评价</div>
-					<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
+					<div class="btn reverse" @click="comment.show = false">关闭</div>
 				</div>
 			</div>
 
@@ -221,11 +222,14 @@
 		</pop>
 		<!-- 确认收货弹窗 -->
 		<pop :pop="confirmPop" class="common-pop">
-			请确保收到货物，确认无误后点击确认。
-			<div class="btn-container">
-				<div class="btn">确认收货</div>
-				<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
-			</div>
+			<!-- <div>
+				请确保收到货物，确认无误后点击确认。
+				<div class="btn-container">
+					<div class="btn" @click="confirm">确认收货</div>
+					<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
+				</div>
+			</div> -->
+			
 		</pop>
 		<loading v-show="showLoading"></loading>
 	</div>
@@ -304,15 +308,6 @@
 					width:'780px',
 					minHeight:'292px'
 				},
-				// 为什么这里style: this.popStyle就是undefined呢
-				contactPop:{
-					show: false,
-					style: {
-						width:'780px',
-						minHeight:'292px',
-						padding:'70px 120px 35px 120px'
-					}
-				},
 				delivery:{
 					deliveryInfo:{},
 					pop:{
@@ -353,6 +348,14 @@
 						width:'780px',
 						minHeight:'292px',
 						padding:'84px 120px 35px 120px'
+					}
+				},
+				contactPop:{
+					show: false,
+					style: {
+						width:'780px',
+						minHeight:'292px',
+						padding:'70px 120px 35px 120px'
 					}
 				},
 				confirmPop:{
@@ -468,13 +471,19 @@
 					this.getOrder();
 				})
 			},
+			clickConfirm(){
+				console.log(this.comment.pop.show)
+				this.comment.pop.show = true;
+				// this.confirmPop.show = true;
+			},
 			// 确认收货
-			confirm(order){
+			confirm(){
 				this.$http.post('',{
 					name:'zl.shopping.sys.confirm.order',
-					order_id: order.order_id
+					order_id: this.selectedOrder.order_id
 				}).then((response) => {
 					this.getOrder();
+					this.confirmPop.show = false;
 				})
 			},
 			// 退换货

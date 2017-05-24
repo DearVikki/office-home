@@ -304,7 +304,7 @@
 			}
 		}
 		#login_container{
-			font-size: 14px;
+			font-size: 17px;
 			position: absolute;
 			right: 0;
 			bottom: 0;
@@ -317,12 +317,15 @@
 			}
 		}
 		#name_container{
-			font-size: 14px;
+			font-size: 17px;
 			position: absolute;
 			right: 0;
 			bottom: 0;
 			color: @baseColor;
 			cursor: pointer;
+			width: 168px;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		#logout{
 			
