@@ -196,7 +196,8 @@
 					</span>
 				</div>
 				<div class="btn-container">
-					<div class="btn" :class="{disabled:commentDisabled}" @click="uploadImg">发表评价</div>
+					<div class="btn" :class="{disabled:commentDisabled}"
+					@click="uploadImg">发表评价</div>
 					<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
 				</div>
 			</div>
@@ -206,7 +207,7 @@
 		<pop :pop="changePop" class="common-pop">
 			是否提交换货申请？
 			<div class="btn-container">
-				<div class="btn">换货</div>
+				<div class="btn" @click="returnGoods(1)">换货</div>
 				<div class="btn reverse" @click="changePop.show = false">关闭</div>
 			</div>
 		</pop>
@@ -214,7 +215,7 @@
 		<pop :pop="returnPop" class="common-pop">
 			是否提交退货申请？
 			<div class="btn-container">
-				<div class="btn">退货</div>
+				<div class="btn" @click="returnGoods(2)">退货</div>
 				<div class="btn reverse" @click="returnPop.show = false">关闭</div>
 			</div>
 		</pop>
@@ -324,7 +325,7 @@
 					}
 				},
 				comment:{
-					content:'test',
+					content:'',
 					pics:[],
 					files:[],
 					star:0,
@@ -447,6 +448,7 @@
 					}).then((response)=>{
 						this.comment.pop.show = false;
 						this.comment.files = [];
+						this.getOrder();
 					})
 				})
 			},
@@ -472,6 +474,18 @@
 					name:'zl.shopping.sys.confirm.order',
 					order_id: order.order_id
 				}).then((response) => {
+					this.getOrder();
+				})
+			},
+			// 退换货
+			returnGoods(type){
+				this.$http.post('',{
+					name:'zl.shopping.sys.return.goods',
+					order_id: this.selectedOrder.order_info.order_id,
+					goods_id: this.selectedOrder.goods_info.pre_goods_id,
+					type:type
+				}).then((response) => {
+					this.returnPop.show = false;
 					this.getOrder();
 				})
 			}

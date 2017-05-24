@@ -130,6 +130,7 @@
 		max-width: 1200px;
 		width: 100%;
 		min-width: 1000px;
+		overflow: hidden;
 		.txt{
 			margin-right: 7px;
 		}
