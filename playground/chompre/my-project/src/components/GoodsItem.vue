@@ -1,5 +1,5 @@
 <template>
-	<a class='common-goods-item' :href="'./product.html?id='+item.pre_goods_id">
+	<a class='common-goods-item' @click="clickItem">
 	    <img :src="item.cover_pic"/>
 	    <p>{{item.description}}</p>
 	    <p>${{item.price}}</p>
@@ -19,11 +19,14 @@
 			}
 		},
         methods:{
+            clickItem(){
+                location.href = './product.html?id='+this.item.pre_goods_id+'&ref='+this.entry;
+            },
             test(item){
                 this.$emit('delete', item);
             }
         },
-		props:['item','hasDelete']
+		props:['item','hasDelete', 'entry']
 	}
 </script>
 <style lang='less'>

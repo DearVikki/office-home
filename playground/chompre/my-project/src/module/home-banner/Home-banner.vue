@@ -28,8 +28,7 @@
 		},
 		mounted(){
 			if(!localStorage.getItem('banner')) {
-				document.title = 'Error'
-				return;
+				location.replace('./index.html');
 			}
 			this.banner = JSON.parse(localStorage.getItem('banner'));
 			document.title = this.banner.banner_name;
@@ -40,6 +39,10 @@
 			}).then((response) => {
 				this.goods = response.body.data.goods_list;
 			})
+			// 商品入口路径
+			let path = [];
+			path.push({name:this.banner.banner_name, href: location.href});
+			localStorage.setItem('entryPath', JSON.stringify(path));
 		},
 		components:{goodsitem}
 	}

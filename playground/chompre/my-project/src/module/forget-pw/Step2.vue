@@ -137,6 +137,11 @@
 					this.fieldsB.email.error = true;
 					return;
 				}
+				if(this.fieldsB.code !== localStorage.getItem('email')) {
+					this.fieldsB.code.msg = '邮箱未注册';
+					this.fieldsB.code.error = true;
+					return;
+				}
 				this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
 					if(response.body.code === 1000) {
 						let t = 60;

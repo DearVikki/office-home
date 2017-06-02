@@ -17,7 +17,7 @@
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="saleItem in saleItems">
-	               		<goodsitem :item='saleItem'></goodsitem>
+	               		<goodsitem :item='saleItem' :entry="saleItemEntryPath"></goodsitem>
 	                </div>
 	            </div>
 			</div>
@@ -30,7 +30,7 @@
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="hotgoodsItem in hotgoodsItems">
-	               		<goodsitem :item='hotgoodsItem'></goodsitem>
+	               		<goodsitem :item='hotgoodsItem' :entry="hotItemEntryPath"></goodsitem>
 	                </div>
 	            </div>
 			</div>
@@ -63,10 +63,14 @@
 				activityItems:[],
 				saleItems:[],
 				hotgoodsItems:[],
-				hotshopItems:[]
+				hotshopItems:[],
+				saleItemEntryPath: '',
+				hotItemEntryPath: ''
 			}
 		},
 		mounted(){
+			this.saleItemEntryPath = btoa(JSON.stringify([{name:'Promociones', path:'./index.html#sale_container'}]));
+			this.hotItemEntryPath = btoa(JSON.stringify([{name:'Recomendaciónes', path:'./index.html#hot_goods_container'}]));
 			this.$http.post('',{name:'zl.shopping.sys.homepage.info'}).then((response)=>{
 				this.activityItems = response.body.data.other_banner;
 				this.hotgoodsItems = response.body.data.hot_goods;
@@ -112,10 +116,9 @@
 			clickBanner(banner){
 				localStorage.setItem('banner',JSON.stringify(banner));
 				location.href = './home-banner.html'
-			},
-			clickMore(){
-
 			}
+		},
+		computed:{
 		},
 		components:{goodsitem, icontop}
 	}

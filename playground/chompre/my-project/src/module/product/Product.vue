@@ -3,8 +3,11 @@
 		<!--第一部分-->
 		<div id="product_part1">
 			<!--一级分类/二级分类-->
-			<div id="referrer_container" style="opacity:0">
-				一级分类/二级分类
+			<div id="referrer_container">
+				<span v-for="(entry,i) in entryPath">
+					<span v-if="i"> > </span>
+					<a :href="entry.path">{{entry.name}}</a>
+				</span>
 			</div>
 			<!--左侧图片展示部分-->
 			<div id="product_part1_left_container">
@@ -272,6 +275,10 @@
 		computed:{
 			pre_goods_id(){
 				return getParameterByName('id');
+			},
+			entryPath(){
+				let ref = getParameterByName('ref');
+				return ref ? JSON.parse(atob(ref)) : [];
 			}
 		},
 		mounted(){
@@ -297,6 +304,7 @@
 						// interactive: true
 					});
 				}, 1000)
+				document.title = this.pre_goods_info.description;
 			})
 			//拉取商品详细属性
 			this.$http.post('',{name:'zl.shopping.sys.goods.attribute',pre_goods_id:this.pre_goods_id})
@@ -472,6 +480,13 @@
 			color:#666;
 			font-size: 14px;
 			margin: 15px 0;
+			a{
+				color: #555;
+				&:hover{
+					color: @baseColor;
+					text-decoration: underline;
+				}
+			}
 		}
 		/*一部分左侧*/
 		#product_part1_left_container{

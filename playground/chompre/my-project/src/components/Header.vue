@@ -228,7 +228,7 @@
 		}
 		#header_search_container{
 			display: inline-block;
-			width: 800px;
+			width: 750px;
 			height: 35px;
 			border:1px solid @baseColor;
 			margin-left:45px;
@@ -290,7 +290,7 @@
 				vertical-align: middle;
 				border: none;
 				padding-left: 10px;
-				width: 600px;
+				width: 500px;
 				height: 30px;
 				font-size: 14px;
 			}
