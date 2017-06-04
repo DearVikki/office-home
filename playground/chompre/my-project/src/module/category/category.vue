@@ -78,7 +78,8 @@
 				</div>
 			</div>
 			<div id="display_body" v-show="items.goods_list.length">
-				<goodsitem :item='item' v-for="item in items.goods_list"></goodsitem>
+				<goodsitem :item='item' v-for="item in items.goods_list"
+				:entry="entry"></goodsitem>
 				<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
 			</div>
 			<pagination v-show="allPage>1"
@@ -170,8 +171,8 @@
 		},
 		mounted(){
 			this.search = getParameterByName('search');
-			this.subcate = JSON.parse(getParameterByName('subcate'));
-			this.cate =  JSON.parse(getParameterByName('cate'));
+			this.subcate = JSON.parse(atob(getParameterByName('subcate')));
+			this.cate =  JSON.parse(atob(getParameterByName('cate')));
 			if(!this.search){
 				this.title = this.cate.name + '-' +this.subcate.name;
 				//拉取所有二级分类
@@ -301,6 +302,17 @@
 			clickPagination(page){
 				this.page = page;
 				this.getProducts();
+			}
+		},
+		computed:{
+			entry(){
+				return btoa(JSON.stringify([{
+					name: this.cate.name,
+					path: location.href
+				},{
+					name: this.subcate.name,
+					path: location.href
+				}]))
 			}
 		},
 		watch:{

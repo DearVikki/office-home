@@ -31,12 +31,12 @@
 					<a class="goods-part12-container">
 						<a class="goods-part1"
 						:href="'./order-detail.html?id='+order.order_info.order_id">
-							<a :href="'./product.html?id='+order.goods_info.pre_goods_id">
+							<a :href="'./product.html?id='+order.goods_info.pre_goods_id+'&ref='+entry">
 								<img :src="order.goods_info.cover_pic">
 							</a>
 							<div class="goods-part1-inner">
 								<a class="goods-name"
-								:href="'./product.html?id='+order.goods_info.pre_goods_id">{{order.goods_info.goods_name}}</a>
+								:href="'./product.html?id='+order.goods_info.pre_goods_id+'&ref='+entry">{{order.goods_info.goods_name}}</a>
 								<div class="goods-detail">
 									<!-- 商品详细信息 -->
 									<span class="goods-detail1">
@@ -366,7 +366,8 @@
 						padding:'84px 120px 35px 120px'
 					}
 				},
-				showLoading:false
+				showLoading:false,
+				entry:btoa(JSON.stringify([{name:'Order', path:location.href}]))
 			}
 		},
 		methods:{

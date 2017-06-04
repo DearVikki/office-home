@@ -24,7 +24,7 @@
 								<input type="checkbox" @change="goodsCheck(shop,goods)" :checked="goods.checked">
 								<span class="check-input"></span>
 							</label>
-							<a :href="'product.html?id='+goods.pre_goods_id">
+							<a :href="'product.html?id='+goods.pre_goods_id+'&ref='+entry">
 							<!-- 商品图片 -->
 							<img :src="goods.cover_pic">
 							<!-- 商品名字 -->
@@ -153,7 +153,8 @@
 	            	show:false,
 	            	style:{width:'780px',height:'292px'}
 	            },
-	            popTxt:'确认删除该商品吗？'
+	            popTxt:'确认删除该商品吗？',
+	            entry: btoa(JSON.stringify([{name:'Carro', path:location.href}]))
 			}
 		},
 		mounted(){

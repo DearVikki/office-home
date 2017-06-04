@@ -27,7 +27,8 @@
 			<span id="shop_all" @click="getAll">todos los productos</span>
 			<!-- 店铺商品内容 -->
 			<div id="goods_container">
-				<goodsitem :item='item' v-for="item in pre_goods_info"></goodsitem>
+				<goodsitem :item='item' v-for="item in pre_goods_info"
+				:entry="entry"></goodsitem>
 				<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
 				<empty v-if="!pre_goods_info.length"></empty>
 			</div>
@@ -89,7 +90,8 @@
 					}
 				},
 				allPage:1,
-				page: 1
+				page: 1,
+				entry:''
 			}
 		},
 		mounted(){
@@ -113,7 +115,8 @@
 					this.is_collect = response.body.data.is_collect;
 					this.pre_goods_info = response.body.data.pre_goods_info;
 					// 改变title
-					document.querySelector('title').innerHTML = dealer_info.dealer_name + ' - Chompre';
+					document.title = dealer_info.dealer_name + ' - Chompre';
+					this.entry = btoa(encodeURIComponent(JSON.stringify([{name:dealer_info.dealer_name, path:location.href}])));
 				})
 			},
 			search(){

@@ -4,7 +4,8 @@
 		v-show="banner.banner_homepage_id"
 		:src="banner.path">
 		<div class="common-goods-container" v-if="goods.length">
-			<goodsitem :item='item' v-for="item in goods"></goodsitem>
+			<goodsitem :item='item' v-for="item in goods"
+			:entry="entry"></goodsitem>
 			<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
 		</div>
 		<!-- 缺省页 -->
@@ -23,7 +24,8 @@
 		data(){
 			return {
 				banner:{},
-				goods:[]
+				goods:[],
+				entry: ''
 			}
 		},
 		mounted(){
@@ -31,7 +33,9 @@
 				location.replace('./index.html');
 			}
 			this.banner = JSON.parse(localStorage.getItem('banner'));
-			document.title = this.banner.banner_name;
+			let title = this.banner.banner_name;
+			document.title = title;
+			this.entry = btoa(encodeURIComponent(JSON.stringify([{name:title, path:'./home-banner.html'}])));
 			this.$http.post('',{
 				name:'zl.shopping.sys.banner.info',
 				banner_homepage_id: this.banner.banner_homepage_id,

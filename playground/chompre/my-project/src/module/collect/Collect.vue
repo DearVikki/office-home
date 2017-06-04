@@ -7,7 +7,8 @@
 			v-for="item in goods"
 			hasDelete=true
 			@delete="cancelCollect"
-			@add="addCart"></goodsitem>
+			@add="addCart"
+			:entry="entry"></goodsitem>
 		</div>
 		<!-- 缺省页 -->
 		<div class="empty-tip" v-else>
@@ -23,7 +24,8 @@
 		name: 'collect',
 		data(){
 			return{
-				goods:[]
+				goods:[],
+				entry:btoa(encodeURIComponent(JSON.stringify([{name:'Misfavoritos', path:'./collect.html'}])))
 			}
 		},
 		mounted(){
