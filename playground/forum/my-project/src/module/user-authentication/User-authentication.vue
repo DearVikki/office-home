@@ -101,7 +101,6 @@
 	}
 	input{
 		width: 50%;
-		height: 0.43rem;
 		font-size: 0.4rem;
 		color:#4c4c4c;
 		margin-top: 0.37rem;

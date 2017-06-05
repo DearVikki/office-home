@@ -27,6 +27,9 @@
 				:question="d"
 				:type="nav.activeNav"
 				:index="index"></questionitem>
+				<div class="c-empty" v-if="nav.activeNav != 3 && !questionTop.question_id && !questionData.length">
+					<p>这里空空如也诶</p>
+				</div>
 			</div>
 			<personal v-show="nav.activeNav == 3"></personal>
 		</div>
@@ -119,7 +122,8 @@
 				type:'hot_top'
 			}).then((response)=>{
 				let hotlistTop = response.body.data.TopList;
-				if(hotlistTop.question_id) this.hotlistTop = hotlistTop;
+				hotlistTop = hotlistTop ? hotlistTop : {};
+				this.hotlistTop = hotlistTop;
 			})
 			// 拉取悬赏榜
 			// this.getMoneyData();
@@ -129,7 +133,8 @@
 				type:'money_top'
 			}).then((response)=>{
 				let moneyTop = response.body.data.TopList;
-				if(moneyTop) this.money.top = moneyTop;
+				moneyTop = moneyTop ? moneyTop : {};
+				this.money.top = moneyTop;
 			})
 			// 拉取积分榜
 			// this.getCreditData();
@@ -139,7 +144,8 @@
 				type:'integral_top'
 			}).then((response)=>{
 				let creditTop = response.body.data.TopList;
-				if(creditTop) this.credit.top = creditTop;
+				creditTop = creditTop ? creditTop : {};
+				this.credit.top = creditTop;
 			})
 		},
 		methods:{

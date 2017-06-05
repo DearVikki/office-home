@@ -52,12 +52,6 @@
 				// 为什么此时不会重新渲染页面呢？
 				this.type = getParameterByName('type') || 1;
 			}
-			// 未认证用户跳到认证页
-			this.$http.post('',{
-				name:'xwlt.pc.IsAuthentication'
-			}).then((response)=>{
-				if(!response.body.data.is_authentication) location.href = './user-authentication.html';
-			})
 			// 签到
 			this.$http.post('',{
 				name:'xwlt.pc.Sign'
