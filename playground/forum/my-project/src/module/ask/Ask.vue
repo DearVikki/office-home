@@ -32,11 +32,11 @@
 				<option value="money">金钱悬赏</option>
 			</select>
 		</div>
-		<div class="c-line" v-show="reward_type==='integral'">积分悬赏 <span class="c-color">(当前积分:{{existingCredit}}分)</span>
+		<div class="c-line reward-container" v-show="reward_type==='integral'">积分悬赏 <span class="c-color">(当前积分:{{existingCredit}}分)</span>
 			<input placeholder="5(单位:分)" v-model="credit">
 		</div>
-		<div class="c-line" v-show="reward_type==='money'">金钱悬赏 <span class="c-color">(微信支付)</span>
-			<input placeholder="10(单位:元)" v-model="money">
+		<div class="c-line reward-container" v-show="reward_type==='money'">金钱悬赏 <span class="c-color">(微信支付)</span>
+			<input placeholder="最低1元起(单位:元)" v-model="money">
 		</div>
 		<div id="ask_question_container">
 			<div class="c-line"><input placeholder="请写下你的问题，以问号结尾" v-model="question"></div>
@@ -152,6 +152,10 @@
 					}
 					else if(!Number(this.money)) {
 						myAlert.small('别忘了悬赏金额喔');
+						return false;
+					}
+					else if(!Number(this.money) < 1) {
+						myAlert.small('悬赏金额最低为1元喔');
 						return false;
 					}
 				}
@@ -275,7 +279,6 @@
 			margin-top: 0.4rem;
 			border: none;
 			appearance: none;
-			padding-right:0.38rem;
 			background: transparent;
 		}
 		select{
@@ -283,10 +286,15 @@
 			background-position:right .2rem;
 			background-size: .2rem .3rem;
 			background-repeat:no-repeat;
+			padding-right:0.38rem;
 		}
 		input{
 			width: 2.2rem;
 		}
+	}
+	.reward-container input{
+		text-align: right;
+		width: 4rem;
 	}
 	/*设置截至日期的插件*/
 	#deadline > div{

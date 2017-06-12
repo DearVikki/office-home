@@ -19,6 +19,9 @@
 	</div>
 </template>
 <script>
+	import '../../assets/lib/webim.config.js'
+	import '../../assets/lib/strophe-1.2.8.js'
+	import WebIM from '../../assets/lib/websdk-1.4.10.js'
 	import img from '../../assets/img/index/icon_message2.png'
 	import {utcToDate, myAlert, loadMore} from '../../assets/js/utils.js'
 	import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
@@ -27,18 +30,21 @@
 		data(){
 			return{
 				page:1,
-				msgs:[{
-					img:img,
-					username:'楼二狗',
-					content:'你好，啦啦啦啦',
-					addtime:'1490011294',
-				}]
+				msgs:[]
 			}
 		},
 		mounted(){
 			this.getData();
 			loadMore.config.cb = this.getData;
 			loadMore.open();
+
+			console.log(webIM)
+			var conn = new WebIM.connection({
+			    https: WebIM.config.https,
+			    url: WebIM.config.xmppURL,
+			    isAutoLogin: WebIM.config.isAutoLogin,
+			    isMultiLoginSessions: WebIM.config.isMultiLoginSessions
+			});
 		},
 		methods:{
 			getData(){

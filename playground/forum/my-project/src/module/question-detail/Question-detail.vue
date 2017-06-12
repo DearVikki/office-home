@@ -50,45 +50,33 @@
 				question_type:1,
 				page:1,
 				question:{
-					"question_id":"2",
-		            "type_id":"4",
-		            "type_label_id":"0",
-		            "reward_type":"money",
-		            "integral":"0",
-		            "money":"10.00",
-		            "question":"帮忙送个外卖",
-		            "question_describe":
-		            "地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙",
-		            "path":null,
-		            "userid":"1",
-		            "addtime":"1476076803",
-		            "browse_num":"0",
-		            "is_task":"1",
-		            "task_status":"1",
-		            "endtime":"0",
-		            "status":"0",
-		            "solvetime":"0",
-		            "hottime":"1488441415",
-		            "hot":"10",
-		            "head":"http:\/\/wx.qlogo.cn\/",
-		            "username":"狐狸的味道",
-		            "replynum":0,
-		            "praisenum":0
+					// "question_id":"2",
+		   //          "type_id":"4",
+		   //          "type_label_id":"0",
+		   //          "reward_type":"money",
+		   //          "integral":"0",
+		   //          "money":"10.00",
+		   //          "question":"帮忙送个外卖",
+		   //          "question_describe":
+		   //          "地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙",
+		   //          "path":null,
+		   //          "userid":"1",
+		   //          "addtime":"1476076803",
+		   //          "browse_num":"0",
+		   //          "is_task":"1",
+		   //          "task_status":"1",
+		   //          "endtime":"0",
+		   //          "status":"0",
+		   //          "solvetime":"0",
+		   //          "hottime":"1488441415",
+		   //          "hot":"10",
+		   //          "head":"http:\/\/wx.qlogo.cn\/",
+		   //          "username":"狐狸的味道",
+		   //          "replynum":0,
+		   //          "praisenum":0
 				},
 				answers:[],
 				loadAll:false,
-				answer1:{
-					content:'地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙',
-					username:'楼二学长',
-					head:"http:\/\/wx.qlogo.cn\/",
-					addtime:1476076833,
-					praisenum:20,
-					// 已采纳
-					isAccepted:true,
-					// 已点赞
-					isPraised:true,
-					comment:[{name:'不知道要说什么',content:'回答的非常好！'},{name:'不知道要说什么',content:'回答的非常好！'},{name:'不知道要说什么',content:'回答的非常好！'},{name:'不知道要说什么',content:'回答的非常好！'}]
-				},
 				activeAnswer:'',
 				activeComment:'',
 				userInfo:''
@@ -150,7 +138,7 @@
 							a.isAccepted = Number(a.adopt);
 							a.isPraised = Number(a.is_ReplyPraise);
 							if(!Number(question.oneself)) a.type = 0;
-							else if(!question.is_adopt) a.type = 1;
+							else if(!Number(question.is_adopt)) a.type = 1;
 							else a.type = 2;
 							a.comment = [];
 							a.TowReplyList.forEach((r)=>{
