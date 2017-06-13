@@ -1,12 +1,11 @@
 /*****/
-// import Strophe from './strophe-1.2.8.js'
-// console.log(Strophe)
-// var s = require('./strophe-1.2.8.js')
-// console.log(s)
-require(['./strophe-1.2.8.js'], function(){
-	console.log(Strophe)
+// import Strophe2 from './strophe-1.2.8.js'
+// console.log(Strophe2)
+// var Strophe = require('./strophe-1.2.8.js');
 
-// console.log(s)
+// require(['./strophe-1.2.8.js'], function(){
+// 	console.log(Strophe);
+
 (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -4475,4 +4474,4 @@ require(['./strophe-1.2.8.js'], function(){
 
 /******/ });
 
-})
+// })

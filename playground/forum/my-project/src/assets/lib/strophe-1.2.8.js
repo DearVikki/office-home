@@ -5683,15 +5683,16 @@
             return callback(Strophe, $build, $msg, $iq, $pres);
         }
     }
+    // console.log(window.Strophe)
+    // module.exports = window.Strophe
 
 
 })(function (Strophe, build, msg, iq, pres) {
-    // console.log('hey')
     window.Strophe = Strophe;
+    console.log('这里Strophe已经挂载在全局了')
     window.$build = build;
     window.$msg = msg;
     window.$iq = iq;
     window.$pres = pres;
 });
 /* jshint ignore:end */
-// module.exports = 'hh'

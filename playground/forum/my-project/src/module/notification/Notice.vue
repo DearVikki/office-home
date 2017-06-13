@@ -20,11 +20,13 @@
 </template>
 <script>
 	import '../../assets/lib/webim.config.js'
-	import '../../assets/lib/strophe-1.2.8.js'
-	import WebIM from '../../assets/lib/websdk-1.4.10.js'
+	// import '../../assets/lib/strophe-1.2.8.js'
+	// import WebIM from '../../assets/lib/websdk-1.4.10.js'
+	var a = require('../../assets/lib/websdk-1.4.10.js')
 	import img from '../../assets/img/index/icon_message2.png'
 	import {utcToDate, myAlert, loadMore} from '../../assets/js/utils.js'
 	import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
+	var WebIM = require('../../assets/lib/websdk-1.4.10.js');
 	export default{
 		name:'notice',
 		data(){
@@ -38,6 +40,7 @@
 			loadMore.config.cb = this.getData;
 			loadMore.open();
 
+			console.log(a)
 			console.log(webIM)
 			var conn = new WebIM.connection({
 			    https: WebIM.config.https,
