@@ -135,7 +135,7 @@
 					id: cate.id,
 					name: cate.name
 				}
-				location.href = './category.html?cate=' + JSON.stringify(ca) + '&subcate=' + JSON.stringify(subcate);
+				location.href = './category.html?cate=' + btoa(JSON.stringify(ca)) + '&subcate=' + btoa(JSON.stringify(subcate));
 			},
 			search(){
 				if(!this.searchKey) return;

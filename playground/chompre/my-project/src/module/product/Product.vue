@@ -278,7 +278,7 @@
 			},
 			entryPath(){
 				let ref = getParameterByName('ref');
-				return ref ? JSON.parse(atob(ref)) : [];
+				return ref ? JSON.parse(decodeURIComponent(atob(ref))) : [];
 			}
 		},
 		mounted(){
