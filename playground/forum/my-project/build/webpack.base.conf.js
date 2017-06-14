@@ -78,6 +78,9 @@ module.exports = {
       }
     ]
   },
+  externals: {
+    'webim': 'WebIM'
+  },
   plugins:[]
 }
 

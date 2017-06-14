@@ -5,7 +5,6 @@
  * In this way , others won't be influenced by this config while git pull.
  *
  */
-var WebIM = {};
 WebIM.config = {
     /*
      * XMPP server
@@ -33,7 +32,7 @@ WebIM.config = {
     /*
      * Set to auto sign-in
      */
-    isAutoLogin: false,
+    isAutoLogin: true,
     /**
      * Whether to use window.doQuery()
      * @parameter {Boolean} true or false
