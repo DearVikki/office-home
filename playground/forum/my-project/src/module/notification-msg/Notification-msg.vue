@@ -55,13 +55,14 @@
 					</div>
 				</div>
 			</div>
-			<div id="msg_footer_container" :class="{focus:true}">
-				<div class="input-box c-txt2">
-					<div ref="input" contenteditable="true" @focus="focusInput" @blur="focus=false" @input="inputWords"></div>
-				</div>
-				<div class="send c-txt2"
-				:class="{disabled:!txt}">发送</div>
+			
+		</div>
+		<div id="msg_footer_container" :class="{focus:true}" ref="footer">
+			<div class="input-box c-txt2">
+				<div ref="input" contenteditable="true" @focus="focusInput" @blur="focus=false" @input="inputWords"></div>
 			</div>
+			<div class="send c-txt2"
+			:class="{disabled:!txt}">发送</div>
 		</div>
 	</div>
 </template>
@@ -76,7 +77,7 @@
 				img2:img2,
 				txt:'',
 				height:'',
-				test: false,
+				test: true,
 				focus:false,
 				top:''
 			}
@@ -88,11 +89,20 @@
 			focusInput(){
 				// document.getElementById('msg_footer_container').style.position = 'absolute';
 				// document.getElementById('msg_footer_container').style.top = document.body.scrollTop + 'px';
-				document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
+				
+				// document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
+				// setTimeout(()=>{
+				// 	alert(window.innerHeight)
+				// },2000)
 			}
 		},
 		mounted(){
-			document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
+			// document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
+			// alert(window.innerHeight)
+			this.$refs.footer.style.top = window.innerHeight - this.$refs.footer.getBoundingClientRect().height + 'px';
+			window.onresize = () => {
+				// alert(window.innerHeight)
+			}
 		}
 	}
 </script>
@@ -172,18 +182,12 @@
 		}
 	}
 	#msg_footer_container{
-		position: fixed;
+		position: absolute;
 		left: 0;
-		bottom: 0;
 		width: 100%;
 		padding:0.29rem 0.16rem 0.3rem .4rem;
 		border-top:1px solid #d3d3d3;
 		background: #f7f7f7;
-		&.focus{
-			position:absolute;
-			bottom:0;
-			left: 0;
-		}
 		.input-box{
 			width:7.87rem;
 			min-height: 0.77rem;
@@ -222,5 +226,7 @@
 			}
 		}
 	}
-	
+	#a_page_container{
+
+	}
 </style>

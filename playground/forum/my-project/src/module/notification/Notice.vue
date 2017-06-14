@@ -51,33 +51,13 @@
 			        // 如果isAutoLogin设置为false，那么必须手动设置上线，否则无法收消息
 			        // 手动上线指的是调用conn.setPresence(); 如果conn初始化时已将isAutoLogin设置为true
 			        // 则无需调用conn.setPresence();  
-			        console.log('已连接')          
+			        console.log('已连接')
+			        conn.setPresence();          
 			    },  
 			    onClosed: function ( message ) {},         //连接关闭回调
-			    onTextMessage: function ( message ) {},    //收到文本消息
-			    onEmojiMessage: function ( message ) {},   //收到表情消息
-			    onPictureMessage: function ( message ) {}, //收到图片消息
-			    onCmdMessage: function ( message ) {},     //收到命令消息
-			    onAudioMessage: function ( message ) {},   //收到音频消息
-			    onLocationMessage: function ( message ) {},//收到位置消息
-			    onFileMessage: function ( message ) {},    //收到文件消息
-			    onVideoMessage: function (message) {
-			        var node = document.getElementById('privateVideo');
-			        var option = {
-			            url: message.url,
-			            headers: {
-			              'Accept': 'audio/mp4'
-			            },
-			            onFileDownloadComplete: function (response) {
-			                var objectURL = WebIM.utils.parseDownloadResponse.call(conn, response);
-			                node.src = objectURL;
-			            },
-			            onFileDownloadError: function () {
-			                console.log('File down load error.')
-			            }
-			        };
-			        WebIM.utils.download.call(conn, option);
-			    },   //收到视频消息
+			    onTextMessage: function ( message ) {
+			    	console.log(message)
+			    },    //收到文本消息
 			    onPresence: function ( message ) {},       //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
 			    onRoster: function ( message ) {},         //处理好友申请
 			    onInviteMessage: function ( message ) {},  //处理群组邀请
