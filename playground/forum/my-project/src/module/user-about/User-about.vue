@@ -2,27 +2,35 @@
 	<div>
 		<input type="file" name="" @change="changeFile" ref="file">
 		<button @click="showPic">Show Pic</button>
+		<canvas></canvas>
 		<img :src="src">
 	</div>
 </template>
 <script>
 	import compressImg from '../../assets/js/compressImg.js'
+	import Base64 from 'js-base64'
 	export default{
 		name:'about',
 		data(){
 			return{
 				file: [],
-				src: ''
+				src: '',
+				base64: ''
 			}
+		},
+		mounted(){
+			this.base64 = Base64.Base64;
 		},
 		methods:{
 			changeFile(){
 				var file = this.$refs.file.files[0];
+				console.log('initial size:'+file.size)
 				var src = window.URL.createObjectURL(file);
 				var img = new Image();
 				img.src = src;
 				img.onload = () => {
-					file = compressImg(img, file.type);
+					file = compressImg(img, file.type, this.base64);
+					console.log('after compressed:'+file.size)
 					this.file.push(file);
 				}
 			},

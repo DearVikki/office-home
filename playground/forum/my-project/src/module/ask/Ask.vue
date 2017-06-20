@@ -151,6 +151,7 @@
 				img.src = src;
 				img.onload = () => {
 					file = compressImg(img, file.type);
+					alert(file.size)
 					this.files.push(file);
 				}
 			},
@@ -200,7 +201,7 @@
 				return true;
 			},
 			post(){
-				if(!this.allCheck()) return;
+				if(!this.allCheck() || this.uploading) return;
 				this.uploading = true;
 				let fm = new FormData();
 				this.files.forEach((f)=>{

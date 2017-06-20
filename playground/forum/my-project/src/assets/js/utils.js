@@ -25,10 +25,11 @@ export function utcToDate(timestamp) {
         h = new Date(timestamp).getHours(),
         mm = new Date(timestamp).getMinutes();
     mm = mm >= 10 ? mm : '0'+mm;
-    if(timestamp - today < 0)
-        return y+'年'+m+'月'+d+'日';
-    else
-        return h+':'+mm;
+    let difftime = timestamp - today;
+    if (difftime > 0) return h+':'+mm;
+    else if(difftime >= -1000*60*60*24) return '昨天';
+    else if(difftime >= -2*1000*60*60*24) return '前天';
+    else return y+'年'+m+'月'+d+'日';
 }
 
 // myalert
