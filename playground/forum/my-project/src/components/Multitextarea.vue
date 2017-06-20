@@ -1,6 +1,7 @@
 <template>
 	<div id="multiinput_container" @click.stop>
-		<textarea ref="textarea" class="c-txt2" v-model="txt" @input="textInput">
+		<textarea ref="textarea" class="c-txt2" v-model="txt" @input="textInput"
+		@focus="$emit('sizeChange')">
 		</textarea>
 		<div class="send c-txt2"
 		:class="{disabled:!txt}"
@@ -28,9 +29,7 @@
 </script>
 <style lang='less' scoped>
 	#multiinput_container{
-		position: fixed;
-		left: 0;
-		bottom: 0;
+		overflow: hidden;
 		width: 100%;
 		padding:0.29rem 0.16rem 0.3rem .4rem;
 		border-top:1px solid #d3d3d3;

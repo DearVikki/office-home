@@ -1,72 +1,37 @@
 <template>
 	<div>
 		<div id="msg_body_container">
-			<div class="msg-time">2-20 21:20</div>
-			<!-- from他人 -->
-			<div class="msg-item type1">
-				<div class="msg-item-inner">
-					<img class="msg-head" :src="img1">
-					<div class="msg-content c-txt2">曾经沧海难为水，除去巫山不是云</div>
-				</div>
-			</div>
-			<!-- from自己 -->
-			<div class="msg-item type0">
-				<div class="msg-item-inner">
-					<div class="msg-content c-txt2">喔{{height}}</div>
-					<img class="msg-head" :src="img2">
-				</div>
-			</div>
-			<button @click="test=!test">打开更多</button>
-			<div v-show="test">
-				<div class="msg-item type0">
+			<!-- <div class="msg-time">2-20 21:20</div> -->
+			<div v-for="msg in msgs">
+				<!-- 他人 -->
+				<div v-if="msg.type=='to'" class="msg-item type1">
 					<div class="msg-item-inner">
-						<div class="msg-content c-txt2">喔</div>
-						<img class="msg-head" :src="img2">
+						<img class="msg-head" :src="to.head">
+						<div class="msg-content c-txt2">{{msg.content}}</div>
 					</div>
 				</div>
-				<div class="msg-item type0">
+				<!-- 自己 -->
+				<div v-if="msg.type=='from'" class="msg-item type0">
 					<div class="msg-item-inner">
-						<div class="msg-content c-txt2">喔我要说好多话说好多话说好多话说好多话</div>
-						<img class="msg-head" :src="img2">
-					</div>
-				</div>
-				<div class="msg-item type0">
-					<div class="msg-item-inner">
-						<div class="msg-content c-txt2">喔</div>
-						<img class="msg-head" :src="img2">
-					</div>
-				</div>
-				<div class="msg-item type0">
-					<div class="msg-item-inner">
-						<div class="msg-content c-txt2">喔今天天气不错耶天气不错耶天气不错耶天气不错耶天气不错耶</div>
-						<img class="msg-head" :src="img2">
-					</div>
-				</div>
-				<div class="msg-item type0">
-					<div class="msg-item-inner">
-						<div class="msg-content c-txt2">喔今天天气不错耶天气不错耶天气不错耶天气不错耶天气不错耶</div>
-						<img class="msg-head" :src="img2">
-					</div>
-				</div>
-				<div class="msg-item type0">
-					<div class="msg-item-inner">
-						<div class="msg-content c-txt2">喔</div>
-						<img class="msg-head" :src="img2">
+						<div class="msg-content c-txt2">{{msg.content}}</div>
+						<img class="msg-head" :src="from.head">
 					</div>
 				</div>
 			</div>
-			
 		</div>
-		<div id="msg_footer_container" :class="{focus:true}" ref="footer">
+		<div id="msg_footer_container" ref="footer">
 			<div class="input-box c-txt2">
-				<div ref="input" contenteditable="true" @focus="focusInput" @blur="focus=false" @input="inputWords"></div>
+				<div ref="input" contenteditable="true" @focus="sizeChange" @blur="sizeChange" @input="inputWords"></div>
 			</div>
 			<div class="send c-txt2"
-			:class="{disabled:!txt}">发送</div>
+			:class="{disabled:!txt}"
+			@click="send">发送</div>
 		</div>
 	</div>
 </template>
 <script>
+	import WebIM from 'webim';
+	import {getParameterByName} from '../../assets/js/utils.js'
 	import img1 from '../../assets/img/index/icon_personal_pressed.png'
 	import img2 from '../../assets/img/index/icon_personal.png'
 	export default{
@@ -76,33 +41,133 @@
 				img1:img1,
 				img2:img2,
 				txt:'',
+				test: false,
 				height:'',
-				test: true,
-				focus:false,
-				top:''
+				to: {},
+				from: {},
+				fromId:'',
+				msgs: [],
+				conn: ''
 			}
 		},
 		methods:{
+			resizeDivs(){
+				let footerHeight = this.$refs.footer.getBoundingClientRect().height;
+				document.querySelector('#msg_body_container').style.height = window.innerHeight  - footerHeight + 'px';
+				this.$refs.footer.style.top = window.innerHeight - footerHeight + 'px';
+			},
 			inputWords(){
 				this.txt = this.$refs.input.textContent;
 			},
-			focusInput(){
-				// document.getElementById('msg_footer_container').style.position = 'absolute';
-				// document.getElementById('msg_footer_container').style.top = document.body.scrollTop + 'px';
-				
-				// document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
-				// setTimeout(()=>{
-				// 	alert(window.innerHeight)
-				// },2000)
+			sizeChange(){
+				setTimeout(()=>{
+					this.resizeDivs();
+				},400)
+			},
+			send(){
+				var id = this.conn.getUniqueId();
+				var msg = new WebIM.message('txt', id);
+				var self = this;
+				msg.set({
+				    msg: self.txt,
+				    to: self.to.user_id,
+				    roomType: false,
+				    success: (id, serverMsgId) => {
+				        console.log('send private text Success');
+				        self.msgs.push({content:self.txt, type:'from'});
+				        // 添加环信私信纪录
+				        this.$http.post('',{
+				        	name:'xwlt.pc.hxMsgAdd',
+				        	msg_id: serverMsgId,
+				        	msg: self.txt,
+				        	from: self.fromId,
+				        	to: self.to.user_id,
+				        	timestamp: Date.now().toString().slice(0,-3)
+				        }).then((response) => {
+				        	self.txt = '';
+				        	this.$refs.input.textContent = '';
+				        })
+				    }
+				});
+				msg.body.chatType = 'singleChat';
+				this.conn.send(msg.body);
 			}
 		},
 		mounted(){
-			// document.querySelector('#msg_body_container').style.minHeight = window.innerHeight + 'px';
-			// alert(window.innerHeight)
-			this.$refs.footer.style.top = window.innerHeight - this.$refs.footer.getBoundingClientRect().height + 'px';
+			this.resizeDivs();
 			window.onresize = () => {
 				// alert(window.innerHeight)
+				// Mission Failed: ios下弹出keyboard并不会触发resize事件
 			}
+			this.to = JSON.parse(decodeURIComponent(atob(getParameterByName('ref'))));
+			document.title = this.to.username;
+			this.$http.post('',{
+				name:'xwlt.pc.PersonalInfo'
+			}).then((response)=>{
+				this.from = response.body.data.userInfo;
+				this.fromId = response.body.data.user_id;
+				var self = this;
+				var conn = new WebIM.connection({
+				    https: WebIM.config.https,
+				    url: WebIM.config.xmppURL,
+				    isAutoLogin: WebIM.config.isAutoLogin,
+				    isMultiLoginSessions: WebIM.config.isMultiLoginSessions
+				})
+				conn.listen({
+				    onOpened: function ( message ) {
+				        console.log('已连接')
+				        conn.setPresence();
+				    },
+				    onClosed: function ( message ) {},
+				    onTextMessage: function ( message ) {
+				    	console.log(message);
+				    	if(message.from == self.to.user_id) {
+				    		self.msgs.push({content:message.data, type:'to'});
+				    	}
+				    },    //收到文本消息
+				    onPresence: function ( message ) {},       //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
+				    onRoster: function ( message ) {},         //处理好友申请
+				    onInviteMessage: function ( message ) {},  //处理群组邀请
+				    onOnline: function () {},                  //本机网络连接成功
+				    onOffline: function () {},                 //本机网络掉线
+				    onError: function ( message ) {},          //失败回调
+				    onBlacklistUpdate: function (list) {       //黑名单变动
+				        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+				        console.log(list);
+				    }
+				})
+				var options = {
+				  apiUrl: WebIM.config.apiURL,
+				  user: this.fromId,
+				  pwd: '123456',
+				  appKey: WebIM.config.appkey
+				};
+				conn.open(options);
+				this.conn = conn;
+
+				// 拉取历史纪录
+				this.$http.post('',{
+					name: 'xwlt.pc.HxHistoryMsgList',
+					userid: this.to.user_id,
+					page:1
+				}).then((response) => {
+					var list = response.body.data.list;
+					list.forEach((l)=>{
+						// 因为要先取得fromId 所以要放在这里
+						if(l.from == this.fromId) l.type = 'from';
+						else l.type = 'to';
+						l.content = l.msg;
+					})
+					this.msgs = list;
+				})
+			})
+			// 更新环信私信阅读状态
+			this.$http.post('',{
+				name: 'xwlt.pc.UpdateHxMsg',
+				userid: this.to.user_id
+			}).then((response) => {
+
+			})
 		}
 	}
 </script>
@@ -121,6 +186,7 @@
 	#msg_body_container{
 		padding: .4rem;
 		position: relative;
+		overflow-y: scroll;
 		.msg-time{
 			font-size:0.32rem;
 			color:#999;

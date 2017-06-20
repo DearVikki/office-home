@@ -33,6 +33,11 @@
 			}
 		},
 		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.PersonalInfo'
+			}).then((response) => {
+				localStorage.setItem('userId', response.body.data.user_id);
+			})
 			// this.$http.post('selectSession').then((response) => {
 			// 	console.log(response.body.user_id)
 			// 	if(!response.body.user_id)  window.location.href="http://www.bmwenwo.com/index.php/PcApi/login";

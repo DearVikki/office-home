@@ -9,7 +9,9 @@
 							{{s.title}}
 						</div>
 						<div class="s-inner-bottom">
-							<div class="c-yellow-btn" :class="{disabled:!Number(s.exchange)}" @click="exchangeStep1(s.goods_id,s.content)">兑换</div>
+							<div class="c-yellow-btn"
+							:class="{disabled:!Number(s.exchange)}"
+							@click="exchangeStep1(s.goods_id,s.content)">兑换</div>
 						</div>
 					</div>
 				</div>
@@ -116,15 +118,16 @@
 			})
 		},
 		methods:{
-			exchangeStep1(id,content){
+			exchangeStep1(s){
+				if(!Number(s.exchange)) return;
 				this.$http.post('',{
 					name:'xwlt.pc.GetShoppingMode',
-					goods_id: id
+					goods_id: s.goods_id
 				}).then((response)=>{
 					let mode = response.body.data.Mode;
 					mode.integral = Number(mode.integral);
 					mode.money = Number(mode.money);
-					mode.content = content;
+					mode.content = s.content;
 					this.exchangeMethod = mode;
 					this.pop.show = true;
 				})
@@ -232,7 +235,6 @@
 					img{
 						width:100%;
 						height:7.8rem;
-						background:pink;
 					}
 				}
 				.s-inner-bottom{

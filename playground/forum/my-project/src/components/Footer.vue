@@ -7,6 +7,8 @@
 			<a class="item" v-for="(item,index) in logos"
 			:href="item.href"
 			:style="{backgroundImage: type === index ? 'url('+item.labelActive+')' :'url('+item.label+')'}">
+				<span class="unread-num small"
+				v-if="index==1 && unread"></span>
 				<span class="txt">{{item.txt}}</span>
 			</a>
 		</div>
@@ -24,6 +26,17 @@
 	export default{
 		name:'footer',
 		mounted(){
+			// 通知红点
+			this.$http.post('',{
+				name:'xwlt.pc.UserNoticeTime'
+			}).then((response) => {
+				if(response.body.data.status == 0) return;
+				this.$http.post('',{
+					name:'xwlt.pc.UserMsgTime'
+				}).then((response) => {
+					if(response.body.data.MsgStatus == 1) this.unread = true;
+				})
+			})
 		},
 		data(){
 			return{
@@ -53,7 +66,8 @@
 					labelActive:icon_personal_pressed,
 					txt:'我的',
 					href:'./user.html'
-				}]
+				}],
+				unread: false
 			}
 		},
 		// type:0首页 1通知 2问我 3商城 4我的
@@ -121,8 +135,12 @@
 				background-size: 100%;
 				background-repeat: no-repeat;
 				padding-top: 0.73rem;
+				position: relative;
 			}
 		}
-		
+		.unread-num{
+			left: .55rem;
+			top: .05rem;
+		}
 	}
 </style>

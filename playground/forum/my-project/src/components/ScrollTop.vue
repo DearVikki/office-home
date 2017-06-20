@@ -1,6 +1,6 @@
 <template>
 	<transition name="fade">
-		<div id="scroll_top" @click="scrollTop" v-show="show">♥</div>
+		<div id="scroll_top" @click="scrollTop" v-show="show"></div>
 	</transition>
 </template>
 <script>
@@ -40,5 +40,8 @@
 		bottom: 2rem;
 		font-size: 1.5rem;
 		color: #F9C13A;
+		background: url(../assets/img/index/goods_btn_to@2x.png) no-repeat;
+		width: 1.2rem;
+		height: 1.2rem;
 	}
 </style>

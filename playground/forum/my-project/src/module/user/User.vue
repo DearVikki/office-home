@@ -78,6 +78,7 @@
 				},
 				item3:{
 					txt:'在线联系客服',
+					path:'http://wpa.qq.com/msgrd?v=3&uin=&site=1726492369&menu=yes',
 					img:customservice
 				}
 			}

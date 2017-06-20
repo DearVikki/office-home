@@ -1,12 +1,16 @@
 <template>
-	<div style="margin-bottom:2rem">
+<div>
+	<div id="question_main" ref="main">
 		<questionDetailQ :question="question" :type="question_type"
 		@answerQuestion="answerQuestion"
-		@changeQuestionType="changeQuestionType"></questionDetailQ>
+		@changeQuestionType="changeQuestionType"
+		@popShow="popShow"></questionDetailQ>
 		<questionDetailA v-for="answer in answers"
-		:answer="answer" :type=answer.type
+		:answer="answer"
+		:type=answer.type
 		@askMore="askMore"
-		@adoptAnswer="adoptAnswer"></questionDetailA>
+		@adoptAnswer="adoptAnswer"
+		@popShow="popShow"></questionDetailA>
 		<!-- 缺省页 -->
 		<div class="c-empty" v-if="answers.length === 0">
 			<p>还没有人回答过这个问题</p>
@@ -15,27 +19,32 @@
 		<!-- 到底部 -->
 		<div class="c-end" v-if="loadAll && answers.length">都被你看完拉吼!</div>
 		<!-- 弹出打字框的透明蒙版 -->
-		<div v-if="inputStatus || textareaStatus" @click="inputStatus = textareaStatus = false"
+		<div v-if="inputStatus || textareaStatus" @click="cancelComment"
 		id="trans_mask"></div>
-		<transition name="custom-classes-transition"
-		enter-active-class="animated slideInUp"
-		leave-active-class="animated slideOutDown">
-			<multiinput v-if="inputStatus" @send="newComment"></multiinput>
-		</transition>
-		<transition name="custom-classes-transition"
-		enter-active-class="animated slideInUp"
-		leave-active-class="animated slideOutDown">
-			<multitextarea v-if="textareaStatus" @send="newAnswer"></multitextarea>
-		</transition>
 		<!-- scrollTop -->
 		<scrollTop></scrollTop>
+		<userpop :userpop="userpop"></userpop>
 	</div>
+	<div id="question_footer" ref="footer">
+		<!-- <transition name="custom-classes-transition"
+		enter-active-class="animated slideInUp"
+		leave-active-class="animated slideOutDown"> -->
+			<multiinput v-if="inputStatus" @send="newComment" @sizeChange="sizeChange"></multiinput>
+		<!-- </transition>
+		<transition name="custom-classes-transition"
+		enter-active-class="animated slideInUp"
+		leave-active-class="animated slideOutDown"> -->
+			<multitextarea v-if="textareaStatus" @send="newAnswer" @sizeChange="sizeChange"></multitextarea>
+		<!-- </transition> -->
+	</div>
+</div>
 </template>
 <script>
 	import myfooter from '../../components/Footer.vue'
 	import multiinput from '../../components/multiinput.vue';
 	import multitextarea from '../../components/multitextarea.vue';
 	import scrollTop from '../../components/scrollTop.vue'
+	import userpop from '../../components/UserPop.vue'
 	import questionDetailQ from './question-detail-q.vue'
 	import questionDetailA from './question-detail-a.vue'
 	import {getParameterByName} from '../../assets/js/utils.js'
@@ -49,45 +58,32 @@
 				question_id:'',
 				question_type:1,
 				page:1,
-				question:{
-					// "question_id":"2",
-		   //          "type_id":"4",
-		   //          "type_label_id":"0",
-		   //          "reward_type":"money",
-		   //          "integral":"0",
-		   //          "money":"10.00",
-		   //          "question":"帮忙送个外卖",
-		   //          "question_describe":
-		   //          "地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙地址帮忙送个外卖帮忙送个外卖帮帮忙",
-		   //          "path":null,
-		   //          "userid":"1",
-		   //          "addtime":"1476076803",
-		   //          "browse_num":"0",
-		   //          "is_task":"1",
-		   //          "task_status":"1",
-		   //          "endtime":"0",
-		   //          "status":"0",
-		   //          "solvetime":"0",
-		   //          "hottime":"1488441415",
-		   //          "hot":"10",
-		   //          "head":"http:\/\/wx.qlogo.cn\/",
-		   //          "username":"狐狸的味道",
-		   //          "replynum":0,
-		   //          "praisenum":0
-				},
+				question:{},
 				answers:[],
 				loadAll:false,
 				activeAnswer:'',
 				activeComment:'',
-				userInfo:''
+				userInfo:'',
+				userpop:''
 			}
 		},
 		mounted(){
 			this.getData();
 			loadMore.config.cb = this.getData;
 			loadMore.open();
+			this.resizeDivs();
 		},
 		methods:{
+			resizeDivs(){
+				let footerHeight = this.$refs.footer.getBoundingClientRect().height;
+				this.$refs.main.style.height = window.innerHeight  - footerHeight + 'px';
+				this.$refs.footer.style.top = window.innerHeight - footerHeight + 'px';
+			},
+			sizeChange(){
+				// setTimeout(()=>{
+				// 	this.resizeDivs();
+				// }, 300)
+			},
 			getData(){
 				this.$http.post('',{
 					name:'xwlt.pc.PersonalInfo'
@@ -152,20 +148,28 @@
 					loadMore.loading = false;
 				})
 			},
+			// 点击新增二级回复
 			askMore(answer,comment){
 				this.inputStatus = true;
+				this.$nextTick(() => {
+					this.resizeDivs();
+				})
 				this.activeAnswer = answer;
 				this.activeComment = comment;
 			},
 			// 新增二级回复
 			newComment(txt){
 				this.inputStatus = false;
+				setTimeout(() => {
+					this.resizeDivs();
+				}, 100)
 				this.$http.post('',{
 					name:'xwlt.pc.questionReply',
 					questionid:this.question_id,
-					b_user_id:this.activeComment.h_user_id,
+					b_user_id:this.activeComment.h_user_id||this.activeAnswer.h_user_id,
 					top_reply_id:this.activeAnswer.reply_id,
-					reply_id:this.activeComment.reply_id,
+					// 二级回复 || 追问
+					reply_id:this.activeComment.reply_id ||this.activeAnswer.reply_id,
 					content: txt
 				}).then((response)=>{
 					if(!response.loveU) return;
@@ -173,12 +177,19 @@
 					myAlert.small('回复成功');
 				})
 			},
+			// 点击新增一级回答
 			answerQuestion(){
 				this.textareaStatus = true;
+				this.$nextTick(() => {
+					this.resizeDivs();
+				})
 			},
 			// 新增一级回答
 			newAnswer(txt){
 				this.textareaStatus = false;
+				this.$nextTick(() => {
+					this.resizeDivs();
+				})
 				this.$http.post('',{
 					name:'xwlt.pc.questionReply',
 					questionid:this.question_id,
@@ -196,6 +207,13 @@
 					myAlert.small('回答成功');
 				})
 			},
+			// 点击蒙版取消回答
+			cancelComment(){
+				this.inputStatus = this.textareaStatus = false;
+				this.$nextTick(() => {
+					this.resizeDivs();
+				})
+			},
 			// 作者采纳回答
 			adoptAnswer(answer){
 				this.$http.post('',{
@@ -211,17 +229,36 @@
 			// 改变question type
 			changeQuestionType(type){
 				this.question_type = type;
+			},
+			// 用户小头像弹框
+			popShow(id){
+				this.$http.post('',{
+					name:'xwlt.pc.UserInfo',
+					userid:id
+				}).then((response)=>{
+					this.userpop = response.body.data.userinfo;
+					this.userpop.show = true;
+				})
 			}
 		},
-		components:{myfooter,multiinput,multitextarea,scrollTop,questionDetailQ,questionDetailA}
+		components:{myfooter,multiinput,multitextarea,scrollTop,questionDetailQ,questionDetailA, userpop}
 	}
 </script>
 <style lang='less' scoped>
+	#question_main{
+		padding-bottom:2rem;
+		overflow-y: scroll;
+	}
 	#trans_mask{
 		width: 100%;
 		height: 100%;
 		position: fixed;
 		top: 0;
 		left: 0;
+	}
+	#question_footer{
+		position: absolute;
+		left: 0;
+		width: 100%;
 	}
 </style>

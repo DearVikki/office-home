@@ -2,10 +2,8 @@
 	<div id="question_detail_q_container">
 		<div id="q_header">
 			<div id="q_header_left" class="c-head">
-				<img :src="question.head" @click="popShow(question.userid)">
+				<img :src="question.head" @click="$emit('popShow', question.userid)">
 				<span class="c-txt2">{{question.username}}</span>
-				<!-- 私信弹窗 -->
-				<userpop :userpop="userpop" :userpopshow="userpopshow"></userpop>
 			</div>
 			<div id="q_header_right" class="c-praise" :class="{active:Number(question.is_Praise)}"
 			@click="praise">{{question.praisenum}}</div>

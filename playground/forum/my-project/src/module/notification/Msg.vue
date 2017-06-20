@@ -2,41 +2,65 @@
 	<div id="msg_container">
 		<Swipeout>
 			<SwipeoutItem :right-menu-width="210" :sensitivity="15"
-			v-for="msg in msgs">
+			v-for="msg in msgs"
+			>
 				<div slot="right-menu">
 					<swipeoutButton  type="primary" :width="remToPx">删除</swipeoutButton>
 				</div>
-				<a href="./notification-msg.html" class="swipeout-content-inner" slot="content">
-					<img :src="msg.img">
-					<div class="content-info">
-						<p class="c-txt6 ellipsis">{{msg.name}}</p>
-						<p class="c-txt3 ellipsis">{{msg.content}}</p>
+				<a class="swipeout-content-inner"
+					slot="content"
+					:href="msg.href">
+					<div class="unread-num" v-if="Number(msg.LastMsgCount.num)">
+						{{msg.LastMsgCount.num}}
 					</div>
-					<div class="content-time">{{msg.time}}</div>
+					<img :src="msg.head">
+					<div class="content-info">
+						<p class="c-txt6 ellipsis">{{msg.username}}</p>
+						<p class="c-txt3 ellipsis" v-if="msg.LastMsg">{{msg.LastMsg.msg}}</p>
+					</div>
+					<div class="content-time" v-if="msg.LastMsg">{{msg.time}}</div>
 				</a>
 			</SwipeoutItem>
 		</Swipeout>
+		<div class="c-empty" v-if="!msgs.length">
+			<p>暂无新私信喔</p>
+		</div>
 	</div>
 </template>
 <script>
 	import img from '../../assets/img/index/icon_personal_pressed.png'
 	import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
+	import { utcToDate } from '../../assets/js/utils.js'
 	export default{
 		name:'msg',
 		data(){
 			return{
-				msgs:[{
-					img:img,
-					name:'楼二狗',
-					content:'你好，啦啦啦啦',
-					time:'17:32'
-				}]
+				msgs:[]
 			}
+		},
+		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.HxUserList'
+			}).then((response) => {
+				let msgs = [];
+				Object.values(response.body.data).forEach((e)=>{
+					if(e.userInfo.LastMsg)
+						e.userInfo.time = utcToDate(e.userInfo.LastMsg.timestamp);
+					e.userInfo.href = './notification-msg.html?ref='+ btoa(encodeURIComponent(JSON.stringify(e.userInfo)));
+					msgs.push(e.userInfo);
+				})
+				this.msgs = msgs;
+			})
 		},
 		computed:{
 			remToPx(){
 				let base = document.querySelector('html').style.fontSize.slice(0,-2);
 				return 1.95*base;
+			},
+			clickMsg(msg){
+				console.log(msg)
+				console.log( )
+				// location.href = './notification-msg.html?ref='+JSON.stringify(btoa(encodeURIComponent(msg)));
 			}
 		},
 		components:{Swipeout, SwipeoutItem, SwipeoutButton}
@@ -69,6 +93,10 @@
 </style>
 <style lang='less' scoped>
 	.swipeout-content-inner{
+		.unread-num{
+			left: 1.45rem;
+			top: .2rem;
+		}
 		img{
 			width:1.41rem;
 			height:1.41rem;

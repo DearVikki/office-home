@@ -14,10 +14,21 @@ export function getParameterByName(name, url) {
 //DateTransformer
 export function utcToDate(timestamp) {
     timestamp = Number(timestamp+'000');
+    // today指今天0点时间戳
+    let today = new Date().setDate(new Date().getDate());
+    today = new Date(today).setHours(0);
+    today = new Date(today).setMinutes(0);
+    today = new Date(today).setSeconds(0);
     let y = new Date(timestamp).getFullYear(),
         m = new Date(timestamp).getMonth()+1,
-        d = new Date(timestamp).getDate();
-    return y+'年'+m+'月'+d+'日';
+        d = new Date(timestamp).getDate(),
+        h = new Date(timestamp).getHours(),
+        mm = new Date(timestamp).getMinutes();
+    mm = mm >= 10 ? mm : '0'+mm;
+    if(timestamp - today < 0)
+        return y+'年'+m+'月'+d+'日';
+    else
+        return h+':'+mm;
 }
 
 // myalert

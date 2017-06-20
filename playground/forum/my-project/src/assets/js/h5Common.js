@@ -1,26 +1,26 @@
-// var xhr = new XMLHttpRequest();
-// xhr.open('post', 'http://www.bmwenwo.com/index.php/PcApi/selectSession', true);
-// xhr.withCredentials = true;
-// xhr.send();
-// xhr.onload = function(r){
-// 	// alert(JSON.parse(xhr.response).user_id)
-// 	if(!JSON.parse(xhr.response).user_id) {
-// 		window.location.href="http://www.bmwenwo.com/index.php/PcApi/login";
-// 	} else {
-// 		// 未认证用户跳到认证页
-// 		if(location.href.slice(-19) === 'authentication.html') return;
-// 		var xhr2 = new XMLHttpRequest();
-// 		xhr2.open('post', 'http://www.bmwenwo.com/index.php/PcApi', true);
-// 		xhr2.withCredentials = true;
-// 		xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-// 		xhr2.send("name=xwlt.pc.IsAuthentication");
-// 		xhr2.onreadystatechange = function() {//Call a function when the state changes.
-// 		    if(xhr2.readyState == 4 && xhr2.status == 200) {
-// 		        if(!Number(JSON.parse(xhr2.responseText).data.is_authentication)) location.href="./user-authentication.html";
-// 		    }
-// 		}
-// 	}
-// }
+var xhr = new XMLHttpRequest();
+xhr.open('post', 'http://www.bmwenwo.com/index.php/PcApi/selectSession', true);
+xhr.withCredentials = true;
+xhr.send();
+xhr.onload = function(r){
+	// alert(JSON.parse(xhr.response).user_id)
+	if(!JSON.parse(xhr.response).user_id) {
+		window.location.href="http://www.bmwenwo.com/index.php/PcApi/login";
+	} else {
+		// 未认证用户跳到认证页
+		if(location.href.slice(-19) === 'authentication.html') return;
+		var xhr2 = new XMLHttpRequest();
+		xhr2.open('post', 'http://www.bmwenwo.com/index.php/PcApi', true);
+		xhr2.withCredentials = true;
+		xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr2.send("name=xwlt.pc.IsAuthentication");
+		xhr2.onreadystatechange = function() {//Call a function when the state changes.
+		    if(xhr2.readyState == 4 && xhr2.status == 200) {
+		        if(!Number(JSON.parse(xhr2.responseText).data.is_authentication)) location.href="./user-authentication.html";
+		    }
+		}
+	}
+}
 
 var viewport = document.querySelector("meta[name=viewport]");
 var winWidths=window.innerWidth;

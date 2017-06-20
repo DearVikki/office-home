@@ -25,7 +25,8 @@ var vm = new common.Vue({
   		content:'私信'
   	}],
     initialtab:0,
-    iosVersion:10
+    iosVersion:10,
+    unread: false
   },
   router:router,
   methods:{
@@ -52,6 +53,12 @@ var vm = new common.Vue({
       } else {
         document.title = '通知';
       }
+    // 获取私信红点
+    this.$http.post('',{
+      name:'xwlt.pc.UserMsgTime'
+    }).then((response) => {
+      if(response.body.data.MsgStatus == 1) this.unread = true;
+    })
   },
   components:{notice,msg,switchtab,myfooter}
 })

@@ -20,12 +20,13 @@
 					<span>获赞</span><span>{{userpop.PraiseNum}}</span>
 				</div>
 			</div>
-			<div class="btn">私信</div>
+			<div class="btn" @click="sendMail">私信</div>
 		</div>
 	</pop>
 </template>
 <script>
 	import pop from './Pop.vue'
+	import {myAlert} from '../assets/js/utils.js'
 	export default{
 		name:'userpop',
 		data(){
@@ -42,6 +43,18 @@
 		methods:{
 			popReset(){
 				this.userpop.show = false;
+			},
+			sendMail(){
+				if(localStorage.getItem('userId') == this.userpop.user_id) {
+					myAlert.small('不能给自己发私信喔');
+					return;
+				}
+				this.$http.post('', {
+					name: 'xwlt.pc.AddFriend',
+					userid: this.userpop.user_id
+				}).then((response) => {
+					location.href = './notification-msg.html?ref=' + btoa(encodeURIComponent(JSON.stringify(this.userpop)));
+				})
 			}
 		},
 		watch:{

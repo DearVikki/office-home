@@ -9,6 +9,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "tinify": "^1.5.0",
     "vue": "^2.2.1",
     "vue-router": "^2.2.0",
     "vuex": "^2.2.1",

@@ -17,7 +17,7 @@
 			</div>
 		</div>
 		<div class="answer-head c-head">
-			<img :src="answer.head" @click="popShow(answer.h_user_id)">
+			<img :src="answer.head" @click="$emit('popShow', answer.h_user_id)">
 			<span class="c-txt2">{{answer.username}}</span>
 		</div>
 		<div class="answer-content">
@@ -26,7 +26,7 @@
 			@click="isOpen = !isOpen">{{answerContent}}</div>
 			<div class="comment-main" v-if="answer.comment.length>0">
 				<div class="comment-item" v-for="c in commentContent"
-				@click="askMore(c)">
+				@click="askMoreToSb(c)">
 					<span class="c-name">{{c.name}}:</span>
 					<span class="c-content">{{c.content}}</span>
 				</div>
@@ -41,14 +41,12 @@
 			<div class="c-praise" :class="{active:answer.isPraised}"
 			@click="praise">{{answer.replyPraiseNum}}</div>
 		</div>
-		<userpop :userpop="userpop" :userpopshow="userpopshow"></userpop>
 	</div>
 </template>
 <script>
 	import {utcToDate} from '../../assets/js/utils.js';
 	import {myAlert} from '../../assets/js/utils.js';
 	import multiinput from '../../components/multiinput.vue';
-	import userpop from '../../components/UserPop.vue';
 	import 'animate.css';
 	export default{
 		name:'questionDetailA',
@@ -113,7 +111,12 @@
 					} else alert(response.body.msg);
 				})
 			},
-			askMore(comment){
+			askMore(){
+				// console.log(this.answer.comment) =》 该答案下所有评论数组
+				this.$emit('askMore',this.answer,this.answer.comment);
+			},
+			askMoreToSb(comment){
+				// console.log(comment) =》 该答案下当前点击的评论
 				this.$emit('askMore',this.answer,comment);
 			},
 			adoptAnswer(){
@@ -122,7 +125,7 @@
 		},
 		// type: 0无关人 1提问者自己且未采纳答案 2提问者自己且已采纳答案
 		props:['answer','type'],
-		components:{multiinput,userpop}
+		components:{multiinput}
 	}
 </script>
 <style lang='less' scoped>

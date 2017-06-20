@@ -33,7 +33,7 @@
 			</select>
 		</div>
 		<div class="c-line reward-container" v-show="reward_type==='integral'">积分悬赏 <span class="c-color">(当前积分:{{existingCredit}}分)</span>
-			<input placeholder="5(单位:分)" v-model="credit">
+			<input placeholder="(单位:分)" v-model="credit">
 		</div>
 		<div class="c-line reward-container" v-show="reward_type==='money'">金钱悬赏 <span class="c-color">(微信支付)</span>
 			<input placeholder="最低1元起(单位:元)" v-model="money">
@@ -44,7 +44,8 @@
 			v-model="questionDescibe"></textarea>
 		</div>
 		<div id="ask_img_container" class="c-line">
-			<input ref="file" type="file" accept="image/jpg,image/png"
+			<input type="file"
+			ref="file"
 			@change="fileChange">
 			<div class="img-holder" v-for="(img,i) in imgs">
 				<div class="delete" @click="deleteImg(i)">×</div>
@@ -54,12 +55,15 @@
 			v-show="imgs.length<2">+</div>
 			<span class="c-color">(最多可上传2张)</span>
 		</div>
-		<div class="c-big-btn" @click="post">发布</div>
+		<div class="c-big-btn"
+		:class="{disabled: uploading}"
+		@click="post">发布<span v-if="uploading">中..</span></div>
 	</div>
 </template>
 <script>
 	import {Group, Datetime} from 'vux';
 	import {getParameterByName, myAlert} from '../../assets/js/utils.js'
+	import compressImg from '../../assets/js/compressImg.js'
 	import pingpp from 'pingpp-js';
 	export default{
 		name:'ask',
@@ -87,7 +91,8 @@
 				question:'',
 				questionDescibe:'',
 				imgs:[],
-				files:[]
+				files:[],
+				uploading: false
 			}
 		},
 		mounted(){
@@ -109,7 +114,7 @@
 			this.$http.post('',{
 				name:'xwlt.pc.GetNowIntegral'
 			}).then((response)=>{
-				this.existingCredit = response.body.data.existing_integral;
+				this.existingCredit = Number(response.body.data.existing_integral);
 			})
 		},
 		methods:{
@@ -132,9 +137,22 @@
 			},
 			fileChange(){
 				var file = this.$refs.file.files[0];
-				var img = window.URL.createObjectURL(file);
-				this.imgs.push(img);
-				this.files.push(file);
+				if(!file.name.match(/.(jpg|jpeg|png|gif)$/i)){
+					myAlert.small('请选择图片文件!');
+					return;
+				}
+				if(file.size>337920) {
+					// myAlert.small('图片文件过大！');
+					// return;
+				}
+				var src = window.URL.createObjectURL(file);
+				this.imgs.push(src);
+				var img = new Image();
+				img.src = src;
+				img.onload = () => {
+					file = compressImg(img, file.type);
+					this.files.push(file);
+				}
 			},
 			deleteImg(i){
 				this.imgs.splice(i,1);
@@ -168,7 +186,8 @@
 						myAlert.small('别忘了悬赏积分喔');
 						return false;
 					}
-					else if(this.credit > this.existingCredit) {
+					else if(Number(this.credit) > Number(this.existingCredit)) {
+						alert('当前积分:'+this.existingCredit+'; 积分悬赏:'+this.credit)
 						console.log('当前积分:'+this.existingCredit+'; 积分悬赏:'+this.credit);
 						myAlert.small('哎呀 积分不足喔');
 						return false;
@@ -182,6 +201,7 @@
 			},
 			post(){
 				if(!this.allCheck()) return;
+				this.uploading = true;
 				let fm = new FormData();
 				this.files.forEach((f)=>{
 					fm.append('img[]',f);
@@ -214,7 +234,10 @@
 								}
 							})
 						} else this.publishSuccess();
-					} else myAlert.small(response.body.msg);
+					} else {
+						this.uploading = false;
+						myAlert.small(response.body.msg);
+					}
 				})
 			},
 			createPayment(charge){
