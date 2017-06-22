@@ -62,30 +62,21 @@ export default function(img, type, base64){
         // var text = atob(ndata2)
         var text = base64.decode(ndata2);
         // console.log(text)
-        // alert(text)
+        alert(text)
         var buffer = new ArrayBuffer(text.length);
         var ubuffer = new Uint8Array(buffer);
         // console.log(ubuffer)
-        // alert(JSON.stringify(ubuffer))
+        alert(JSON.stringify(ubuffer))
 
         for (var i = 0; i < text.length; i++) {
             ubuffer[i] = text.charCodeAt(i);
         }
         // console.log(ubuffer)
         // alert(JSON.stringify(ubuffer))
-
-        // var Builder = window.WebKitBlobBuilder || window.MozBlobBuilder;
         var blob;
 
-        // if (Builder) {
-        //     var builder = new Builder();
-        //     builder.append(buffer);
-        //     blob = builder.getBlob(type);
-        // } else {
-            blob = new Blob([buffer], {type: type});
-            // alert(JSON.stringify(blob))
-        // }
-        // console.log(blob)
+        blob = new Blob([buffer], {type: type});
+        // alert(JSON.stringify(blob))
         var file = new File([blob], "name.jpg")
         return file;
 }
