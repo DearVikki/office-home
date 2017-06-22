@@ -24,13 +24,13 @@
 		methods:{
 			changeFile(){
 				var file = this.$refs.file.files[0];
-				console.log('initial size:'+file.size)
+				console.log('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
 				var src = window.URL.createObjectURL(file);
 				var img = new Image();
 				img.src = src;
 				img.onload = () => {
 					file = compressImg(img, file.type, this.base64);
-					console.log('after compressed:'+file.size)
+					console.log('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size)
 					this.file.push(file);
 				}
 			},

@@ -65,6 +65,7 @@
 	import {getParameterByName, myAlert} from '../../assets/js/utils.js'
 	import compressImg from '../../assets/js/compressImg.js'
 	import pingpp from 'pingpp-js';
+	import Base64 from 'js-base64'
 	export default{
 		name:'ask',
 		data(){
@@ -145,13 +146,14 @@
 					// myAlert.small('图片文件过大！');
 					// return;
 				}
+				console.log('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
 				var src = window.URL.createObjectURL(file);
 				this.imgs.push(src);
 				var img = new Image();
 				img.src = src;
 				img.onload = () => {
-					file = compressImg(img, file.type);
-					alert(file.size)
+					// file = compressImg(img, file.type, Base64.Base64);
+					console.log('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size)
 					this.files.push(file);
 				}
 			},
@@ -205,6 +207,7 @@
 				this.uploading = true;
 				let fm = new FormData();
 				this.files.forEach((f)=>{
+					console.log('f:'+f.name)
 					fm.append('img[]',f);
 				})
 				fm.append('name','xwlt.pc.AddQuestion');
