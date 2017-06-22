@@ -1,6 +1,6 @@
 export default function(img, type, base64){
-	// var canvas = document.createElement("canvas"),
-	var canvas = document.querySelector("canvas"),
+	var canvas = document.createElement("canvas"),
+	// var canvas = document.querySelector("canvas"),
 		ctx = canvas.getContext('2d');
 	var tcanvas = document.createElement('canvas'),
 		tctx = tcanvas.getContext('2d');
@@ -19,11 +19,9 @@ export default function(img, type, base64){
 		// } else ratio = 1;
 		// 强制压缩图片为手机大小先
 		if((ratio = width / window.innerWidth) > 1) {
-			console.log(ratio)
 			// ratio = 1.81
 			// ctx的width已经是压缩过的了
 			width /= ratio;
-			console.log(width)
 			height /= ratio;
 		} else ratio = 1;
 		canvas.width = width;
@@ -49,7 +47,6 @@ export default function(img, type, base64){
 			}
 		}
 		else ctx.drawImage(img, 0, 0, width, height);
-		// ctx.drawImage(img, 0, 0, width, height);
 		// 进行压缩
 		var ndata;
 		ndata = canvas.toDataURL('image/jpeg', 0.1);
@@ -58,9 +55,9 @@ export default function(img, type, base64){
 		// ios在这里就断掉了！
         // 将base64的图片转成二进制对象
         var ndata2 = ndata.split(',')[1];
-        // ndata2 = ndata2.replace(/\s/g, '');
-        // var text = atob(ndata2)
-        var text = base64.decode(ndata2);
+        ndata2 = ndata2.replace(/\s/g, '');
+        var text = atob(ndata2)
+        // var text = base64.decode(ndata2);
         // console.log(text)
         alert(text)
         var buffer = new ArrayBuffer(text.length);
@@ -73,10 +70,10 @@ export default function(img, type, base64){
         }
         // console.log(ubuffer)
         // alert(JSON.stringify(ubuffer))
-        var blob;
 
-        blob = new Blob([buffer], {type: type});
-        // alert(JSON.stringify(blob))
-        var file = new File([blob], "name.jpg")
+        var blob = new Blob([buffer], {type: type});
+        return blob;
+        // console.log(blob)
+        var file = new File([blob], "name.JPG", {type:"image/jpeg"})
         return file;
 }

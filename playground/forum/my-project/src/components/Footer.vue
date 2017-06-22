@@ -30,7 +30,7 @@
 			this.$http.post('',{
 				name:'xwlt.pc.UserNoticeTime'
 			}).then((response) => {
-				if(response.body.data.status == 0) return;
+				if(response.body.data.status == 1) this.unread = true;
 				this.$http.post('',{
 					name:'xwlt.pc.UserMsgTime'
 				}).then((response) => {
