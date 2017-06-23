@@ -147,6 +147,7 @@
 					// return;
 				}
 				console.log('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
+				alert('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
 				var src = window.URL.createObjectURL(file);
 				this.imgs.push(src);
 				var img = new Image();
@@ -154,6 +155,7 @@
 				img.onload = () => {
 					// file = compressImg(img, file.type, Base64.Base64);
 					console.log('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size)
+					alert('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size)
 					this.files.push(file);
 				}
 			},

@@ -72,8 +72,7 @@ export default function(img, type, base64){
         // alert(JSON.stringify(ubuffer))
 
         var blob = new Blob([buffer], {type: type});
-        return blob;
         // console.log(blob)
-        // var file = new File([blob], "name.JPG", {type:"image/jpeg"})
-        // return file;
+        var file = new File([blob], "name.JPG", {type:"image/jpeg"})
+        return file;
 }
