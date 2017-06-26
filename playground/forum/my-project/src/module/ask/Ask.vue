@@ -47,9 +47,10 @@
 			<input type="file"
 			ref="file"
 			@change="fileChange">
-			<div class="img-holder" v-for="(img,i) in imgs">
-				<div class="delete" @click="deleteImg(i)">×</div>
-				<img :src="img">
+			<div class="img-holder" v-for="(img, i) in imgs">
+				<div class="delete" @click="deleteImg(i)"
+				v-show="img.file">×</div>
+				<img :src="img.path">
 			</div>
 			<div class="img-holder" @click="$refs.file.click()"
 			v-show="imgs.length<2">+</div>
@@ -57,7 +58,7 @@
 		</div>
 		<div class="c-big-btn"
 		:class="{disabled: uploading}"
-		@click="post">发布<span v-if="uploading">中..</span></div>
+		@click="clickPost">发布<span v-if="uploading">中..</span></div>
 	</div>
 </template>
 <script>
@@ -65,7 +66,6 @@
 	import {getParameterByName, myAlert} from '../../assets/js/utils.js'
 	import compressImg from '../../assets/js/compressImg.js'
 	import pingpp from 'pingpp-js';
-	import Base64 from 'js-base64'
 	export default{
 		name:'ask',
 		data(){
@@ -92,8 +92,10 @@
 				question:'',
 				questionDescibe:'',
 				imgs:[],
-				files:[],
-				uploading: false
+				compressed: true,
+				uploading: false,
+				userpost:false, //新增 表面用户是否已点击post
+				questionId: ''
 			}
 		},
 		mounted(){
@@ -138,28 +140,31 @@
 			},
 			fileChange(){
 				var file = this.$refs.file.files[0];
-				if(!file.name.match(/.(jpg|jpeg|png|gif)$/i)){
+				var name = file.name;
+				if(!name.match(/.(jpg|jpeg|png|gif)$/i)){
 					myAlert.small('请选择图片文件!');
 					return;
 				}
-				if(file.size>337920) {
-					// myAlert.small('图片文件过大！');
-					// return;
-				}
+				name = 'picture' + Date.now();
+				this.compressed = false;
 				console.log('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
 				var src = window.URL.createObjectURL(file);
-				this.imgs.push(src);
+				this.imgs.push({path:src, file:'', name: name});
 				var img = new Image();
 				img.src = src;
 				img.onload = () => {
-					// file = compressImg(img, file.type, Base64.Base64);
-					console.log('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size)
-					this.files.push(file);
+					file = compressImg(img, file.type);
+					console.log('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size);
+					this.imgs.forEach((e) => {
+						if(e.name === name) e.file = file;
+					})
+					this.compressed = true;
+					// 压缩完尝试自动调用回调的post
+					this.post();
 				}
 			},
 			deleteImg(i){
 				this.imgs.splice(i,1);
-				this.files.splice(i,1);
 			},
 			allCheck(){
 				if(this.type == 3 && !this.deadline.utc) {
@@ -190,8 +195,6 @@
 						return false;
 					}
 					else if(Number(this.credit) > Number(this.existingCredit)) {
-						alert('当前积分:'+this.existingCredit+'; 积分悬赏:'+this.credit)
-						console.log('当前积分:'+this.existingCredit+'; 积分悬赏:'+this.credit);
 						myAlert.small('哎呀 积分不足喔');
 						return false;
 					}
@@ -202,13 +205,17 @@
 				}
 				return true;
 			},
+			clickPost(){
+				this.userpost = true;
+				this.post();
+			},
 			post(){
 				if(!this.allCheck() || this.uploading) return;
+				if(!this.userpost || !this.compressed) return;
 				this.uploading = true;
 				let fm = new FormData();
-				this.files.forEach((f)=>{
-					console.log('f:'+f.name)
-					fm.append('img[]',f);
+				this.imgs.forEach((f)=>{
+					fm.append('img[]',f.file, f.name+'.jpg');
 				})
 				fm.append('name','xwlt.pc.AddQuestion');
 				fm.append('type_id',this.type);
@@ -221,6 +228,7 @@
 				fm.append('endtime',this.deadline.utc);
 				this.$http.post('',fm).then((response)=>{
 					if(response.body.code === 1000) {
+						this.questionId = response.body.data.id;
 						// 金额悬赏
 						if(this.reward_type==='money'){
 							this.$http.post('',{
@@ -240,6 +248,7 @@
 						} else this.publishSuccess();
 					} else {
 						this.uploading = false;
+						this.userpost = false;
 						myAlert.small(response.body.msg);
 					}
 				})
@@ -261,8 +270,7 @@
 			publishSuccess(){
 				myAlert.big('发布成功拉!');
 				setTimeout(()=>{
-					if(document.referrer) location.replace(document.referrer);
-					else location.replace('./index.html');
+					location.replace('./question-detail.html?id='+ this.questionId);
 				},1000)
 			}
 		},

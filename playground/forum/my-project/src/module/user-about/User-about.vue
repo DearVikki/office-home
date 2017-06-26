@@ -8,12 +8,12 @@
 </template>
 <script>
 	import compressImg from '../../assets/js/compressImg.js'
-	import Base64 from 'js-base64'
 	export default{
 		name:'about',
 		data(){
 			return{
-				file: [],
+				file0: '',
+				file: '',
 				src: '',
 				base64: ''
 			}
@@ -21,24 +21,37 @@
 		mounted(){
 			this.base64 = Base64.Base64;
 		},
+		http:{
+			root: '192.168.1.249'
+		},
 		methods:{
 			changeFile(){
 				var file = this.$refs.file.files[0];
-				console.log('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
+				this.file0 = file;
+				alert('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
 				var src = window.URL.createObjectURL(file);
 				var img = new Image();
 				img.src = src;
 				img.onload = () => {
-					file = compressImg(img, file.type, this.base64);
-					console.log('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size)
-					this.file.push(file);
+					file = compressImg(img, file.type);
+					alert('COMPRESSED name:'+file.name+',type:'+file.type+',size:'+file.size)
+					this.file = file;
 				}
 			},
 			showPic(){
-				console.log(this.file)
-				var src = window.URL.createObjectURL(this.file[0]);
+				var src = window.URL.createObjectURL(this.file);
 				console.log(src)
 				this.src = src;
+				var fm = new FormData();
+				fm.append('img', this.file);
+				fm.append('type','compressed img');
+				this.$http.post('',fm).then((response)=>{
+				})
+				var fm0 = new FormData();
+				fm0.append('img', this.file0);
+				fm0.append('type','original img');
+				this.$http.post('',fm0).then((response)=>{
+				})
 			}
 		}
 	}
