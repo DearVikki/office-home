@@ -148,6 +148,7 @@
 				name = 'picture' + Date.now();
 				this.compressed = false;
 				console.log('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
+				alert('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
 				var src = window.URL.createObjectURL(file);
 				this.imgs.push({path:src, file:'', name: name});
 				var img = new Image();

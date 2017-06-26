@@ -36,6 +36,12 @@ export default function(img, type){
 
 
         var blob = new Blob([buffer], {type: type});
+<<<<<<< HEAD
         blob.lastModifiedDate = new Date();
         return blob;
+=======
+        // console.log(blob)
+        var file = new File([blob], "name.JPG", {type:"image/jpeg"})
+        return file;
+>>>>>>> 448d932d1461c01d79522431440b16d6ad8e7897
 }
