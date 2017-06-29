@@ -7,7 +7,8 @@
 		<input class="c-txt4" :placeholder = "type==='money'?'增加悬赏(元)...':'增加悬赏(积分)...'"
 		v-model="money">
 		<p class="c-txt5" v-if="type!=='money'">当前积分：<span class="red">163874</span></p>
-		<div class="c-big-btn" @click="save">发布</div>
+		<div class="c-big-btn" @click="save"
+		:class="{disabled:loading}">发布<span v-if="loading">中..</span></div>
 	</div>
 </template>
 <script>
@@ -19,8 +20,9 @@
 			return{
 				questionId:'',
 				des:'',
-				money:'',
-				type:'money'
+				money:'', //money在这里是广义的- - 又可以指金钱又可以指积分
+				type:'money',
+				loading: false
 			}
 		},
 		mounted(){
@@ -41,14 +43,16 @@
 					this.money = '';
 					return;
 				}
+				if(this.loading) return;
+				this.loading = true;
 				this.$http.post('',{
 					name:'xwlt.pc.QuestionDescribe',
 					question_id: this.questionId,
 					question_describe:this.des
 				}).then((response)=>{
-					if(this.money === '') return;
+					if(this.money === '') this.editSuccess();
 					// 追加积分
-					if(this.type==='积分') {
+					if(this.type==='integral') {
 						this.money = Math.round(this.money);
 						this.$http.post('',{
 							name:'xwlt.pc.Add_Reward',
@@ -56,7 +60,8 @@
 							reward_type: this.type,
 							num: Number(this.money) ? this.money : 0
 						}).then((response)=>{
-							location.replace('./user-question.html');
+							if(response.body.data === 1000) this.editSuccess();
+							else this.editFail(response.body.msg);
 						})
 					} else {
 						// 追加资金
@@ -83,13 +88,20 @@
 				    console.log(err.msg);
 				    console.log(err.extra);
 				    if (result == "success") {
-				        location.replace('./user-question.html');
+				       this.editSuccess();
 				    } else if (result == "fail") {
-				         myAlert.small('支付遇到问题了!');
+				    	this.editFail('支付遇到问题了!');
 				    } else if (result == "cancel") {
-				        myAlert.small('支付被取消了!');
+				    	this.editFail('支付被残忍的取消了!');
 				    }
 				});
+			},
+			editSuccess(){
+				location.replace('./question-detail.html?id='+this.questionId);
+			},
+			editFail(msg){
+				this.loading = false;
+				myAlert.small(msg);
 			}
 		},
 		components:{}

@@ -50,8 +50,7 @@
 					data.forEach((e)=>{
 						e.img = img;
 					})
-					// 哇这么小的细节我都注意到了我真棒！按时间后先顺序排列
-					this.msgs = this.msgs.concat(data.reverse());
+					this.msgs = this.msgs.concat(data);
 					loadMore.loading = false;
 					this.page++;
 					if(data.length === 0){

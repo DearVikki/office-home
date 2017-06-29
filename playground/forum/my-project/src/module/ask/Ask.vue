@@ -148,7 +148,6 @@
 				name = 'picture' + Date.now();
 				this.compressed = false;
 				console.log('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
-				alert('INITIAL name:'+file.name+',type:'+file.type+',size:'+file.size)
 				var src = window.URL.createObjectURL(file);
 				this.imgs.push({path:src, file:'', name: name});
 				var img = new Image();
@@ -181,7 +180,7 @@
 						myAlert.small('别忘了悬赏金额喔');
 						return false;
 					}
-					else if(!Number(this.money) < 1) {
+					else if(Number(this.money) < 1) {
 						myAlert.small('悬赏金额最低为1元喔');
 						return false;
 					}
@@ -248,9 +247,7 @@
 							})
 						} else this.publishSuccess();
 					} else {
-						this.uploading = false;
-						this.userpost = false;
-						myAlert.small(response.body.msg);
+						this.publishFail(response.body.msg)
 					}
 				})
 			},
@@ -262,17 +259,23 @@
 				    if (result == "success") {
 				       this.publishSuccess();
 				    } else if (result == "fail") {
-				         myAlert.small('支付遇到问题了!');
+				        this.publishFail('支付遇到问题了！')
 				    } else if (result == "cancel") {
-				        myAlert.small('支付被取消了!');
+				         this.publishFail('支付被残忍的取消了！')
 				    }
 				});
 			},
 			publishSuccess(){
 				myAlert.big('发布成功拉!');
 				setTimeout(()=>{
-					location.replace('./question-detail.html?id='+ this.questionId);
+					// location.replace('./question-detail.html?id='+ this.questionId);
+					location.replace(document.referrer?document.referrer:'./index.html');
 				},1000)
+			},
+			publishFail(msg){
+				this.uploading = false;
+				this.userpost = false;
+				myAlert.small(msg);
 			}
 		},
 		computed:{

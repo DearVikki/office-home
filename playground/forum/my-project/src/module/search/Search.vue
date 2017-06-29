@@ -17,7 +17,6 @@
 			<!-- 缺省页 -->
 			<div class="c-empty" v-show="!searchHistory.length">
 				<p>暂无搜索历史</p>
-				<a href="./ask.html">去搜索啦!</a>
 			</div>
 		</div>
 		<div id="search_result" v-show="keywords">
@@ -77,6 +76,7 @@
 			clearHistory(){
 				localStorage.removeItem('searchHistory');
 				this.getHistory();
+				this.historyPop.show = false;
 			},
 			addHistory(q){
 				this.searchHistory.push(q);
