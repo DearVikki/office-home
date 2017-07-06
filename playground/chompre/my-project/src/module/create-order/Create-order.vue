@@ -2,9 +2,9 @@
 	<div id="createOrder_container">
 		<!-- 确认收货地址 -->
 		<div id="address_container">
-			<div class="title">Confirmar dirección de envío
+			<div class="title">{{lang.CONFIRM_ADDRESS}}
 				<!-- 新增地址 -->
-				<span class="fr smallBlue" @click="addAddress">Añadir nueva dirección</span>
+				<span class="fr smallBlue" @click="addAddress">{{lang.ADD_ADDRESS}}</span>
 			</div>
 			<!-- 地址内容 -->
 			<div class="address-item item"
@@ -14,7 +14,7 @@
 			@click="address.selected = add">
 				<span class="pre txt">
 					<img class="vm" src="~assets/img/order/location.png">
-					<span class="vm">To</span>
+					<span class="vm">{{lang.SEND_TO}}</span>
 				</span>
 				<span class="dot"></span>
 				<span class="txt name" :title="add.receive_name">{{add.receive_name}}</span>
@@ -23,13 +23,13 @@
 				<span class="txt address" :title="add.receive_address+' '+add.receive_area+' '+add.receive_city">
 					{{add.receive_address}} {{add.receive_area}} {{add.receive_city}}
 				</span>
-				<span class="txt" v-if="add.selected"> Defecto</span>
-				<span class="edit fr" @click="editAddress(add)">Modificar dirección</span>
+				<span class="txt" v-if="add.selected"> {{lang.DEFAULT}}</span>
+				<span class="edit fr" @click="editAddress(add)">{{lang.EDIT_ADDRESS}}</span>
 			</div>
 			<!-- 收起地址 -->
 			<div v-if="address.addressList.length > 4">
-				<div v-show="!address.fold" class="fold" @click="address.fold = true">收起地址 <img src="~assets/img/order/Trianglered_up.png"></div>
-				<div v-show="address.fold" class="fold" @click="address.fold = false">Ver más <img src="~assets/img/order/Trianglered_down.png"></div>
+				<div v-show="!address.fold" class="fold" @click="address.fold = true">{{lang.COLLAPSE_ADDRESS}} <img src="~assets/img/order/Trianglered_up.png"></div>
+				<div v-show="address.fold" class="fold" @click="address.fold = false">{{lang.MORE}} <img src="~assets/img/order/Trianglered_down.png"></div>
 			</div>
 			<!-- 地址弹窗 -->
 			<pop :pop="address.pop" :popReset="addressPopReset">
@@ -37,14 +37,14 @@
 			</pop>
 			<!-- 缺省图 -->
 			<div class="small-empty-tip" v-show="!address.addressList.length">
-				<p>暂无可用地址</p>
+				<p>{{lang.NO_ADDRESS_TIP}}</p>
 			</div>
 		</div>
 		<!-- 确认发票信息 -->
 		<div id="invoice_container">
-			<div class="title">Confirmar la información de factura
+			<div class="title">{{lang.CONFIRM_INVOICE}}
 				<!-- 新增地址 -->
-				<span class="fr smallBlue" @click="addInvoice">Añadir nueva informacion de factura</span>
+				<span class="fr smallBlue" @click="addInvoice">{{lang.ADD_INVOICE}}</span>
 			</div>
 			<!-- 发票内容 -->
 			<div class="invoice-item item" v-for="(inv,index) in invoice.invoiceList"
@@ -53,7 +53,7 @@
 			@click="invoice.selected = inv">
 				<span class="pre txt">
 					<img class="vm" src="~assets/img/order/invoice.png">
-					<span class="vm">factura</span>
+					<span class="vm">{{lang.INVOICE_TO}}</span>
 				</span>
 				<span class="dot"></span>
 				<span class="txt name" :title="inv.company_name">{{inv.company_name}}</span>
@@ -63,13 +63,13 @@
 					{{inv.company_address}} {{inv.company_area}} {{inv.company_city}}
 				</span>
 				<span class="txt" :title="inv.company_scope">{{inv.company_scope}}</span>
-				<span class="txt" v-if="inv.is_default"> Defecto</span>
-				<span class="edit fr" @click="editInvoice(inv)">Modificar la información de factura</span>
+				<span class="txt" v-if="inv.is_default"> {{lang.DEFAULT}}</span>
+				<span class="edit fr" @click="editInvoice(inv)">{{lang.EDIT_INVOICE}}</span>
 			</div>
 			<!-- 收起发票 -->
 			<div v-if="invoice.invoiceList.length > 4">
-				<div v-show="!invoice.fold" class="fold" @click="invoice.fold = true">收起发票 <img src="~assets/img/order/Trianglegreen_up.png"></div>
-				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">Ver más <img src="~assets/img/order/Trianglegreen_down.png"></div>
+				<div v-show="!invoice.fold" class="fold" @click="invoice.fold = true">{{lang.COLLAPSE_INVOICE}} <img src="~assets/img/order/Trianglegreen_up.png"></div>
+				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">{{lang.MORE}} <img src="~assets/img/order/Trianglegreen_down.png"></div>
 			</div>
 			<!-- 发票弹窗 -->
 			<pop :pop="invoice.pop" :popReset="invoicePopReset">
@@ -77,19 +77,19 @@
 			</pop>
 			<!-- 缺省图 -->
 			<div class="small-empty-tip" v-show="!invoice.invoiceList.length">
-				<p>暂无可用发票</p>
+				<p>{{lang.NO_INVOICE_TIP}}</p>
 			</div>
 		</div>
 		<!-- 选择托运公司 -->
 		<div id="delivery_container">
-			<div class="title">Seleccionar transporte</div>
+			<div class="title">{{lang.CONFIRM_DELIVERY}}</div>
 			<div id="select_delivery">
 				<simpleDropdown :sDropdown="delivery.dropdown"></simpleDropdown>
 			</div>
 		</div>
 		<!-- 订单确认 -->
 		<div id="order_container">
-			<div class="title">Confirmar los datos de pedido</div>
+			<div class="title">{{lang.CONFIRM_ORDER}}</div>
 			<div id="order_header">
 				<div class="header-item"
 				v-for="h in order.headers"
@@ -142,14 +142,14 @@
 		<div id="conclu_container">
 			<div id="conclu_inner">
 				<div id="conclu_price">
-					Total:
+					{{lang.TOTAL}}:
 					<span>${{conclu.sumprice}}</span>
 				</div>
 				<!-- <div id="conclu_delivery"  v-show="delivery.dropdown.selectedValue">{{delivery.dropdown.title}}</div> -->
 			</div>
 			<p class="clear"></p>
 			<div id="conclu_pay_container">
-				<div id="conclu_pay"  @click="pay">ir a pagar</div>
+				<div id="conclu_pay"  @click="pay">{{lang.GO_PAY}}</div>
 				<div id="conclu_tip">{{conclu.tip}}</div>
 			</div>
 		</div>
@@ -162,6 +162,7 @@
 	import simpleDropdown from '../../components/SimpleDropdown.vue';
 	import { myAlert } from '../../assets/js/utils.js'
 	import '../../assets/lib/order-item.less'
+	import lang from '../../assets/js/language.js';
 	export default{
 		name:'createorder',
 		data(){
@@ -229,7 +230,7 @@
 				delivery:{
 					dropdown:{
 						type:1,
-						title:'seleccionar transporte',
+						title:lang.SELECT_DELIVERY,
 						options:[{
 							name:'顺丰快递',
 							value:1
@@ -241,23 +242,23 @@
 				order:{
 					headers:[{
 						// 店铺宝贝
-						name:'Nombre de producto',
+						name:lang.PRODUCT_NAME,
 						style:'width:38%'
 					},{
 						// 商品属性
-						name:'Información de producto ',
+						name:lang.PRODUCT_INFO,
 						style:'width:16%'
 					},{
 						// 单价(比索)
-						name:'Precio unidario (CLP)',
+						name:lang.PRODUCT_UNIT_PRICE,
 						style:'width:13%'
 					},{
 						// 数量
-						name:'Cantidad',
+						name:lang.NUM,
 						style:'width:13%'
 					},{
 						// 小计
-						name:'Total parcial',
+						name:lang.PRODUCT_TOTAL,
 						style:'width:20%'
 					}],
 					dealer_info:{
@@ -277,10 +278,12 @@
 				conclu:{
 					sumprice:0,
 					tip:''
-				}
+				},
+				lang:{}
 			}
 		},
 		mounted(){
+			this.lang = lang;
 			let requestData,
 				goodsIdOrder = localStorage.getItem('goodsIdOrder'),
 				buyDirectly = localStorage.getItem('buyDirectly');

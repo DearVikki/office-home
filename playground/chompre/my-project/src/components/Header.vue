@@ -20,20 +20,20 @@
 			</div>
 			<!--非登录状态-->
 			<div id='login_container' v-if='!logged'>
-				<a id='login' href="./login.html">Ingresar</a>
-				<a id='signup' href="./signup.html">Crear cuenta</a>
+				<a id='login' href="./login.html">{{lang.LOGIN}}</a>
+				<a id='signup' href="./signup.html">{{lang.SIGN_UP}}</a>
 			</div>
 			<!--登录状态-->
 			<div id='name_container' v-else
 			title="hhhhhh">{{nickname}}</div>
 			<div id="logout" style="display: none"
-			@click="logout">Cerrar sesión</div>
+			@click="logout">{{lang.LOGOUT}}</div>
 		</div>
 		<div id='header_part2'>
 			<div id='cate_container'
 			@mouseenter='productTypeActive.status=true'
 			>
-				Categorías de productos
+				{{lang.TYPE}}
 				<!--一级分类-->
 				<ul id='cate_ul'
 				v-show='productTypeActive.status'
@@ -55,9 +55,9 @@
 				</ul>
 			</div>
 			<ul id='user_container'>
-				<li><a href="./my-chompre.html">Mi chompres</a></li>
-				<li><a href="./cart.html">Carro</a></li>
-				<li><a href="./collect.html">Misfavoritos</a></li>
+				<li><a href="./my-chompre.html">{{lang.MY_CHOMPRE}}</a></li>
+				<li><a href="./cart.html">{{lang.CART}}</a></li>
+				<li><a href="./collect.html">{{lang.FAV}}</a></li>
 				<!-- <li>Mitienda</li> -->
 			</ul>
 			<div class="clear"></div>
@@ -66,6 +66,7 @@
 </template>
 <script>
 	import Tippy from 'tippy.js'
+	import lang from '../assets/js/language.js';
 	export default{
 		name:'myheader',
 		data(){
@@ -73,22 +74,6 @@
 				logged:false,
 				nickname:'',
 				headerDpActive: false,
-				searchOptions:{
-					Productos: {
-					name: 'Productos',
-					type: 1,
-					active: true
-					},
-					Tiendas: {
-					name: 'Tiendas',
-					type: 2,
-					active: false
-					}
-				},
-				searchActive:{
-					name: 'Productos',
-					type: 1
-				},
 				productType:{
 					1:{	name: '一级1',
 						id: 1,
@@ -108,7 +93,8 @@
 					sub:'',
 					status: false
 				},
-				searchKey: ''
+				searchKey: '',
+				lang: {}
 			}
 		},
 		methods: {
@@ -155,6 +141,7 @@
 			}
 		},
 		mounted(){
+			this.lang = lang;
 			// 是否是登录状态
 			this.$http.post('',{
 			    name:'zl.shopping.sys.shop.cart'
@@ -204,6 +191,28 @@
 				})
 			})
 			//拉取分类结束
+		},
+		computed:{
+			searchOptions(){
+				return{
+					[this.lang.PRODUCT]: {
+						name: this.lang.PRODUCT,
+						type: 1,
+						active: true
+					},
+					[this.lang.SHOP]: {
+						name: this.lang.SHOP,
+						type: 2,
+						active: false
+					}
+				}
+			},
+			searchActive(){
+				return{
+					name: this.lang.PRODUCT,
+					type: 1
+				}
+			}
 		}
 	}
 </script>

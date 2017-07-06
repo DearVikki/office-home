@@ -13,11 +13,12 @@
 			</div>
 			<p class="error" v-if="field.error && !field.focus">{{field.msg}}</p>
 		</div>
-		<div class="account-btn" @click="setPW">Siguiente</div>
+		<div class="account-btn" @click="setPW">{{lang.NEXT_STEP}}</div>
 	</div>
 </template>
 <script>
 	import {getParameterByName,timestamp,myAlert} from '../../assets/js/utils.js';
+	import lang from '../../assets/js/language.js';
 	export default{
 		name:'Vali',
 		mounted(){
@@ -28,38 +29,39 @@
 				fields:[{
 		            id: 'pw',
 		            class: 'pw-field',
-		            name: 'Contraseña',
-		            placeholder: '输入6-20位密码',
+		            name: lang.PW,
+		            placeholder: lang.FILL_IN_PW,
 		            error: '',
 		            val:'',
 		            validators: {
 		            	required: {
-		            		msg: '密码不能为空'
+		            		msg: lang.NO_EMPTY_PW
 		            	},
 		            	minlen: {
-		            		msg: '密码长度最短为6位',
+		            		msg: lang.PW_MIN_6,
 		            		extra: { len: 6 }
 		            	},
 		            	maxlen: {
-		            		msg: '密码长度最长为20位',
+		            		msg: lang.PW_MAX_20,
 		            		extra: { len: 20 }
 		            	}
 		            }
 		          }, {
 		            id: 'repw',
 		            class: 'repw-field',
-		            name: '重复密码',
-		            placeholder: '请再次输入6-20位密码',
+		            name: lang.REAPEAT_PW,
+		            placeholder: lang.FILL_IN_PW_AGAIN,
 		            error: '',
 		            val:'',
 		            validators: {
-		            	required: { msg: '重复密码不能为空' },
+		            	required: { msg: lang. NO_EMPTY_REPEAT_PW},
 		            	equalTo: {
-		            		msg: '两次密码输入不一致',
+		            		msg: lang.NOT_SAME_PW,
 		            		extra: { to: 0 }
 		            	}
 		            }
-		          }]
+		          }],
+		         lang: lang
 			}
 		},
 		methods:{
@@ -74,7 +76,7 @@
 					password: this.fields[0].val
 				}).then((response) => {
 					if(response.body.code === 1000){
-						myAlert('重置密码成功', () => {
+						myAlert(lang.RESET_PW_SUCCESS, () => {
 							localStorage.removeItem('email');
 							location.href = ('./login.html');
 						})

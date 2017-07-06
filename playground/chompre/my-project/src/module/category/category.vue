@@ -13,7 +13,7 @@
 			</div>
 			<!--品牌-->
 			<div v-if="brands.length">
-				<h5>Marcas</h5>
+				<h5>{{lang.BRAND}}</h5>
 				<label v-for="brand in brands">
 					<input type="checkbox"
 					:value="brand.brand_id"
@@ -26,23 +26,23 @@
 			</div>
 			<!--价格区间-->
 			<div style="overflow:hidden">
-				<h5 style="margin-bottom:10px">Precio</h5>
-				<input type="text" placeholder="min"
+				<h5 style="margin-bottom:10px">{{lang.PRICE}}</h5>
+				<input type="text" :placeholder="lang.MIN_PRICE"
 				v-model="filter.min"
 				@input="checkPrice">
 				<div class="vertical-divider"></div>
-				<input type="text" placeholder="max"
+				<input type="text" :placeholder="lang.MAX_PRICE"
 				v-model="filter.max"
 				@input="checkPrice">
-				<span class="text" id="all_price" @click="allPrice">todos los precios</span>
+				<span class="text" id="all_price" @click="allPrice">{{lang.ALL_PRICE}}</span>
 				<div id="filter_price" class="fr"
 				:class="{active:filterPriceActive}"
-				@click="clickPrice">GO</div>
+				@click="clickPrice">{{lang.GO}}</div>
 				<div class="divider"></div>
 			</div>
 			<!--评分区间-->
 			<div>
-				<h5>Calificaciones</h5>
+				<h5>{{lang.CREDIT}}</h5>
 				<label class="star" v-for="star in stars">
 					<input name="star" type="radio"
 					:value="star.num"
@@ -59,11 +59,11 @@
 		<!--商品展示框-->
 		<div id="display_container" class="fr">
 			<div id="display_header">
-				<span>Total: {{items.goods_count}} productos</span>
+				<span>{{lang.TOTAL}}: {{items.goods_count}} {{lang.PRODUCT}}</span>
 				<span v-if="!search">{{cate.name}}/{{subcate.name}}</span>
 				<span v-else>{{search}}</span>
 				<div class="order-container fr">
-					<span style="vertical-align:top">Ordenar por：</span>
+					<span style="vertical-align:top">{{lang.ORDER_TYPE}}：</span>
 					<div style="display:inline-block; position:relative;">
 						<div class="order-header"
 						@click="orderShow = !orderShow">{{filter.order.name}}</div>
@@ -88,7 +88,7 @@
 			@clickPagination="clickPagination"></pagination>
 			<div class="empty-tip" v-show="!items.goods_list.length">
 				<img src="~assets/img/product/icon_nothing.png">
-				<p>暂无符合条件的商品</p>
+				<p>{{lang.NO_PRODUCT_TIP}}</p>
 			</div>
 		</div>
 		<icontop></icontop>
@@ -100,6 +100,7 @@
     import goodsitem from '../../components/GoodsItem.vue';
     import icontop from '../../components/ScrollToTop.vue';
     import pagination from '../../components/Pagination.vue';
+    import lang from '../../assets/js/language.js';
 	export default{
 		name:'category',
 		data(){
@@ -137,17 +138,22 @@
 					defaultChecked: false,
 					checked: false
 				}],
-				orders:[{
-					name:'los más vendidos',
+				orderShow:false,
+				orders: [{
+					name: lang.SALE_ORDER,
 					id:2
 				},{
-					name:'Precio min a max',
+					name: lang.PRICE_MIN_TO_MAX,
 					id:3
 				},{
-					name:'Precio max a min',
+					name: lang.PRICE_MAX_TO_MIN,
 					id:4
 				}],
-				orderShow:false,
+				items:{
+					goods_count:0,
+					goods_list:[],
+					goods_num:{}
+				},
 				//保存过滤条件的value们
 				filter:{
 					min:'',
@@ -155,18 +161,14 @@
 					brand:[],
 					star:0,
 					order:{
-						name:'los más vendidos',
+						name: lang.SALE_ORDER,
 						id:2
 					}
 				},
-				items:{
-					goods_count:0,
-					goods_list:[],
-					goods_num:{}
-				},
 				allPage:1,
 				page:1,
-				pageReset:1
+				pageReset:1,
+				lang: lang
 			}
 		},
 		mounted(){

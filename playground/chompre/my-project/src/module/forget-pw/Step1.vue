@@ -2,22 +2,23 @@
 	<!--包住form表单的-->
 	<div id='form_wrapper' style="font-size:20px">
 			<div class="common-field account-field">
-				<label for="account">Usuario</label>
+				<label for="account">{{lang.USER}}</label>
 				<div class="input-container" :class="{warn: account.error || account.focus}">
 						<input
 						id="account"
 						type="text"
-						placeholder="Ingresar correo"
+						:placeholder="lang.FILL_IN_ACCOUNT"
 						v-model="account.val"
 						@blur="fieldBlur(account)"
 						@focus="fieldFocus(account)">
 				</div>
 				<p class="error" v-if="account.error && !account.focus">{{account.msg}}</p>
 			</div>
-		<div class="account-btn" @click="nextStep">Siguiente</div>
+		<div class="account-btn" @click="nextStep">{{lang.NEXT_STEP}}</div>
 	</div>
 </template>
 <script>
+	import lang from '../../assets/js/language.js';
 	export default{
 		name: 'step1',
 		data(){
@@ -28,9 +29,10 @@
 					focus: false,
 					val:'',
 					validators: {
-						required: { msg: '账号不能为空' }
+						required: { msg: lang.NO_EMPTY_ACCOUNT_TIP }
 					}
-				}
+				},
+				lang: lang
 			}
 		},
 		methods: {

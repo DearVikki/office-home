@@ -35,19 +35,19 @@
 					v-for="p in price_info">
 						<p>${{p.price}}</p>
 						<!-- 数量> -->
-						<p>Cantidad>{{p.salesnum_low}}</p>
+						<p>{{lang.NUM}}>{{p.salesnum_low}}</p>
 					</li>
 				</ul>
 				<!--销量与收藏-->
 				<div id="product_sale_container">
 					<!-- 总销量 -->
-					<div class="fl sale">Vendidos: {{pre_goods_info.sales_num}}</div>
+					<div class="fl sale">{{lang.SALE_NUM}}: {{pre_goods_info.sales_num}}</div>
 					<div class="fr collect"
 					:class="{active: pre_goods_info.is_collected}"
 					@click="collectAction">
-						<span v-show="!pre_goods_info.is_collected">Producto favorito</span>
+						<span v-show="!pre_goods_info.is_collected">{{lang.COLLECT}}</span>
 						<!-- 取消收藏 -->
-						<span v-show="pre_goods_info.is_collected">No favorito</span>
+						<span v-show="pre_goods_info.is_collected">{{lang.UNCOLLECT}}</span>
 					</div>
 				</div>
 				<!--最重头的选择框!-->
@@ -65,21 +65,21 @@
 					</div>
 					<!--选择数量-->
 					<div class="select-item">
-						<span class="name">Cantidad</span>
+						<span class="name">{{lang.NUM}}</span>
 						<!--数量框-->
 						<numeditor
 						:numEditorStyle="numEditorStyle"
 						:numEditorClass="numEditorClass"
 						:numEditorData="numEditorData"></numeditor>
-						<span class="name">Stock: {{stock}}</span>
+						<span class="name">{{lang.STOCK}}: {{stock}}</span>
 					</div>
 				</div>
 				<div id="product_select_tip">
 					<p v-show="selectTip.show">{{selectTip.msg}}</p>
 				</div>
 				<!--立即购买与加入购物车-->
-				<div class="add" @click="toBuy">Comprar</div>
-				<div class="add" @click="toAdd">Agregar a carro</div>
+				<div class="add" @click="toBuy">{{lang.BUY_NOW}}</div>
+				<div class="add" @click="toAdd">{{lang.ADD_CART}}</div>
 			</div>
 		</div>
 		<!--第二部分-->
@@ -89,11 +89,11 @@
 				<div id="shop_name">{{dealer_info.dealer_name}}</div>
 				<!-- 进入店铺 -->
 				<a class="dealer-info"
-				:href=" './shop.html?id=' +dealer_info.dealer_id ">Servicio al cliente</a>
+				:href=" './shop.html?id=' +dealer_info.dealer_id ">{{lang.SERVICE}}</a>
 				<div class="dealer-info"
 				v-for="(c,i) in dealer_info.connect"
 				:title=" 'WHATS APP: ' + c"
-				@click="connectShow = true">Servicio al cliente{{i+1}}</div>
+				@click="connectShow = true">{{lang.SERVICE}}{{i+1}}</div>
 			</div>
 			<!--右侧主要内容-->
 			<div id="product_part2_main_container">
@@ -102,11 +102,11 @@
 					<!-- 商品详情 -->
 					<div class="part2-nav"
 					:class="{active:!isComment}"
-					@click="isComment=false">Información del producto</div>
+					@click="isComment=false">{{lang.PRODUCT_DETAIL}}</div>
 					<!-- 商品评价 -->
 					<div class="part2-nav"
 					:class="{active:isComment}"
-					@click="isComment=true">Comentarios del producto</div>
+					@click="isComment=true">{{lang.PRODUCT_COMMENT}}</div>
 				</div>
 				<!--商品详情-->
 				<div id="product_container"
@@ -122,7 +122,7 @@
 							<input name="star" type="radio" checked
 							@click="clickStar(0)">
 							<span class="radio-input"></span>
-							<span class="radio-tip">Todas las calificaciones</span>
+							<span class="radio-tip">{{lang.ALL_GRADE}}</span>
 						</label>
 						<label v-for="n in 5">
 							<input name="star" type="radio" value=n
@@ -158,7 +158,7 @@
 								<!-- 评论回复 -->
 								<div class="comment-reply-container"
 								v-if="comment.is_reply">
-									商家回复：{{comment.reply_comment.content}}
+									{{lang.SHOP_REPLY}}：{{comment.reply_comment.content}}
 								</div>
 								<!-- 评论时间 -->
 								<div class="comment-time">{{comment.time}}</div>
@@ -167,7 +167,7 @@
 						<!-- 缺省页 -->
 						<div class="empty-tip" v-if="!comment.comment_info.length">
 							<img src="~assets/img/product/icon_nothing.png">
-							<p>暂无相关评论</p>
+							<p>{{lang.NO_COMMENT_TIP}}</p>
 						</div>
 					</ul>
 					<!-- 页码 -->
@@ -187,6 +187,7 @@
     import star from '../../components/Stars.vue';
     import pagination from '../../components/Pagination.vue';
     import Tippy from 'tippy.js'
+    import lang from '../../assets/js/language.js';
 	export default{
 		name:'product',
 		data(){
@@ -269,7 +270,9 @@
 		                },
 		                active_pic:-1
 		            }]
-				}
+				},
+				// 语言
+				lang: {}
 			}
 		},
 		computed:{
@@ -282,6 +285,8 @@
 			}
 		},
 		mounted(){
+			this.lang = lang.span;
+			// this.lang = lang.cn;
 			//拉取商品详情页-上半部分
 			this.$http.post('',{name:'zl.shopping.sys.goods.info', pre_goods_id:this.pre_goods_id})
 			.then((response)=>{

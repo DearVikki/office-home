@@ -5,6 +5,7 @@ const Myfooter = common.myFooter;
 import Step1 from './Step1.vue'
 import Step2 from './Step2.vue'
 import Step3 from './Step3.vue'
+import lang from '../../assets/js/language.js';
 
 common.Vue.mixin(common.validatorMixin);
 const router = new common.VueRouter({
@@ -22,5 +23,8 @@ const router = new common.VueRouter({
 new common.Vue({
   el: '#app',
   router: router,
+  data:{
+    lang:lang
+  },
   components:{Emptyheader,Myfooter}
 })

@@ -1,6 +1,6 @@
 <template>
 	<div id="cart_container">
-		<h3>Cart</h3>
+		<h3>{{lang.CART}}</h3>
 		<div id="cart_item_container">
 			<!-- 商店 -->
 			<div class="shop-item"
@@ -49,8 +49,8 @@
 						<div class="fr">
 							<!-- 移入收藏夹/删除 -->
 							<div class="edit-container">
-								<span @click="collectGoods(shopIndex,goodsIndex)">Agregar a favorito</span>
-								<span @click="deleteGoodsPop(shopIndex,goodsIndex)">Eliminar</span>
+								<span @click="collectGoods(shopIndex,goodsIndex)">{{lang.ADD_COLLECT}}</span>
+								<span @click="deleteGoodsPop(shopIndex,goodsIndex)">{{lang.DELETE}}</span>
 							</div>
 						</div>
 					</div>
@@ -64,36 +64,37 @@
 				<label class="common-check-container">
 					<input type="checkbox" @change="allCheck" :checked="allchecked">
 					<span class="check-input"></span>
-					<span class="cp">Seleccionartodo</span>
+					<span class="cp">{{lang.SELECT_ALL}}</span>
 				</label>
-				<span class="cp" @click="collectMultiGoods" style="margin-left:20px">Agregar a favorito</span>
-				<span class="cp" @click="deleteMultiGoodsPop" style="margin-left:20px">Eliminar</span>
+				<span class="cp" @click="collectMultiGoods" style="margin-left:20px">{{lang.ADD_COLLECT}}</span>
+				<span class="cp" @click="deleteMultiGoodsPop" style="margin-left:20px">{{lang.DELETE}}</span>
 			</div>
 			<div class="fr">
-				<span style="margin-right:20px">Productosseleccionados: <span class="amount">{{goodsArr.length}}</span></span>
-				<span style="margin-right:20px" >Total (sin despacho):<span class="price" style="margin:0 10px">${{totalPrice}}</span></span>
+				<span style="margin-right:20px">{{lang.SELECTED}}: <span class="amount">{{goodsArr.length}}</span></span>
+				<span style="margin-right:20px" >{{lang.TOTAL}} ({{lang.WITHOUT_DELIVERY}}):<span class="price" style="margin:0 10px">${{totalPrice}}</span></span>
 				<span class="pay"
 				:class="{disabled:goodsArr.length === 0}"
-				@click="pay">Pagar</span>
+				@click="pay">{{lang.PAY}}</span>
 			</div>
 		</div>
 		<pop :pop="pop">
 			<p class="pop-txt">{{popTxt}}</p>
 			<div class="btn-container">
-				<div class="btn" @click="confirmDeleteGoods">确认删除</div>
-				<div class="btn reverse" @click="pop.show = false">关闭</div>
+				<div class="btn" @click="confirmDeleteGoods">{{lang.CONFIRM_DELETE}}</div>
+				<div class="btn reverse" @click="pop.show = false">{{lang.CLOSE}}</div>
 			</div>
 		</pop>
 		<!-- 缺省页 -->
 		<div class="empty-tip" v-if="!carts.length">
 			<img src="~assets/img/product/icon_cart_null.png">
-			<p>Tu carro de la compra está vacía</p>
+			<p>{{lang.CART_EMPTY_TIP}}</p>
 		</div>
 	</div>
 </template>
 <script>
 	import numeditor from '../../components/NumEditor.vue';
 	import pop from '../../components/Pop.vue';
+	import lang from '../../assets/js/language.js';
 	export default{
 		name:'cart',
 		data(){
@@ -115,7 +116,6 @@
 		   //                      goods_name: '',
 		   //                      cover_pic: '',
 		   //                      price: '',
-		   //                      //numEditor
 		   //                      numEditorData:{
 		   //                      	num:1,
 		   //                      	max:1,
@@ -154,7 +154,8 @@
 	            	style:{width:'780px',height:'292px'}
 	            },
 	            popTxt:'确认删除该商品吗？',
-	            entry: btoa(JSON.stringify([{name:'Carro', path:location.href}]))
+	            entry: btoa(JSON.stringify([{name:'Carro', path:location.href}])),
+	            lang: lang
 			}
 		},
 		mounted(){

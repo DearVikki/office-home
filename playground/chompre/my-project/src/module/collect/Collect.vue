@@ -13,19 +13,21 @@
 		<!-- 缺省页 -->
 		<div class="empty-tip" v-else>
 			<img src="~assets/img/product/icon_nothing.png">
-			<p>Tu carro de la compra está vacía</p>
+			<p>{{lang.COLLECT_EMPTY_TIP}}</p>
 		</div>
 	</div>
 </template>
 <script>
 	import {getParameterByName,timestamp,myAlert} from '../../assets/js/utils.js';
 	import goodsitem from '../../components/GoodsItem.vue';
+	import lang from '../../assets/js/language.js';
 	export default{
 		name: 'collect',
 		data(){
 			return{
 				goods:[],
-				entry:btoa(encodeURIComponent(JSON.stringify([{name:'Misfavoritos', path:'./collect.html'}])))
+				entry:btoa(encodeURIComponent(JSON.stringify([{name:'Misfavoritos', path:'./collect.html'}]))),
+				lang:lang
 			}
 		},
 		mounted(){
@@ -45,7 +47,7 @@
 				}).then((response) => {
 					this.goods.forEach((e,i) => {
 						if(e.pre_goods_id === item.pre_goods_id) this.goods.splice(i,1);
-						myAlert('已取消收藏');
+						myAlert(this.lang.CANCEL_COLLECT_TIP);
 					})
 				})
 			},

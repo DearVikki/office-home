@@ -3,14 +3,15 @@
 	<div id='form_wrapper' style="font-size:20px">
 		<!--选择问题/邮箱找回密码-->
 		<div id='method_header'>
-			<div :class="{active: !emailActive, disabled: qDisabled}" @click="clickQ">问题找回密码</div>
-			<div :class="{active: emailActive}" @click="emailActive = true">邮箱找回密码</div>
+			<div :class="{active: !emailActive, disabled: qDisabled}" @click="clickQ">{{lang.FIND_PW_VIA_QUESTION}}</div>
+			<div :class="{active: emailActive}" @click="emailActive = true">{{lang.FIND_PW_VIA_MAIL}}</div>
 		</div>
 		<!--问题找回密码-->
 		<div id='q_body' v-show='!emailActive'>
 				<div class="common-field" v-for="field in fieldsA" :class="field.class">
 					<label :for="field.id">{{field.name}}</label>
-					<div class="input-container" :class="{ warn: field.error || field.focus}">								<input
+					<div class="input-container"
+					:class="{ warn: field.error || field.focus}">								<input
 							type="text"
 							:id="field.id"
 							:placeholder="field.placeholder"
@@ -28,13 +29,13 @@
 				<div class="common-field" v-for="field in fieldsB" :class="field.class">
 					<label :for="field.id">{{field.name}}</label>
 					<div class="input-container" :class="{ warn: field.error || field.focus}">
-							<input
-							type="text"
-							:id="field.id"
-							:placeholder="field.placeholder"
-							@blur="fieldBlur(field)"
-							@focus="fieldFocus(field)"
-							v-model="field.val" />
+						<input
+						type="text"
+						:id="field.id"
+						:placeholder="field.placeholder"
+						@blur="fieldBlur(field)"
+						@focus="fieldFocus(field)"
+						v-model="field.val" />
 					</div>
 					<p class="send-code"
 					:class="{disabled: scDisabled}"
@@ -43,10 +44,11 @@
 					<p class="error" v-if="field.error && !field.focus">{{field.msg}}</p>
 				</div>
 		</div>
-		<div class="account-btn" @click="nextStep">Siguiente</div>
+		<div class="account-btn" @click="nextStep">{{lang.NEXT_STEP}}</div>
 	</div>
 </template>
 <script>
+	import lang from '../../assets/js/language.js';
 	export default{
 		name: 'step2',
 		data(){
@@ -55,60 +57,61 @@
 				qDisabled: true,
 				question_id:'',
 				scDisabled: false,
-				countdown: '发送Código',
-				fieldsA: {
+				countdown: lang.SEND_CODE,
+				lang: lang,
+				fieldsA:{
 					question: {
-		            id: 'question',
-		            class: 'question-field',
-		            validators: {
-		            	required: { msg:'' }
-		            },
-		            name: '问题',
-		            val:'你好吗'
-		         },
-				answer: {
-		            id: 'answer',
-		            class: 'answer-field',
-		            name: '答案',
-		            placeholder: '',
-		            validators: {
-		            	required: { msg: '答案不能为空' }
-		            },
-		            error: '',
-		            msg:'',
-		            val:'',
-		            focus: false
-		        }
-		      },
-		      fieldsB: {
-		      	email:{
-		      		id: 'email',
-		            class: 'email-field',
-		            name: 'Correo',
-		            placeholder: '',
-		            validators: {
-		            	required: { msg: '邮箱不能为空' },
-		            	isEmail: { msg: '邮箱不合法' }
-		            },
-		            error: '',
-		            msg:'',
-		            val:'',
-		            focus: false
-		      	},
-		      	code:{
-		      		id: 'code',
-		            class: 'code-field',
-		            name: 'Código',
-		            placeholder: '',
-		            validators: {
-		            	required: { msg: 'Código不能为空' }
-		            },
-		            error: '',
-		            msg:'',
-		            val:'',
-		            focus: false
-		      	}
-		      }
+			            id: 'question',
+			            class: 'question-field',
+			            validators: {
+			            	required: { msg:'' }
+			            },
+			            name: lang.QUESTION,
+			            val:'你好吗'
+			        },
+					answer: {
+			            id: 'answer',
+			            class: 'answer-field',
+			            name: lang.ANSWER,
+			            placeholder: '',
+			            validators: {
+			            	required: { msg: lang.NO_EMPTY_ANSWER }
+			            },
+			            error: false,
+			            msg:'',
+			            val:'',
+			            focus: false
+			        }
+				},
+			    fieldsB: {
+			    	email:{
+			    	  id: 'email',
+			          class: 'email-field',
+			          name: lang.ACCOUNT,
+			          placeholder: '',
+			          validators: {
+			          	required: { msg: lang.NO_EMPTY_MAIL },
+			          	isEmail: { msg: lang.INVALID_MAIL }
+			          },
+			          error: '',
+			          msg:'',
+			          val:'',
+			          focus: false
+			    	},
+			    	code:{
+			    	  id: 'code',
+			          class: 'code-field',
+			          name: lang.CODE,
+			          placeholder: '',
+			          validators: {
+			          	required: { msg: lang.NO_EMPTY_CODE}
+			          },
+			          error: '',
+			          msg:'',
+			          val:'',
+			          focus: false
+			    	}
+			    }
 			}
 		},
 		mounted(){
@@ -133,27 +136,27 @@
 			sendCode(){
 				if(this.scDisabled) return;
 				if(!this.fieldsB.email.val) {
-					this.fieldsB.email.msg = '邮箱不能为空';
+					this.fieldsB.email.msg = lang.NO_EMPTY_MAIL;
 					this.fieldsB.email.error = true;
 					return;
 				}
-				if(this.fieldsB.code !== localStorage.getItem('email')) {
-					this.fieldsB.code.msg = '邮箱未注册';
-					this.fieldsB.code.error = true;
+				if(this.fieldsB.email.val !== localStorage.getItem('email')) {
+					this.fieldsB.email.msg = lang.UNREGISTERED_MAIL;
+					this.fieldsB.email.error = true;
 					return;
 				}
 				this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
 					if(response.body.code === 1000) {
 						let t = 60;
-						this.countdown = t+'秒重新发送';
+						this.countdown = t+'s'+lang.RESEND;
 						this.scDisabled = true;
 						let cd = setInterval(() => {
 							t--;
-							this.countdown = t+'秒重新发送';
+							this.countdown = t+'s'+lang.RESEND;
 							if(t <= 1){
 								clearInterval(cd);
 								this.scDisabled = false;
-								this.countdown = '重新发送'
+								this.countdown = lang.RESEND;
 							}
 						},1000)
 					} else {
@@ -166,7 +169,7 @@
 				if(this.emailActive){
 					// 邮箱找回密码
 					if(!this.fieldsB.code.val) {
-						this.fieldsB.code.msg = 'Código不能为空';
+						this.fieldsB.code.msg = lang.NO_EMPTY_CODE;
 						this.fieldsB.code.error = true;
 						return;
 					}
@@ -184,7 +187,7 @@
 				} else {
 					// 问题找回密码
 					if(!this.fieldsA.answer.val) {
-						this.fieldsA.answer.msg = '回答不能为空';
+						this.fieldsA.answer.msg = lang.NO_EMPTY_ANSWER;
 						this.fieldsA.answer.error = true;
 						return;
 					}

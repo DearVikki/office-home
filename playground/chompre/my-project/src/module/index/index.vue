@@ -13,7 +13,7 @@
 		</div>
 		<!--促销商品开始-->
 		<div id='sale_container'>
-			<div class="sub-header">Promociones<a href="./home-more.html#sale" class="more fr">Ver más ></a></div>
+			<div class="sub-header">{{lang.SALE}}<a href="./home-more.html#sale" class="more fr">{{lang.MORE}} ></a></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="saleItem in saleItems">
@@ -26,7 +26,7 @@
 		</div>
 		<!--热门商品开始-->
 		<div id='hot_goods_container'>
-			<div class="sub-header">Recomendaciónes<a href="./home-more.html#hot" class="more fr">Ver más ></a></div>
+			<div class="sub-header">{{lang.HOT}}<a href="./home-more.html#hot" class="more fr">{{lang.MORE}} ></a></div>
 			<div class="swiper-container">
 			 	<div class="swiper-wrapper">
 					<div class='swiper-slide' v-for="hotgoodsItem in hotgoodsItems">
@@ -39,7 +39,7 @@
 		</div>
 		<!--优秀商家开始-->
 		<div id='hot_shop_container'>
-			<div class="sub-header">Mejores tiendas
+			<div class="sub-header">{{lang.HOT_SHOP}}
 </div>
 			<ul>
 				<a class='hot-shop' v-for='hotshopItem in hotshopItems'
@@ -54,6 +54,7 @@
 </template>
 <script>
 	// import Swiper from '../../assets/lib/swiper.js';
+	import lang from '../../assets/js/language.js';
 	import goodsitem from '../../components/GoodsItem.vue';
 	import icontop from '../../components/ScrollToTop.vue';
 	export default{
@@ -65,10 +66,12 @@
 				hotgoodsItems:[],
 				hotshopItems:[],
 				saleItemEntryPath: btoa(JSON.stringify([{name:'Promociones', path:'./index.html#sale_container'}])),
-				hotItemEntryPath: btoa(JSON.stringify([{name:'Recomendaciónes', path:'./index.html#hot_goods_container'}]))
+				hotItemEntryPath: btoa(JSON.stringify([{name:'Recomendaciónes', path:'./index.html#hot_goods_container'}])),
+				lang: {}
 			}
 		},
 		mounted(){
+			this.lang = lang;
 			this.$http.post('',{name:'zl.shopping.sys.homepage.info'}).then((response)=>{
 				this.activityItems = response.body.data.other_banner;
 				this.hotgoodsItems = response.body.data.hot_goods;
