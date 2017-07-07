@@ -13,8 +13,8 @@
 			</td>
 			<td class="action">
 				<span>
-					<a @click="editar(td)">editar</a>
-					<a @click="deletar(td)">eliminar</a>
+					<a @click="editar(td)">{{lang.EDIT}}</a>
+					<a @click="deletar(td)">{{lang.DELETE}}</a>
 				</span>
 				<!-- td.selected -->
 				<span :class="{active:td[cols[cols.length-1].key]}"></span>
@@ -23,10 +23,12 @@
 	</table>
 </template>
 <script>
+	import lang from '../../assets/js/language.js'
 	export default{
 		name:'table',
 		data(){
 			return{
+				lang: lang
 			}
 		},
 		mounted(){

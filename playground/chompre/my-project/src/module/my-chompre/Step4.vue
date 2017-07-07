@@ -1,12 +1,18 @@
 <template>
 	<div id="form_wrapper">
 		<img src="~assets/img/personal/icon_select.png">
-		重置密码成功！
+		{{lang.RESET_PW_SUCCESS}}
 	</div>
 </template>
 <script>
+	import lang from '../../assets/js/language.js'
 	export default{
-		name: 'step4'
+		name: 'step4',
+		data(){
+			return{
+				lang: lang
+			}
+		}
 	}
 </script>
 <style scoped lang='less'>

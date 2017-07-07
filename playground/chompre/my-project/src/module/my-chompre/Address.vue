@@ -1,7 +1,7 @@
 <template>
 	<div id="personal_right_container">
 		<!-- 收货地址管理 -->
-		<h1>Gestión de direcciones de envío</h1>
+		<h1>{{lang.ADDRESS_MANAGEMENT}}</h1>
 		<h3>{{status[statusType].title}}</h3>
 		<div id="address_container">
 			<addressPop :address="address" @saveAddress="saveAddress"></addressPop>
@@ -17,10 +17,10 @@
 		<!-- 删除弹窗 -->
 		<pop :pop="pop">
 			<div id="delete_container">
-				<p>您确定要删除该收货地址吗？</p>
+				<p>{{lang.DELETE_ADDRESS_POP}}?</p>
 				<div class="btn-container">
-					<div class="btn" @click="deletar">确认删除</div>
-					<div class="btn reverse" @click="pop.show = false">关闭</div>
+					<div class="btn" @click="deletar">{{lang.CONFIRM_DELETE}}</div>
+					<div class="btn reverse" @click="pop.show = false">{{lang.CLOSE}}</div>
 				</div>
 			</div>
 		</pop>
@@ -31,16 +31,17 @@
 	import addressPop from '../../components/Address.vue';
 	import pop from '../../components/Pop.vue';
 	import {myAlert} from '../../assets/js/utils.js'
+	import lang from '../../assets/js/language.js'
 	export default{
 		name:'receipt',
 		data(){
 			return{
 				//当前页面状态
 				status: [{
-					title:'Añadir nueva dirección',
+					title:lang.ADD_ADDRESS,
 					type:0
 				},{
-					title:"Editar dirección",
+					title:lang.EDIT_ADDRESS,
 					type:1
 				}],
 				statusType:0,
@@ -50,31 +51,31 @@
 				deleteItem:'',
 				table:{
 				    cols:[{
-						name:'Consignatario',
+						name:lang.RECEIVE_NAME,
 						key:'receive_name',
 						width:'20%'
 					},{
-						name:'R.U.T',
+						name:lang.ID,
 						key:'idcard',
 						width:'10%'
 					},{
-						name:'Tel',
+						name:lang.RECEIVE_MOBILE,
 						key:'receive_mobile',
 						width:'20%'
 					},{
-						name:'Comuna',
+						name:lang.RECEIVE_AREA,
 						key:'receive_area',
 						width:'20%'
 					},{
-						name:'Ciudad',
+						name:lang.RECEIVE_CITY,
 						key:'receive_city',
 						width:'15%'
 					},{
-						name:'Dirección',
+						name:lang.RECEIVE_ADDRESS,
 						key:'receive_address',
 						width:'20%'
 					},{
-						name:'操作',
+						name:lang.ACTION,
 						key:'selected',
 						width:'15%'
 					}],
@@ -83,7 +84,8 @@
 				pop:{
 					show:false,
 					style:{width:'780px',height:'292px'}
-				}
+				},
+				lang:lang
 			}
 		},
 		mounted(){
@@ -102,7 +104,7 @@
 				// 新增
 				if(!type) {
 					this.table.tds.unshift(address);
-					myAlert('新增成功')
+					myAlert(lang.ADD_SUCCESS)
 				}
 				else {
 					// 法一：
@@ -111,7 +113,7 @@
 							this.table.tds[i] = address;
 							this.table.tds[i].good = 'dd';
 						}
-						myAlert('保存成功');
+						myAlert(lang.SAVE_SUCCESS);
 						this.$router.push('address');
 					})
 					// this.table.tds.push({receive_name: 'testObj'});
@@ -151,7 +153,7 @@
 					address_id: this.deleteItem.address_id
 				}).then((response)=>{
 					// 删除这一条地址
-					if(response.body.code === 1000) myAlert('删除成功!')
+					if(response.body.code === 1000) myAlert(lang.DELETE_SUCCESS)
 					this.pop.show = false;
 					this.table.tds.forEach((e,i) => {
 						if(e.address_id === this.deleteItem.address_id) this.table.tds.splice(i,1);

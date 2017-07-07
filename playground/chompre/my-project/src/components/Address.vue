@@ -26,14 +26,15 @@
 				<input type="checkbox" class="checkbox" :checked="isDefault"
 				@change="isDefault = !isDefault">
 				<span class="checkbox-input"></span>
-				<span>Establecer como dirección por defecto</span>
+				<span>{{lang.SET_DEFAULT_ADDRESS}}</span>
 			</label>
 		</div>
 		<!-- 保存 -->
-		<div class="common-save" @click="save">Guardar</div>
+		<div class="common-save" @click="save">{{lang.SAVE}}</div>
 	</div>
 </template>
 <script>
+	import lang from '../assets/js/language.js'
 	export default{
 		name:'address',
 		data(){
@@ -42,61 +43,65 @@
 				type:0,
 				fields:[{
 					id:'name',
-					title:'Nombre',
-					placeholder:'请输入名字',
-					validators:{required:{msg:'名字不能为空'}},
+					title:lang.RECEIVE_NAME,
+					placeholder:lang.FILL_IN_RECEIVE_NAME,
+					validators:{required:{msg: lang.NO_EMPTY_RECEIVE_NAME}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'rut',
-					title:'R.U.T',
-					placeholder:'请输入RUT',
-					validators:{required:{msg:'R.U.T不能为空'}},
+					title:lang.ID,
+					placeholder: lang.FILL_IN_ID,
+					validators:{required:{msg: lang.NO_EMPTY_ID}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'address',
-					title:'Dirección',
-					placeholder:'请输入地址',
-					validators:{required:{msg:'详细地址不能为空'}},
+					title:lang.ADDRESS,
+					placeholder:lang.FILL_IN_RECEIVE_ADDRESS,
+					validators:{required:{msg:lang.NO_EMPTY_RECEIVE_ADDRESS}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'district',
-					title:'Comuna',
-					placeholder:'请输入地区',
-					validators:{required:{msg:'地区不能为空'}},
+					title:lang.RECEIVE_AREA,
+					placeholder:lang.FILL_IN_RECEIVE_AREA,
+					validators:{required:{msg:lang.NO_EMPTY_RECEIVE_AREA}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'city',
-					title:'Ciudad',
-					placeholder:'请输入城市',
-					validators:{required:{msg:'城市不能为空'}},
+					title:lang.RECEIVE_CITY,
+					placeholder:lang.FILL_IN_RECEIVE_CITY,
+					validators:{required:{msg:lang.NO_EMPTY_RECEIVE_CITY}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'phone',
-					title:'Tel',
-					placeholder:'请输入手机',
-					validators:{required:{msg:'手机不能为空'},isNum:{msg:'手机号不合法'}},
+					title:lang.RECEIVE_MOBILE,
+					placeholder:lang.FILL_IN_RECEIVE_MOBILE,
+					validators:{
+						required:{msg:lang.NO_EMPTY_RECEIVE_MOBILE},
+						isNum:{msg:lang.INVALID_RECEIVE_MOBILE}
+					},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				}],
 				isDefault:false,
-				addressId:''
+				addressId:'',
+				lang:lang
 			}
 		},
 		methods:{

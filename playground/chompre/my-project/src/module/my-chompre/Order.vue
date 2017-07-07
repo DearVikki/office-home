@@ -17,13 +17,13 @@
 				<div class="order-header">
 					<div class="fl">
 						<span class="order-time">{{order.order_info.start_time}}</span>
-						<span class="order-price">总价: ${{order.order_info.sum_price}}</span>
-						<a class="order-no cp" :href="'./order-detail.html?id='+order.order_info.order_id">订单编号: {{order.order_info.order_no}}</a>
+						<span class="order-price">{{lang.TOTAL_PRICE}}: ${{order.order_info.sum_price}}</span>
+						<a class="order-no cp" :href="'./order-detail.html?id='+order.order_info.order_id">{{lang.ORDER_NO}}: {{order.order_info.order_no}}</a>
 						<a class="order-shop"
 						:href="'./shop.html?id='+order.dealer_info.dealer_id">{{order.dealer_info.dealer_name}}</a>
 					</div>
 					<div class="fr" @click="contactPop.show = true">
-						consulta la tienda
+						{{lang.CONTACT_STORE}}
 					</div>
 				</div>
 				<!-- 订单商品列条 -->
@@ -52,48 +52,48 @@
 						<div class="goods-part2">
 							<!-- 待付款 -->
 							<div v-if="order.order_info.status === 1">
-								<p>待付款</p>
+								<p>{{lang.TO_PAY}}</p>
 							</div>
 							<!-- 待发货 -->
 							<div v-if="order.order_info.status === 2">
-								<p>待发货</p>
+								<p>{{lang.TO_SEND}}</p>
 							</div>
 							<!-- 待收货 -->
 							<div v-if="order.order_info.status === 3">
-								<p>待收货</p>
-								<p class="main" @click="comment.pop.show = true">评价</p>
+								<p>{{lang.TO_RECEIVE}}</p>
+								<p class="main" @click="comment.pop.show = true">{{lang.COMMENT}}</p>
 								<!-- 为什么这里会报el.setAttribute的错吖！ -->
-								<p class="main" @click="changePop.show = true">退货</p>
-								<p class="main" @click="changePop.show = true">换货</p>
+								<p class="main" @click="changePop.show = true">{{lang.REFUND}}</p>
+								<p class="main" @click="changePop.show = true">{{lang.CHANGE_GOODS}}</p>
 							</div>
 							<!-- 待评价 -->
 							<div v-if="order.order_info.status === 4">
-								<p>待评价</p>
-								<p class="main" @click="comment.pop.show = true">评价</p>
+								<p>{{lang.TO_COMMENT}}</p>
+								<p class="main" @click="comment.pop.show = true">{{lang.COMMENT}}</p>
 							</div>
 							<!-- 取消订单（交易关闭） -->
 							<div v-if="order.order_info.status === 5">
-								<p>交易关闭</p>
+								<p>{{lang.DEAL_CLOSE}}</p>
 							</div>
 							<!-- 交易成功 -->
 							<div v-if="order.order_info.status === 6">
-								<p>交易成功</p>
+								<p>{{lang.DEAL_SUCCESS}}</p>
 							</div>
 							<!-- 退款处理中 -->
 							<div v-if="order.order_info.status === 7">
-								<p>退款处理中</p>
+								<p>{{lang.REFUND_ING}}</p>
 							</div>
 							<!-- 退货处理中 -->
 							<div v-if="order.order_info.status === 8">
-								<p>退货处理中</p>
+								<p>{{lang.RESEND_GOODS_ING}}</p>
 							</div>
 							<!-- 退款完成 -->
 							<div v-if="order.order_info.status === 9">
-								<p>退款完成</p>
+								<p>{{lang.REFUND_SUCCESS}}</p>
 							</div>
 							<!-- 退货完成 -->
 							<div v-if="order.order_info.status === 10">
-								<p>退货完成</p>
+								<p>{{lang.RESEND_GOODS_SUCCESS}}</p>
 							</div>
 						</div>
 					</a>
@@ -101,30 +101,30 @@
 						<!-- 待付款 -->
 						<div  v-if="order.order_info.status === 1">
 							<div class="btn main"
-							@click="pay(order.order_info)">付款</div>
+							@click="pay(order.order_info)">{{lang.PAY}}</div>
 						</div>
 						<!-- 待发货 -->
 						<!-- 为什么！！为什么contactPop就没问题confirmPop就有问题！！明明是一样的！ -->
 						<div v-if="order.order_info.status === 2">
 							<div class="btn main"
-							@click="confirmPop.show = true">确认收货</div>
-							<div class="btn">取消订单</div>
+							@click="confirmPop.show = true">{{lang.CONFIRM_RECEIVE}}</div>
+							<div class="btn">{{lang.CANCEL_DEAL}}</div>
 						</div>
 						<!-- 待收货 -->
 						<div v-if="order.order_info.status === 3">
 							<div class="btn main"
-							@click="clickConfirm">确认收货</div>
+							@click="clickConfirm">{{lang.CONFIRM_RECEIVE}}</div>
 						</div>
 						<!-- 待评价 -->
 						<div v-if="order.order_info.status === 4">
-							<div class="btn" @click="clickDelivery">查看物流</div>
+							<div class="btn" @click="clickDelivery">{{lang.VIEW_DELIVERY}}</div>
 						</div>
 						<!-- 取消订单（交易关闭） -->
 						<div v-if="order.order_info.status === 5">
 						</div>
 						<!-- 交易成功 -->
 						<div v-if="order.order_info.status === 6">
-							<div class="btn" @click="clickDelivery">查看物流</div>
+							<div class="btn" @click="clickDelivery">{{lang.VIEW_DELIVERY}}</div>
 						</div>
 						<!-- 退款处理中 -->
 						<div v-if="order.order_info.status === 7">
@@ -144,7 +144,7 @@
 			<!-- 缺省页 -->
 			<div class="empty-tip" v-if="!orders.length">
 				<img src="~assets/img/product/icon_dingdan.png">
-				<p>暂无相关订单喔</p>
+				<p>{{lang.NO_ORDER_TIP}}</p>
 			</div>
 		</div>
 		<!-- 客服弹窗 -->
@@ -154,12 +154,12 @@
 				<div id="contact_container">
 					<div class="contact" v-for="(c,index) in selectedOrder.dealer_info.connect">
 						<img src="~assets/img/order/icon_service.png">
-						<span>客服{{index+1}}&nbsp;&nbsp;&nbsp; WHATS APP:&nbsp;</span>
+						<span>{{lang.SERVICE}}{{index+1}}&nbsp;&nbsp;&nbsp; WHATS APP:&nbsp;</span>
 						<span class="red">{{c}}</span>
 					</div>
 				</div>
 				<div class="btn-container">
-					<div class="btn reverse" @click="contactPop.show = false">关闭</div>
+					<div class="btn reverse" @click="contactPop.show = false">{{lang.CLOSE}}</div>
 				</div>
 			</div>
 		</pop>
@@ -167,15 +167,15 @@
 		<pop :pop="delivery.pop">
 			<div id="delivery_inner_container">
 				<div id="delivery_container" v-if="delivery.deliveryInfo.toString()">
-					<p>托运公司: {{delivery.deliveryInfo.delivery_name}}</p>
-					<p>运单号: {{delivery.deliveryInfo.delivery_no}}</p>
-					<p>价格: {{delivery.deliveryInfo.delivery_price}}</p>
+					<p>{{lang.DELIVERY}}: {{delivery.deliveryInfo.delivery_name}}</p>
+					<p>{{lang.DELIVERY_NO}}: {{delivery.deliveryInfo.delivery_no}}</p>
+					<p>{{lang.PRICE}}: {{delivery.deliveryInfo.delivery_price}}</p>
 				</div>
 				<div class="no-info" v-else>
-					暂无物流信息喔！
+					{{lang.NO_DELIVERY_INFO}}
 				</div>
 				<div class="btn-container">
-					<div class="btn reverse" @click="delivery.pop.show = false">关闭</div>
+					<div class="btn reverse" @click="delivery.pop.show = false">{{lang.CLOSE}}</div>
 				</div>
 			</div>
 		</pop>
@@ -191,45 +191,44 @@
 					<div id="add_pic" @click="clickInput"  @drop.prevent="filechange" @dragover.prevent v-show="comment.pics.length < 5">+</div>
 				</div>
 				<div id="comment_star_container">
-					<span class="fl">Califique este producto</span>
+					<span class="fl">{{lang.MAKE_CREDIT}}</span>
 					<span class="fr">
 						<starmark @markStar="markstar"></starmark>
 					</span>
 				</div>
 				<div class="btn-container">
 					<div class="btn" :class="{disabled:commentDisabled}"
-					@click="uploadImg">发表评价</div>
-					<div class="btn reverse" @click="comment.show = false">关闭</div>
+					@click="uploadImg">{{lang.COMMENT}}</div>
+					<div class="btn reverse" @click="comment.show = false">{{lang.CLOSE}}</div>
 				</div>
 			</div>
 
 		</pop>
 		<!-- 换货弹窗 -->
 		<pop :pop="changePop" class="common-pop">
-			是否提交换货申请？
+			{{lang.CONFIRM_CHANGE_GOODS_POP}}？
 			<div class="btn-container">
-				<div class="btn" @click="returnGoods(1)">换货</div>
-				<div class="btn reverse" @click="changePop.show = false">关闭</div>
+				<div class="btn" @click="returnGoods(1)">{{lang.CHANGE_GOODS}}</div>
+				<div class="btn reverse" @click="changePop.show = false">{{lang.CLOSE}}</div>
 			</div>
 		</pop>
 		<!-- 退货弹窗 -->
 		<pop :pop="returnPop" class="common-pop">
-			是否提交退货申请？
+			{{lang.CONFIRM_REFUND_POP}}
 			<div class="btn-container">
-				<div class="btn" @click="returnGoods(2)">退货</div>
-				<div class="btn reverse" @click="returnPop.show = false">关闭</div>
+				<div class="btn" @click="returnGoods(2)">{{lang.REFUND}}</div>
+				<div class="btn reverse" @click="returnPop.show = false">{{lang.CLOSE}}</div>
 			</div>
 		</pop>
 		<!-- 确认收货弹窗 -->
 		<pop :pop="confirmPop" class="common-pop">
 			<!-- <div>
-				请确保收到货物，确认无误后点击确认。
+				{{lang.CONFIRM_RECEIVE_POP}}
 				<div class="btn-container">
-					<div class="btn" @click="confirm">确认收货</div>
-					<div class="btn reverse" @click="confirmPop.show = false">关闭</div>
+					<div class="btn" @click="confirm">{{lang.CONFIRM_RECEIVE}}</div>
+					<div class="btn reverse" @click="confirmPop.show = false">{{lang.CLOSE}}</div>
 				</div>
 			</div> -->
-			
 		</pop>
 		<loading v-show="showLoading"></loading>
 	</div>
@@ -239,6 +238,7 @@
 	import pop from '../../components/Pop.vue';
 	import starmark from '../../components/Starmark.vue';
 	import loading from '../../components/Loading.vue';
+	import lang from '../../assets/js/language.js'
 	export default{
 		name:'order',
 		mounted(){
@@ -247,19 +247,19 @@
 		data(){
 			return{
 				navs:[{
-					name:'Mis pedidos',
+					name:lang.ALL_ORDERS_NAV,
 					style:'width:15%'
 				},{
-					name:'No Pagado',
+					name:lang.TO_PAY_NAV,
 					style:'width:15%'
 				},{
-					name:'En Espera de Envio',
+					name:lang.TO_SEND_NAV,
 					style:'width:20%'
 				},{
-					name:'Despacho en Tramite',
+					name:lang.TO_RECEIVE_NAV,
 					style:'width:25%'
 				},{
-					name:'Esperar Calificacion',
+					name:lang.TO_COMMENT_NAV,
 					style:'width:25%'
 				}],
 				activeNav:0,
@@ -367,7 +367,8 @@
 					}
 				},
 				showLoading:false,
-				entry:btoa(JSON.stringify([{name:'Order', path:location.href}]))
+				entry:btoa(JSON.stringify([{name:'Order', path:location.href}])),
+				lang:lang
 			}
 		},
 		methods:{
@@ -413,11 +414,11 @@
 				var files = e.target.files || e.dataTransfer.files;
 				if (!files.length) return;
 				if (files.length > 4) {
-					alert('最多只能上传5张图片喔');
+					alert(lang.MAX_PIC_5);
 					return;
 				}
 				Array.prototype.slice.call(files).forEach((e)=>{
-					if(e.type.slice(0,5) !== 'image') alert(e.name+'不是图片文件喔');
+					if(e.type.slice(0,5) !== 'image') alert(e.name+ lang.NO_PIC);
 					else this.displayImg(e);
 				})
 			},

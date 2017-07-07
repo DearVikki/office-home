@@ -16,10 +16,10 @@
 		<!-- 删除弹窗 -->
 		<pop :pop="pop">
 			<div id="delete_container">
-				<p>您确定要删除该发票吗？</p>
+				<p>{{lang.DELETE_INVOICE_POP}}?</p>
 				<div class="btn-container">
-					<div class="btn" @click="deletar">确认删除</div>
-					<div class="btn reverse" @click="pop.show=false">关闭</div>
+					<div class="btn" @click="deletar">{{lang.CONFIRM_DELETE}}</div>
+					<div class="btn reverse" @click="pop.show=false">{{lang.CLOSE}}</div>
 				</div>
 			</div>
 		</pop>
@@ -30,16 +30,17 @@
 	import pop from '../../components/Pop.vue';
 	import invoicePop from '../../components/Invoice.vue';
 	import {myAlert} from '../../assets/js/utils.js';
+	import lang from '../../assets/js/language.js'
 	export default{
 		name:'receipt',
 		data(){
 			return{
 				//当前页面状态
 				status: [{
-					title:'Añadir nueva informacion de factura',
+					title:lang.ADD_INVOICE,
 					type:0
 				},{
-					title:"Editar factura",
+					title:lang.EDIT_ADDRESS,
 					type:1
 				}],
 				statusType:0,
@@ -53,40 +54,42 @@
 						key:'company_name',
 						width:'10%'
 					},{
-						name:'R.U.T',
+						name:lang.ID,
 						key:'company_taxid',
 						width:'10%'
 					},{
-						name:'Dirección',
+						name:lang.RECEIVE_ADDRESS,
 						key:'company_address',
 						width:'20%'
 					},{
-						name:'Comuna',
+						name:lang.RECEIVE_AREA,
 						key:'company_area',
 						width:'20%'
 					},{
-						name:'Ciudad',
+						name:lang.RECEIVE_CITY,
 						key:'company_city',
 						width:'15%'
 					},{
-						name:'Tel',
+						name:lang.RECEIVE_MOBILE,
 						key:'company_tel',
 						width:'10%'
 					},{
-						name:'Giro',
+						name:lang.INVOICE_FIELD,
 						key:'business_scope',
 						width:'10%'
 					},{
-						name:'操作',
+						name:lang.ACTION,
 						key:'is_default',
 						width:'15%'
 					}],
-					tds:[]
+					tds:[],
+					lang:lang
 			    },
 			    pop:{
 			    	show:false,
 			    	style:{width:'780px',height:'292px'}
-			    }
+			    },
+			    lang: lang
 			}
 		},
 		mounted(){
@@ -107,12 +110,12 @@
 				if(!type) {
 					console.log(invoice)
 					this.table.tds.unshift(invoice);
-					myAlert('新增成功')
+					myAlert(lang.ADD_SUCCESS)
 				}
 				else {
 					this.table.tds.forEach((e) => {
 						if(e.invoice_id === invoice.invoice_id) e = invoice;
-						myAlert('保存成功');
+						myAlert(lang.SAVE_SUCCESS);
 						this.$router.push('receipt');
 					})
 				}
@@ -136,7 +139,7 @@
 					invoice_id:this.deleteItem.invoice_id
 				}).then((response)=>{
 					// 删除这一条地址
-					if(response.body.code === 1000) myAlert('删除成功!');
+					if(response.body.code === 1000) myAlert(lang.DELETE_SUCCESS);
 					this.pop.show = false;
 					this.table.tds.forEach((e,i) => {
 						if(e.invoice_id === this.deleteItem.invoice_id) this.table.tds.splice(i,1);

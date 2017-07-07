@@ -89,7 +89,7 @@
 				<div id="shop_name">{{dealer_info.dealer_name}}</div>
 				<!-- 进入店铺 -->
 				<a class="dealer-info"
-				:href=" './shop.html?id=' +dealer_info.dealer_id ">{{lang.SERVICE}}</a>
+				:href=" './shop.html?id=' +dealer_info.dealer_id ">{{lang.CONTACT_SERVICE}}</a>
 				<div class="dealer-info"
 				v-for="(c,i) in dealer_info.connect"
 				:title=" 'WHATS APP: ' + c"

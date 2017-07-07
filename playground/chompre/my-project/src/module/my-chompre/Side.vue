@@ -1,6 +1,6 @@
 <template>
 	<div id="personal_side" class="fl">
-		<p class="text">Mi Chompre</p>
+		<p class="text">{{lang.MY_CHOMPRE}}</p>
 		<router-link class="text"
 		v-for="item in items"
 		:class="{active:activeid === item.id}"
@@ -10,33 +10,35 @@
 	</div>
 </template>
 <script>
+	import lang from '../../assets/js/language.js'
 	export default{
 		name:'personalSide',
 		data(){
 			// 我的订单收货地址管理发票管理修改密码个人信息完善
 			return{
 					items:[{
-					name:'Mis pedidos',
+					name:lang.MY_ORDER,
 					href:'/order',
 					id:1
 				},{
-					name:'Gestión de direcciones de envío',
+					name: lang.ADDRESS_MANAGEMENT,
 					href:'/address',
 					id:2
 				},{
-					name:'Gestión de las Facturas',
+					name:lang.RECEIPT_MANAGEMENT,
 					href:'/receipt',
 					id:3
 				},{
-					name:'Cambiar contraseña',
+					name:lang.CHANGE_PW,
 					href:'/pw',
 					id:4
 				},{
-					name:'completa la información',
+					name:lang.COMPLETE_INFO,
 					href:'',
 					// href:'./info.html',
 					id:5
-				}]
+				}],
+				lang:lang
 			}
 		},
 		mounted(){

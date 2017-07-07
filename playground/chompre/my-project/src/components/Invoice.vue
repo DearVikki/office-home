@@ -26,14 +26,15 @@
 				<input type="checkbox" class="checkbox" :checked="isDefault"
 				@change="isDefault = !isDefault">
 				<span class="checkbox-input"></span>
-				<span>Establecer como información de factura por defecto</span>
+				<span>{{lang.SET_DEFAULT_INVOICE}}</span>
 			</label>
 		</div>
 		<!-- 保存 -->
-		<div class="common-save" @click="save">Guardar</div>
+		<div class="common-save" @click="save">{{lang.SAVE}}</div>
 	</div>
 </template>
 <script>
+	import lang from '../assets/js/language.js'
 	export default{
 		name:'invoice',
 		data(){
@@ -42,56 +43,56 @@
 				type:0,
 				fields:[{
 					id:'name',
-					title:'Nombre',
-					placeholder:'请输入公司名称',
-					validators:{required:{msg:'公司名称不能为空'}},
+					title:lang.INVOICE_NAME,
+					placeholder:lang.FILL_IN_INVOICE_NAME,
+					validators:{required:{msg:lang.NO_EMPTY_INVOICE_NAME}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'taxid',
-					title:'R.U.T',
-					placeholder:'请输入税号',
-					validators:{required:{msg:'税号不能为空'}},
+					title:lang.INVOICE_ID,
+					placeholder:lang.FILL_IN_INVOICE_ID,
+					validators:{required:{msg:lang.NO_EMPTY_INVOICE_NAME}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'address',
-					title:'Dirección',
-					placeholder:'请输入地址',
-					validators:{required:{msg:'详细地址不能为空'}},
+					title:lang.RECEIVE_ADDRESS,
+					placeholder:lang.FILL_IN_RECEIVE_ADDRESS,
+					validators:{required:{msg:lang.NO_EMPTY_RECEIVE_ADDRESS}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'district',
-					title:'Comuna',
-					placeholder:'请输入地区',
-					validators:{required:{msg:'地区不能为空'}},
+					title:lang.RECEIVE_AREA,
+					placeholder:lang.FILL_IN_RECEIVE_AREA,
+					validators:{required:{msg:lang.NO_EMPTY_RECEIVE_AREA}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'city',
-					title:'Ciudad',
-					placeholder:'请输入城市',
-					validators:{required:{msg:'城市不能为空'}},
+					title:lang.RECEIVE_CITY,
+					placeholder:lang.FILL_IN_RECEIVE_CITY,
+					validators:{required:{msg:lang.NO_EMPTY_RECEIVE_CITY}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				},{
 					id:'phone',
-					title:'Tel',
-					placeholder:'请输入电话号码',
+					title:lang.RECEIVE_MOBILE,
+					placeholder:lang.FILL_IN_RECEIVE_MOBILE,
 					validators:{
-						required:{msg:'手机不能为空'},
-						isNum:{msg:'手机号不合法'}
+						required:{msg:lang.NO_EMPTY_RECEIVE_MOBILE},
+						isNum:{msg:lang.INVALID_RECEIVE_MOBILE}
 					},
 					error:false,
 					focus:false,
@@ -99,16 +100,17 @@
 					val:''
 				},{
 					id:'scope',
-					title:'Giro',
-					placeholder:'请输入经营范围',
-					validators:{required:{msg:'经营范围不能为空'}},
+					title:lang.INVOICE_FIELD,
+					placeholder:lang.FILL_IN_INVOICE_FIELD,
+					validators:{required:{msg:lang.NO_EMPTY_INVOICE_FIELD}},
 					error:false,
 					focus:false,
 					msg:'',
 					val:''
 				}],
 				isDefault:false,
-				invoiceId:''
+				invoiceId:'',
+				lang:lang
 			}
 		},
 		methods:{

@@ -67,7 +67,7 @@
 			//拉取问题
 			this.$http.post('',{name:'zl.shopping.sys.register.question'}).then((response)=>{
 					this.fieldsB.question.options = response.body.data;
-					this.fieldsB.question.options.unshift({register_question_id:'', content: '嘿！请选择一个问题'})
+					this.fieldsB.question.options.unshift({register_question_id:'', content: lang.FILL_IN_QUESTION})
 				})
 		},
 		data(){
@@ -76,11 +76,11 @@
 				  email: {
 		            id: 'email',
 		            class: 'email-field',
-		            name: 'Correo',
-		            placeholder: '',
+		            name: lang.MAIL,
+		            placeholder: lang.FILL_IN_ACCOUNT,
 		            validators: {
-		            	required: { msg: '邮箱不能为空' },
-		            	isEmail: { msg: '邮箱无效' }
+		            	required: { msg: lang.NO_EMPTY_MAIL },
+		            	isEmail: { msg: lang.INVALID_MAIL }
 		            },
 		            error: '',
 		            msg:'',
@@ -90,12 +90,12 @@
 		          remail: {
 		            id: 'remail',
 		            class: 'remail-field',
-		            name: 'Confimar su correo',
-		            placeholder: '',
+		            name: lang.FILL_IN_MAIL_AGAIN,
+		            placeholder: lang.FILL_IN_MAIL_AGAIN,
 		            validators: {
-		            	required: { msg: '重复邮箱不能为空' },
+		            	required: { msg: lang.NO_EMPTY_REPEAT_MAIL },
 		            	equalTo: {
-		            		msg: '两次邮箱输入不一致',
+		            		msg: lang.NOT_SAME_MAIL,
 		            		extra: { to: 'email' }
 		            	}
 		            },
@@ -107,16 +107,16 @@
 		          pw: {
 		            id: 'pw',
 		            class: 'pw-field',
-		            name: 'Contraseña',
-		            placeholder: 'Ingresar contraseña 6-20 letras',
+		            name: lang.PW,
+		            placeholder: lang.FILL_IN_PW,
 		            validators: {
-		            	required: { msg: '密码不能为空' },
+		            	required: { msg: lang.NO_EMPTY_PW },
 		            	minlen: {
-		            		msg: '密码长度最小为6位',
+		            		msg: lang.PW_MIN_6,
 		            		extra: { len: 6 }
 		            	},
 		            	maxlen: {
-		            		msg: '密码长度最长为20位',
+		            		msg: lang.PW_MAX_20,
 		            		extra: { len: 20 }
 		            	}
 		            },
@@ -128,12 +128,12 @@
 		          repw: {
 		            id: 'repw',
 		            class: 'repw-field',
-		            name: 'Confimar su contraseña',
-		            placeholder: 'Confimar su contraseña',
+		            name: lang.FILL_IN_PW_AGAIN,
+		            placeholder: lang.FILL_IN_PW_AGAIN,
 		            validators: {
-		            	required: { msg: '重复密码不能为空' },
+		            	required: { msg: lang.NO_EMPTY_REPEAT_PW },
 		            	equalTo: {
-		            		msg: '两次密码输入不一致',
+		            		msg: lang.NOT_SAME_PW,
 		            		extra: { to: 'pw' }
 		            	}
 		            },
@@ -147,10 +147,10 @@
 		        	name: {
 		            id: 'name',
 		            class: 'name-field',
-		            name: 'Usuario',
-		            placeholder: '请输入用户名',
+		            name: lang.USER_NAME,
+		            placeholder: lang.FILL_IN_USER_NAME,
 		            validators: {
-		            	required: { msg: '用户名不能为空' }
+		            	required: { msg: lang.NO_EMPTY_USER_NAME }
 		            },
 		            error: '',
 		            msg:'',
@@ -160,10 +160,10 @@
 		          id: {
 		            id: 'id',
 		            class: 'id-field',
-		            name: '身份证',
-		            placeholder: '请输入身份证',
+		            name: lang.ID,
+		            placeholder: lang.FILL_IN_ID,
 		            validators: {
-		            	required: { msg: '身份证不能为空' }
+		            	required: { msg: lang.NO_EMPTY_ID }
 		            },
 		            error: '',
 		            msg:'',
@@ -173,14 +173,14 @@
 		          question: {
 		            id: 'question',
 		            class: 'question-field',
-		            name: '问题设置',
-		            placeholder: '请选择问题',
+		            name: lang.QUESTION,
+		            placeholder: lang.FILL_IN_QUESTION,
 		            validators: {
-		            	required: { msg: '请选择一个问题' }
+		            	required: { msg: lang.FILL_IN_QUESTION }
 		            },
 		            isSelect: true,
 		            options:[{
-		            	text: '请选择一个问题',
+		            	text: lang.FILL_IN_QUESTION,
 		            	val: ''
 		            }],
 		            error: '',
@@ -191,16 +191,17 @@
 		          answer: {
 		            id: 'answer',
 		            class: 'answer-field',
-		            name: '答案',
-		            placeholder: '请填写答案',
+		            name: lang.ANSWER,
+		            placeholder: lang.FILL_IN_ANSWER,
 		            validators: {
-		            	required: { msg: '答案不能为空' }
+		            	required: { msg: lang.NO_EMPTY_ANSWER }
 		            },
 		            error: '',
 		            msg:'',
 		            val:'',
 		            focus: false
-		          }}
+		          }},
+		          lang: lang
 			}
 		},
 		methods: {
