@@ -67,11 +67,10 @@
 				hotshopItems:[],
 				saleItemEntryPath: btoa(JSON.stringify([{name:'Promociones', path:'./index.html#sale_container'}])),
 				hotItemEntryPath: btoa(JSON.stringify([{name:'Recomendaciónes', path:'./index.html#hot_goods_container'}])),
-				lang: {}
+				lang: lang
 			}
 		},
 		mounted(){
-			this.lang = lang;
 			this.$http.post('',{name:'zl.shopping.sys.homepage.info'}).then((response)=>{
 				this.activityItems = response.body.data.other_banner;
 				this.hotgoodsItems = response.body.data.hot_goods;

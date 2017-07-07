@@ -11,20 +11,22 @@
 		<!-- 缺省页 -->
 		<div class="empty-tip" v-else>
 			<img src="~assets/img/product/icon_nothing.png">
-			<p>Tu carro de la compra está vacía</p>
+			<p>{{lang.NO_PRODUCT_TIP}}</p>
 		</div>
 	</div>
 </template>
 <script>
 	import {getParameterByName,timestamp,myAlert} from '../../assets/js/utils.js';
 	import goodsitem from '../../components/GoodsItem.vue';
+	import lang from '../../assets/js/language.js';
 	export default{
 		name: 'more',
 		data(){
 			return{
 				type:1,
 				saleGoods:[],
-				hotGoods:[]
+				hotGoods:[],
+				lang: lang
 			}
 		},
 		mounted(){

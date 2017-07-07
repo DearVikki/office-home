@@ -1,6 +1,6 @@
 <template>
 	<div id='signup_container' class="account-container">
-			<h3>Ingresar</h3>
+			<h3>{{lang.LOGIN}}</h3>
 			<!--大框开始-->
 			<div class="form-container">
 				<!--包住form表单的-->
@@ -53,13 +53,14 @@
 							</li>
 						</ul>
 						<div class="clear"></div>
-				<div class="account-btn" @click='register'>Registrarse</div>
+				<div class="account-btn" @click='register'>{{lang.REGISTER}}</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
 	import { myAlert } from '../../assets/js/utils.js'
+	import lang from '../../assets/js/language.js';
 	export default{
 		name: 'signup',
 		mounted(){

@@ -1,8 +1,12 @@
 let language = {
 	cn: {
-	    LOGIN: '注册',
-	    SIGN_UP: '登录',
+	    LOGIN: '登录',
+	    SIGN_UP: '注册',
 	    LOGOUT: '登出',
+	    // 登录
+	    LOGIN:'登录',
+	    FORGET_PW:'忘记密码',
+	    REGISTER:'注册',
 	    // 找回密码
 	    ACCOUNT: '账户',
 	    CODE: '验证码',
@@ -113,6 +117,11 @@ let language = {
 	    LOGIN: 'Ingresar',
 	    SIGN_UP: 'Crear cuenta',
 	    LOGOUT: 'Cerrar sesión',
+	    // 登录
+	    LOGIN:'Ingresar',
+	    FORGET_PW:'Recuperar contraseña?',
+	    REGISTER:'Registrarse',
+	    // 注册
 	    // 找回密码
 	    ACCOUNT: 'Correo',
 	    CODE: 'Código',
@@ -198,6 +207,8 @@ let language = {
 	    FILL_IN_ACCOUNT:'Ingresar correo',
 	    FILL_IN_PW:'请输入6-20位密码',
 	    FILL_IN_PW_AGAIN:'请再次输入6-20位密码',
+	    FILL_IN_ACCOUNT:'请输入账号',
+	    FILL_IN_QUESTION:'请选择一个问题',
 	    // 各种tips
 	    CANCEL_COLLECT_TIP:'已取消收藏',
 	    NO_COMMENT_TIP: '暂无相关评论',

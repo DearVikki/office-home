@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div id='login_container' class="account-container">
-			<h3>Ingresar</h3>
+			<h3>{{lang.LOGIN}}</h3>
 			<!--大框开始-->
 			<div class="form-container">
 				<!--包住form表单的-->
@@ -10,7 +10,7 @@
 							<label :for="field.id">{{field.name}}</label>
 							<a class="forget-pw"
 							href="./forget-pw.html#/Step1"
-							 v-if="field.id==='pw'">Recuperar contraseña?</a>
+							 v-if="field.id==='pw'">{{lang.FORGET_PW}}?</a>
 							<div class="input-container"
 							:class="{ warn: field.error || field.focus}">
 									<input v-if="field.id === 'account'"
@@ -29,8 +29,8 @@
 							<p class="error" v-if="field.error && !field.focus">{{field.msg}}</p>
 						</div>
 						<!--<pre style="font-size:12px">{{$validation}}</pre>-->
-						<div class="account-btn" @click="login">Ingresar</div>
-					<a class="signup" href="./signup.html">Registrarse</a>
+						<div class="account-btn" @click="login">{{lang.LOGIN}}</div>
+					<a class="signup" href="./signup.html">{{lang.REGISTER}}</a>
 				</div>
 			</div>
 		</div>
@@ -38,6 +38,7 @@
 </template>
 <script>
 	import { myAlert } from '../../assets/js/utils.js'
+	import lang from '../../assets/js/language.js';
 	export default{
 		name:'Vali',
 		mounted(){
@@ -49,39 +50,40 @@
 					account: {
 			            id: 'account',
 			            class: 'account-field',
-			            name: 'Nombre de usuario',
-			            placeholder: '请输入邮箱或身份证',
+			            name: lang.ACCOUNT,
+			            placeholder: lang.FILL_IN_ACCOUNT,
 			            type: 'text',
 			            error: false,
 			            msg: '',
 			            validators: {
-			            	required: { msg:'账号不能为空'}
+			            	required: { msg:lang.NO_EMPTY_MAIL}
 			            },
 			            val: '',
 						focus: false
 		          	},
-		         	 pw: {
-			            id: 'pw',
-			            class: 'pw-field',
-			            name: 'Contraseña',
-			            placeholder: '请输入6-20位密码',
-			            error: false,
-			            msg:'',
-			            validators: {
-			            	required: {msg: '密码不能为空'},
+		         	pw: {
+			           id: 'pw',
+			           class: 'pw-field',
+			           name: lang.PW,
+			           placeholder: lang.FILL_IN_PW,
+			           error: false,
+			           msg:'',
+			           validators: {
+			            	required: {msg: lang.NO_EMPTY_PW},
 			            	minlen: {
-			            		msg: '密码长度最小为6位',
+			            		msg: lang.PW_MIN_6,
 			            		extra: { len: 6 }
 			            	},
 			            	maxlen: {
-			            		msg: '密码长度最长为20位',
+			            		msg: lang.PW_MAX_20,
 			            		extra: { len: 20 }
 			            	}
 			            },
 			            val: '',
 						focus: false
-			          }
-		        }
+			        }
+		        },
+		        lang:lang
 			}
 		},
 		methods: {
