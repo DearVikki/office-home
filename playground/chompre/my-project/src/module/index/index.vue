@@ -5,7 +5,11 @@
 		   <div class="swiper-wrapper">
                <a class='swiper-slide' v-for="activityItem in activityItems"
                @click="clickBanner(activityItem)">
-               		<img :src="activityItem.path"/>
+               		<img :src="defaultImgBanner"
+        			:class="{hide: activityItem.loaded}">
+               		<img :src="activityItem.path"
+               		:class="{hide: !activityItem.loaded}"
+               		@load="activityItem.loaded = true">
                </a>
           </div>
           <div class="swiper-pagination">
@@ -44,7 +48,11 @@
 			<ul>
 				<a class='hot-shop' v-for='hotshopItem in hotshopItems'
 				:href="'./shop.html?id='+hotshopItem.dealer_id">
-					<img :src="hotshopItem.dealer_logo">
+					<img :src="defaultImgShop"
+        			:class="{hide: hotshopItem.loaded}">
+               		<img :src="hotshopItem.dealer_logo"
+               		:class="{hide: !hotshopItem.loaded}"
+               		@load="hotshopItem.loaded = true">
 					<p>{{hotshopItem.dealer_name}}</p>
 				</a>
 			</ul>
@@ -57,6 +65,8 @@
 	import lang from '../../assets/js/language.js';
 	import goodsitem from '../../components/GoodsItem.vue';
 	import icontop from '../../components/ScrollToTop.vue';
+	import defaultImgBanner from '../../assets/img/index/default_banner.png';
+	import defaultImgShop from '../../assets/img/index/default_shop.png';
 	export default{
 		name:'Index',
 		data(){
@@ -67,13 +77,21 @@
 				hotshopItems:[],
 				saleItemEntryPath: btoa(JSON.stringify([{name:'Promociones', path:'./index.html#sale_container'}])),
 				hotItemEntryPath: btoa(JSON.stringify([{name:'Recomendaciónes', path:'./index.html#hot_goods_container'}])),
-				lang: lang
+				lang: lang,
+				defaultImgBanner: defaultImgBanner,
+				defaultImgShop: defaultImgShop
 			}
 		},
 		mounted(){
 			this.$http.post('',{name:'zl.shopping.sys.homepage.info'}).then((response)=>{
+				response.body.data.other_banner.forEach((e)=>{
+					e.loaded = false;
+				})
 				this.activityItems = response.body.data.other_banner;
 				this.hotgoodsItems = response.body.data.hot_goods;
+				response.body.data.hot_dealer.forEach((e)=>{
+					e.loaded = false;
+				})
 				this.hotshopItems = response.body.data.hot_dealer;
 				console.log(response.body.data.hot_dealer)
 				//const className = 'mypagi';

@@ -7,11 +7,11 @@
 				<div id="shop_header_fr">
 					<div id="contact_container" @click="contactPop.show = true">
 						<img src="~assets/img/product/icon_service.png">
-						servicio al cliente
+						{{lang.CONTACT_SERVICE}}
 					</div>
 					<div id="collect_container" :class="{active:is_collect}" @click="collect">
-						<span v-if="is_collect">取消收藏</span>
-						<span v-else>Tienda favorita</span>
+						<span v-if="is_collect">{{lang.UNCOLLECT}}</span>
+						<span v-else>{{lang.COLLECT_SHOP}}</span>
 					</div>
 				</div>
 			</div>
@@ -19,12 +19,12 @@
 		<div id="shop_main">
 			<!-- 店铺搜索 -->
 			<div id="search_container">
-				<span id="search_txt">Búscar en la tienda</span>
+				<span id="search_txt">{{lang.SEARCH_IN_SHOP}}</span>
 				<input v-model="searchKey">
-				<span id="search_btn" @click="search"></span>
+				<span id="search_btn" @click="search">{{lang.LL_PRODUCTS}}</span>
 			</div>
 			<!-- 全部商品 -->
-			<span id="shop_all" @click="getAll">todos los productos</span>
+			<span id="shop_all" @click="getAll"></span>
 			<!-- 店铺商品内容 -->
 			<div id="goods_container">
 				<goodsitem :item='item' v-for="item in pre_goods_info"
@@ -42,12 +42,12 @@
 				<div id="contact_container">
 					<div class="contact" v-for="(c,index) in dealer_info.connect">
 						<img src="~assets/img/order/icon_service.png">
-						<span>客服{{index+1}}&nbsp;&nbsp;&nbsp; WHATS APP:&nbsp;</span>
+						<span>{{lang.SERVICE}}{{index+1}}&nbsp;&nbsp;&nbsp; WHATS APP:&nbsp;</span>
 						<span class="red">{{c}}</span>
 					</div>
 				</div>
 				<div class="btn-container">
-					<div class="btn reverse" @click="contactPop.show = false">关闭</div>
+					<div class="btn reverse" @click="contactPop.show = false">{{lang.CLOSE}}</div>
 				</div>
 			</div>
 		</pop>
@@ -59,6 +59,7 @@
 	import pop from '../../components/Pop.vue';
 	import goodsitem from '../../components/GoodsItem.vue';
 	import pagination from '../../components/Pagination.vue';
+	import lang from '../../assets/js/language.js'
 	import empty from '../../components/Empty.vue';
 	export default{
 		name:'shop',
@@ -91,7 +92,8 @@
 				},
 				allPage:1,
 				page: 1,
-				entry:''
+				entry:'',
+				lang:lang
 			}
 		},
 		mounted(){
@@ -141,8 +143,11 @@
 						for_id: this.id,
 						for_type: 'dealer'
 					}).then((response)=>{
-						myAlert('取消收藏成功');
-						this.is_collect = 0;
+						if(response.body.data === 1000){
+							myAlert(lang.CANCEL_COLLECT_TIP);
+							this.is_collect = 0;
+						}
+						else myAlert(response.body.msg);
 					})
 				} else {
 					// 收藏
@@ -151,8 +156,11 @@
 						for_id: this.id,
 						for_type: 'dealer'
 					}).then((response)=>{
-						myAlert('收藏成功');
-						this.is_collect = 1;
+						if(response.body.data === 1000){
+							myAlert(lang.COLLECT_TIP);
+							this.is_collect = 1;
+						}
+						else myAlert(response.body.msg);
 					})
 				}
 			}

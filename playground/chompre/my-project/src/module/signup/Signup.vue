@@ -1,6 +1,6 @@
 <template>
 	<div id='signup_container' class="account-container">
-			<h3>{{lang.LOGIN}}</h3>
+			<h3>{{lang.SIGN_UP}}</h3>
 			<!--大框开始-->
 			<div class="form-container">
 				<!--包住form表单的-->

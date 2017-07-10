@@ -1,6 +1,10 @@
 <template>
 	<a class='common-goods-item' @click="clickItem">
-	    <img :src="item.cover_pic"/>
+        <img :src="defaultImg"
+        :class="{hide: imgLoaded}">
+	    <img :src="item.cover_pic"
+        :class="{hide: !imgLoaded}"
+        @load="imgLoaded = true">
 	    <p>{{item.description}}</p>
 	    <p>${{item.price}}</p>
         <div class="mask delete"
@@ -11,11 +15,13 @@
 	</a>
 </template>
 <script>
+    import defaultImg from '../assets/img/index/default.png';
 	export default{
 		name:'goodsitem',
 		data(){
 			return{
-
+                defaultImg: defaultImg,
+                imgLoaded: false
 			}
 		},
         methods:{

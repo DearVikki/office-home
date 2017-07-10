@@ -1,11 +1,17 @@
 <template>
 	<div class="empty-container">
-		暂无更多结果
+		{{lang.NO_RESULT_TIP}}
 	</div>
 </template>
 <script>
+	import lang from '../assets/js/language.js'
 	export default{
-		name: 'empty'
+		name: 'empty',
+		data(){
+			return {
+				lang: lang
+			}
+		}
 	}
 </script>
 <style lang='less' scoped>

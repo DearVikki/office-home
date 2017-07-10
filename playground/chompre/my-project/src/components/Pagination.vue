@@ -3,7 +3,7 @@
 		<!-- 上一页 -->
 		<span class="pagination-item prev"
 		:class="{disabled:currentPage === 1}"
-		@click="clickPage(currentPage-1)">Anterior</span>
+		@click="clickPage(currentPage-1)">{{lang.PREV_PAGE}}</span>
 		<!-- 第一页 -->
 		<span class="pagination-item"
 		:class="{active:1===currentPage}"
@@ -25,10 +25,11 @@
 		<!-- 下一页 -->
 		<span class="pagination-item next"
 		:class="{disabled:currentPage === allPage}"
-		@click="clickPage(currentPage+1)">Siguiente</span>
+		@click="clickPage(currentPage+1)">{{lang.NEXT_PAGE}}</span>
 	</div>
 </template>
 <script>
+	import lang from '../assets/js/language.js'
 	export default{
 		name:'pagination',
 		data(){
@@ -36,7 +37,8 @@
 				firstEllipsis:true,
 				secondEllipsis:true,
 				currentPage:1,
-				displayPage:[]
+				displayPage:[],
+				lang:lang
 			}
 		},
 		mounted(){

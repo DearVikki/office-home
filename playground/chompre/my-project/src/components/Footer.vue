@@ -2,27 +2,25 @@
 	<div id='footer_container' v-show="show" :class='{onepage: onepage}'>
 		<div id='footer_part1'>
 			<table>
-				<!-- <caption>Chompre用户指南</caption>
-				<tr><td>支付说明</td><td>发票说明</td><td>售后说明</td></tr>
-				<tr><td>平台介绍</td><td>配送说明</td><td>用户协议</td></tr> -->
-				<caption>Guía de Chompre</caption>
-				<tr><td>Descripción de pago</td><td>Descripción de factura</td><td>Descripción de venta</td></tr>
-				<tr><td>Introducción de Chompre</td><td>Descripción de transporte</td><td>Condiciones de usuario</td></tr>
+				<caption>{{lang.GUIDE}}</caption>
+				<tr><td>{{lang.PAY_GUIDE}}</td><td>{{lang.INVOICE_GUIDE}}</td><td>{{lang.SERVICE_GUIDE}}</td></tr>
+				<tr><td>{{lang.PLATFORM_GUIDE}}</td><td>{{lang.DELIVERY_GUIDE}}</td><td>{{lang.PROTOCOL}}</td></tr>
 			</table>
 		</div>
 		<div id='footer_part2'>
-			<!-- 版权所有 -->
-			Todos Los Derechos Reservados
+			{{lang.RIGHT_RESERVED}}
 		</div>
 	</div>
 </template>
 <script>
+	import lang from '../assets/js/language.js'
 	export default{
 		name:'myfooter',
 		data(){
 			return {
 				onepage:false,
-				show:false
+				show:false,
+				lang:lang
 			}
 		},
 		mounted(){

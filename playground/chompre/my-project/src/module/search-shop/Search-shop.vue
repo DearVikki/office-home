@@ -7,13 +7,14 @@
 				<p class="name">{{shop.dealer_name}}</p>
 				<p class="city">{{shop.city}}</p>
 			</span>
-			<div class="enter">进入店铺 >></div>
+			<div class="enter">{{lang.ENTER_SHOP}} >></div>
 		</a>
 	</div>
 </template>
 <script>
 	import {getParameterByName} from '../../assets/js/utils.js';
 	import pagination from '../../components/Pagination.vue';
+	import lang from '../../assets/js/language.js'
 	export default{
 		name:'searchshop',
 		data(){
@@ -26,12 +27,13 @@
 					dealer_id:0,
 					dealer_logo:'',
 					dealer_name:''
-				}]
+				}],
+				lang:lang
 			}
 		},
 		mounted(){
 			this.keyword = getParameterByName('search')||'';
-			document.title = '店铺搜索-' + this.keyword;
+			document.title = lang.SEARCH_SHOP + '-' + this.keyword;
 			this.$http.post('',{
 				name:'zl.shopping.sys.search.dealer',
 				search:this.keyword,

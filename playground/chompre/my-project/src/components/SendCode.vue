@@ -5,13 +5,15 @@
 	@click="sendCode">{{txt}}</div>
 </template>
 <script>
+	import lang from '../assets/js/language.js'
 	export default{
 		name:'sendCode',
 		data(){
 			return{
-				txt:'发送Código',
+				txt:lang.SEND_CODE,
 				counting:false,
-				countdown:''
+				countdown:'',
+				lang:lang
 			}
 		},
 		computed:{
@@ -28,9 +30,9 @@
 					this.counting = true;
 					this.countdown = setInterval(()=>{
 						i--;
-						this.txt = i + '秒重新发送';
+						this.txt = i + 's'+lang.RESEND;
 						if(i===1) {
-							this.txt = '重新发送';
+							this.txt = lang.RESEND;
 							this.counting = false;
 							clearInterval(this.countdown);
 						}
@@ -40,7 +42,7 @@
 		},
 		watch:{
 			reset(){
-				this.txt = '发送Código';
+				this.txt = lang.SEND_CODE;
 				this.counting = false;
 				clearInterval(this.countdown);
 			}

@@ -1,19 +1,19 @@
 <template>
 	<div>
 		<div id="order_container">
-			<div class="title">订单详情
+			<div class="title">{{lang.ORDER_DETAIL}}
 				<span class="fr smallGrey time">{{time}}</span>
 				<!-- 新增地址 -->
-				<span class="fr smallGrey" v-if="order_info.status === 1">待付款</span>
-				<span class="fr smallGrey" v-if="order_info.status === 2">待发货</span>
-				<span class="fr smallGrey" v-if="order_info.status === 3">待收货</span>
-				<span class="fr smallGrey" v-if="order_info.status === 4">待评价</span>
-				<span class="fr smallGrey" v-if="order_info.status === 5">交易关闭</span>
-				<span class="fr smallGrey" v-if="order_info.status === 6">交易成功</span>
-				<span class="fr smallGrey" v-if="order_info.status === 7">退款处理中</span>
-				<span class="fr smallGrey" v-if="order_info.status === 8">退货处理中</span>
-				<span class="fr smallGrey" v-if="order_info.status === 8">退款完成</span>
-				<span class="fr smallGrey" v-if="order_info.status === 8">退货完成</span>
+				<span class="fr smallGrey" v-if="order_info.status === 1">{{lang.TO_PAY}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 2">{{lang.TO_SEND}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 3">{{lang.TO_RECEIVE}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 4">{{lang.TO_COMMENT}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 5">{{lang.DEAL_CLOSE}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 6">{{lang.DEAL_SUCCESS}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 7">{{lang.REFUND_ING}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 8">{{lang.RESEND_GOODS_ING}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 8">{{lang.REFUND_SUCCESS}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 8">{{lang.RESEND_GOODS_SUCCESS}}</span>
 			</div>
 			<div id="order_address">
 				<img src="~assets/img/order/location.png">
@@ -26,7 +26,7 @@
 			</div>
 			<div id="order_delivery">
 				<img src="~assets/img/order/delivery.png">
-				<span class="txt" :title="address_info.receive_name">快递编号: {{order_info.ems_no}} </span>
+				<span class="txt" :title="address_info.receive_name">{{lang.DELIVERY_NO}}: {{order_info.ems_no}} </span>
 			</div>
 			<!-- <div id="order_invoice">
 				<img src="~assets/img/order/invoice.png">
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 			<div id="conclu">
-				Total:
+				{{lang.TOTAL}}:
 				<span>${{order_info.order_amount}}</span>
 			</div>
 		</div>
@@ -72,6 +72,7 @@
 <script>
 	import '../../assets/lib/order-item.less'
 	import {getParameterByName, timestamp} from '../../assets/js/utils.js'
+	import lang from '../../assets/js/language.js'
 	export default{
 		name:'orderdetail',
 		data(){
@@ -88,21 +89,22 @@
 				},
 				goods_info:[],
 				headers:[{
-					name:'店铺宝贝',
+					name:lang.PRODUCT_NAME,
 					style:'width:38%'
 				},{
-					name:'商品属性',
+					name:lang.PRODUCT_INFO,
 					style:'width:16%'
 				},{
-					name:'单价(比索)',
+					name:lang.PRODUCT_UNIT_PRICE,
 					style:'width:13%'
 				},{
-					name:'数量',
+					name:lang.NUM,
 					style:'width:13%'
 				},{
-					name:'小计',
+					name:lang.PRODUCT_TOTAL,
 					style:'width:20%'
-				}]
+				}],
+				lang:lang
 			}
 		},
 		mounted(){
