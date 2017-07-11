@@ -11,7 +11,7 @@
 						<div class="s-inner-bottom">
 							<div class="c-yellow-btn"
 							:class="{disabled:!Number(s.exchange)}"
-							@click="exchangeStep1(s.goods_id,s.content)">兑换</div>
+							@click="exchangeStep1(s)">兑换</div>
 						</div>
 					</div>
 				</div>

@@ -88,6 +88,7 @@
 				    console.log(err.msg);
 				    console.log(err.extra);
 				    if (result == "success") {
+				    	alert('支付成功！')
 				       this.editSuccess();
 				    } else if (result == "fail") {
 				    	this.editFail('支付遇到问题了!');
