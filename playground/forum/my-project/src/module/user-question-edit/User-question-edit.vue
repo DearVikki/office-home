@@ -43,6 +43,7 @@
 					this.money = '';
 					return;
 				}
+				var money = Number(this.money);
 				if(this.loading) return;
 				this.loading = true;
 				this.$http.post('',{
@@ -50,17 +51,20 @@
 					question_id: this.questionId,
 					question_describe:this.des
 				}).then((response)=>{
-					if(this.money === '') this.editSuccess();
+					if(!money) this.editSuccess();
 					// 追加积分
 					if(this.type==='integral') {
-						this.money = Math.round(this.money);
+						if(!Number.isInteger(money)) {
+							this.editFail('积分悬赏必须为整数喔!');
+							return;
+						}
 						this.$http.post('',{
 							name:'xwlt.pc.Add_Reward',
 							question_id: this.questionId,
 							reward_type: this.type,
-							num: Number(this.money) ? this.money : 0
+							num: money
 						}).then((response)=>{
-							if(response.body.data === 1000) this.editSuccess();
+							if(response.body.code === 1000) this.editSuccess();
 							else this.editFail(response.body.msg);
 						})
 					} else {
@@ -68,7 +72,7 @@
 						this.$http.post('',{
 							name:'xwlt.pc.UpdatePay',
 							channel:'wx_pub',
-							amount:this.money*100,
+							amount:money*100,
 							order_no:new Date().getTime()+Math.ceil(Math.random())*1000,
 							description:JSON.stringify({
 								type:'reward',
@@ -83,12 +87,11 @@
 				})
 			},
 			createPayment(charge){
-				pingpp.createPayment(charge, function(result, err){
+				pingpp.createPayment(charge, (result, err) => {
 				    console.log(result);
 				    console.log(err.msg);
 				    console.log(err.extra);
 				    if (result == "success") {
-				    	alert('支付成功！')
 				       this.editSuccess();
 				    } else if (result == "fail") {
 				    	this.editFail('支付遇到问题了!');

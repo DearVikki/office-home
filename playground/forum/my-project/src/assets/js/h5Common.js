@@ -16,6 +16,7 @@ xhr.onload = function(r){
 		xhr2.send("name=xwlt.pc.IsAuthentication");
 		xhr2.onreadystatechange = function() {//Call a function when the state changes.
 		    if(xhr2.readyState == 4 && xhr2.status == 200) {
+		    	// if(!Number(JSON.parse(xhr2.responseText).data.suspended)) location.href="http://www.baidu.com";
 		        if(!Number(JSON.parse(xhr2.responseText).data.is_authentication)) location.href="./user-authentication.html";
 		    }
 		}

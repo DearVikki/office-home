@@ -1,26 +1,62 @@
 <template>
 	<div id="set_container">
 		<Group labelAlign="right">
-			<x-switch title="被回答提醒" :value="v1"></x-switch>
-			<x-switch title="被追问提醒" :value="v2"></x-switch>
-			<x-switch title="已采纳提醒" :value="v3"></x-switch>
-			<x-switch title="私信提醒" :value="v4"></x-switch>
+			<x-switch title="被回答提醒" :value="question"
+			@on-change="change1"></x-switch>
+			<x-switch title="被追问提醒" :value="reply"
+			@on-change="change2"></x-switch>
+			<x-switch title="已采纳提醒" :value="adopt"
+			@on-change="change3"></x-switch>
+			<x-switch title="私信提醒" :value="letter"
+			@on-change="change4"></x-switch>
 		</Group>
 		<div class="c-contact">客服连线：0989-09808788</div>
 	</div>
 </template>
 <script>
-	// 直接写vux会报找不到module from'vux/undefined吖'
 	import {Group,XSwitch} from 'vux';
-	// import {Group,XSwitch} from '../../../node_modules/vux';
 	export default{
 		name:'set',
 		data(){
 			return{
-				v1:false,
-				v2:true,
-				v3:true,
-				v4:false
+				question:true,
+				reply:true,
+				adopt:true,
+				letter:true
+			}
+		},
+		mounted(){
+			this.$http.post('',{
+				name:'xwlt.pc.UserSetupList'
+			}).then((response) => {
+				let d = response.body.data.UserSetupList;
+				this.question = Boolean(Number(d.question));
+				this.reply = Boolean(Number(d.reply));
+				this.adopt = Boolean(Number(d.adopt));
+				this.letter = Boolean(Number(d.letter));
+			})
+		},
+		methods:{
+			request(type, val){
+				this.$http.post('',{
+					name: 'xwlt.pc.UserSetupSz',
+					type: type,
+					typeid: val
+				}).then((response) => {
+
+				})
+			},
+			change1(val){
+				this.request('question', Number(val));
+			},
+			change2(val){
+				this.request('reply', Number(val));
+			},
+			change3(val){
+				this.request('adopt', Number(val));
+			},
+			change4(val){
+				this.request('letter', Number(val));
 			}
 		},
 		components:{Group,XSwitch}

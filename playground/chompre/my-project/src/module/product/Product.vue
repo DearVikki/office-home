@@ -272,7 +272,7 @@
 		            }]
 				},
 				// 语言
-				lang: {}
+				lang: lang
 			}
 		},
 		computed:{
@@ -285,8 +285,6 @@
 			}
 		},
 		mounted(){
-			this.lang = lang.span;
-			// this.lang = lang.cn;
 			//拉取商品详情页-上半部分
 			this.$http.post('',{name:'zl.shopping.sys.goods.info', pre_goods_id:this.pre_goods_id})
 			.then((response)=>{
