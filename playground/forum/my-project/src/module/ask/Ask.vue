@@ -32,7 +32,7 @@
 				<option value="money">金钱悬赏</option>
 			</select>
 		</div>
-		<div class="c-line reward-container" v-show="reward_type==='integral'">积分悬赏 <span class="c-color">(当前积分:{{existingCredit}}分)</span>
+		<div class="c-line reward-container" v-show="reward_type==='integral'">积分悬赏 <span class="c-color ellipsis">(当前积分:{{existingCredit}}分)</span>
 			<input placeholder="(单位:分)" v-model="credit">
 		</div>
 		<div class="c-line reward-container" v-show="reward_type==='money'">金钱悬赏 <span class="c-color">(微信支付)</span>
@@ -331,9 +331,14 @@
 			width: 2.2rem;
 		}
 	}
+	.reward-container .c-color{
+		max-width: 5rem;
+		display: inline-block;
+		vertical-align: middle;
+	}
 	.reward-container input{
 		text-align: right;
-		width: 4rem;
+		width: 2rem;
 	}
 	/*设置截至日期的插件*/
 	#deadline > div{

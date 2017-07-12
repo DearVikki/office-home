@@ -4,7 +4,7 @@
 			<SwipeoutItem :right-menu-width="210" :sensitivity="15"
 			v-for="msg in msgs"
 			>
-				<div slot="right-menu">
+				<div slot="right-menu" @click="clickDelete(msg)">
 					<swipeoutButton  type="primary" :width="remToPx">删除</swipeoutButton>
 				</div>
 				<a class="swipeout-content-inner"
@@ -25,17 +25,36 @@
 		<div class="c-empty" v-if="!msgs.length">
 			<p>暂无新私信喔</p>
 		</div>
+		<pop :pop="pop">
+			<div id="delete_pop">
+				<p>确定删除<span class="c-color">{{deleteMsg.username}}</span>吗?</p>
+				<div class="btn-container">
+					<div class="c-grey-btn" @click="confirmDelete">确定</div>
+					<div class="c-yellow-btn" @click="pop.show = false">取消</div>
+				</div>
+			</div>
+		</pop>
 	</div>
 </template>
 <script>
+	import WebIM from 'webim';
 	import img from '../../assets/img/index/icon_personal_pressed.png'
+	import pop from '../../components/Pop.vue';
 	import { Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
-	import { utcToDate } from '../../assets/js/utils.js'
+	import { utcToDate, myAlert } from '../../assets/js/utils.js'
 	export default{
 		name:'msg',
 		data(){
 			return{
-				msgs:[]
+				conn:'',
+				msgs:[],
+				deleteMsg:{},
+				pop:{
+					show: false,
+					style:{
+						width:'5.8rem'
+					}
+				}
 			}
 		},
 		mounted(){
@@ -51,19 +70,82 @@
 				})
 				this.msgs = msgs;
 			})
+			this.$http.post('',{
+				name:'xwlt.pc.PersonalInfo'
+			}).then((response)=>{
+				this.from = response.body.data.userInfo;
+				this.fromId = response.body.data.user_id;
+				var self = this;
+				var conn = new WebIM.connection({
+				    https: WebIM.config.https,
+				    url: WebIM.config.xmppURL,
+				    isAutoLogin: WebIM.config.isAutoLogin,
+				    isMultiLoginSessions: WebIM.config.isMultiLoginSessions
+				})
+				conn.listen({
+				    onOpened: function ( message ) {
+				        console.log('已连接')
+				        conn.setPresence();
+				    },
+				    onClosed: function ( message ) {},
+				    onTextMessage: function ( message ) {
+				    	console.log(message);
+				    	if(message.from == self.to.user_id) {
+				    		self.msgs.push({content:message.data, type:'to'});
+				    	}
+				    },    //收到文本消息
+				    onPresence: function ( message ) {},       //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
+				    onRoster: function ( message ) {},         //处理好友申请
+				    onInviteMessage: function ( message ) {},  //处理群组邀请
+				    onOnline: function () {},                  //本机网络连接成功
+				    onOffline: function () {},                 //本机网络掉线
+				    onError: function ( message ) {},          //失败回调
+				    onBlacklistUpdate: function (list) {       //黑名单变动
+				        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
+				        console.log(list);
+				    }
+				})
+				var options = {
+				  apiUrl: WebIM.config.apiURL,
+				  user: this.fromId,
+				  pwd: '123456',
+				  appKey: WebIM.config.appkey
+				};
+				conn.open(options);
+				this.conn = conn;
+			})
+		},
+		methods:{
+			clickDelete(msg){
+				this.deleteMsg = msg;
+				this.pop.show = true;
+			},
+			confirmDelete(){
+				var self = this;
+				this.conn.removeRoster({
+				       to: self.deleteMsg.user_id,
+				       success: function () {  // 删除成功
+				           this.conn.unsubscribed({
+				               to: self.deleteMsg.user_id
+				           });
+				       },
+				       error: function(){
+				       		myAlert.small('删除失败！');
+				       }
+				   });
+				self.msgs.forEach((m,i) => {
+				    if(m.user_id == self.deleteMsg.user_id) self.msgs.splice(i,1);
+				})
+				self.pop.show = false;
+			}
 		},
 		computed:{
 			remToPx(){
 				let base = document.querySelector('html').style.fontSize.slice(0,-2);
 				return 1.95*base;
-			},
-			clickMsg(msg){
-				console.log(msg)
-				console.log( )
-				// location.href = './notification-msg.html?ref='+JSON.stringify(btoa(encodeURIComponent(msg)));
 			}
 		},
-		components:{Swipeout, SwipeoutItem, SwipeoutButton}
+		components:{Swipeout, SwipeoutItem, SwipeoutButton, pop}
 	}
 </script>
 <style lang='less'>
@@ -122,5 +204,17 @@
 			top:0.35rem;
 			right:.4rem;
 		}
+	}
+	#delete_pop{
+		padding: .4rem;
+		.c-color{
+			color: #ECD01F;
+		}
+	    .btn-container{
+	    	display: flex;
+		    width: 100%;
+		    justify-content: space-around;
+		    margin-top: .5rem;
+	    }
 	}
 </style>
