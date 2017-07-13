@@ -143,7 +143,7 @@
 						for_id: this.id,
 						for_type: 'dealer'
 					}).then((response)=>{
-						if(response.body.data === 1000){
+						if(response.body.code === 1000){
 							myAlert(lang.CANCEL_COLLECT_TIP);
 							this.is_collect = 0;
 						}
@@ -156,7 +156,7 @@
 						for_id: this.id,
 						for_type: 'dealer'
 					}).then((response)=>{
-						if(response.body.data === 1000){
+						if(response.body.code === 1000){
 							myAlert(lang.COLLECT_TIP);
 							this.is_collect = 1;
 						}

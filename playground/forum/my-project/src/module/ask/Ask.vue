@@ -136,7 +136,7 @@
 			},
 			timeChange(val){
 				if(isNaN(new Date(val).getTime())) this.deadline.utc = '';
-				else this.deadline.utc = new Date(val).getTime() + '1000';
+				else this.deadline.utc = new Date(val).getTime()/1000;
 			},
 			fileChange(){
 				var file = this.$refs.file.files[0];
@@ -268,7 +268,6 @@
 			publishSuccess(){
 				myAlert.big('发布成功拉!');
 				setTimeout(()=>{
-					// location.replace('./question-detail.html?id='+ this.questionId);
 					location.replace(document.referrer?document.referrer:'./index.html');
 				},1000)
 			},

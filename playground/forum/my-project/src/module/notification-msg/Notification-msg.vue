@@ -3,6 +3,8 @@
 		<div id="msg_body_container">
 			<!-- <div class="msg-time">2-20 21:20</div> -->
 			<div v-for="msg in msgs">
+				<!--分隔tip -->
+				<div v-if="msg.type=='tip'" class="msg-time">{{msg.content}}</div>
 				<!-- 他人 -->
 				<div v-if="msg.type=='to'" class="msg-item type1">
 					<div class="msg-item-inner">
@@ -34,6 +36,24 @@
 	import {getParameterByName} from '../../assets/js/utils.js'
 	import img1 from '../../assets/img/index/icon_personal_pressed.png'
 	import img2 from '../../assets/img/index/icon_personal.png'
+	function scrollTopEvent(cb){
+		this.cb = cb || function(){};
+		this.loading = false;
+		scrollTopEvent.prototype.toTop = function(){
+			if(msg_body_container.scrollTop < 5) {
+				if(this.loading) return;
+				this.loading = true;
+				this.cb();
+			}
+		}
+		scrollTopEvent.prototype.open = function(){
+			this.listener = this.toTop.bind(this);
+			msg_body_container.addEventListener('scroll', this.listener, false);
+		}
+		scrollTopEvent.prototype.close = function(){
+			msg_body_container.removeEventListener('scroll', this.listener, false);
+		}
+	}
 	export default{
 		name:'msg',
 		data(){
@@ -47,7 +67,9 @@
 				from: {},
 				fromId:'',
 				msgs: [],
-				conn: ''
+				conn: '',
+				page: 1,
+				scrollTopObj: {}
 			}
 		},
 		methods:{
@@ -64,6 +86,38 @@
 					this.resizeDivs();
 				},400)
 			},
+			getHistory(){
+				this.$http.post('',{
+					name: 'xwlt.pc.HxHistoryMsgList',
+					userid: this.to.user_id,
+					page: this.page
+				}).then((response) => {
+					var list = response.body.data.list;
+					list.forEach((l)=>{
+						// 因为要先取得fromId 所以要放在这里
+						if(l.from == this.fromId) l.type = 'from';
+						else l.type = 'to';
+						l.content = l.msg;
+					})
+					var msgs = list.concat(this.msgs);
+					this.msgs = msgs;
+					if(!list.length){
+						this.scrollTopObj.close();
+						this.msgs.unshift({
+							type:'tip',
+							content: '以下为全部消息'
+						})
+					}
+					if(this.page == 1){
+						this.scrollTopObj.open();
+						this.$nextTick(() => {
+							msg_body_container.scrollTop = msg_body_container.scrollHeight;
+						})
+					}
+					this.scrollTopObj.loading = false;
+					this.page++;
+				})
+			},
 			send(){
 				var id = this.conn.getUniqueId();
 				var msg = new WebIM.message('txt', id);
@@ -75,6 +129,9 @@
 				    success: (id, serverMsgId) => {
 				        console.log('send private text Success');
 				        self.msgs.push({content:self.txt, type:'from'});
+				        self.$nextTick(() => {
+				        	msg_body_container.scrollTop = msg_body_container.scrollHeight;
+				        })
 				        // 添加环信私信纪录
 				        this.$http.post('',{
 				        	name:'xwlt.pc.hxMsgAdd',
@@ -146,20 +203,9 @@
 				this.conn = conn;
 
 				// 拉取历史纪录
-				this.$http.post('',{
-					name: 'xwlt.pc.HxHistoryMsgList',
-					userid: this.to.user_id,
-					page:1
-				}).then((response) => {
-					var list = response.body.data.list;
-					list.forEach((l)=>{
-						// 因为要先取得fromId 所以要放在这里
-						if(l.from == this.fromId) l.type = 'from';
-						else l.type = 'to';
-						l.content = l.msg;
-					})
-					this.msgs = list;
-				})
+				this.getHistory();
+				// 实例化上滚事件
+				this.scrollTopObj = new scrollTopEvent(this.getHistory);
 			})
 			// 更新环信私信阅读状态
 			this.$http.post('',{

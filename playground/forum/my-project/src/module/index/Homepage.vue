@@ -3,7 +3,8 @@
 		<!-- banner条 -->
 		<div id="homepage_banner" class="swiper-container">
 			<div class="swiper-wrapper">
-               <a class='swiper-slide' v-for="b in banners">
+               <a class='swiper-slide' v-for="b in banners"
+               :href="b.url">
                		<img :src="b.path">
                </a>
           	</div>
