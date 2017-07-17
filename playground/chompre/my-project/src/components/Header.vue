@@ -31,24 +31,25 @@
 		</div>
 		<div id='header_part2'>
 			<div id='cate_container'
-			@mouseenter='productTypeActive.status=true'
+			@mouseenter='enterLevel0'
+			@mouseleave='cateHide'
 			>
 				{{lang.TYPE}}
 				<!--一级分类-->
 				<ul id='cate_ul'
-				v-show='productTypeActive.status'
-				@mouseleave='productTypeActive.status=false'>
+				v-show='productTypeActive.status'>
 					<li class="cate-item"
 					v-for="(value, cate) in productType"
-					@mouseenter="enterCate(productType[cate].id)"
-					@mouseleave="leaveCate(productType[cate].id)">
+					@mouseenter="enterCate(productType[cate].id)">
 						<span>{{productType[cate].name}}</span>
 						<!--二级分类-->
 						<ul class="subcate-ul" v-show="productType[cate].active">
 							<div class="cate-item"
-							v-for="subcate in productType[cate].sub"
-							@click= "clickCate(productType[cate], subcate)">
-								<span>{{subcate.name}}</span>
+							v-for="subcate in productType[cate].sub">
+								<a v-if="subcate.type"
+								:href="'./category.html?cate='+subcate.type.cate+'&subcate='+subcate.type.subcate">
+									{{subcate.name}}
+								</a>
 							</div>
 						</ul>
 					</li>
@@ -94,7 +95,8 @@
 					status: false
 				},
 				searchKey: '',
-				lang: {}
+				lang: {},
+				timeout:''
 			}
 		},
 		methods: {
@@ -110,11 +112,23 @@
 				this.searchActive.type = this.searchOptions[name].type;
 				this.headerDpActive = false;
 			},
-			enterCate(cateId){
-				this.productType[cateId].active = true;
+			cateHide(){
+				this.timeout = setTimeout(()=>{
+					this.productTypeActive.status=false;
+				},700)
 			},
-			leaveCate(cateId){
-				this.productType[cateId].active = false;
+			clearCateHide(){
+				clearTimeout(this.timeout);
+			},
+			enterLevel0(){
+				this.clearCateHide();
+				this.productTypeActive.status = true;
+			},
+			enterCate(cateId){
+				Object.values(this.productType).forEach((e) => {
+					e.active = false;
+				})
+				this.productType[cateId].active = true;
 			},
 			clickCate(cate, subcate){
 				let ca = {
@@ -173,6 +187,11 @@
 				let productType = {};
 				//拉取二级分类
 				data.forEach((e)=>{
+					let cate = {
+						id: e.class_id,
+						name: e.class_name
+					}
+					cate = btoa(JSON.stringify(cate));
 					productType[e.class_id] = {
 						id: e.class_id,
 						name: e.class_name,
@@ -181,9 +200,18 @@
 					}
 					this.$http.post('',{name:'zl.shopping.sys.subcatalog.info', class_id:e.class_id}).then((response)=>{
 						response.body.data.forEach((g)=>{
-							productType[e.class_id].sub.push({
+							let subcate  = {
 								id: g.class_append_id,
 								name: g.class_name
+							}
+							subcate = btoa(JSON.stringify(subcate));
+							productType[e.class_id].sub.push({
+								id: g.class_append_id,
+								name: g.class_name,
+								type: {
+									cate,
+									subcate
+								}
 							})
 						})
 						this.productType = productType;
@@ -362,7 +390,8 @@
 		    	position: absolute;
 		    	z-index: 3;
 			    left: 0;
-			    top: 43px;
+			    top: 40px;
+    			padding-top: 1px;
 			    width: 100%;
 			    background: #fff;
 		    }
@@ -386,13 +415,14 @@
 				&:first-child{
 					margin-top:0;
 				};
-				span{
+				span,a{
 					display: inline-block;
 					width: 100%;
 					height: 100%;
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
+					color: #fff;
 				}
 		    }
 		    /*二级分类ul*/
@@ -400,7 +430,7 @@
 		    	position: absolute;
 			    top: 0;
 			    left: 100%;
-			    margin-left: 1px;
+			    padding-left: 1px;
 			    width: 100%;
 			    background: #fff;
 		    }
