@@ -45,13 +45,18 @@ function disableAccount(){
 		 +
 	"</div>";
 	var div = document.createElement('div');
-	div.innerHTMl = "<div id=\"disabled_accoount_inner\">" +
+	div.innerHTML = "<div id=\"disabled_accoount_inner\">" +
 			"<div class=\"part1\">" +
 				"<p class=\"c-txt6\">你的账号被封印了！</p>" +
 				"<p class=\"c-txt5\">请尽快联系管理员解开封印</p>" +
 			"</div>" +
-			"<div class=\"part2\" class=\"c-txt6 c-color\">确定并退出</div>" +
+			"<a class=\"part2\" class=\"c-txt6\" href=\"javascript:open(location, '_self').close();\">确定并退出</a>" +
 		"</div>";
 	div.id = 'disabled_accoount_container'
-	document.body.appendChild(html);
+	document.body.appendChild(div);
+	// 阻止页面滚动
+	window.ontouchmove = function(){
+		console.log('hey')
+		return false;
+	}
 }
