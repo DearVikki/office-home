@@ -83,6 +83,7 @@
 		position: fixed;
 		bottom: 0;
 		left: 0;
+		z-index: 100;
 		#footer_half{
 			width: 1.52rem;
 			height: 1.52rem;

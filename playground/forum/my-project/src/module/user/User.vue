@@ -4,7 +4,8 @@
 			<img :src="img">
 			<span id="user_info_right">
 				<p id="user_name">{{username}}</p>
-				<p id="user_praise">累计获赞数: {{userpraise}}</p>
+				<p id="user_credit">我的积分: {{credit}}</p>
+				<p id="user_praise">获赞数: {{userpraise}}</p>
 			</span>
 		</a>
 		<div class="user-part">
@@ -46,6 +47,7 @@
 				img:a,
 				username:'',
 				userpraise:0,
+				credit: 0,
 				items1:[{
 					txt:'我的提问',
 					path:'./user-question.html',
@@ -91,6 +93,12 @@
 				this.username = response.body.data.userInfo.username;
 				this.userpraise = response.body.data.userInfo.PraiseNum;
 			})
+			// 获取用户积分
+			this.$http.post('',{
+				name:'xwlt.pc.GetNowIntegral'
+			}).then((response)=>{
+				this.credit = Number(response.body.data.existing_integral);
+			})
 		}
 	}
 </script>
@@ -113,17 +121,21 @@
 				font-size:0.43rem;
 				color:#4c4c4c;
 			}
-			#user_praise{
+			#user_praise, #user_credit{
 				background:#ffe857;
 				border:1px solid #4c4c4c;
 				border-radius:0.07rem;
-				width:2.96rem;
+				padding:0 .2rem;
 				height:0.53rem;
 				line-height:0.53rem;
 				text-align: center;
 				font-size:0.32rem;
 				color:#4c4c4c;
 				margin-top: 0.2rem;
+				display: inline-block;
+			}
+			#user_credit{
+				margin-right: .5rem;
 			}
 		}
 	}
@@ -139,7 +151,7 @@
 			color:#4c4c4c;
 			background-repeat:no-repeat;
 			background-position:left;
-			background-size: 0.72rem;
+			background-size: 0.8rem;
 		}
 	}
 	.user-part{

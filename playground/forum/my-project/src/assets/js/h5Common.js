@@ -16,7 +16,7 @@ xhr.onload = function(r){
 		xhr2.send("name=xwlt.pc.IsAuthentication");
 		xhr2.onreadystatechange = function() {//Call a function when the state changes.
 		    if(xhr2.readyState == 4 && xhr2.status == 200) {
-		    	// if(!Number(JSON.parse(xhr2.responseText).data.suspended)) location.href="http://www.baidu.com";
+		    	if(!Number(JSON.parse(xhr2.responseText).data.suspended)) disableAccount();
 		        if(!Number(JSON.parse(xhr2.responseText).data.is_authentication)) location.href="./user-authentication.html";
 		    }
 		}
@@ -39,3 +39,19 @@ function isWeixin(){
   }
 }
 document.getElementsByTagName('html')[0].style.fontSize = window.innerWidth / 10 + 'px';
+
+function disableAccount(){
+	var html = "<div id=\"\">" +
+		 +
+	"</div>";
+	var div = document.createElement('div');
+	div.innerHTMl = "<div id=\"disabled_accoount_inner\">" +
+			"<div class=\"part1\">" +
+				"<p class=\"c-txt6\">你的账号被封印了！</p>" +
+				"<p class=\"c-txt5\">请尽快联系管理员解开封印</p>" +
+			"</div>" +
+			"<div class=\"part2\" class=\"c-txt6 c-color\">确定并退出</div>" +
+		"</div>";
+	div.id = 'disabled_accoount_container'
+	document.body.appendChild(html);
+}

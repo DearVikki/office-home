@@ -79,8 +79,15 @@
 				this.historyPop.show = false;
 			},
 			addHistory(q){
-				this.searchHistory.push(q);
-				localStorage.setItem('searchHistory',JSON.stringify(this.searchHistory));
+				// 历史记录去重
+				let isExisted = false;
+				this.searchHistory.forEach((e) => {
+					if(e.question_id == q.question_id) isExisted = true;
+				})
+				if(!isExisted) {
+					this.searchHistory.push(q);
+					localStorage.setItem('searchHistory',JSON.stringify(this.searchHistory));
+				}
 			},
 			search(){
 				this.$http.post('',{

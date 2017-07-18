@@ -17,7 +17,7 @@
 			<a @click="answerQuestion">我来回答!</a>
 		</div>
 		<!-- 到底部 -->
-		<div class="c-end" v-if="loadAll && answers.length">都被你看完拉吼!</div>
+		<div class="c-end" v-if="loadAll && answers.length">加载完成啦</div>
 		<!-- 弹出打字框的透明蒙版 -->
 		<div v-if="inputStatus || textareaStatus" @click="cancelComment"
 		id="trans_mask"></div>
@@ -48,7 +48,7 @@
 	import questionDetailQ from './question-detail-q.vue'
 	import questionDetailA from './question-detail-a.vue'
 	import {getParameterByName} from '../../assets/js/utils.js'
-	import {myAlert, loadMore} from '../../assets/js/utils.js';
+	import {myAlert, loadMoreUpdate} from '../../assets/js/utils.js';
 	export default{
 		name:'questiondetail',
 		data(){
@@ -64,13 +64,27 @@
 				activeAnswer:'',
 				activeComment:'',
 				userInfo:'',
-				userpop:''
+				userpop:'',
+				loadMoreUpdate:''
 			}
 		},
 		mounted(){
-			this.getData();
-			loadMore.config.cb = this.getData;
-			loadMore.open();
+			this.getData(() => {
+				this.$nextTick(() => {
+					// 注意这里是main的内里包裹着滚动条喔 不是body的滚动条
+					let main = document.getElementById('question_main');
+					// 页面不足一页时(即无滚动条) 直接给出加载完成的toast
+					if(main.scrollHeight === Math.round(main.getBoundingClientRect().height)) this.loadAll = true;
+					// 页面高于一页时 绑到下拉加载
+					else {
+						this.loadMoreUpdate = new loadMoreUpdate({
+							el: document.getElementById('question_main'),
+							cb: this.getData
+						});
+						this.loadMoreUpdate.open();
+					}
+				})
+			});
 			this.resizeDivs();
 		},
 		methods:{
@@ -84,7 +98,11 @@
 				// 	this.resizeDivs();
 				// }, 300)
 			},
-			getData(){
+			scrollBottom(){
+
+			},
+			getData(cb){
+				cb = cb || function(){};
 				this.$http.post('',{
 					name:'xwlt.pc.PersonalInfo'
 				}).then((response)=>{
@@ -124,10 +142,10 @@
 						}
 						this.question_type = type;
 					}
-					let answers = response.body.data.ReplyRList;
+					let answers = response.body.data.ReplyRList || [];
 					if(!answers.length && this.answers.length){
-						loadMore.close();
-						loadMore.loadAll = this.loadAll = true;
+						this.loadMoreUpdate.close();
+						this.loadAll = true;
 						myAlert.small('没有更多拉!');
 					} else {
 						answers.forEach((a)=>{
@@ -143,9 +161,10 @@
 							})
 						})
 						this.answers = this.answers.concat(answers);
-						this.page++;
 					}
-					loadMore.loading = false;
+					if(this.page > 1) this.loadMoreUpdate.loading = false;
+					this.page++;
+					cb();
 				})
 			},
 			// 点击新增二级回复
@@ -246,7 +265,7 @@
 </script>
 <style lang='less' scoped>
 	#question_main{
-		padding-bottom:2rem;
+		padding-bottom:0rem;
 		overflow-y: scroll;
 	}
 	#trans_mask{

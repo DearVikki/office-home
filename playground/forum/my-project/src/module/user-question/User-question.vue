@@ -5,8 +5,8 @@
 			<div class="q-describe ellipsis3L">{{q.question_describe}}</div>
 			<div class="q-footer">
 				<div class="q-footer-left fl">
-					<span class="q-money ellipsis" v-if="q.reward_type==='money'">{{Number(q.money).toFixed()}}</span>
-					<span class="q-credit ellipsis" v-else>{{Number(q.integral).toFixed()}}</span>
+					<span class="q-money ellipsis" v-if="q.reward_type==='money'">{{Number(q.money).toFixed(2)}}</span>
+					<span class="q-credit ellipsis" v-else>{{q.integral}}</span>
 					<span class="q-time">{{utcToDate(q.addtime)}}</span>
 				</div>
 				<div class="q-footer-right fr" v-if="!q.is_cn">
@@ -128,7 +128,8 @@
 			border-top:1px solid #d3d3d3;
 			margin-top:0.27rem;
 			.q-money,.q-credit{
-				width:1.4rem;
+				padding-right: .2rem;
+				max-width: 1.8rem;
 				height: 0.48rem;
 				line-height:.48rem;
 				padding-left:0.61rem;

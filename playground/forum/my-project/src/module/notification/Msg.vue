@@ -4,8 +4,9 @@
 			<SwipeoutItem :right-menu-width="210" :sensitivity="15"
 			v-for="msg in msgs"
 			>
-				<div slot="right-menu" @click="clickDelete(msg)">
-					<swipeoutButton  type="primary" :width="remToPx">删除</swipeoutButton>
+				<div slot="right-menu" @touchstart="clickDelete(msg)">
+					<swipeoutButton  type="primary" :width="remToPx"
+					@click="alert('dd')">删除</swipeoutButton>
 				</div>
 				<a class="swipeout-content-inner"
 					slot="content"
@@ -29,7 +30,7 @@
 			<div id="delete_pop">
 				<p>确定删除<span class="c-color">{{deleteMsg.username}}</span>吗?</p>
 				<div class="btn-container">
-					<div class="c-grey-btn" @click="confirmDelete">确定</div>
+					<div class="c-yellow-btn" @click="confirmDelete">确定</div>
 					<div class="c-yellow-btn" @click="pop.show = false">取消</div>
 				</div>
 			</div>
@@ -54,6 +55,10 @@
 					style:{
 						width:'5.8rem'
 					}
+				},
+				move:{
+					activeMsgDom:'',
+					base:{x:0, y:0}
 				}
 			}
 		},
@@ -68,6 +73,11 @@
 					e.userInfo.href = './notification-msg.html?ref='+ btoa(encodeURIComponent(JSON.stringify(e.userInfo)));
 					msgs.push(e.userInfo);
 				})
+				msgs.sort(function(a,b) {
+					a.LastMsg = a.LastMsg || {timestamp: 0};
+					b.LastMsg = b.LastMsg || {timestamp: 0};
+					return Number(b.LastMsg.timestamp) - Number(a.LastMsg.timestamp);
+				});
 				this.msgs = msgs;
 			})
 			this.$http.post('',{
@@ -145,7 +155,8 @@
 				return 1.95*base;
 			}
 		},
-		components:{Swipeout, SwipeoutItem, SwipeoutButton, pop}
+		components:{ Swipeout, SwipeoutItem, SwipeoutButton, pop}
+		// components:{pop}
 	}
 </script>
 <style lang='less'>

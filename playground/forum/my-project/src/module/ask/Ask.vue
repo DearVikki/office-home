@@ -33,10 +33,10 @@
 			</select>
 		</div>
 		<div class="c-line reward-container" v-show="reward_type==='integral'">积分悬赏 <span class="c-color ellipsis">(当前积分:{{existingCredit}}分)</span>
-			<input placeholder="(单位:分)" v-model="credit">
+			<input placeholder="请输入悬赏积分" v-model="credit">
 		</div>
 		<div class="c-line reward-container" v-show="reward_type==='money'">金钱悬赏 <span class="c-color">(微信支付)</span>
-			<input placeholder="最低1元起(单位:元)" v-model="money">
+			<input placeholder="请输入悬赏金额" v-model="money">
 		</div>
 		<div id="ask_question_container">
 			<div class="c-line"><input placeholder="请写下你的问题，以问号结尾" v-model="question"></div>
@@ -331,13 +331,13 @@
 		}
 	}
 	.reward-container .c-color{
-		max-width: 5rem;
+		max-width: 4.2rem;
 		display: inline-block;
 		vertical-align: middle;
 	}
 	.reward-container input{
 		text-align: right;
-		width: 2rem;
+		width: 3rem;
 	}
 	/*设置截至日期的插件*/
 	#deadline > div{

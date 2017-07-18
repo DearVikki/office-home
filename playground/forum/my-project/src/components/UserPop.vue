@@ -49,12 +49,7 @@
 					myAlert.small('不能给自己发私信喔');
 					return;
 				}
-				this.$http.post('', {
-					name: 'xwlt.pc.AddFriend',
-					userid: this.userpop.user_id
-				}).then((response) => {
-					location.href = './notification-msg.html?ref=' + btoa(encodeURIComponent(JSON.stringify(this.userpop)));
-				})
+				location.href = './notification-msg.html?ref=' + btoa(encodeURIComponent(JSON.stringify(this.userpop)));
 			}
 		},
 		watch:{

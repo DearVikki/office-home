@@ -67,6 +67,7 @@
 				from: {},
 				fromId:'',
 				msgs: [],
+				pureMsgs:[], //除tip外的全部真实消息
 				conn: '',
 				page: 1,
 				scrollTopObj: {}
@@ -93,6 +94,7 @@
 					page: this.page
 				}).then((response) => {
 					var list = response.body.data.list;
+					this.pureMsgs = list;
 					list.forEach((l)=>{
 						// 因为要先取得fromId 所以要放在这里
 						if(l.from == this.fromId) l.type = 'from';
@@ -101,6 +103,7 @@
 					})
 					var msgs = list.concat(this.msgs);
 					this.msgs = msgs;
+					// 到顶时
 					if(!list.length){
 						this.scrollTopObj.close();
 						this.msgs.unshift({
@@ -108,6 +111,7 @@
 							content: '以下为全部消息'
 						})
 					}
+					// 第一页时
 					if(this.page == 1){
 						this.scrollTopObj.open();
 						this.$nextTick(() => {
@@ -122,6 +126,22 @@
 				var id = this.conn.getUniqueId();
 				var msg = new WebIM.message('txt', id);
 				var self = this;
+				// 若之前不是好友 则需要加为好友先
+				this.$http.post('',{
+					name:'xwlt.pc.HxUserList'
+				}).then((response) => {
+					let isFriended = false;
+					Object.values(response.body.data).forEach((e)=>{
+						if(e.userInfo.user_id == self.to.user_id) isFriended = true;
+					})
+					if(!isFriended){
+						this.$http.post('', {
+							name: 'xwlt.pc.AddFriend',
+							userid: self.to.user_id
+						}).then((response) => {
+						})
+					}
+				})
 				msg.set({
 				    msg: self.txt,
 				    to: self.to.user_id,

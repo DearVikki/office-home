@@ -8,10 +8,12 @@
 			<div id="q_header_right" class="c-praise" :class="{active:Number(question.is_Praise)}"
 			@click="praise">{{question.praisenum}}</div>
 		</div>
-		<div id="q_main">
-			<p id="q_title">{{question.question}}</p>
-			<p id="q_des" :class="{tooLong: question.question_describe.length>=73, isOpen:isOpen}"
-			@click="isOpen = true">{{describeContent}}</p>
+		<div id="q_main" v-if="question.question">
+			<p id="q_title" class="justify">{{question.question}}</p>
+			<p id="q_des"
+			class="justify"
+			:class="{tooLong: question.question_describe.length>=73, isOpen:isOpen}"
+			@click="isOpen = !isOpen">{{describeContent}}</p>
 			<img v-for="img in question.path" :src="img" @click="expandImg(img)">
 			<!-- 大图弹窗 -->
 			<pop :pop="imgPop">
@@ -168,6 +170,7 @@
 		},
 		computed:{
 			describeContent(){
+				if(!this.question.question) return;
 				let d = this.question.question_describe;
 				if(this.isOpen) return d;
 				else return d.length < 73 ? d: d.slice(0,73)+'...';
@@ -224,7 +227,7 @@
 					bottom:0
 				}
 				&.isOpen:before{
-					content:'';
+					content:'收起';
 				}
 			}
 			img{

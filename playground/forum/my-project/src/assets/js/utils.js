@@ -78,6 +78,7 @@ export let loadMore = {
         }
     },
     open(){
+        console.log('open')
         window.addEventListener('scroll',this.loadMore.bind(this),false);
     },
     close(){
@@ -89,5 +90,28 @@ export let loadMore = {
         this.config.cb = cb;
         this.loading = false;
         this.loadAll = false;
+    }
+}
+
+export function loadMoreUpdate({el = '', cb = function(){}} = {el:'gg', cb:function(){}}){
+    this.el = el;
+    this.cb = cb;
+    this.loading = false;
+    loadMoreUpdate.prototype.toEnd = function(){
+        var scrollTop = this.el.scrollTop || document.body.scrollTop,
+            pageHeight = this.el ? this.el.getBoundingClientRect().height : window.innerHeight,
+            scrollHeight = this.el ? this.el.scrollHeight : document.body.scrollHeight;
+        if(scrollTop + pageHeight > scrollHeight - 5) {
+            if(this.loading) return;
+            this.loading = true;
+            this.cb();
+        }
+    }
+    loadMoreUpdate.prototype.open = function(){
+        this.listener = this.toEnd.bind(this);
+        this.el ? this.el.addEventListener('scroll', this.listener, false) : window.addEventListener('scroll', this.listener, false);
+    }
+    loadMoreUpdate.prototype.close = function(){
+        this.el ? this.el.removeEventListener('scroll', this.listener, false) : window.removeEventListener('scroll', this.listener, false);
     }
 }

@@ -78,16 +78,14 @@
 			},
 			// 考虑到如果input的v-model也=this.name的话 改变input内容再点击弹层背景弹层消失 显示的name也会跟着改变 所以索性不连接同一个数据好了
 			saveName(){
-				this.pop.show = false;
 				this.$http.post('',{
 					name:'xwlt.pc.UserName',
 					user_name:this.inputName
 				}).then((response)=>{
 					// 这个神秘的bug！为什么值不对！
 					this.name = this.inputName;
-					console.log(this.inputName)
-					console.log(this.name)
 					myAlert.small('更新昵称成功!');
+					this.pop.show = false;
 				})
 			},
 			popReset(){

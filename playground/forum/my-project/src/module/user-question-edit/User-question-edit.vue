@@ -6,7 +6,7 @@
 		<!-- <p class="c-txt5">增加悬赏：</p> -->
 		<input class="c-txt4" :placeholder = "type==='money'?'增加悬赏(元)...':'增加悬赏(积分)...'"
 		v-model="money">
-		<p class="c-txt5" v-if="type!=='money'">当前积分：<span class="red">163874</span></p>
+		<p class="c-txt5" v-if="type!=='money'">当前积分：<span class="red">{{existingCredit}}</span></p>
 		<div class="c-big-btn" @click="save"
 		:class="{disabled:loading}">发布<span v-if="loading">中..</span></div>
 	</div>
@@ -22,6 +22,7 @@
 				des:'',
 				money:'', //money在这里是广义的- - 又可以指金钱又可以指积分
 				type:'money',
+				existingCredit:'',
 				loading: false
 			}
 		},
@@ -33,6 +34,12 @@
 				question_id:this.questionId
 			}).then((response)=>{
 				this.type = response.body.data.reward_type;
+			})
+			// 获取用户积分
+			this.$http.post('',{
+				name:'xwlt.pc.GetNowIntegral'
+			}).then((response)=>{
+				this.existingCredit = Number(response.body.data.existing_integral);
 			})
 		},
 		methods:{
@@ -46,12 +53,15 @@
 				var money = Number(this.money);
 				if(this.loading) return;
 				this.loading = true;
+				// 问题补充用头部用空格隔开
+				// if(this.des) this.des = ' ' + this.des;
 				this.$http.post('',{
 					name:'xwlt.pc.QuestionDescribe',
 					question_id: this.questionId,
 					question_describe:this.des
 				}).then((response)=>{
 					if(!money) this.editSuccess();
+					// return;
 					// 追加积分
 					if(this.type==='integral') {
 						if(!Number.isInteger(money)) {
