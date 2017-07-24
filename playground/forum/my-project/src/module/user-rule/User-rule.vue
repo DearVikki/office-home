@@ -1,7 +1,7 @@
 <template>
 	<div class="c-txt4">
 		<p style="text-align: center">有问必答版规</p>
-		<p>{{content}}</p>
+		<p v-html="content"></p>
 	</div>
 </template>
 <script>

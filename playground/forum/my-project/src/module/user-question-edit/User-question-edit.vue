@@ -58,7 +58,7 @@
 				this.$http.post('',{
 					name:'xwlt.pc.QuestionDescribe',
 					question_id: this.questionId,
-					question_describe:this.des
+					question_describe: '补充描述: ' + this.des
 				}).then((response)=>{
 					if(!money) this.editSuccess();
 					// return;

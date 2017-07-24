@@ -138,6 +138,7 @@
 					goods_id: this.exchangeMethod.goods_id
 				}).then((response) => {
 					if(response.body.code !== 1000){
+						console.log(response)
 						myAlert(response.body.msg);
 					}
 					this.exchangeAddress = response.body.data.address;
