@@ -21,9 +21,11 @@
 				</div>
 			</div>
 		</div>
-		<div id="msg_footer_container" ref="footer">
+		<div id="msg_footer_container" ref="footer"
+		class="ios"
+		:class="{ios: isIOS}">
 			<div class="input-box c-txt2">
-				<div ref="input" contenteditable="true" @focus="sizeChange" @blur="sizeChange" @input="inputWords"></div>
+				<div ref="input" contenteditable="true" @input="inputWords"></div>
 			</div>
 			<div class="send c-txt2"
 			:class="{disabled:!txt}"
@@ -33,7 +35,7 @@
 </template>
 <script>
 	import WebIM from 'webim';
-	import {getParameterByName} from '../../assets/js/utils.js'
+	import {getParameterByName, isIOS} from '../../assets/js/utils.js'
 	import img1 from '../../assets/img/index/icon_personal_pressed.png'
 	import img2 from '../../assets/img/index/icon_personal.png'
 	function scrollTopEvent(cb){
@@ -70,22 +72,23 @@
 				pureMsgs:[], //除tip外的全部真实消息
 				conn: '',
 				page: 1,
-				scrollTopObj: {}
+				scrollTopObj: {},
+				isIOS: true
 			}
 		},
 		methods:{
 			resizeDivs(){
-				let footerHeight = this.$refs.footer.getBoundingClientRect().height;
-				document.querySelector('#msg_body_container').style.height = window.innerHeight  - footerHeight + 'px';
-				this.$refs.footer.style.top = window.innerHeight - footerHeight + 'px';
+				document.querySelector('#msg_body_container').style.height = window.innerHeight +'px';
 			},
 			inputWords(){
 				this.txt = this.$refs.input.textContent;
 			},
-			sizeChange(){
-				setTimeout(()=>{
-					this.resizeDivs();
-				},400)
+			decodeUnicode(str){
+				var r = /\\u([\d\w]{4})/gi;
+				str = str.replace(r, function (match, grp) {
+				    return String.fromCharCode(parseInt(grp, 16)); } );
+				str = unescape(str);
+				return str;
 			},
 			getHistory(){
 				this.$http.post('',{
@@ -126,6 +129,8 @@
 				var id = this.conn.getUniqueId();
 				var msg = new WebIM.message('txt', id);
 				var self = this;
+				// 不能发生空消息
+				if(!self.txt) return;
 				// 若之前不是好友 则需要加为好友先
 				this.$http.post('',{
 					name:'xwlt.pc.HxUserList'
@@ -148,6 +153,7 @@
 				    roomType: false,
 				    success: (id, serverMsgId) => {
 				        console.log('send private text Success');
+				        this.$refs.input.textContent = '';
 				        self.msgs.push({content:self.txt, type:'from'});
 				        self.$nextTick(() => {
 				        	msg_body_container.scrollTop = msg_body_container.scrollHeight;
@@ -162,7 +168,6 @@
 				        	timestamp: Date.now().toString().slice(0,-3)
 				        }).then((response) => {
 				        	self.txt = '';
-				        	this.$refs.input.textContent = '';
 				        })
 				    }
 				});
@@ -171,11 +176,8 @@
 			}
 		},
 		mounted(){
+			this.isIOS = isIOS();
 			this.resizeDivs();
-			window.onresize = () => {
-				// alert(window.innerHeight)
-				// Mission Failed: ios下弹出keyboard并不会触发resize事件
-			}
 			this.to = JSON.parse(decodeURIComponent(atob(getParameterByName('ref'))));
 			document.title = this.to.username;
 			this.$http.post('',{
@@ -202,16 +204,21 @@
 				    		self.msgs.push({content:message.data, type:'to'});
 				    	}
 				    },    //收到文本消息
-				    onPresence: function ( message ) {},       //收到联系人订阅请求、处理群组、聊天室被踢解散等消息
+				    onEmojiMessage: function (message) {
+				           // 当为WebIM添加了Emoji属性后，若发送的消息含WebIM.Emoji里特定的字符串，connection就会自动将
+				           // 这些字符串和其它文字按顺序组合成一个数组，每一个数组元素的结构为{type: 'emoji(或者txt)', data:''}
+				           // 当type='emoji'时，data表示表情图像的路径，当type='txt'时，data表示文本消息
+				           console.log('Emoji');
+				           var data = message.data;
+				           for(var i = 0 , l = data.length ; i < l ; i++){
+				               console.log(data[i]);
+				           }
+				       },   //收到表情消息
 				    onRoster: function ( message ) {},         //处理好友申请
 				    onInviteMessage: function ( message ) {},  //处理群组邀请
 				    onOnline: function () {},                  //本机网络连接成功
 				    onOffline: function () {},                 //本机网络掉线
 				    onError: function ( message ) {},          //失败回调
-				    onBlacklistUpdate: function (list) {       //黑名单变动
-				        // 查询黑名单，将好友拉黑，将好友从黑名单移除都会回调这个函数，list则是黑名单现有的所有好友信息
-				        console.log(list);
-				    }
 				})
 				var options = {
 				  apiUrl: WebIM.config.apiURL,
@@ -253,6 +260,7 @@
 		padding: .4rem;
 		position: relative;
 		overflow-y: scroll;
+		padding-bottom: 1.6rem;
 		.msg-time{
 			font-size:0.32rem;
 			color:#999;
@@ -273,6 +281,7 @@
 					display:inline-block;
 					vertical-align:top;
 					position:relative;
+					word-break: break-word;
 					&:before{
 						content:'';
 						border:0.18rem solid transparent;
@@ -314,12 +323,16 @@
 		}
 	}
 	#msg_footer_container{
-		position: absolute;
+		position: fixed;
 		left: 0;
+		bottom: 0;
 		width: 100%;
 		padding:0.29rem 0.16rem 0.3rem .4rem;
 		border-top:1px solid #d3d3d3;
 		background: #f7f7f7;
+		&.ios{
+			position: absolute;
+		}
 		.input-box{
 			width:7.87rem;
 			min-height: 0.77rem;

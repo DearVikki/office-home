@@ -115,3 +115,10 @@ export function loadMoreUpdate({el = '', cb = function(){}} = {el:'gg', cb:funct
         this.el ? this.el.removeEventListener('scroll', this.listener, false) : window.removeEventListener('scroll', this.listener, false);
     }
 }
+
+export function isIOS(){
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return true;
+    }
+}
