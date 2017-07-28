@@ -114,6 +114,19 @@
 			}
 		},
 		methods:{
+			initialInvoice(){
+				this.fields[0].val = this.invoice.company_name;
+				this.fields[1].val = this.invoice.company_taxid;
+				this.fields[2].val = this.invoice.company_address;
+				this.fields[3].val = this.invoice.company_area;
+				this.fields[4].val = this.invoice.company_city;
+				this.fields[5].val = this.invoice.company_tel;
+				this.fields[6].val = this.invoice.business_scope;
+				this.isDefault = this.invoice.is_default || 0;
+				this.invoiceId = this.invoice.invoice_id;
+				// 编辑/新增
+				this.type = this.invoice ? 1 : 0;
+			},
 			save(){
 				if(!this.checkAll(this.fields)) return;
 				let invoice = {
@@ -145,18 +158,11 @@
 		},
 		watch:{
 			invoice(){
-				this.fields[0].val = this.invoice.company_name;
-				this.fields[1].val = this.invoice.company_taxid;
-				this.fields[2].val = this.invoice.company_address;
-				this.fields[3].val = this.invoice.company_area;
-				this.fields[4].val = this.invoice.company_city;
-				this.fields[5].val = this.invoice.company_tel;
-				this.fields[6].val = this.invoice.business_scope;
-				this.isDefault = this.invoice.is_default;
-				this.invoiceId = this.invoice.invoice_id;
-				// 编辑/新增
-				this.type = this.invoice ? 1 : 0;
+				this.initialInvoice();
 			}
+		},
+		mounted(){
+			this.initialInvoice();
 		},
 		props:['invoice']
 	}

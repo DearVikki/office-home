@@ -32,12 +32,14 @@
 					name:lang.CHANGE_PW,
 					href:'/pw',
 					id:4
-				},{
-					name:lang.COMPLETE_INFO,
-					href:'',
-					// href:'./info.html',
-					id:5
-				}],
+				},
+				// {
+				// 	name:lang.COMPLETE_INFO,
+				// 	href:'',
+				// 	href:'./info.html',
+				// 	id:5
+				// }
+				],
 				lang:lang
 			}
 		},

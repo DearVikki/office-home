@@ -2,11 +2,10 @@
 	<div id="msg_container">
 		<Swipeout>
 			<SwipeoutItem :right-menu-width="210" :sensitivity="15"
-			v-for="msg in msgs"
+			v-for="(msg,i) in msgs"
 			>
-				<div slot="right-menu" @touchstart="clickDelete(msg)">
-					<swipeoutButton  type="primary" :width="remToPx"
-					@click="alert('dd')">删除</swipeoutButton>
+				<div slot="right-menu" @touchstart="clickDelete(msg,i)">
+					<swipeoutButton  type="primary" :width="remToPx">删除</swipeoutButton>
 				</div>
 				<a class="swipeout-content-inner"
 					slot="content"
@@ -50,6 +49,7 @@
 				conn:'',
 				msgs:[],
 				deleteMsg:{},
+				deleteMsgIndex: '',
 				pop:{
 					show: false,
 					style:{
@@ -126,8 +126,9 @@
 			})
 		},
 		methods:{
-			clickDelete(msg){
+			clickDelete(msg,i){
 				this.deleteMsg = msg;
+				this.deleteMsgIndex = i;
 				this.pop.show = true;
 			},
 			confirmDelete(){
@@ -143,9 +144,11 @@
 				       		myAlert.small('删除失败！');
 				       }
 				   });
-				self.msgs.forEach((m,i) => {
-				    if(m.user_id == self.deleteMsg.user_id) self.msgs.splice(i,1);
-				})
+				self.msgs.splice(this.deleteMsgIndex, 1);
+				// 为了修复下一条总是莫名呈打开状态的问题…
+				this.$nextTick(()=>{
+					document.querySelectorAll('.vux-swipeout-content')[this.deleteMsgIndex].style.transform = 'translate3d(0,0,0)';
+				});
 				self.pop.show = false;
 			}
 		},

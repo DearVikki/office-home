@@ -2,9 +2,10 @@
 	<div id="msg_container">
 		<Swipeout>
 			<SwipeoutItem :right-menu-width="210" :sensitivity="15"
-			v-for="msg in msgs">
-				<div slot="right-menu">
-					<swipeoutButton type="primary" :width="remToPx">删除</swipeoutButton>
+			v-for="(msg,i) in msgs">
+				<div slot="right-menu" @touchstart="clickDelete(msg, i)">
+					<swipeoutButton type="primary" :width="remToPx"
+					auto-close-on-button-click="false">删除</swipeoutButton>
 				</div>
 				<div @click="clickMsg(msg)" class="swipeout-content-inner" slot="content">
 					<img :src="msg.img">
@@ -68,6 +69,22 @@
 					notice_id:msg.notice_id
 				}).then((response)=>{
 					location.href = './question-detail.html?id='+msg.question_id;
+				})
+			},
+			clickDelete(msg,i){
+				this.$http.post('',{
+					name:'xwlt.pc.DeleteNotice',
+					notice_id:msg.notice_id
+				}).then((response)=>{
+					if(response.body.code === 1000) {
+						this.msgs.splice(i, 1);
+						// 为了修复下一条总是莫名呈打开状态的问题…
+						this.$nextTick(()=>{
+							document.querySelectorAll('.vux-swipeout-content')[i].style.transform = 'translate3d(0,0,0)';
+						});
+						myAlert.small('删除成功!');
+					}
+					else myAlert.small(response.body.msg);
 				})
 			}
 		},

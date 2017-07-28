@@ -1,5 +1,5 @@
 <template>
-	<div class="answer-item">
+	<div class="answer-item" v-if="answer.content">
 		<!-- 已采纳label -->
 		<div class="answer-label" v-if="answer.isAccepted&&type">已采纳</div>
 		<div class="answer-label" v-if="answer.isAccepted&&!type">被采纳</div>
@@ -22,7 +22,7 @@
 		</div>
 		<div class="answer-content">
 			<div class="answer-main"
-			:class="{isOpen:isOpen,short:answer.content.length<78}"
+			:class="{isOpen:isOpen,short: answer.content.length<78}"
 			@click="isOpen = !isOpen">{{answerContent}}</div>
 			<div class="comment-main" v-if="answer.comment.length>0">
 				<div class="comment-item" v-for="c in commentContent"

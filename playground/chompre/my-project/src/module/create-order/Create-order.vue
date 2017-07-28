@@ -43,7 +43,7 @@
 		<!-- 确认发票信息 -->
 		<div id="invoice_container">
 			<div class="title">{{lang.CONFIRM_INVOICE}}
-				<!-- 新增地址 -->
+				<!-- 新增发票 -->
 				<span class="fr smallBlue" @click="addInvoice">{{lang.ADD_INVOICE}}</span>
 			</div>
 			<!-- 发票内容 -->
@@ -84,7 +84,8 @@
 		<div id="delivery_container">
 			<div class="title">{{lang.CONFIRM_DELIVERY}}</div>
 			<div id="select_delivery">
-				<simpleDropdown :sDropdown="delivery.dropdown"></simpleDropdown>
+				<simpleDropdown :sDropdown="delivery.dropdown"
+				@clickOption="conclu.tip = ''"></simpleDropdown>
 			</div>
 		</div>
 		<!-- 订单确认 -->
@@ -149,7 +150,7 @@
 			</div>
 			<p class="clear"></p>
 			<div id="conclu_pay_container">
-				<div id="conclu_pay"  @click="pay">{{lang.GO_PAY}}</div>
+				<div id="conclu_pay" :class="{disabled: !payBtn}"  @click="pay">{{lang.GO_PAY}}</div>
 				<div id="conclu_tip">{{conclu.tip}}</div>
 			</div>
 		</div>
@@ -279,7 +280,8 @@
 					sumprice:0,
 					tip:''
 				},
-				lang:{}
+				lang:{},
+				payBtn: true
 			}
 		},
 		mounted(){
@@ -388,16 +390,12 @@
 					this.address.addressList.forEach((a)=>{
 						if(a.address_id === address.address_id) {
 							// 不能直接a = address阿 得分别赋值阿!~咦为什么分别赋值也不行了…
-							a = {
-								receive_name: address.receive_name,
-								idcard: address.idcard,
-								receive_city: address.receive_city,
-								receive_area: address.receive_area,
-								receive_address: address.receive_address,
-								receive_mobile: address.receive_mobile,
-								selected: address.selected
-							}
 							a.receive_name = address.receive_name;
+							a.idcard = address.idcard;
+							a.receive_city = address.receive_city;
+							a.receive_area = address.receive_area;
+							a.receive_address = address.receive_address;
+							a.receive_mobile = address.receive_mobile;
 							console.log('新的收件人姓名已变为'+a.receive_name)
 							this.$forceUpdate();
 						}
@@ -405,21 +403,8 @@
 				}
 			},
 			// 点击新增发票
-			addInvoice(invoice, type){
+			addInvoice(){
 				this.invoice.pop.show = true;
-				// 新增
-				if(!type) {
-					this.invoice.invoiceList.unshift(invoice);
-					this.invoice.selected = invoice;
-				}
-				// 编辑
-				else {
-					this.invoice.invoiceList.forEach((a)=>{
-						if(a.invoice_id === invoice.invoice_id) {
-							a = invoice;
-						}
-					})
-				}
 			},
 			// 点击编辑发票
 			editInvoice(invoice){
@@ -428,7 +413,6 @@
 				this.invoice.pop.show = true;
 			},
 			saveInvoice(invoice, type){
-				console.log('listen!');
 				this.invoice.pop.show = false;
 				// 新增
 				if(!type) {
@@ -439,7 +423,13 @@
 				else {
 					this.invoice.invoiceList.forEach((a)=>{
 						if(a.invoice_id === invoice.invoice_id) {
-							a = invoice;
+							a.company_name = invoice.company_name;
+							a.company_city = invoice.company_city;
+							a.company_area = invoice.company_area;
+							a.company_address = invoice.company_address;
+							a.company_tel = invoice.company_tel;
+							a.company_taxid = invoice.company_taxid;
+							a.company_scope = invoice.company_scope;
 							console.log('新的公司名已变为'+a.company_name);
 						}
 					})
@@ -463,7 +453,9 @@
 			},
 			// 支付
 			pay(){
+				if(!this.payBtn) return;
 				if(!this.checkBeforePay()) return;
+				this.payBtn = false;
 				let goods_id = [];
 				this.order.goods_info.forEach((g)=>{
 					goods_id.push(g.goods_id);
@@ -482,8 +474,11 @@
 						localStorage.setItem('buyDirectly', '');
 						console.log('提交订单成功!')
 						myAlert('提交订单成功！',() => {
-							location.replace('./order.html');
+							location.replace('./my-chompre.html');
 						});
+					} else {
+						myAlert(response.body.msg);
+						this.payBtn = true;
 					}
 				})
 			}
@@ -727,6 +722,9 @@
 			color:#ffffff;
 			text-align:center;
 			cursor:pointer;
+			&.disabled{
+				opacity: .5;
+			}
 		}
 		#conclu_tip{
 			font-size:12px;

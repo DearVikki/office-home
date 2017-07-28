@@ -61,7 +61,7 @@
 					val:''
 				},{
 					id:'address',
-					title:lang.ADDRESS,
+					title:lang.RECEIVE_ADDRESS,
 					placeholder:lang.FILL_IN_RECEIVE_ADDRESS,
 					validators:{required:{msg:lang.NO_EMPTY_RECEIVE_ADDRESS}},
 					error:false,
@@ -106,7 +106,7 @@
 		},
 		methods:{
 			save(){
-				if(!this.checkAll(this.fields)) return;
+				// if(!this.checkAll(this.fields)) return;
 				let address = {
 					receive_name: this.fields[0].val,
 					idcard: this.fields[1].val,
@@ -130,21 +130,27 @@
 					})
 				}
 				this.$emit('saveAddress', address, this.type)
-			}
-		},
-		watch:{
-			address(){
+			},
+			initial(){
 				this.fields[0].val = this.address.receive_name;
 				this.fields[1].val = this.address.idcard;
 				this.fields[2].val = this.address.receive_address;
 				this.fields[3].val = this.address.receive_area;
 				this.fields[4].val = this.address.receive_city;
 				this.fields[5].val = this.address.receive_mobile;
-				this.isDefault = this.address.selected;
+				this.isDefault = this.address.selected || 0;
 				this.addressId = this.address.address_id;
 				// 编辑/新增
 				this.type = this.address ? 1 : 0;
 			}
+		},
+		watch:{
+			address(){
+				this.initial();
+			}
+		},
+		mounted(){
+			this.initial();
 		},
 		props:['address']
 	}

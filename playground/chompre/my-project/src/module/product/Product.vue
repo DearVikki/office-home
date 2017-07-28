@@ -498,7 +498,8 @@
 			#big_box{
 				width: 400px;
 				height: 400px;
-				background: skyblue;
+				background: url(../../assets/img/index/default.png) no-repeat;
+				background-size: cover;
 				img{
 					width: 100%;
 					height: 100%;
