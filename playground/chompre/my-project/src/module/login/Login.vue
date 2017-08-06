@@ -94,7 +94,7 @@
 						localStorage.setItem('userInfo', JSON.stringify(response.body.data));
 						myAlert('login success!', ()=>{
 							let referrer = document.referrer;
-							if(referrer.slice(-10) === 'login.html' || referrer.slice(-11) === 'signup.html')
+							if(referrer.slice(-10) === 'login.html' || referrer.slice(-11) === 'signup.html' || referrer.slice(-14) === 'forget-pw.html')
 								referrer = './index.html';
 							location.replace(referrer);
 						})
