@@ -39,6 +39,11 @@
 				// 	href:'./info.html',
 				// 	id:5
 				// }
+				{
+					name:lang.APPLY_SHOP,
+					href:'/apply',
+					id:6
+				}
 				],
 				lang:lang
 			}

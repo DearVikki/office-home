@@ -137,6 +137,10 @@
 					this.fieldsB.email.msg = lang.NO_EMPTY_MAIL;
 					this.fieldsB.email.error = true;
 					return;
+				} else if(this.fieldsB.email.val !== JSON.parse(localStorage.getItem('userInfo')).mail) {
+					this.fieldsB.email.msg = lang.UNREGISTERED_MAIL;
+					this.fieldsB.email.error = true;
+					return;
 				}
 				this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
 					if(response.body.code === 1000) {
