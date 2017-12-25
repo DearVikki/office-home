@@ -255,7 +255,7 @@
 						{
 		                comment_id: "151",
 		                user_id: "100093",
-		                content: "这是一件好好好好好好好好好好好产品",
+		                content: "",
 		                comment_pic: [
 		                    "http://121.40.91.157/shopping/php/assets/test/3.jpg","http://121.40.91.157/shopping/php/assets/test/3.jpg"
 		                ],
@@ -266,7 +266,7 @@
 		                comment_user_head: "http://121.40.91.157/upload/pic/default_avatar_rectangle-1.jpg",
 		                is_picture: 1,
 		                reply_comment: {
-		                    content: "哈哈哈哈"
+		                    content: ""
 		                },
 		                active_pic:-1
 		            }]
@@ -358,18 +358,22 @@
 				let idArray = this.checkAttr();
 				if(!idArray) {
 					this.selectTip.show = true;
-					this.selectTip.msg = '请选择商品属性';
+					this.selectTip.msg = lang.SELECT_ATTR;
 					return false;
 				}
 				if(this.numEditorData.num === 0){
 					this.selectTip.show = true;
-					this.selectTip.msg = '商品暂无库存';
+					this.selectTip.msg = lang.NO_STORAGE;
 					return false;
 				}
 				return true;
 			},
+			login(){
+				if(!localStorage.getItem('userInfo')) location.href = './login.html';
+			},
 			//立即购买
 			toBuy(){
+				this.login();
 				if(!this.beforeBuy()) return;
 				localStorage.setItem('buyDirectly',JSON.stringify({
 					name:'zl.shopping.sys.directly.buy',
@@ -380,13 +384,14 @@
 			},
 			//加入购物车
 			toAdd(){
+				this.login();
 				if(!this.beforeBuy()) return;
 				this.$http.post('',{
 					name:'zl.shopping.sys.add.goods',
 					goods_id: this.goods_info.goods_id,
 					goods_num: this.numEditorData.num
 				}).then((response)=>{
-					myAlert('已加入购物车！')
+					myAlert(lang.ADD_CART_SUCCESS)
 				})
 			},
 			//点击小星星
@@ -434,7 +439,7 @@
 					for_id: this.pre_goods_id,
 					for_type: 'pre_goods'
 				}).then((response) => {
-					myAlert('收藏成功!');
+					myAlert(lang.COLLECT_TIP);
 					this.pre_goods_info.is_collected = 1;
 				})
 			},
@@ -445,7 +450,7 @@
 					for_id: this.pre_goods_id,
 					for_type: 'pre_goods'
 				}).then((response) => {
-					myAlert('已取消收藏!')
+					myAlert(lang.CANCEL_COLLECT_TIP)
 					this.pre_goods_info.is_collected = 0;
 				})
 			},

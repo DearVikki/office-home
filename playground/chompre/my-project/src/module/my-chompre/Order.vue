@@ -44,7 +44,7 @@
 									</span>
 									<span class="price-container">
 										<span class="goods-detail2">${{order.goods_info.price}}</span>
-										<span class="goods-detail3 fr">x3</span>
+										<span class="goods-detail3 fr">x{{order.goods_info.goods_num}}</span>
 									</span>
 								</div>
 							</div>

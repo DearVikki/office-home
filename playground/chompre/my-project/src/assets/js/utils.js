@@ -21,7 +21,7 @@ export function myAlert(txt, cb) {
     setTimeout(()=>{
         document.querySelector('body').removeChild(div);
     },1000)
-    setTimeout(() => cb(), 700);
+    setTimeout(cb, 700);
 }
 
 //处理时间到日期

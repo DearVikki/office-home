@@ -64,7 +64,7 @@
 			</div>
 			<div id="conclu">
 				{{lang.TOTAL}}:
-				<span>${{order_info.order_amount}}</span>
+				<span>${{totalPrice}}</span>
 			</div>
 		</div>
 	</div>
@@ -123,6 +123,15 @@
 				})
 				this.goods_info = goods_info;
 			})
+		},
+		computed:{
+			totalPrice(){
+				let p = 0;
+				this.goods_info.forEach((e) => {
+					p += e.price * e.goods_num;
+				})
+				return p;
+			}
 		}
 	}
 </script>

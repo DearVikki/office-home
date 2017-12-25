@@ -269,7 +269,7 @@
 			},
 			// 点击删除单件商品
 			deleteGoodsPop(shopIndex,goodsIndex){
-				this.popTxt = '确认删除该商品吗？';
+				this.popTxt = lang.REMOVE_PRODUCT;
 				this.actionGoods = [];
 				this.actionGoods.push({
 					shopIndex: shopIndex,
@@ -279,7 +279,7 @@
 			},
 			// 点击删除多件商品
 			deleteMultiGoodsPop(){
-				this.popTxt = '确认删除所有已选商品吗？';
+				this.popTxt = lang.REMOVE_ALL_PRODUCT;
 				this.actionGoods = [];
 				this.goodsArr.forEach((obj)=>{
 					this.actionGoods.push(obj);
@@ -376,7 +376,8 @@
 		min-width: 1000px;
 		height: 800px;
 		margin:0 auto;
-		padding: .1px 0;
+    padding: .1px 0;
+    margin-bottom: 150px;
 	}
 	/*标题*/
 	h3{

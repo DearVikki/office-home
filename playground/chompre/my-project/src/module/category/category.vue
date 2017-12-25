@@ -6,7 +6,8 @@
 			<div v-if="types.length">
 				<h5>{{cate.name}}</h5>
 				<p class="text"
-				v-for="type in types"
+				v-for="(type,i) in types"
+        :key="i"
 				:class="{active:type.id===subcate.id}"
 				@click="clickSub(type)">{{type.name}}</p>
 				<div class="divider"></div>
@@ -22,6 +23,7 @@
 					<!-- 本来这儿是brand name的 -->
 					<span class="text">{{brand.brand}}</span>
 				</label>
+        <p class="text" style="marginTop:'5px'" @click="clickBrand(0)">{{lang.ALL_BRAND}}</p>
 				<div class="divider"></div>
 			</div>
 			<!--价格区间-->
@@ -52,8 +54,7 @@
 					<star :activeNum="star.num"></star>
 					<span class="star-size">（{{star.size}}）</span>
 				</label>
-				<!-- <p class="text">{{filter.star}}</p> -->
-				<!-- <span class="text" id="all_stars" @click="clickStar('all')">全部评分</span> -->
+				<span class="text" id="all_stars" @click="clickStar('all')">{{lang.ALL_CREDIT}}</span>
 			</div>
 		</div>
 		<!--商品展示框-->
@@ -173,9 +174,9 @@
 		},
 		mounted(){
 			this.search = getParameterByName('search');
-			this.subcate = JSON.parse(atob(getParameterByName('subcate')));
-			this.cate =  JSON.parse(atob(getParameterByName('cate')));
 			if(!this.search){
+				this.subcate = JSON.parse(atob(getParameterByName('subcate')));
+				this.cate =  JSON.parse(atob(getParameterByName('cate')));
 				this.title = this.cate.name + '-' +this.subcate.name;
 				//拉取所有二级分类
 				this.$http.post('',{name:'zl.shopping.sys.subcatalog.info', class_id:this.cate.id}).then((response)=>{
@@ -204,7 +205,7 @@
 				let max = this.filter.max;
 				if(Number(min) === 'NaN' || Number(max) === 'NaN') return;
 				if(Number(min) < 0 || Number(max) < 0) return;
-				if(Number(min)<Number(max))
+				if(Number(min) < Number(max))
 					this.filterPriceActive = true;
 				else this.filterPriceActive = false;
 			},
@@ -271,10 +272,16 @@
 			},
 			//点击品牌
 			clickBrand(id){
-				let index = this.filter.brand.indexOf(id);
-				// 加入品牌或删除品牌
-				if(index === -1) this.filter.brand.push(id);
-				else this.filter.brand.splice(index,1);
+        if(!id) {
+          this.filter.brand = '';
+          Array.from(document.querySelectorAll('input[type=checkbox]')).forEach(c => c.checked = false);
+        }
+        else {
+          let index = this.filter.brand.indexOf(id);
+          // 加入品牌或删除品牌
+          if(index > -1) this.filter.brand.push(id);
+          else this.filter.brand.splice(index,1);
+        }
 				this.page = 1;
 				this.pageReset = Math.random();
 				this.getProducts();

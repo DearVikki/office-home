@@ -40,8 +40,22 @@
 				<p>{{lang.NO_ADDRESS_TIP}}</p>
 			</div>
 		</div>
+		<!-- 选择大小发票 -->
+		<div id="select_invoice_container">
+			<div class="title">{{lang.SELECT_INVOICE_TYPE}}</div>
+			<label>
+				<input type="radio" class="checkbox" name="invoiceType" :value=1 v-model="invoice.is_bigInvoice">
+				<span class="checkbox-input vm"></span>
+				<span class="txt vm">{{lang.BIG_INVOICE}}</span>
+			</label>
+			<label style="margin-left: 20px">
+				<input type="radio" class="checkbox" name="invoiceType":value=0 v-model="invoice.is_bigInvoice">
+				<span class="checkbox-input vm"></span>
+				<span class="txt vm">{{lang.SMALL_INVOICE}}</span>
+			</label>
+		</div>
 		<!-- 确认发票信息 -->
-		<div id="invoice_container">
+		<div id="invoice_container" v-show="invoice.is_bigInvoice == 1">
 			<div class="title">{{lang.CONFIRM_INVOICE}}
 				<!-- 新增发票 -->
 				<span class="fr smallBlue" @click="addInvoice">{{lang.ADD_INVOICE}}</span>
@@ -168,6 +182,7 @@
 		name:'createorder',
 		data(){
 			return{
+				isFromCart: true,
 				sendCode:{
 					send:function(before){
 						before();
@@ -226,7 +241,8 @@
 							height:'700px',
 							padding:'50px 80px'
 						}
-					}
+					},
+					is_bigInvoice: -1
 				},
 				delivery:{
 					dropdown:{
@@ -292,6 +308,7 @@
 			// 检测是否有可供结算商品
 			if(!goodsIdOrder) {
 				if(buyDirectly) {
+					this.isFromCart = false;
 					buyDirectly = JSON.parse(buyDirectly);
 					requestData = buyDirectly;
 				}
@@ -302,6 +319,12 @@
 			}
 			// 拉取要结算商品信息
 			this.$http.post('', requestData).then((response)=>{
+        if(!response.body.success) {
+          document.getElementById('address_container').style.display = 'none';
+          alert(lang.NOT_SAME_SHOP)
+          history.go(-1)
+          return
+        }
 				// 此时商品还留在购物车中
 				let shipping_info = response.body.data.shipping_info;
 				let dealer_info = response.body.data.dealer_info;
@@ -441,7 +464,7 @@
 					this.conclu.tip = '请选择收货地址';
 					return false;
 				}
-				if(!this.invoice.selected) {
+				if( this.invoice.is_bigInvoice === -1 || (!this.invoice.selected && this.invoice.is_bigInvoice)) {
 					this.conclu.tip = '请选择发票';
 					return false;
 				}
@@ -463,11 +486,11 @@
 				this.$http.post('',{
 					name:'zl.shopping.sys.submit.order',
 					address_id: this.address.selected.address_id,
-					invoice_id: this.invoice.selected.invoice_id,
+					invoice_id: this.invoice.is_bigInvoice ? this.invoice.selected.invoice_id : 0,
 					shipping_id: this.delivery.dropdown.selectedValue,
 					dealer_id: this.order.dealer_info.dealer_id,
 					goods_id: goods_id.toString(),
-					goods_num: ''
+					goods_num: this.isFromCart ? '' : this.order.goods_info[0].goods_num
 				}).then((response)=>{
 					if(response.body.code === 1000) {
 						localStorage.setItem('goodsIdOrder','');
@@ -625,6 +648,9 @@
 		.fold{
 			color:#d42b1e;
 		}
+	}
+	#select_invoice_container{
+		margin-top:50px;
 	}
 	#invoice_container{
 		margin-top: 50px;

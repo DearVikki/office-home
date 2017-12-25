@@ -48,6 +48,7 @@
 	@bla: #5c5c5c;
 	.common-goods-item {
     margin-top: 20px;
+    margin-right: 20px;
     width: 220px;
     display: inline-block;
     position: relative;
