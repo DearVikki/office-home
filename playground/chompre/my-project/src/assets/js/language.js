@@ -162,6 +162,8 @@ let language = {
         INVOICE_ID: '发票税号',
         INVOICE_FIELD: '经营范围',
         SET_DEFAULT_INVOICE: '设为默认发票',
+        // 申请开店
+        APPLY_SHOP: '申请开店',
         // Footer
         GUIDE: '用户指南',
         PAY_GUIDE: '支付说明',
@@ -404,6 +406,19 @@ let language = {
         INVOICE_ID: 'R.U.T',
         INVOICE_FIELD: 'Giro',
         SET_DEFAULT_INVOICE: 'Establecer como información de factura por defecto',
+        // 申请开店
+        APPLY_SHOP: '申请开店',
+        SELECT_SHOPTYPE: '选择店铺类型',
+        INDIVIDUAL_SHOP:'个人店铺',
+        COMPANY_SHOP:'企业店铺',
+        SELECT_INVOICETYPE: '请选择可提供发票类型',
+        UPLOAD_ID: '请上传身份证照片',
+        UPLOAD_CRT: '请上传营业执照',
+        SUBMIT_APPLY:'提交申请',
+        INVOICE_AT_LEAST1_TIP: '请至少选择一种发票类型',
+        ID_TIP:'需上传正反面各一张',
+        ID_NOT_EMPTY:'身份证照片不能为空',
+        CRT_NOT_EMPTY:'营业执照照片不能为空',
         // Footer
         GUIDE: 'Guía de Chompre',
         PAY_GUIDE: 'Descripción de pago',

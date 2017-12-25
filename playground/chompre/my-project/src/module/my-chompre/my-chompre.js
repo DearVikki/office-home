@@ -5,6 +5,7 @@ import Addresss from './Address.vue'
 import Receipt from './Receipt.vue'
 import Pw from './Reset-pw.vue'
 import side from './Side.vue'
+import Apply from './Apply.vue'
 
 const myheader = common.myHeader;
 const myfooter = common.myFooter;
@@ -33,6 +34,9 @@ const router = new common.VueRouter({
   },{
     path:'/pw',
     component: Pw
+  },{
+    path:'/apply',
+    component: Apply
   }]
 })
 
@@ -74,12 +78,15 @@ var vm = new common.Vue({
   			case '/info':
   				type = 5;
   				break;
+        case '/apply':
+          type = 6;
+          break;
   		}
   		return type;
   	}
   },
   router: router,
-  components:{myheader, myfooter, Order, loading, side, Addresss, Receipt}
+  components:{myheader, myfooter, Order, loading, side, Addresss, Receipt, Apply}
 })
 
 // common.interceptors(vm);
