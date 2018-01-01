@@ -24,10 +24,8 @@
 				<a id='signup' href="./signup.html">{{lang.SIGN_UP}}</a>
 			</div>
 			<!--登录状态-->
-			<div id='name_container' v-else
-			title="hhhhhh">{{nickname}}</div>
-			<div id="logout" style="display: none"
-			@click="logout">{{lang.LOGOUT}}</div>
+			<div id='name_container' v-else>{{nickname}}</div>
+			<div id="logout" style="display: none">{{lang.LOGOUT}}</div>
 		</div>
 		<div id='header_part2'>
 			<div id='cate_container'
@@ -56,9 +54,9 @@
 				</ul>
 			</div>
 			<ul id='user_container'>
-				<li><a href="./my-chompre.html">{{lang.MY_CHOMPRE}}</a></li>
-				<li><a href="./cart.html">{{lang.CART}}</a></li>
-				<li><a href="./collect.html">{{lang.FAV}}</a></li>
+				<li><a :href="logged? './my-chompre.html' : './login.html'">{{lang.MY_CHOMPRE}}</a></li>
+				<li><a :href="logged ? './cart.html' : './login.html'">{{lang.CART}}</a></li>
+				<li><a :href="logged ? './collect.html': './login.html'">{{lang.FAV}}</a></li>
 				<!-- <li>Mitienda</li> -->
 			</ul>
 			<div class="clear"></div>
@@ -66,7 +64,6 @@
 	</div>
 </template>
 <script>
-	import Tippy from 'tippy.js'
 	import lang from '../assets/js/language.js';
 	export default{
 		name:'myheader',
@@ -146,6 +143,7 @@
 				else location.href = './search-shop.html?search='+this.searchKey;
 			},
 			logout(){
+        alert('hey')
 				this.$http.post('',{
 					name: 'zl.shopping.sys.pc.login.out'
 				}).then((response) => {
@@ -162,23 +160,11 @@
 			}).then((response) => {
 			    if(response.body.code === 1004) {
 			        this.logged = false;
-			        localStorage.removeItem('userInfo');
+              localStorage.removeItem('userInfo');
+              location.href="./login.html";
 			    } else {
 			    	this.logged = true;
 			    	this.nickname = JSON.parse(localStorage.getItem('userInfo')).nickname;
-			    	setTimeout(()=>{
-			    		let a = new Tippy('#name_container',{
-			    			theme: 'light',
-			    			position: 'bottom',
-			    			arrow: true,
-			    			interactive: true,
-			    			distance: -30,
-			    			size: 'small',
-			    			html:'#logout',
-			    			trigger:'click'
-			    		});
-			    		console.log(a)
-			    	}, 1000)
 			    }
 			})
 			//拉取一级分类
@@ -359,13 +345,12 @@
 			right: 0;
 			bottom: 0;
 			color: @baseColor;
-			cursor: pointer;
 			width: 168px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
 		#logout{
-			
+
 		}
 	}
 	#header_part2{

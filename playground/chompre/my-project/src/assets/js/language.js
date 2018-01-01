@@ -252,7 +252,7 @@ let language = {
         FORGET_PW: '¿Recuperar contraseña?',
         REGISTER: 'Registrarse',
         // 注册
-        USER_NAME: 'Usuario',
+        USER_NAME: 'Nombre',
         ID: 'R.U.T',
         SET_QUESTION: 'configurar pregunta secreta',
         // 找回密码
@@ -262,7 +262,7 @@ let language = {
         PW: 'Contraseña',
         REAPEAT_PW: 'Confimar contraseña',
         FIND_PW: 'Recuperar contraseña',
-        USER: 'Usuario',
+        USER: 'Nombre',
         NEXT_STEP: 'Siguiente',
         SEND_CODE: 'Enviar código',
         RESEND: 'Reenvío',
@@ -277,7 +277,7 @@ let language = {
         HOT_SHOP: 'Mejores tiendas',
         // Header
         TYPE: 'Categorías de productos',
-        MY_CHOMPRE: 'Mi chompres',
+        MY_CHOMPRE: 'Mi chompre',
         CART: 'Carro',
         FAV: 'Misfavoritos',
         // 商品
@@ -438,7 +438,7 @@ let language = {
         FILL_IN_QUESTION: 'Seleccionar',
         FILL_IN_ANSWER: 'Por favor, responda a la pregunta',
         FILL_IN_MAIL_AGAIN: 'Confimar su correo',
-        FILL_IN_USER_NAME: 'Ingresar usuario',
+        FILL_IN_USER_NAME: 'Ingresar nombre',
         FILL_IN_ID: 'Ingresar R.U.T',
         FILL_IN_RECEIVE_NAME: 'Ingresar Nombre',
         FILL_IN_RECEIVE_ADDRESS: 'Ingresar Dirección',
@@ -472,7 +472,7 @@ let language = {
         NO_EMPTY_REPEAT_PW: 'Repetición de contraseña no puede dejar item vacío',
         NOT_SAME_PW: 'Contraseña minimo 6 caracteres',
         RESET_PW_SUCCESS: '¡guardado correctamente!',
-        NO_EMPTY_USER_NAME: 'Usuario no puede dejar item vacío.',
+        NO_EMPTY_USER_NAME: 'Nombre no puede dejar item vacío.',
         NO_EMPTY_ID: 'R.U.T no puede dejar item vacío.',
         NO_ORDER_TIP: 'No hay órdenes pertinentes',
         NO_DELIVERY_INFO: 'No hay información de transporte',

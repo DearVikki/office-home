@@ -144,12 +144,12 @@
 				}
 				this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
 					if(response.body.code === 1000) {
-						let t = 60;
-						this.countdown = t+'s'+lang.RESEND;
+            let t = 60;
+            this.scDisabled = true;
+						this.countdown = t+'s '+lang.RESEND;
 						let cd = setInterval(() => {
 							t--;
-							this.countdown = t+'s'+lang.RESEND;
-							this.scDisabled = true;
+							this.countdown = t+'s '+lang.RESEND;
 							if(t <= 1){
 								clearInterval(cd);
 								this.scDisabled = false;
@@ -190,7 +190,7 @@
 					}
 					this.$http.post('',{
 						name:'zl.shopping.pc.check.question',
-						mail:localStorage.getItem('email'),
+						mail: JSON.parse(localStorage.getItem('userInfo')).mail,
 						register_question_id:this.question_id,
 						answer:this.fieldsA.answer.val
 					}).then((response) => {

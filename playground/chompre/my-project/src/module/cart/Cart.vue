@@ -49,8 +49,8 @@
 						<div class="fr">
 							<!-- 移入收藏夹/删除 -->
 							<div class="edit-container">
-								<span @click="collectGoods(shopIndex,goodsIndex)">{{lang.ADD_COLLECT}}</span>
-								<span @click="deleteGoodsPop(shopIndex,goodsIndex)">{{lang.DELETE}}</span>
+								<p @click="collectGoods(shopIndex,goodsIndex)">{{lang.ADD_COLLECT}}</p>
+								<p @click="deleteGoodsPop(shopIndex,goodsIndex)">{{lang.DELETE}}</p>
 							</div>
 						</div>
 					</div>
@@ -94,7 +94,8 @@
 <script>
 	import numeditor from '../../components/NumEditor.vue';
 	import pop from '../../components/Pop.vue';
-	import lang from '../../assets/js/language.js';
+  import lang from '../../assets/js/language.js';
+  import {myAlert} from '../../assets/js/utils.js';
 	export default{
 		name:'cart',
 		data(){
@@ -164,20 +165,23 @@
 			this.$http.post('', {
 				name: 'zl.shopping.sys.shop.cart'
 			}).then((response)=>{
-				let data = response.body.data.shop_cart_info;
-				data.forEach((e)=>{
-					e.dealer_info.checked = false;
-					e.goods_info.forEach((g)=>{
-						g.numEditorData = {
-							num: g.goods_num,
-							max: g.stores,
-							min: 1
-						},
-						// "xx  xx " => "['xx','xx']"
-						g.description = g.description.split(" ").filter((d)=>{return d});
-					})
-				})
-				this.carts = data;
+        if(response.code === 1004) location.href = ('./login.html');
+        else {
+          let data = response.body.data.shop_cart_info;
+          data.forEach((e)=>{
+            e.dealer_info.checked = false;
+            e.goods_info.forEach((g)=>{
+              g.numEditorData = {
+                num: g.goods_num,
+                max: g.stores,
+                min: 1
+              },
+              // "xx  xx " => "['xx','xx']"
+              g.description = g.description.split(" ").filter((d)=>{return d});
+            })
+          })
+          this.carts = data;
+        }
 			})
 		},
 		methods:{
@@ -343,7 +347,9 @@
 					goods_id: collectGoodsId.toString(),
 					for_type: 'pre_goods'
 				}).then((response)=>{
-					if(response.body.code === 1000) console.log('收藏成功');
+					if(response.body.code === 1000) {
+            myAlert(lang.COLLECT_TIP, location.reload());
+          } else myAlert(response.msg)
 				})
 			},
 			// 购物车去结算
@@ -391,7 +397,7 @@
 	}
 	/*每一家店*/
 	.shop-item{
-		font-size:12px;
+		font-size:14px;
 		color:#5c5c5c;
 		margin-bottom: 20px;
 		&:last-of-type{
@@ -438,7 +444,8 @@
 						text-overflow: ellipsis;
 						display: -webkit-box;
 						-webkit-line-clamp: 3;
-						-webkit-box-orient: vertical;
+            -webkit-box-orient: vertical;
+            font-size: 14px;
 					}
 				}
 				/*尺码颜色*/
@@ -475,9 +482,7 @@
 				/*edit-container*/
 				.edit-container{
 					width: 110px;
-					span{
-						cursor: pointer;
-					}
+					cursor: pointer;
 				}
 			}
 		}
@@ -511,7 +516,7 @@
 	/*总结区*/
 	#conclu_container{
 		width: 100%;
-		font-size:12px;
+		font-size:14px;
 		letter-spacing: 1px;
 		color:#5c5c5c;
 		overflow: hidden;

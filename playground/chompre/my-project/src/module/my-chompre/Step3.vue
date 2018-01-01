@@ -21,9 +21,6 @@
 	import lang from '../../assets/js/language.js'
 	export default{
 		name:'Vali',
-		mounted(){
-			if(!localStorage.getItem('email')) this.$router.push('/step1');
-		},
 		data(){
 			return{
 				fields:[{
@@ -54,7 +51,7 @@
 		            error: '',
 		            val:'',
 		            validators: {
-		            	required: { msg: lang. NO_EMPTY_REPEAT_PW},
+		            	required: { msg: lang.NO_EMPTY_REPEAT_PW},
 		            	equalTo: {
 		            		msg: lang.NOT_SAME_PW,
 		            		extra: { to: 0 }

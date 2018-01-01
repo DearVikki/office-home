@@ -55,13 +55,16 @@
                		@load="hotshopItem.loaded = true">
 					<p>{{hotshopItem.dealer_name}}</p>
 				</a>
+        <a class='hot-shop' style="width:0" />
+        <a class='hot-shop' style="width:0" />
 			</ul>
 		</div>
 		<icontop></icontop>
 	</div>
 </template>
 <script>
-	// import Swiper from '../../assets/lib/swiper.js';
+  import 'swiper/src/swiper.less'
+  import Swiper from 'swiper'
 	import lang from '../../assets/js/language.js';
 	import goodsitem from '../../components/GoodsItem.vue';
 	import icontop from '../../components/ScrollToTop.vue';
@@ -93,37 +96,43 @@
 					e.loaded = false;
 				})
 				this.hotshopItems = response.body.data.hot_dealer;
-				console.log(response.body.data.hot_dealer)
-				//const className = 'mypagi';
-				// this.$nextTick(()=>{
-				//   	 //初始化第一部分banner板块
-		  //         new Swiper('#activity_banner_container',{
-			 //          pagination: '#activity_banner_container .swiper-pagination',
-			 //          slidesPerView: 1,
-			 //          paginationClickable: true,
-			 //          autoplay: 5000,
-			 //          loop:true
-			 //      })
-			 //      //初始化第三部分推荐商品板块
-			 //      new Swiper('#hot_goods_container > .swiper-container',{
-			 //          nextButton: '#hot_goods_container .swiper-button-next',
-				//       prevButton: '#hot_goods_container .swiper-button-prev',
-				//       slidesPerView:5,
-				//       slidesPerGroup:5,
-				//       spaceBetween:25
-			 //      })
-		  //     })
+				const className = 'mypagi';
+				this.$nextTick(()=>{
+				  	 //初始化第一部分banner板块
+		          new Swiper('#activity_banner_container',{
+                	pagination: {
+                      el: '#activity_banner_container .swiper-pagination',
+                      clickable: true
+                  },
+			          slidesPerView: 1,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+			          loop:true
+			      })
+			      //初始化第三部分推荐商品板块
+			      new Swiper('#hot_goods_container > .swiper-container',{
+              navigation: {
+                nextEl: '#hot_goods_container .swiper-button-next',
+                prevEl: '#hot_goods_container .swiper-button-prev',
+              },
+				      slidesPerView:5,
+				      spaceBetween:25
+			      })
+		      })
 			  //初始化第二部分促销商品板块
 			  this.$http.post('',{name:'zl.shopping.sys.banner.info',banner_homepage_id:response.body.data.sale_banner.banner_homepage_id,type:1}).then((response)=>{
 				  this.saleItems = response.body.data.goods_list;
 				  this.$nextTick(()=>{
-				  // new Swiper('#sale_container > .swiper-container',{
-			   //        nextButton: '#sale_container .swiper-button-next',
-				  //     prevButton: '#sale_container .swiper-button-prev',
-				  //     slidesPerView:5,
-				  //     slidesPerGroup:5,
-				  //     spaceBetween:25
-			   //    })
+				  new Swiper('#sale_container > .swiper-container',{
+              navigation: {
+                nextEl: '#sale_container .swiper-button-next',
+                prevEl: '#sale_container .swiper-button-prev',
+              },
+				      slidesPerView:5,
+				      spaceBetween:25
+			      })
 				})
 			})
 			},(response)=>{
@@ -142,7 +151,6 @@
 	}
 </script>
 <style scoped lang='less'>
-	@import '../../assets/lib/swiper.min.css';
 	@baseColor: #d42b1e;
 	@backColor: #fff7f7;
 	@bla: #5c5c5c;
@@ -188,14 +196,27 @@
 		}
 		.swiper-button-prev, .swiper-container-rtl .swiper-button-next{
 			background: url(../../assets/img/index/icon_left.png) no-repeat center;
-			left:-30px;
-			margin-top: -6px;
+			left: -50px;
+      top: 50%;
+      margin-top: -6px;
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      cursor: pointer;
 		}
 		.swiper-button-next, .swiper-container-rtl .swiper-button-prev{
 			background: url(../../assets/img/index/icon_right.png) no-repeat center;
-			right:-30px;
-			margin-top:-6px;
-		}
+			right: -50px;
+      top: 50%;
+      margin-top: -6px;
+      width: 50px;
+      height: 50px;
+      position: absolute;
+    }
+    .swiper-button-disabled{
+      opacity: .3;
+      cursor: default;
+    }
 	}
 	/*第四部分优秀商家板块*/
 	#hot_shop_container{
