@@ -59,35 +59,40 @@
 		</div>
 		<!--商品展示框-->
 		<div id="display_container" class="fr">
-			<div id="display_header">
-				<span>{{lang.TOTAL}}: {{items.goods_count}} {{lang.PRODUCT}}</span>
-				<span v-if="!search">{{cate.name}}/{{subcate.name}}</span>
-				<span v-else>{{search}}</span>
-				<div class="order-container fr">
-					<span style="vertical-align:top">{{lang.ORDER_TYPE}}：</span>
-					<div style="display:inline-block; position:relative;">
-						<div class="order-header"
-						@click="orderShow = !orderShow">{{filter.order.name}}</div>
-						<ul v-show="orderShow">
-							<li class="order-option"
-								v-for="order in orders"
-								v-show="order.id !== filter.order.id"
-								@click="selectOrder(order)">{{order.name}}
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div id="display_body" v-show="items.goods_list.length">
-				<goodsitem :item='item' v-for="item in items.goods_list"
-				:entry="entry"></goodsitem>
-				<div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
-			</div>
+      <div v-show="!contentLoaded" class="empty-tip">
+        {{lang.LOADING}}...
+      </div>
+      <div v-show="contentLoaded">
+        <div id="display_header">
+          <span>{{lang.TOTAL}}: {{items.goods_count}} {{lang.PRODUCT}}</span>
+          <span v-if="!search">{{cate.name}}/{{subcate.name}}</span>
+          <span v-else>{{search}}</span>
+          <div class="order-container fr">
+            <span style="vertical-align:top">{{lang.ORDER_TYPE}}：</span>
+            <div style="display:inline-block; position:relative;">
+              <div class="order-header"
+              @click="orderShow = !orderShow">{{filter.order.name}}</div>
+              <ul v-show="orderShow">
+                <li class="order-option"
+                  v-for="order in orders"
+                  v-show="order.id !== filter.order.id"
+                  @click="selectOrder(order)">{{order.name}}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="display_body" v-show="items.goods_list.length">
+          <goodsitem :item='item' v-for="item in items.goods_list"
+          :entry="entry"></goodsitem>
+          <div class="empty-space-filling-item" v-for="n in 3">{{n}}</div>
+        </div>
+      </div>
 			<pagination v-show="allPage>1"
 			:allPage="allPage"
 			:reset="pageReset"
 			@clickPagination="clickPagination"></pagination>
-			<div class="empty-tip" v-show="!items.goods_list.length">
+			<div class="empty-tip" v-show="!items.goods_list.length && contentLoaded">
 				<img src="~assets/img/product/icon_nothing.png">
 				<p>{{lang.NO_PRODUCT_TIP}}</p>
 			</div>
@@ -106,6 +111,7 @@
 		name:'category',
 		data(){
 			return{
+        contentLoaded: false,
 				search: false,
 				subcate: {},
 				cate: {},
@@ -241,8 +247,10 @@
 						max_price: this.filter.max||-1,
 						star_num:this.filter.star,
 						limit:20
-					}
+          }
+        this.contentLoaded = false;
 				this.$http.post('',obj).then((response)=>{
+          this.contentLoaded = true;
 					this.items = response.body.data;
 					//总页数
 					this.allPage = Math.ceil(response.body.data.goods_count/20);

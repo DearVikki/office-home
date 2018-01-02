@@ -16,8 +16,11 @@
 				<!-- 订单头部 -->
 				<div class="order-header">
 					<div class="fl">
-						<span class="order-time">{{order.order_info.start_time}}</span>
-						<span class="order-price">{{lang.TOTAL_PRICE}}: ${{order.order_info.sum_price}}</span>
+						<span class="order-time">{{timestamp(order.order_info.start_time)}}</span>
+						<span class="order-price">
+              {{lang.TOTAL_PRICE}}: ${{order.order_info.sum_price}}
+            </span>
+             <span class="order-count">{{lang.COUNT}}: {{order.order_info.goods_count}}</span>
 						<a class="order-no cp" :href="'./order-detail.html?id='+order.order_info.order_id">{{lang.ORDER_NO}}: {{order.order_info.order_no}}</a>
 						<a class="order-shop"
 						:href="'./shop.html?id='+order.dealer_info.dealer_id">{{order.dealer_info.dealer_name}}</a>
@@ -35,8 +38,7 @@
 								<img :src="order.goods_info.cover_pic">
 							</a>
 							<div class="goods-part1-inner">
-								<a class="goods-name"
-								:href="'./product.html?id='+order.goods_info.pre_goods_id+'&ref='+entry">{{order.goods_info.goods_name}}</a>
+								<a class="goods-name">{{order.goods_info.goods_name}}</a>
 								<div class="goods-detail">
 									<!-- 商品详细信息 -->
 									<span class="goods-detail1">
@@ -61,15 +63,13 @@
 							<!-- 待收货 -->
 							<div v-if="order.order_info.status === 3">
 								<p>{{lang.TO_RECEIVE}}</p>
-								<p class="main" @click="comment.pop.show = true">{{lang.COMMENT}}</p>
-								<!-- 为什么这里会报el.setAttribute的错吖！ -->
-								<p class="main" @click="changePop.show = true">{{lang.REFUND}}</p>
-								<p class="main" @click="changePop.show = true">{{lang.CHANGE_GOODS}}</p>
 							</div>
 							<!-- 待评价 -->
 							<div v-if="order.order_info.status === 4">
 								<p>{{lang.TO_COMMENT}}</p>
-								<p class="main" @click="comment.pop.show = true">{{lang.COMMENT}}</p>
+								<!-- <p class="main" @click="comment.pop.show = true">{{lang.COMMENT}}</p>
+								<p class="main" @click="changePop.show = true">{{lang.REFUND}}</p>
+								<p class="main" @click="changePop.show = true">{{lang.CHANGE_GOODS}}</p> -->
 							</div>
 							<!-- 取消订单（交易关闭） -->
 							<div v-if="order.order_info.status === 5">
@@ -104,16 +104,14 @@
 							@click="pay(order.order_info)">{{lang.PAY}}</div>
 						</div>
 						<!-- 待发货 -->
-						<!-- 为什么！！为什么contactPop就没问题confirmPop就有问题！！明明是一样的！ -->
 						<div v-if="order.order_info.status === 2">
-							<div class="btn main"
-							@click="confirmPop.show = true">{{lang.CONFIRM_RECEIVE}}</div>
-							<div class="btn">{{lang.CANCEL_DEAL}}</div>
+							<div class="btn" @click="cancelPop.show = true">{{lang.CANCEL_DEAL}}</div>
 						</div>
 						<!-- 待收货 -->
 						<div v-if="order.order_info.status === 3">
+              <div class="btn" @click="clickDelivery">{{lang.VIEW_DELIVERY}}</div>
 							<div class="btn main"
-							@click="clickConfirm">{{lang.CONFIRM_RECEIVE}}</div>
+							@click="confirmPop.show=true">{{lang.CONFIRM_RECEIVE}}</div>
 						</div>
 						<!-- 待评价 -->
 						<div v-if="order.order_info.status === 4">
@@ -142,10 +140,13 @@
 				</div>
 			</div>
 			<!-- 缺省页 -->
-			<div class="empty-tip" v-if="!orders.length">
+			<div class="empty-tip" v-if="contentLoaded && !orders.length">
 				<img src="~assets/img/product/icon_dingdan.png">
 				<p>{{lang.NO_ORDER_TIP}}</p>
 			</div>
+      <div class="empty-tip" v-if="!contentLoaded">
+        {{lang.LOADING}}...
+      </div>
 		</div>
 		<!-- 客服弹窗 -->
 		<!-- 这里一定要先给selectedOrder各项初始值呢 不然会报错！因为vue一定要先注册dom吖！ -->
@@ -199,13 +200,12 @@
 				<div class="btn-container">
 					<div class="btn" :class="{disabled:commentDisabled}"
 					@click="uploadImg">{{lang.COMMENT}}</div>
-					<div class="btn reverse" @click="comment.show = false">{{lang.CLOSE}}</div>
+					<div class="btn reverse" @click="comment.pop.show = false">{{lang.CLOSE}}</div>
 				</div>
 			</div>
-
 		</pop>
 		<!-- 换货弹窗 -->
-		<pop :pop="changePop" class="common-pop">
+		<pop :pop="changePop">
 			{{lang.CONFIRM_CHANGE_GOODS_POP}}？
 			<div class="btn-container">
 				<div class="btn" @click="returnGoods(1)">{{lang.CHANGE_GOODS}}</div>
@@ -213,22 +213,30 @@
 			</div>
 		</pop>
 		<!-- 退货弹窗 -->
-		<pop :pop="returnPop" class="common-pop">
+		<pop :pop="returnPop">
 			{{lang.CONFIRM_REFUND_POP}}
 			<div class="btn-container">
 				<div class="btn" @click="returnGoods(2)">{{lang.REFUND}}</div>
 				<div class="btn reverse" @click="returnPop.show = false">{{lang.CLOSE}}</div>
 			</div>
 		</pop>
+    	<!-- 取消商品弹窗 -->
+		<pop :pop="cancelPop">
+			{{lang.CONFIRM_CANCEL_POP}}
+			<div class="btn-container">
+				<div class="btn" @click="cancelGoods">{{lang.CANCEL_DEAL}}</div>
+				<div class="btn reverse" @click="cancelPop.show = false">{{lang.CLOSE}}</div>
+			</div>
+		</pop>
 		<!-- 确认收货弹窗 -->
-		<pop :pop="confirmPop" class="common-pop">
-			<!-- <div>
+		<pop :pop="confirmPop">
+			<div>
 				{{lang.CONFIRM_RECEIVE_POP}}
 				<div class="btn-container">
 					<div class="btn" @click="confirm">{{lang.CONFIRM_RECEIVE}}</div>
 					<div class="btn reverse" @click="confirmPop.show = false">{{lang.CLOSE}}</div>
 				</div>
-			</div> -->
+			</div>
 		</pop>
 		<loading v-show="showLoading"></loading>
 	</div>
@@ -238,7 +246,9 @@
 	import pop from '../../components/Pop.vue';
 	import starmark from '../../components/Starmark.vue';
 	import loading from '../../components/Loading.vue';
-	import lang from '../../assets/js/language.js'
+  import lang from '../../assets/js/language.js'
+// 订单状态；1，待付款；2，待发货；3，待收货；4，待评价；5，取消订单(交易关闭) ；6，交易成功；7，退款处理中；8，退货处理中；9，退款完成；10，退货完成
+// 商品中的商品中的 状态；0，无；1，退货；2，退款
 	export default{
 		name:'order',
 		mounted(){
@@ -263,7 +273,8 @@
 					style:'width:25%'
 				}],
 				activeNav:0,
-				orders:[],
+        orders:[],
+        contentLoaded: false,
 				selectedOrder: {
 		            order_info: {
 		                order_id: '',
@@ -349,6 +360,14 @@
 						minHeight:'292px',
 						padding:'84px 120px 35px 120px'
 					}
+        },
+        cancelPop:{
+					show:false,
+					style:{
+						width:'780px',
+						minHeight:'292px',
+						padding:'84px 120px 35px 120px'
+					}
 				},
 				contactPop:{
 					show: false,
@@ -368,7 +387,8 @@
 				},
 				showLoading:false,
 				entry:btoa(JSON.stringify([{name:'Order', path:location.href}])),
-				lang:lang
+        lang,
+        timestamp
 			}
 		},
 		methods:{
@@ -380,6 +400,7 @@
 					name:'zl.shopping.pc.order.type',
 					type:this.activeNav
 				}).then((response)=>{
+          this.contentLoaded = true;
 					let data = [];
 					response.body.data.forEach((e)=>{
 						// 处理开始时间
@@ -395,7 +416,9 @@
 				})
 			},
 			clickNav(i){
-				this.activeNav = i;
+        this.activeNav = i;
+        this.orders = [];
+        this.contentLoaded = false;
 				this.getOrder();
 			},
 			clickDelivery(){
@@ -446,7 +469,7 @@
 					this.$http.post('',{
 						name:'zl.shopping.sys.comment.order',
 						order_id: this.selectedOrder.order_info.order_id,
-						goods_id: this.selectedOrder.goods_info.pre_goods_id,
+						goods_id: this.selectedOrder.goods_info.goods_id,
 						content: this.comment.content,
 						comment_picture: picData.toString(),
 						star_num: this.comment.star
@@ -482,7 +505,7 @@
 			confirm(){
 				this.$http.post('',{
 					name:'zl.shopping.sys.confirm.order',
-					order_id: this.selectedOrder.order_id
+					order_id: this.selectedOrder.order_info.order_id
 				}).then((response) => {
 					this.getOrder();
 					this.confirmPop.show = false;
@@ -499,7 +522,17 @@
 					this.returnPop.show = false;
 					this.getOrder();
 				})
-			}
+      },
+      // 取消订单
+      cancelGoods(){
+        this.$http.post('',{
+					name:'zl.shopping.sys.cancel.order',
+					order_id: this.selectedOrder.order_info.order_id,
+				}).then((response) => {
+					this.cancelPop.show = false;
+					this.getOrder();
+				})
+      }
 		},
 		computed:{
 			commentDisabled(){
@@ -554,11 +587,14 @@
 					width: 80px;
 				}
 				.order-price{
-					width: 120px;
+					min-width: 80px;
 					color:@baseColor;
 					font-weight: bold;
-					margin-left: 50px;
-				}
+					margin-left: 20px;
+        }
+        .order-count{
+          margin-right: 20px;
+        }
 				.order-no{
 					width: 250px;
 					margin-right:20px;
@@ -775,13 +811,7 @@
 			margin-top: 40px;
 		}
 	}
-	.common-pop{
-		font-size:20px;
-		color:#666666;
-		letter-spacing:0.4px;
-		text-align:center;
-		.btn-container{
-			margin-top: 90px;
-		}
-	}
+  .btn-container{
+    margin-top: 90px;
+  }
 </style>

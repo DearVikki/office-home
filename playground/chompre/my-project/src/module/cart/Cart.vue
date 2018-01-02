@@ -1,7 +1,10 @@
 <template>
 	<div id="cart_container">
 		<h3>{{lang.CART}}</h3>
-		<div id="cart_item_container">
+    <div v-show="!contentLoaded" class="empty-tip">
+      {{lang.LOADING}}...
+    </div>
+		<div id="cart_item_container" v-show="contentLoaded">
 			<!-- 商店 -->
 			<div class="shop-item"
 			v-for="(shop,shopIndex) in carts">
@@ -85,7 +88,7 @@
 			</div>
 		</pop>
 		<!-- 缺省页 -->
-		<div class="empty-tip" v-if="!carts.length">
+		<div class="empty-tip" v-if="!carts.length && contentLoaded">
 			<img src="~assets/img/product/icon_cart_null.png">
 			<p>{{lang.CART_EMPTY_TIP}}</p>
 		</div>
@@ -100,6 +103,7 @@
 		name:'cart',
 		data(){
 			return{
+        contentLoaded: false,
 				carts:[
 					// {
 		   //              dealer_info: {
@@ -161,12 +165,13 @@
 		},
 		mounted(){
 			if(!localStorage.getItem('userInfo')) location.replace('./login.html');
-			// 拉取数据
+      // 拉取数据
 			this.$http.post('', {
 				name: 'zl.shopping.sys.shop.cart'
 			}).then((response)=>{
         if(response.code === 1004) location.href = ('./login.html');
         else {
+          this.contentLoaded = true;
           let data = response.body.data.shop_cart_info;
           data.forEach((e)=>{
             e.dealer_info.checked = false;

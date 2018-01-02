@@ -7,38 +7,43 @@
 				<span class="fr smallBlue" @click="addAddress">{{lang.ADD_ADDRESS}}</span>
 			</div>
 			<!-- 地址内容 -->
-			<div class="address-item item"
-			v-for="(add,index) in address.addressList"
-			v-show="index < 4 || !address.fold"
-			:class="{active:add.address_id === address.selected.address_id}"
-			@click="address.selected = add">
-				<span class="pre txt">
-					<img class="vm" src="~assets/img/order/location.png">
-					<span class="vm">{{lang.SEND_TO}}</span>
-				</span>
-				<span class="dot"></span>
-				<span class="txt name" :title="add.receive_name">{{add.receive_name}}</span>
-				<span class="txt" :title="add.idcard">{{add.idcard}}</span>
-				<span class="txt mobile" :title="add.receive_mobile">{{add.receive_mobile}}</span>
-				<span class="txt address" :title="add.receive_address+' '+add.receive_area+' '+add.receive_city">
-					{{add.receive_address}} {{add.receive_area}} {{add.receive_city}}
-				</span>
-				<span class="txt" v-if="add.selected"> {{lang.DEFAULT}}</span>
-				<span class="edit fr" @click="editAddress(add)">{{lang.EDIT_ADDRESS}}</span>
-			</div>
-			<!-- 收起地址 -->
-			<div v-if="address.addressList.length > 4">
-				<div v-show="!address.fold" class="fold" @click="address.fold = true">{{lang.COLLAPSE_ADDRESS}} <img src="~assets/img/order/Trianglered_up.png"></div>
-				<div v-show="address.fold" class="fold" @click="address.fold = false">{{lang.MORE}} <img src="~assets/img/order/Trianglered_down.png"></div>
-			</div>
-			<!-- 地址弹窗 -->
-			<pop :pop="address.pop" :popReset="addressPopReset">
-				<addressPop :address="address.selectedForPop" @saveAddress="saveAddress"></addressPop>
-			</pop>
-			<!-- 缺省图 -->
-			<div class="small-empty-tip" v-show="!address.addressList.length">
-				<p>{{lang.NO_ADDRESS_TIP}}</p>
-			</div>
+      <div v-if="!addressLoaded" class="empty-tip">
+        {{lang.LOADING}}...
+      </div>
+      <div v-else>
+        	<div class="address-item item"
+          v-for="(add,index) in address.addressList"
+          v-show="index < 4 || !address.fold"
+          :class="{active:add.address_id === address.selected.address_id}"
+          @click="address.selected = add">
+            <span class="pre txt">
+              <img class="vm" src="~assets/img/order/location.png">
+              <span class="vm">{{lang.SEND_TO}}</span>
+            </span>
+            <span class="dot"></span>
+            <span class="txt name" :title="add.receive_name">{{add.receive_name}}</span>
+            <span class="txt" :title="add.idcard">{{add.idcard}}</span>
+            <span class="txt mobile" :title="add.receive_mobile">{{add.receive_mobile}}</span>
+            <span class="txt address" :title="add.receive_address+' '+add.receive_area+' '+add.receive_city">
+              {{add.receive_address}} {{add.receive_area}} {{add.receive_city}}
+            </span>
+            <span class="txt" v-if="add.selected"> {{lang.DEFAULT}}</span>
+            <span class="edit fr" @click="editAddress(add)">{{lang.EDIT_ADDRESS}}</span>
+          </div>
+          <!-- 收起地址 -->
+          <div v-if="address.addressList.length > 4">
+            <div v-show="!address.fold" class="fold" @click="address.fold = true">{{lang.COLLAPSE_ADDRESS}} <img src="~assets/img/order/Trianglered_up.png"></div>
+            <div v-show="address.fold" class="fold" @click="address.fold = false">{{lang.MORE}} <img src="~assets/img/order/Trianglered_down.png"></div>
+          </div>
+          <!-- 地址弹窗 -->
+          <pop :pop="address.pop" :popReset="addressPopReset">
+            <addressPop :address="address.selectedForPop" @saveAddress="saveAddress"></addressPop>
+          </pop>
+          <!-- 缺省图 -->
+          <div class="small-empty-tip" v-show="!address.addressList.length && addressLoaded">
+            <p>{{lang.NO_ADDRESS_TIP}}</p>
+          </div>
+      </div>
 		</div>
 		<!-- 选择大小发票 -->
 		<div id="select_invoice_container">
@@ -61,38 +66,43 @@
 				<span class="fr smallBlue" @click="addInvoice">{{lang.ADD_INVOICE}}</span>
 			</div>
 			<!-- 发票内容 -->
-			<div class="invoice-item item" v-for="(inv,index) in invoice.invoiceList"
-			v-show="index < 4 || !invoice.fold"
-			:class="{active:inv.invoice_id === invoice.selected.invoice_id}"
-			@click="invoice.selected = inv">
-				<span class="pre txt">
-					<img class="vm" src="~assets/img/order/invoice.png">
-					<span class="vm">{{lang.INVOICE_TO}}</span>
-				</span>
-				<span class="dot"></span>
-				<span class="txt name" :title="inv.company_name">{{inv.company_name}}</span>
-				<span class="txt" :title="inv.company_taxid">{{inv.company_taxid}}</span>
-				<span class="txt mobile" :title="inv.company_tel">{{inv.company_tel}}</span>
-				<span class="txt address" :title="inv.company_address+' '+inv.company_area+' '+inv.company_city">
-					{{inv.company_address}} {{inv.company_area}} {{inv.company_city}}
-				</span>
-				<span class="txt" :title="inv.company_scope">{{inv.company_scope}}</span>
-				<span class="txt" v-if="inv.is_default"> {{lang.DEFAULT}}</span>
-				<span class="edit fr" @click="editInvoice(inv)">{{lang.EDIT_INVOICE}}</span>
-			</div>
-			<!-- 收起发票 -->
-			<div v-if="invoice.invoiceList.length > 4">
-				<div v-show="!invoice.fold" class="fold" @click="invoice.fold = true">{{lang.COLLAPSE_INVOICE}} <img src="~assets/img/order/Trianglegreen_up.png"></div>
-				<div v-show="invoice.fold" class="fold" @click="invoice.fold = false">{{lang.MORE}} <img src="~assets/img/order/Trianglegreen_down.png"></div>
-			</div>
-			<!-- 发票弹窗 -->
-			<pop :pop="invoice.pop" :popReset="invoicePopReset">
-				<invoicePop :invoice="invoice.selectedForPop" @saveInvoice="saveInvoice"></invoicePop>
-			</pop>
-			<!-- 缺省图 -->
-			<div class="small-empty-tip" v-show="!invoice.invoiceList.length">
-				<p>{{lang.NO_INVOICE_TIP}}</p>
-			</div>
+       <div v-if="!invoiceLoaded" class="empty-tip">
+        {{lang.LOADING}}...
+      </div>
+      <div v-else>
+          <div class="invoice-item item" v-for="(inv,index) in invoice.invoiceList"
+          v-show="index < 4 || !invoice.fold"
+          :class="{active:inv.invoice_id === invoice.selected.invoice_id}"
+          @click="invoice.selected = inv">
+            <span class="pre txt">
+              <img class="vm" src="~assets/img/order/invoice.png">
+              <span class="vm">{{lang.INVOICE_TO}}</span>
+            </span>
+            <span class="dot"></span>
+            <span class="txt name" :title="inv.company_name">{{inv.company_name}}</span>
+            <span class="txt" :title="inv.company_taxid">{{inv.company_taxid}}</span>
+            <span class="txt mobile" :title="inv.company_tel">{{inv.company_tel}}</span>
+            <span class="txt address" :title="inv.company_address+' '+inv.company_area+' '+inv.company_city">
+              {{inv.company_address}} {{inv.company_area}} {{inv.company_city}}
+            </span>
+            <span class="txt" :title="inv.company_scope">{{inv.company_scope}}</span>
+            <span class="txt" v-if="inv.is_default"> {{lang.DEFAULT}}</span>
+            <span class="edit fr" @click="editInvoice(inv)">{{lang.EDIT_INVOICE}}</span>
+          </div>
+          <!-- 收起发票 -->
+          <div v-if="invoice.invoiceList.length > 4">
+            <div v-show="!invoice.fold" class="fold" @click="invoice.fold = true">{{lang.COLLAPSE_INVOICE}} <img src="~assets/img/order/Trianglegreen_up.png"></div>
+            <div v-show="invoice.fold" class="fold" @click="invoice.fold = false">{{lang.MORE}} <img src="~assets/img/order/Trianglegreen_down.png"></div>
+          </div>
+          <!-- 发票弹窗 -->
+          <pop :pop="invoice.pop" :popReset="invoicePopReset">
+            <invoicePop :invoice="invoice.selectedForPop" @saveInvoice="saveInvoice"></invoicePop>
+          </pop>
+          <!-- 缺省图 -->
+          <div class="small-empty-tip" v-show="!invoice.invoiceList.length && invoiceLoaded">
+            <p>{{lang.NO_INVOICE_TIP}}</p>
+          </div>
+      </div>
 		</div>
 		<!-- 选择托运公司 -->
 		<div id="delivery_container">
@@ -113,48 +123,53 @@
 					<span class="border"></span>
 				</div>
 			</div>
-			<a id="order_dealer">{{order.dealer_info.dealer_name}}</a>
-			<div id="order_goods">
-				<div class="goods-item" v-for="goods in order.goods_info">
-					<img :src="goods.cover_pic">
-					<div class="goods-title">{{goods.goods_name}}</div>
-					<div class="goods-detail">
-						<p v-for="d in goods.description">{{d}}</p>
-					</div>
-					<div class="goods-price">${{goods.price}}</div>
-					<div class="goods-num">{{goods.goods_num}}</div>
-					<div class="goods-price-all">${{goods.price*goods.goods_num}}</div>
-				</div>
-			</div>
-			<div id="order_address">
-				<img src="~assets/img/order/location.png">
-				<span v-if="address.selected">
-					<span class="txt" :title="address.selected.receive_name">{{address.selected.receive_name}}</span>
-					<span class="txt" :title="address.selected.idcard">{{address.selected.idcard}}</span>
-					<span class="txt" :title="address.selected.receive_mobile">{{address.selected.receive_mobile}}</span>
-					<span class="txt" :title="address.selected.receive_address+' '+address.selected.receive_area+' '+address.selected.receive_city">
-						{{address.selected.receive_address}} {{address.selected.receive_area}} {{address.selected.receive_city}}
-					</span>
-				</span>
-			</div>
-			<div id="order_invoice">
-				<img src="~assets/img/order/invoice.png">
-				<span v-if="invoice.selected">
-					<span class="txt name" :title="invoice.selected.company_name">{{invoice.selected.company_name}}</span>
-					<span class="txt" :title="invoice.selected.company_taxid">{{invoice.selected.company_taxid}}</span>
-					<span class="txt mobile" :title="invoice.selected.company_tel">{{invoice.selected.company_tel}}</span>
-					<span class="txt address" :title="invoice.selected.company_address+' '+invoice.selected.company_area+' '+invoice.selected.company_city">
-						{{invoice.selected.company_address}} {{invoice.selected.company_area}} {{invoice.selected.company_city}}
-					</span>
-				</span>
-			</div>
-			<div id="order_delivery" v-show="delivery.dropdown.selectedValue">
-				<img src="~assets/img/order/delivery.png">
-				<span class="txt">{{delivery.dropdown.title}}</span>
-			</div>
+      <div v-if="!goodsLoaded" class="empty-tip">
+        {{lang.LOADING}}...
+      </div>
+      <div v-else>
+        	<a id="order_dealer">{{order.dealer_info.dealer_name}}</a>
+          <div id="order_goods">
+            <div class="goods-item" v-for="goods in order.goods_info">
+              <img :src="goods.cover_pic">
+              <div class="goods-title">{{goods.goods_name}}</div>
+              <div class="goods-detail">
+                <p v-for="d in goods.description">{{d}}</p>
+              </div>
+              <div class="goods-price">${{goods.price}}</div>
+              <div class="goods-num">{{goods.goods_num}}</div>
+              <div class="goods-price-all">${{goods.price*goods.goods_num}}</div>
+            </div>
+          </div>
+          <div id="order_address">
+            <img src="~assets/img/order/location.png">
+            <span v-if="address.selected">
+              <span class="txt" :title="address.selected.receive_name">{{address.selected.receive_name}}</span>
+              <span class="txt" :title="address.selected.idcard">{{address.selected.idcard}}</span>
+              <span class="txt" :title="address.selected.receive_mobile">{{address.selected.receive_mobile}}</span>
+              <span class="txt" :title="address.selected.receive_address+' '+address.selected.receive_area+' '+address.selected.receive_city">
+                {{address.selected.receive_address}} {{address.selected.receive_area}} {{address.selected.receive_city}}
+              </span>
+            </span>
+          </div>
+          <div id="order_invoice">
+            <img src="~assets/img/order/invoice.png">
+            <span v-if="invoice.selected">
+              <span class="txt name" :title="invoice.selected.company_name">{{invoice.selected.company_name}}</span>
+              <span class="txt" :title="invoice.selected.company_taxid">{{invoice.selected.company_taxid}}</span>
+              <span class="txt mobile" :title="invoice.selected.company_tel">{{invoice.selected.company_tel}}</span>
+              <span class="txt address" :title="invoice.selected.company_address+' '+invoice.selected.company_area+' '+invoice.selected.company_city">
+                {{invoice.selected.company_address}} {{invoice.selected.company_area}} {{invoice.selected.company_city}}
+              </span>
+            </span>
+          </div>
+          <div id="order_delivery" v-show="delivery.dropdown.selectedValue">
+            <img src="~assets/img/order/delivery.png">
+            <span class="txt">{{delivery.dropdown.title}}</span>
+          </div>
+      </div>
 		</div>
 		<!-- 店铺合计 -->
-		<div id="conclu_container">
+		<div id="conclu_container" v-if="goodsLoaded">
 			<div id="conclu_inner">
 				<div id="conclu_price">
 					{{lang.TOTAL}}:
@@ -182,6 +197,9 @@
 		name:'createorder',
 		data(){
 			return{
+        goodsLoaded: false,
+        addressLoaded: false,
+        invoiceLoaded: false,
 				isFromCart: true,
 				sendCode:{
 					send:function(before){
@@ -319,6 +337,7 @@
 			}
 			// 拉取要结算商品信息
 			this.$http.post('', requestData).then((response)=>{
+        this.goodsLoaded = true;
         if(!response.body.success) {
           document.getElementById('address_container').style.display = 'none';
           alert(lang.NOT_SAME_SHOP)
@@ -352,6 +371,7 @@
 			this.$http.post('',{
 				name:'zl.shopping.sys.address.list'
 			}).then((response)=>{
+        this.addressLoaded = true;
 				let add  = [], hasDefault = false;
 				response.body.data.list.forEach((e) => {
 					if(e.selected === 1) {
@@ -371,6 +391,7 @@
 			this.$http.post('',{
 				name:'zl.shopping.sys.invoice.list'
 			}).then((response)=>{
+        this.invoiceLoaded = true;
 				let inv = [], hasDefault = false;
 				response.body.data.forEach((e) => {
 					if(e.is_default === 1) {

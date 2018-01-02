@@ -1,5 +1,8 @@
 <template>
 	<div id="personal_right_container">
+    <div v-if="!contentLoaded">
+
+    </div>
 		<div class="container">
 			<div class="title">{{lang.SELECT_SHOPTYPE}}</div>
 			<label @click=clickType(1)>
@@ -19,7 +22,7 @@
 				<label>
 					<input type="radio" class="checkbox" checked=true>
 					<span class="checkbox-input"></span>
-					小发票
+					{{lang.SMALL_INVOICE}}
 				</label>
 			</div>
 			<div class="container">
@@ -42,13 +45,13 @@
 					<input type="checkbox" class="checkbox"
 					id="small" value="small" v-model="company.invoice">
 					<span class="checkbox-input"></span>
-					小发票
+					{{lang.SMALL_INVOICE}}
 				</label>
 				<label>
 					<input type="checkbox" class="checkbox"
 					id="big" value="big" v-model="company.invoice">
 					<span class="checkbox-input"></span>
-					大发票
+					{{lang.big_INVOICE}}
 				</label>
 			</div>
 			<div class="container">
@@ -75,7 +78,9 @@ export default{
 	name: 'apply',
 	data(){
 		return{
-			lang: lang,
+      lang,
+      contentLoaded: false,
+      isAvailable: false,
 			shoptype: 1, // 1个人店铺 2企业店铺,
 			indi:{
 				photos: [],
@@ -88,7 +93,15 @@ export default{
 			},
 			error:''
 		}
-	},
+  },
+  mounted(){
+    this.$http.post('',{
+				name:'zl.shopping.pc.isapply.shop',
+		}).then(res => {
+      if(res.data.success) this.isAvailable = true;
+      else this.isAvailable = false;
+    })
+  },
 	methods:{
 		clickType(type) {
 			this.shoptype = type;

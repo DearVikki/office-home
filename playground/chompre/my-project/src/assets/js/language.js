@@ -1,5 +1,6 @@
 let language = {
     cn: {
+        LOADING: '加载中',
         LOGIN: '登录',
         SIGN_UP: '注册',
         LOGOUT: '登出',
@@ -138,6 +139,7 @@ let language = {
         MAKE_CREDIT: '打分',
         CONFIRM_REFUND_POP: '是否提交退货申请',
         CONFIRM_CHANGE_GOODS_POP: '是否提交换货申请',
+        CONFIRM_CANCEL_POP: '是否取消该订单',
         CONFIRM_RECEIVE_POP: '请确保收到货物，确认无误后点击确认。',
         ALL_ORDERS_NAV: '全部订单',
         TO_PAY_NAV: '待付款',
@@ -145,6 +147,7 @@ let language = {
         TO_RECEIVE_NAV: '待收货',
         TO_COMMENT_NAV: '待评价',
         ORDER_DETAIL: '订单详情',
+        COUNT: '件数',
         // 收货地址管理
         DELETE_ADDRESS_POP: '您确定要删除该收货地址吗',
         RECEIVE_NAME: '收货人',
@@ -153,6 +156,7 @@ let language = {
         RECEIVE_CITY: '城市',
         RECEIVE_ADDRESS: '地址',
         ACTION: '操作',
+        NO_ACTION: '无可处理的操作',
         SET_DEFAULT_ADDRESS: '设为默认地址',
         SAVE: '保存',
         EDIT: '编辑',
@@ -162,8 +166,19 @@ let language = {
         INVOICE_ID: '发票税号',
         INVOICE_FIELD: '经营范围',
         SET_DEFAULT_INVOICE: '设为默认发票',
-        // 申请开店
-        APPLY_SHOP: '申请开店',
+         // 申请开店
+         APPLY_SHOP: '申请开店',
+         SELECT_SHOPTYPE: '选择店铺类型',
+         INDIVIDUAL_SHOP:'个人店铺',
+         COMPANY_SHOP:'企业店铺',
+         SELECT_INVOICETYPE: '请选择可提供发票类型',
+         UPLOAD_ID: '请上传身份证照片',
+         UPLOAD_CRT: '请上传营业执照',
+         SUBMIT_APPLY:'提交申请',
+         INVOICE_AT_LEAST1_TIP: '请至少选择一种发票类型',
+         ID_TIP:'需上传正反面各一张',
+         ID_NOT_EMPTY:'身份证照片不能为空',
+         CRT_NOT_EMPTY:'营业执照照片不能为空',
         // Footer
         GUIDE: '用户指南',
         PAY_GUIDE: '支付说明',
@@ -244,6 +259,7 @@ let language = {
         NOT_SAME_SHOP: '不同店铺商品需分开结算'
     },
     span: {
+        LOADING: '加载中',
         LOGIN: 'Ingresar',
         SIGN_UP: 'Crear cuenta',
         LOGOUT: 'Cerrar sesión',
@@ -382,6 +398,7 @@ let language = {
         MAKE_CREDIT: 'Califique este producto',
         CONFIRM_REFUND_POP: ' ¿ Desea Solicitar reembolso ? ',
         CONFIRM_CHANGE_GOODS_POP: ' ¿ Desea Solicitar devolución ? ',
+        CONFIRM_CANCEL_POP: ' ¿ Desea Solicitar cancelar pedido ? ',
         CONFIRM_RECEIVE_POP: 'Si usted recibió su pedido, haga clic en Confimar.',
         ALL_ORDERS_NAV: 'Mis pedidos',
         TO_PAY_NAV: 'No Pagado',
@@ -389,6 +406,7 @@ let language = {
         TO_RECEIVE_NAV: 'Despacho en Tramite',
         TO_COMMENT_NAV: 'Esperar Calificacion',
         ORDER_DETAIL: 'Información de pedido',
+        COUNT: '件数',
         // 收货地址管理
         DELETE_ADDRESS_POP: '¿ desea eliminar dirección？ ',
         RECEIVE_NAME: 'Nombre',
@@ -397,6 +415,7 @@ let language = {
         RECEIVE_CITY: 'Ciudad',
         RECEIVE_ADDRESS: 'Dirección',
         ACTION: 'Operación',
+        NO_ACTION: '无可处理的操作',
         SET_DEFAULT_ADDRESS: 'Establecer como dirección por defecto',
         SAVE: 'Guardar',
         EDIT: 'editar',
@@ -499,4 +518,4 @@ let language = {
         NOT_SAME_SHOP: '不同店铺商品需分开结算'
     }
 }
-export default language.span;
+export default language.cn;
