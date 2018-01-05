@@ -1,75 +1,88 @@
 <template>
-	<div id="personal_right_container">
-    <div v-if="!contentLoaded">
-
+	<div id="personal_right_container" style="min-height:500px">
+    <div v-if="!contentLoaded" class="empty-tip">
+      {{lang.LOADING}}...
     </div>
-		<div class="container">
-			<div class="title">{{lang.SELECT_SHOPTYPE}}</div>
-			<label @click=clickType(1)>
-				<input type="radio" name="shop" class="checkbox" checked=true>
-				<span class="checkbox-input"></span>
-				{{lang.INDIVIDUAL_SHOP}}
-			</label>
-			<label @click=clickType(2)>
-				<input type="radio" name="shop" class="checkbox">
-				<span class="checkbox-input"></span>
-				{{lang.COMPANY_SHOP}}
-			</label>
-		</div>
-		<div v-show="shoptype == 1">
-			<div class="container">
-				<div class="title">{{lang.SELECT_INVOICETYPE}}</div>
-				<label>
-					<input type="radio" class="checkbox" checked=true>
-					<span class="checkbox-input"></span>
-					{{lang.SMALL_INVOICE}}
-				</label>
-			</div>
-			<div class="container">
-				<div class="title">{{lang.UPLOAD_ID}}</div>
-				<p class="tip">{{lang.ID_TIP}}</p>
-				<input type="file" ref="indi_photo" accept="image/jpeg, image/png"
-				@change=indiPhotoChange>
-				<div class="img-holder" v-for="(img,i) in indi.photos">
-					<div class="remove" @click="remove(1, i)">x</div>
-					<img :src="img">
-				</div>
-				<div class="img-holder cp" @click="clickPhoto(1)"
-				v-show="indi.photos.length < 5">+</div>
-			</div>
-		</div>
-		<div v-show="shoptype == 2">
-			<div class="container">
-				<div class="title">{{lang.SELECT_INVOICETYPE}}</div>
-				<label>
-					<input type="checkbox" class="checkbox"
-					id="small" value="small" v-model="company.invoice">
-					<span class="checkbox-input"></span>
-					{{lang.SMALL_INVOICE}}
-				</label>
-				<label>
-					<input type="checkbox" class="checkbox"
-					id="big" value="big" v-model="company.invoice">
-					<span class="checkbox-input"></span>
-					{{lang.big_INVOICE}}
-				</label>
-			</div>
-			<div class="container">
-				<div class="title">{{lang.UPLOAD_CRT}}</div>
-				<input type="file" ref="company_photo" accept="image/jpeg, image/png"
-				@change=companyPhotoChange>
-				<div class="img-holder" v-for="(img,i) in company.photos">
-					<div class="remove" @click="remove(2, i)">x</div>
-					<img :src="img">
-				</div>
-				<div class="img-holder cp" @click="clickPhoto(2)"
-				v-show="company.photos.length < 5">+</div>
-			</div>
-		</div>
-		<div class="container textCenter" v-show="shoptype">
-			<div class="account-btn" @click="submit">{{lang.SUBMIT_APPLY}}</div>
-			<p class="error">{{error}}</p>
-		</div>
+    <div v-if="contentLoaded && !isAvailable && !submitSuccess" class="empty-tip">
+      <img src="~assets/img/product/icon_nothing.png">
+      <p>{{tip}}</p>
+    </div>
+    <div v-if="contentLoaded && !isAvailable && submitSuccess">
+      	<img src="~assets/img/personal/icon_select.png">
+		    {{lang.SUBMIT_SUCCESS}}
+    </div>
+    <div v-if="contentLoaded && isAvailable">
+      <div class="container">
+        <div class="title">{{lang.SELECT_SHOPTYPE}}</div>
+        <label @click=clickType(1)>
+          <input type="radio" name="shop" class="checkbox" checked=true>
+          <span class="checkbox-input"></span>
+          {{lang.INDIVIDUAL_SHOP}}
+        </label>
+        <label @click=clickType(2)>
+          <input type="radio" name="shop" class="checkbox">
+          <span class="checkbox-input"></span>
+          {{lang.COMPANY_SHOP}}
+        </label>
+      </div>
+      <div v-show="shoptype == 1">
+        <div class="container">
+          <div class="title">{{lang.SELECT_INVOICETYPE}}</div>
+          <label>
+            <input type="radio" class="checkbox" checked=true>
+            <span class="checkbox-input"></span>
+            {{lang.SMALL_INVOICE}}
+          </label>
+        </div>
+        <div class="container">
+          <div class="title">{{lang.UPLOAD_ID}}</div>
+          <p class="tip">{{lang.ID_TIP}}</p>
+          <input type="file" ref="indi_photo" accept="image/jpeg, image/png"
+          @change="indiPhotoChange" />
+          <div class="img-holder" v-for="(img,i) in indi.photos">
+            <div class="remove" @click="remove(1, i)">x</div>
+            <img :src="img">
+          </div>
+          <div class="img-holder cp" @click="clickPhoto(1)"
+          v-show="indi.photos.length < 5">+</div>
+        </div>
+      </div>
+      <div v-show="shoptype == 2">
+        <div class="container">
+          <div class="title">{{lang.SELECT_INVOICETYPE}}</div>
+          <label>
+            <input type="checkbox" class="checkbox"
+            id="small" value="small" v-model="company.invoice">
+            <span class="checkbox-input"></span>
+            {{lang.SMALL_INVOICE}}
+          </label>
+          <label>
+            <input type="checkbox" class="checkbox"
+            id="big" value="big" v-model="company.invoice">
+            <span class="checkbox-input"></span>
+            {{lang.BIG_INVOICE}}
+          </label>
+        </div>
+        <div class="container">
+          <div class="title">{{lang.UPLOAD_CRT}}</div>
+          <input type="file" ref="company_photo" accept="image/jpeg, image/png"
+          @change="companyPhotoChange" />
+          <div class="img-holder" v-for="(img,i) in company.photos">
+            <div class="remove" @click="remove(2, i)">x</div>
+            <img :src="img">
+          </div>
+          <div class="img-holder cp" @click="clickPhoto(2)"
+          v-show="company.photos.length < 5">+</div>
+        </div>
+      </div>
+      <div class="container textCenter" v-show="shoptype">
+        <div class="account-btn" @click="submit">
+          {{lang.SUBMIT_APPLY}}
+        </div>
+        <p class="error">{{error}}</p>
+      </div>
+    </div>
+
 	</div>
 </template>
 <script>
@@ -81,6 +94,8 @@ export default{
       lang,
       contentLoaded: false,
       isAvailable: false,
+      submitSuccess: false,
+      tip: '',
 			shoptype: 1, // 1个人店铺 2企业店铺,
 			indi:{
 				photos: [],
@@ -98,8 +113,12 @@ export default{
     this.$http.post('',{
 				name:'zl.shopping.pc.isapply.shop',
 		}).then(res => {
+      this.contentLoaded = true;
       if(res.data.success) this.isAvailable = true;
-      else this.isAvailable = false;
+      else {
+        this.isAvailable = false;
+        this.tip = res.data.msg;
+      }
     })
   },
 	methods:{
@@ -134,13 +153,47 @@ export default{
 			}
 		},
 		submit(){
+      let files, invoice;
+      this.error = '';
 			if(this.shoptype == 1) {
-				if(!this.indi.photos.length) this.error = lang.ID_NOT_EMPTY;
+        if(!this.indi.photos.length) this.error = lang.ID_NOT_EMPTY;
+        files = this.indi.files;
+        invoice = 1;
 			} else {
 				if(!this.company.photos.length) this.error =  lang.CRT_NOT_EMPTY;
-				else if(!this.company.invoice.length) this.error = lang.INVOICE_AT_LEAST1_TIP;
+        else if(!this.company.invoice.length) this.error = lang.INVOICE_AT_LEAST1_TIP;
+        files = this.company.files;
+        if(this.company.invoice.length === 2) invoice = 3;
+        else if(this.company.invoice[0] === 'small') invoice = 1;
+        else invoice = 2;
 			}
-			if(this.error) return;
+      if(this.error) return;
+
+      this.contentLoaded = false;
+      var fm = new FormData();
+			fm.append('name','zl.shopping.sys.upload.multi.img');
+			files.forEach((e)=>{
+				fm.append('img[]',e);
+			})
+			this.$http.post('', fm).then((response)=>{
+				let picData = [];
+        response.body.data.list.forEach((e)=>{
+					picData.push(e.original);
+        });
+        console.log(this.shoptype)
+        console.log(invoice)
+				// 评价订单
+				this.$http.post('',{
+					name:'zl.shopping.pc.apply.shop',
+					dealer_type: this.shoptype,
+					invoice_type: invoice,
+					apply_pic: picData.toString(),
+				}).then((response)=>{
+          this.contentLoaded = true;
+          this.isAvailable = false;
+          this.submitSuccess = true;
+				})
+			})
 		}
 	}
 }

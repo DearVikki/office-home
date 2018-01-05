@@ -340,7 +340,7 @@
         this.goodsLoaded = true;
         if(!response.body.success) {
           document.getElementById('address_container').style.display = 'none';
-          alert(lang.NOT_SAME_SHOP)
+          alert(response.body.msg)
           history.go(-1)
           return
         }
@@ -482,15 +482,15 @@
 			// 支付前检测
 			checkBeforePay(){
 				if(!this.address.selected) {
-					this.conclu.tip = '请选择收货地址';
+					this.conclu.tip = attr.SELECT_ADDRESS;
 					return false;
 				}
 				if( this.invoice.is_bigInvoice === -1 || (!this.invoice.selected && this.invoice.is_bigInvoice)) {
-					this.conclu.tip = '请选择发票';
+					this.conclu.tip = attr.SELECT_INVOICE;
 					return false;
 				}
 				if(!this.delivery.dropdown.selectedValue) {
-					this.conclu.tip = '请选择托运公司';
+					this.conclu.tip = attr.SELECT_DELIVERY;
 					return false;
 				}
 				return true;
@@ -517,7 +517,7 @@
 						localStorage.setItem('goodsIdOrder','');
 						localStorage.setItem('buyDirectly', '');
 						console.log('提交订单成功!')
-						myAlert('提交订单成功！',() => {
+						myAlert(lang.SUBMIT_ORDER_SUCCESSFULLY, () => {
 							location.replace('./my-chompre.html');
 						});
 					} else {

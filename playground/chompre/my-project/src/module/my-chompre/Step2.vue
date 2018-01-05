@@ -29,6 +29,16 @@
 					<label :for="field.id">{{field.name}}</label>
 					<div class="input-container" :class="{ warn: field.error || field.focus}">
 							<input
+              v-if="field.id === 'email'"
+							type="text"
+							:id="field.id"
+							:placeholder="field.placeholder"
+							@blur="fieldBlur(field)"
+							@focus="fieldFocus(field)"
+							v-model="field.val"
+              readonly />
+              <input
+              v-else
 							type="text"
 							:id="field.id"
 							:placeholder="field.placeholder"
@@ -93,7 +103,7 @@
 			          },
 			          error: '',
 			          msg:'',
-			          val:'',
+			          val: JSON.parse(localStorage.getItem('userInfo')).mail,
 			          focus: false
 			    	},
 			    	code:{
@@ -141,11 +151,12 @@
 					this.fieldsB.email.msg = lang.UNREGISTERED_MAIL;
 					this.fieldsB.email.error = true;
 					return;
-				}
+        }
+
+        this.scDisabled = true;
 				this.$http.post('',{name:'zl.shopping.sys.forget.sms.send',mail:this.fieldsB.email.val}).then((response)=>{
 					if(response.body.code === 1000) {
             let t = 60;
-            this.scDisabled = true;
 						this.countdown = t+'s '+lang.RESEND;
 						let cd = setInterval(() => {
 							t--;

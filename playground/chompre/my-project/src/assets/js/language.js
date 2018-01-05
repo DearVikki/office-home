@@ -108,6 +108,7 @@ let language = {
         GO_PAY: '去支付',
         CONFIRM_DELETE: '确认删除',
         CLOSE: '关闭',
+        SUBMIT_ORDER_SUCCESSFULLY: '提交订单成功',
         // 我的
         MY_ORDER: '我的订单',
         ADDRESS_MANAGEMENT: '收货地址管理',
@@ -179,6 +180,7 @@ let language = {
          ID_TIP:'需上传正反面各一张',
          ID_NOT_EMPTY:'身份证照片不能为空',
          CRT_NOT_EMPTY:'营业执照照片不能为空',
+         SUBMIT_SUCCESS: '提交成功！我们将对您的信息进行审核…',
         // Footer
         GUIDE: '用户指南',
         PAY_GUIDE: '支付说明',
@@ -253,13 +255,16 @@ let language = {
         NO_RESULT_TIP: '暂无更多结果',
         ADD_CART_SUCCESS: '加入购物车成功',
         SELECT_ATTR: '请选择商品属性',
+        SELECT_INVOICE: '请选择发票',
+        SELECT_ADDRESS: '请选择收货地址',
+        SELECT_DELIVERY: '请选择托运公司',
         NO_STORAGE: '商品暂无库存',
         REMOVE_PRODUCT: '确认删除该商品吗？',
         REMOVE_ALL_PRODUCT: '确认删除所有已选商品吗？',
         NOT_SAME_SHOP: '不同店铺商品需分开结算'
     },
     span: {
-        LOADING: '加载中',
+        LOADING: 'Cargando....',
         LOGIN: 'Ingresar',
         SIGN_UP: 'Crear cuenta',
         LOGOUT: 'Cerrar sesión',
@@ -367,6 +372,7 @@ let language = {
         GO_PAY: 'ir a pagar',
         CONFIRM_DELETE: 'Eliminar',
         CLOSE: 'Cancelar',
+        SUBMIT_ORDER_SUCCESSFULLY: 'Compra realizada con éxito',
         // 我的
         MY_ORDER: 'Mis pedidos',
         ADDRESS_MANAGEMENT: 'Gestión de direcciones de envío',
@@ -415,7 +421,7 @@ let language = {
         RECEIVE_CITY: 'Ciudad',
         RECEIVE_ADDRESS: 'Dirección',
         ACTION: 'Operación',
-        NO_ACTION: '无可处理的操作',
+        NO_ACTION: 'No hay opciones',
         SET_DEFAULT_ADDRESS: 'Establecer como dirección por defecto',
         SAVE: 'Guardar',
         EDIT: 'editar',
@@ -426,18 +432,19 @@ let language = {
         INVOICE_FIELD: 'Giro',
         SET_DEFAULT_INVOICE: 'Establecer como información de factura por defecto',
         // 申请开店
-        APPLY_SHOP: '申请开店',
-        SELECT_SHOPTYPE: '选择店铺类型',
-        INDIVIDUAL_SHOP:'个人店铺',
-        COMPANY_SHOP:'企业店铺',
-        SELECT_INVOICETYPE: '请选择可提供发票类型',
-        UPLOAD_ID: '请上传身份证照片',
-        UPLOAD_CRT: '请上传营业执照',
-        SUBMIT_APPLY:'提交申请',
-        INVOICE_AT_LEAST1_TIP: '请至少选择一种发票类型',
-        ID_TIP:'需上传正反面各一张',
-        ID_NOT_EMPTY:'身份证照片不能为空',
-        CRT_NOT_EMPTY:'营业执照照片不能为空',
+        APPLY_SHOP: 'Solicite una tienda',
+        SELECT_SHOPTYPE: 'Elija el tipo de tienda',
+        INDIVIDUAL_SHOP:'Tienda personal',
+        COMPANY_SHOP:'Tienda de negocios',
+        SELECT_INVOICETYPE: 'Elija la opción para proporcionar el tipo de factura',
+        UPLOAD_ID: 'Suba la foto de su carnet',
+        UPLOAD_CRT: 'Suba la foto de su patente',
+        SUBMIT_APPLY:'Presentar una solicitud',
+        INVOICE_AT_LEAST1_TIP: 'Seleccione al menos un tipo de factura',
+        ID_TIP:'Necesita subir una foto del carnet en anverso y reverso',
+        ID_NOT_EMPTY:'La foto de identificación no puede estar vacía',
+        CRT_NOT_EMPTY:'La foto de patente comercial no puede estar vacía',
+        SUBMIT_SUCCESS: 'Solicitud con éxito! Revisaremos su información',
         // Footer
         GUIDE: 'Guía de Chompre',
         PAY_GUIDE: 'Descripción de pago',
@@ -511,11 +518,14 @@ let language = {
         DELETE_SUCCESS: ' ¡eliminado correctamente!',
         NO_RESULT_TIP: 'No hay más resultados',
         ADD_CART_SUCCESS: '¡Agrega el carro correctamente!',
-        SELECT_ATTR: '请选择商品属性',
-        NO_STORAGE: '商品暂无库存',
-        REMOVE_PRODUCT: '确认删除该商品吗？',
-        REMOVE_ALL_PRODUCT: '确认删除所有已选商品吗？',
-        NOT_SAME_SHOP: '不同店铺商品需分开结算'
+        SELECT_ATTR: 'Seleccione los atributos del producto',
+        SELECT_INVOICE: '请选择发票',
+        SELECT_ADDRESS: 'Por favor, elija la dirección de entrega',
+        SELECT_DELIVERY: 'Por favor, elija el transporte',
+        NO_STORAGE: 'Producto agotado',
+        REMOVE_PRODUCT: '¿Desea eliminar este producto?',
+        REMOVE_ALL_PRODUCT: '¿Desea eliminar los productos seleccionados?',
+        NOT_SAME_SHOP: 'Las diferentes tiendas deben pagar por separado'
     }
 }
-export default language.cn;
+export default language.span;
