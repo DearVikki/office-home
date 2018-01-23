@@ -45,7 +45,8 @@
 								<numeditor
 								:numEditorStyle="numEditorStyle"
 								:numEditorClass="numEditorClass"
-								:numEditorData="goods.numEditorData"></numeditor>
+								:numEditorData="goods.numEditorData"
+                @numChange="numChange(goods)"></numeditor>
 							</div>
 							<!-- 总价 -->
 							<div class="goods-total-price">${{goods.price * goods.numEditorData.num}}</div>
@@ -366,7 +367,16 @@
 				})
 				localStorage.setItem('goodsIdOrder',payGoodsId.toString());
 				location = './create-order.html';
-			}
+			},
+      // 编辑商品数量
+      numChange(goods){
+        this.$http.post('',{
+					name: 'zl.shopping.sys.shopcart.num.change',
+					goods_num: goods.numEditorData.num,
+					goods_id: goods.goods_id,
+					is_selected: 1
+				})
+      }
 		},
 		computed:{
 			totalPrice(){

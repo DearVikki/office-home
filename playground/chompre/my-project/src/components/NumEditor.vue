@@ -20,7 +20,6 @@
 	export default{
 		name:'num-editor',
 		mounted(){
-			// 奇怪的是在这里写 刷新网页时不会触发 但是vue热更新时会喔
 			this.initial();
 		},
 		methods:{
@@ -53,6 +52,9 @@
 		watch:{
 			'numEditorData.max'(){
 				this.initial();
+      },
+      'numEditorData.num'(){
+        this.$emit('numChange')
       }
 		},
 		props:['numEditorStyle','numEditorData','numEditorClass']
