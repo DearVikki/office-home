@@ -186,7 +186,6 @@
     import numeditor from '../../components/NumEditor.vue';
     import star from '../../components/Stars.vue';
     import pagination from '../../components/Pagination.vue';
-    import Tippy from 'tippy.js'
     import lang from '../../assets/js/language.js';
 	export default{
 		name:'product',
@@ -292,21 +291,8 @@
 				this.dealer_info = response.body.data.dealer_info;
 				this.pre_goods_info = response.body.data.pre_goods_info;
 				this.price_info = response.body.data.price_info;
-				this.stock = response.body.data.pre_goods_info.stock;
-				// this.$nextTick(() => {
-				// 	new Tippy('.dealer-info',{
-				// 		theme: 'light',
-				// 		// trigger: 'mouseover',
-				// 		// interactive: true
-				// 	});
-				// })
-				setTimeout(()=>{
-					new Tippy('.dealer-info',{
-						theme: 'light',
-						// trigger: 'mouseover',
-						// interactive: true
-					});
-				}, 1000)
+        this.stock = response.body.data.pre_goods_info.stock;
+        this.numEditorData.max = this.stock;
 				document.title = this.pre_goods_info.description;
 			})
 			//拉取商品详细属性
@@ -639,7 +625,6 @@
 			font-size: 20px;
 			#shop_name{
 				width: 100%;
-				height: 60px;
 				line-height: 60px;
 				background: #f2f2f2;
 				text-align: center;

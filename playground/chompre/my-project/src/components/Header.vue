@@ -161,7 +161,8 @@
 			    if(response.body.code === 1004) {
 			        this.logged = false;
               localStorage.removeItem('userInfo');
-              location.href="./login.html";
+              if((['index', 'product', 'category', 'home-more'].indexOf(location.pathname.slice(9,-5)) < 0))
+                location.href="./login.html";
 			    } else {
 			    	this.logged = true;
 			    	this.nickname = JSON.parse(localStorage.getItem('userInfo')).nickname;

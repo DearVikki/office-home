@@ -11,10 +11,10 @@
 				<span class="fr smallGrey" v-if="order_info.status === 4">{{lang.TO_COMMENT}}</span>
 				<span class="fr smallGrey" v-if="order_info.status === 5">{{lang.DEAL_CLOSE}}</span>
 				<span class="fr smallGrey" v-if="order_info.status === 6">{{lang.DEAL_SUCCESS}}</span>
-				<span class="fr smallGrey" v-if="order_info.status === 7">{{lang.REFUND_ING}}</span>
-				<span class="fr smallGrey" v-if="order_info.status === 8">{{lang.RESEND_GOODS_ING}}</span>
-				<span class="fr smallGrey" v-if="order_info.status === 8">{{lang.REFUND_SUCCESS}}</span>
-				<span class="fr smallGrey" v-if="order_info.status === 8">{{lang.RESEND_GOODS_SUCCESS}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 7">{{lang.RESEND_GOODS_ING}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 8">{{lang.CHANGE_ING}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 9">{{lang.RESEND_GOODS_SUCCESS}}</span>
+				<span class="fr smallGrey" v-if="order_info.status === 10">{{lang.CHANGE_SUCCESS}}</span>
 			</div>
 			<div id="order_address">
 				<img src="~assets/img/order/location.png">
@@ -49,7 +49,7 @@
 					</div>
 				</div>
 				<div id="order_goods">
-					<div class="goods-item" v-for="goods in goods_info">
+					<div class="goods-item" v-for="(goods, i) in goods_info" :key="i">
 						<a :href="'./product.html?id='+goods.pre_goods_id">
 							<img :src="goods.goods_pic">
 							<div class="goods-title">{{goods.goods_name}}</div>
@@ -60,13 +60,47 @@
 						<div class="goods-price">${{goods.price}}</div>
 						<div class="goods-num">{{goods.goods_num}}</div>
 						<div class="goods-price-all">${{goods.price*goods.goods_num}}</div>
-            <div class="goods-action">
-              <div v-if="order_info.status === 4">
+            <!-- 商品可进行的处理操作/状态 -->
+            <div class="goods-action"  @click="selectedGoodsIndex=i">
+              <div v-if="order_info.status === 4 && goods.is_comment == 0 && goods.status == 0">
                 <p class="btn main" @click="comment.pop.show = true">{{lang.COMMENT}}</p>
-                <p class="btn" @click="">{{lang.REFUND}}</p>
-								<p class="btn" @click="">{{lang.CHANGE_GOODS}}</p>
+                <p class="btn" @click="returnPop.show = true">{{lang.REFUND}}</p>
+								<p class="btn" @click="changePop.show = true">{{lang.CHANGE_GOODS}}</p>
               </div>
-              <div v-else>
+              <!-- 交易成功 -->
+              <div v-if="order_info.status === 4 && goods.is_comment == 1 || (order_info.status === 6)">
+                <p>{{lang.DEAL_SUCCESS}}</p>
+              </div>
+              <!-- 待发货 -->
+              <div v-if="order_info.status === 2 && goods.status == 0">
+                <!-- <p>{{lang.TO_SEND}}</p> -->
+                <p class="btn" @click="returnPop.show = true">{{lang.REFUND}}</p>
+              </div>
+               <!-- 待收货 -->
+              <div v-if="order_info.status === 3">
+                <p>{{lang.TO_RECEIVE}}</p>
+              </div>
+              <!-- 换货处理中 -->
+              <div v-if="goods.status == 1">
+                <p>{{lang.CHANGE_ING}}</p>
+              </div>
+              <!-- 换货完成 -->
+              <div v-if="goods.status == 4">
+                <p>{{lang.CHANGE_SUCCESS}}</p>
+              </div>
+              <!-- 退货处理中 -->
+              <div v-if="goods.status == 2">
+                <p>{{lang.RESEND_GOODS_ING}}</p>
+              </div>
+              <!-- 退货完成 -->
+              <div v-if="goods.status == 3">
+                <p>{{lang.RESEND_GOODS_SUCCESS}}</p>
+              </div>
+               <!-- 交易关闭 -->
+              <div v-if="order_info.status == 5">
+                <p>{{lang.DEAL_CLOSE}}</p>
+              </div>
+              <div v-if="goods.test">
                 <p>{{lang.NO_ACTION}}</p>
               </div>
             </div>
@@ -97,9 +131,13 @@
 				</div>
 				<div class="btn-container">
 					<div class="btn" :class="{disabled:comment.uploading}"
-					@click="uploadImg">{{lang.COMMENT}}</div>
+					@click="uploadImg">
+            <span v-if="comment.uploading">{{lang.COMMENTING}}..</span>
+            <span v-else>{{lang.COMMENT}}</span>
+          </div>
 					<div class="btn reverse" @click="comment.pop.show = false">{{lang.CLOSE}}</div>
 				</div>
+        <p class="colored tip">{{comment.msg}}</p>
 			</div>
 		</pop>
 		<!-- 换货弹窗 -->
@@ -122,7 +160,7 @@
 </template>
 <script>
 	import '../../assets/lib/order-item.less'
-	import {getParameterByName, timestamp} from '../../assets/js/utils.js'
+	import {getParameterByName, timestamp, myAlert} from '../../assets/js/utils.js'
   import lang from '../../assets/js/language.js'
   import pop from '../../components/Pop.vue'
   import starmark from '../../components/Starmark.vue';
@@ -141,7 +179,8 @@
 					name:'示例店铺',
 					id:''
 				},
-				goods_info:[],
+        goods_info:[],
+        selectedGoodsIndex: '',
 				headers:[{
 					name:lang.PRODUCT_NAME,
 					style:'width:32%'
@@ -166,7 +205,8 @@
 					pics:[],
 					files:[],
 					star:0,
-					uploading: false,
+          uploading: false,
+          msg: '',
 					pop:{
 						show:false,
 						style: {
@@ -228,13 +268,20 @@
 			},
 			filechange(e){
 				var files = e.target.files || e.dataTransfer.files;
-				if (!files.length) return;
+        if (!files.length) return;
 				if (files.length > 4) {
 					alert(lang.MAX_PIC_5);
 					return;
-				}
+        }
 				Array.prototype.slice.call(files).forEach((e)=>{
-					if(e.type.slice(0,5) !== 'image') alert(e.name+ lang.NO_PIC);
+          if(e.type.slice(0,5) !== 'image') {
+            alert(e.name+ lang.NO_PIC);
+            return;
+          }
+          else if(e.size > 5242680) {
+            alert(lang.PIC_TOO_LARGE);
+            return;
+          }
 					else this.displayImg(e);
 				})
 			},
@@ -247,6 +294,14 @@
 			},
       uploadImg(){
         if(this.comment.uploading) return;
+        if(!this.comment.content) {
+          this.comment.msg = lang.FILL_IN_COMMENT;
+          return;
+        }
+        if(!Number(this.comment.star)) {
+           this.comment.msg = lang.FILL_IN_STAR;
+          return;
+        }
         this.comment.uploading = true;
 				var fm = new FormData();
 				fm.append('name','zl.shopping.sys.upload.multi.img');
@@ -254,23 +309,26 @@
 					fm.append('img[]',e);
 				})
 				this.$http.post('',fm).then((response)=>{
-					let picData = [];
-					if(response.body.data.length)
-						response.body.data.list.forEach((e)=>{
-							picData.push(e.compress);
-						});
+          let picData = [];
+					response.body.data.list.forEach((e)=>{
+						picData.push(e.compress);
+          });
 					// 评价订单
 					this.$http.post('',{
 						name:'zl.shopping.sys.comment.order',
-						order_id: this.selectedOrder.order_info.order_id,
-						goods_id: this.selectedOrder.goods_info.goods_id,
+						order_id: this.order_info.order_id,
+						goods_id: this.goods_info[this.selectedGoodsIndex].goods_id,
 						content: this.comment.content,
 						comment_picture: picData.toString(),
 						star_num: this.comment.star
 					}).then((response)=>{
             this.comment.pop.show = false;
             this.comment.uploading = false;
-						this.comment.files = [];
+            this.comment.files = [];
+            if(response.data.code === 1000) {
+              myAlert(lang.COMMENT_SUCCESS);
+              this.goods_info[this.selectedGoodsIndex].is_comment = 1;
+            }
 					})
 				})
 			},
@@ -284,12 +342,12 @@
 			returnGoods(type){
 				this.$http.post('',{
 					name:'zl.shopping.sys.return.goods',
-					order_id: this.selectedOrder.order_info.order_id,
-					goods_id: this.selectedOrder.goods_info.pre_goods_id,
+					order_id: this.order_info.order_id,
+					goods_id: this.goods_info[this.selectedGoodsIndex].goods_id,
 					type:type
 				}).then((response) => {
-					this.returnPop.show = false;
-					this.getOrder();
+					this.returnPop.show = this.changePop.show = false;
+					this.goods_info[this.selectedGoodsIndex].status = type;
 				})
       },
     },
@@ -344,7 +402,11 @@
 						&.main{
 							background:#d42b1e;
 							color:#fff;
-						}
+            }
+             &.disabled{
+              opacity: .5;
+              cursor: default;
+            }
 					}
         }
       }
@@ -404,7 +466,7 @@
 			margin-top: 10px;
 			overflow:hidden;
 			.fl{
-				font-size:24px;
+				font-size:22px;
 				color:#979797;
 				letter-spacing:-1.31px;
 			}
@@ -418,5 +480,9 @@
 	}
   .btn-container{
     margin-top: 90px;
+  }
+  .tip{
+    font-size: 14px;
+    margin-top: 10px;
   }
 </style>

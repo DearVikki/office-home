@@ -36,6 +36,7 @@
 							<!-- 商品选择信息 -->
 							<div class="goods-des">
 								<p v-for="des in goods.description">{{des}}</p>
+                <p>{{lang.STOCK}}: {{goods.stores}}</p>
 							</div>
 							<!-- 单价 -->
 							<div class="goods-price">${{goods.price}}</div>

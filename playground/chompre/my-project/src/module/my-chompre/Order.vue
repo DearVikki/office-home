@@ -67,8 +67,8 @@
 							<!-- 待评价 -->
 							<div v-if="order.order_info.status === 4">
 								<p>{{lang.TO_COMMENT}}</p>
-								<!-- <p class="main" @click="comment.pop.show = true">{{lang.COMMENT}}</p>
-								<p class="main" @click="changePop.show = true">{{lang.REFUND}}</p>
+								<a class="main" :href="'./order-detail.html?id='+order.order_info.order_id">{{lang.COMMENT}}</a>
+								<!-- <p class="main" @click="changePop.show = true">{{lang.REFUND}}</p>
 								<p class="main" @click="changePop.show = true">{{lang.CHANGE_GOODS}}</p> -->
 							</div>
 							<!-- 取消订单（交易关闭） -->
@@ -79,21 +79,21 @@
 							<div v-if="order.order_info.status === 6">
 								<p>{{lang.DEAL_SUCCESS}}</p>
 							</div>
-							<!-- 退款处理中 -->
-							<div v-if="order.order_info.status === 7">
-								<p>{{lang.REFUND_ING}}</p>
-							</div>
 							<!-- 退货处理中 -->
-							<div v-if="order.order_info.status === 8">
+							<div v-if="order.order_info.status === 7">
 								<p>{{lang.RESEND_GOODS_ING}}</p>
 							</div>
-							<!-- 退款完成 -->
-							<div v-if="order.order_info.status === 9">
-								<p>{{lang.REFUND_SUCCESS}}</p>
+							<!-- 换货处理中 -->
+							<div v-if="order.order_info.status === 8">
+								<p>{{lang.CHANGE_ING}}</p>
 							</div>
 							<!-- 退货完成 -->
-							<div v-if="order.order_info.status === 10">
+							<div v-if="order.order_info.status === 9">
 								<p>{{lang.RESEND_GOODS_SUCCESS}}</p>
+							</div>
+							<!-- 换货完成 -->
+							<div v-if="order.order_info.status === 10">
+								<p>{{lang.CHANGE_SUCCESS}}</p>
 							</div>
 						</div>
 					</a>
@@ -102,10 +102,11 @@
 						<div  v-if="order.order_info.status === 1">
 							<div class="btn main"
 							@click="pay(order.order_info)">{{lang.PAY}}</div>
+              <div class="btn" @click="cancelPop.show = true">{{lang.CANCEL_DEAL}}</div>
 						</div>
 						<!-- 待发货 -->
 						<div v-if="order.order_info.status === 2">
-							<div class="btn" @click="cancelPop.show = true">{{lang.CANCEL_DEAL}}</div>
+              <a class="btn" :href="'./order-detail.html?id='+order.order_info.order_id">{{lang.REFUND}}</a>
 						</div>
 						<!-- 待收货 -->
 						<div v-if="order.order_info.status === 3">
@@ -124,16 +125,16 @@
 						<div v-if="order.order_info.status === 6">
 							<div class="btn" @click="clickDelivery">{{lang.VIEW_DELIVERY}}</div>
 						</div>
-						<!-- 退款处理中 -->
+						<!-- 退货处理中 -->
 						<div v-if="order.order_info.status === 7">
 						</div>
-						<!-- 退货处理中 -->
+						<!-- 换货处理中 -->
 						<div v-if="order.order_info.status === 8">
 						</div>
-						<!-- 退款完成 -->
+						<!-- 退货完成 -->
 						<div v-if="order.order_info.status === 9">
 						</div>
-						<!-- 退货完成 -->
+						<!-- 换货完成 -->
 						<div v-if="order.order_info.status === 10">
 						</div>
 					</div>
@@ -247,8 +248,9 @@
 	import starmark from '../../components/Starmark.vue';
 	import loading from '../../components/Loading.vue';
   import lang from '../../assets/js/language.js'
-// 订单状态；1，待付款；2，待发货；3，待收货；4，待评价；5，取消订单(交易关闭) ；6，交易成功；7，退款处理中；8，退货处理中；9，退款完成；10，退货完成
-// 商品中的商品中的 状态；0，无；1，退货；2，退款
+  // 以下7,8为最新更改
+// 订单状态；1，待付款；2，待发货；3，待收货；4，待评价；5，取消订单(交易关闭) ；6，交易成功；7，退货处理中；8，换货处理中；9，退货完成；10，换货完成
+// 商品中的商品中的 状态；1，换货中；2，退货中；3，已退货；4，已换货；5，售后关闭
 	export default{
 		name:'order',
 		mounted(){
@@ -681,13 +683,14 @@
 					border-right:1px solid #e7e7e7;
 					font-size:12px;
 					color:#666666;
-					text-align:center;
+          text-align:center;
+          cursor: default;
 					p{
 						margin-bottom:5px;
 					}
 					.main{
-						color:#d42b1e;
-						cursor:pointer;
+            color:#d42b1e;
+            cursor: pointer;
 					}
 				}
 				.goods-part3{
@@ -695,18 +698,19 @@
 					width:18%;
 					.btn{
 						border-radius:2px;
-						width:100px;
+						width:110px;
 						height:30px;
 						line-height:30px;
 						text-align:center;
 						font-size:12px;
 						color:#d42b1e;
 						cursor:pointer;
-						margin:0 auto;
+            margin:0 auto;
+            display: inline-block;
 						&.main{
 							background:#d42b1e;
 							color:#fff;
-						}
+            }
 					}
 				}
 			}

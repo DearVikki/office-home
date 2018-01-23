@@ -482,15 +482,15 @@
 			// 支付前检测
 			checkBeforePay(){
 				if(!this.address.selected) {
-					this.conclu.tip = attr.SELECT_ADDRESS;
+					this.conclu.tip = lang.SELECT_ADDRESS;
 					return false;
 				}
 				if( this.invoice.is_bigInvoice === -1 || (!this.invoice.selected && this.invoice.is_bigInvoice)) {
-					this.conclu.tip = attr.SELECT_INVOICE;
+					this.conclu.tip = lang.SELECT_INVOICE;
 					return false;
 				}
 				if(!this.delivery.dropdown.selectedValue) {
-					this.conclu.tip = attr.SELECT_DELIVERY;
+					this.conclu.tip = lang.SELECT_DELIVERY;
 					return false;
 				}
 				return true;

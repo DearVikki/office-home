@@ -46,13 +46,14 @@
 				// 现在数字：Number(this.numEditorData.num)
 				if(isNaN(this.numEditorData.num)) this.numEditorData.num = 1;
 				else if(this.numEditorData.num > this.numEditorData.max) this.numEditorData.num = this.numEditorData.max;
-				else if(this.numEditorData.num < this.numEditorData.min) this.numEditorData.num = this.numEditorData.min;
+        else if(this.numEditorData.num < this.numEditorData.min) this.numEditorData.num = this.numEditorData.min;
+        this.numEditorData.num = Math.round(this.numEditorData.num);
 			}
 		},
 		watch:{
 			'numEditorData.max'(){
 				this.initial();
-			}
+      }
 		},
 		props:['numEditorStyle','numEditorData','numEditorClass']
 	}
