@@ -27,7 +27,7 @@
 			</div>
 			<div id="order_delivery">
 				<img src="~assets/img/order/delivery.png">
-				<span class="txt" :title="address_info.receive_name">{{lang.DELIVERY_NO}}: {{order_info.ems_no}} </span>
+				<span class="txt" :title="address_info.receive_name">{{lang.DELIVERY_NO}}: {{order_info.ems_no==-1?lang.NO_DELIVERY_INFO:order_info.ems_no}} </span>
 			</div>
 			<!-- <div id="order_invoice">
 				<img src="~assets/img/order/invoice.png">
@@ -303,16 +303,17 @@
           return;
         }
         this.comment.uploading = true;
+          		let picData = [];
 				var fm = new FormData();
 				fm.append('name','zl.shopping.sys.upload.multi.img');
 				this.comment.files.forEach((e)=>{
 					fm.append('img[]',e);
 				})
 				this.$http.post('',fm).then((response)=>{
-          let picData = [];
-					response.body.data.list.forEach((e)=>{
-						picData.push(e.compress);
-          });
+					// 因为没有图片的话返回的数据是data:[]...
+					if(!Array.isArray(response.body.data)) {
+          				response.body.data.list.forEach((e)=>picData.push(e.compress));
+					}
 					// 评价订单
 					this.$http.post('',{
 						name:'zl.shopping.sys.comment.order',
@@ -322,13 +323,13 @@
 						comment_picture: picData.toString(),
 						star_num: this.comment.star
 					}).then((response)=>{
-            this.comment.pop.show = false;
-            this.comment.uploading = false;
-            this.comment.files = [];
-            if(response.data.code === 1000) {
-              myAlert(lang.COMMENT_SUCCESS);
-              this.goods_info[this.selectedGoodsIndex].is_comment = 1;
-            }
+			            this.comment.pop.show = false;
+			            this.comment.uploading = false;
+			            this.comment.files = [];
+			            if(response.data.code === 1000) {
+			              myAlert(lang.COMMENT_SUCCESS);
+			              this.goods_info[this.selectedGoodsIndex].is_comment = 1;
+			            }
 					})
 				})
 			},
@@ -337,6 +338,7 @@
 				this.comment.content = '';
 				this.comment.pics = [];
 				this.comment.star = 0;
+				this.comment.uploading = false;
       },
       // 退换货
 			returnGoods(type){

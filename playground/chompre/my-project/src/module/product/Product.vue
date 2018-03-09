@@ -1,5 +1,5 @@
 <template>
-	<div id="product_container">
+	<div id="product_page_container">
 		<!--第一部分-->
 		<div id="product_part1">
 			<!--一级分类/二级分类-->
@@ -112,6 +112,7 @@
 				<div id="product_container"
 				v-show="!isComment">
 					<img v-for="pic in detail_pic" :src="pic">
+					<div class="empty-tip" v-if="detail_pic.length">{{lang.NO_PRODUCT_DETAIL}}</div>
 				</div>
 				<!--商品评价-->
 				<div id="comment_container"
@@ -291,8 +292,9 @@
 				this.dealer_info = response.body.data.dealer_info;
 				this.pre_goods_info = response.body.data.pre_goods_info;
 				this.price_info = response.body.data.price_info;
-        this.stock = response.body.data.pre_goods_info.stock;
-        this.numEditorData.max = this.stock;
+		        this.stock = response.body.data.pre_goods_info.stock;
+		        this.numEditorData.max = this.stock;
+		        this.numEditorData.num = this.numEditorData.min = this.price_info[this.price_info.length-1].salesnum_low;
 				document.title = this.pre_goods_info.description;
 			})
 			//拉取商品详细属性
@@ -462,7 +464,7 @@
 	@import '../../assets/lib/tippy.css';
 	@baseColor: #d42b1e;
 	@bla: #666;
-	#product_container{
+	#product_page_container{
 		width: 1200px;
 		margin: 0 auto;
 		margin-bottom: 40px;
@@ -653,6 +655,7 @@
 		#product_part2_main_container{
 			width: 960px;
 			float: right;
+			min-height: 500px;
 			/*商品详情/商品评价navbar*/
 			#part2_nav_container{
 				width: 100%;

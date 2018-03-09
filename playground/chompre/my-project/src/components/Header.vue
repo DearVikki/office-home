@@ -24,8 +24,10 @@
 				<a id='signup' href="./signup.html">{{lang.SIGN_UP}}</a>
 			</div>
 			<!--登录状态-->
-			<div id='name_container' v-else>{{nickname}}</div>
-			<div id="logout" style="display: none">{{lang.LOGOUT}}</div>
+			<div id='name_container' v-else>
+				<div id="logout" :class="{active: isLogoutShow}" @click="logout">{{lang.LOGOUT}}</div>
+				<div style="background:#fff;position: relative;" @click="isLogoutShow=!isLogoutShow">{{nickname}}</div>
+			</div>
 		</div>
 		<div id='header_part2'>
 			<div id='cate_container'
@@ -71,20 +73,19 @@
 			return{
 				logged:false,
 				nickname:'',
+				isLogoutShow: false,
 				headerDpActive: false,
 				productType:{
-					1:{	name: '一级1',
-						id: 1,
-						active: false,
-						sub:[{
-							name: 'Chalecos',
-							id:12
-						},{
-							name: 'Tapados'
-						},{
-							name: 'Chaquedas'
-						}]
-					}
+					// 1:{	name: '',
+					// 	id: 1,
+					// 	active: false,
+					// 	sub:[
+					// 	{
+					// 		name: 'Chalecos',
+					// 		id:12
+					// 	}
+					// 	]
+					// }
 				},
 				productTypeActive:{
 					first:'',
@@ -143,7 +144,6 @@
 				else location.href = './search-shop.html?search='+this.searchKey;
 			},
 			logout(){
-        alert('hey')
 				this.$http.post('',{
 					name: 'zl.shopping.sys.pc.login.out'
 				}).then((response) => {
@@ -347,11 +347,22 @@
 			bottom: 0;
 			color: @baseColor;
 			width: 168px;
-			overflow: hidden;
 			text-overflow: ellipsis;
+			cursor: pointer;
 		}
 		#logout{
-
+			position: absolute;
+		    top: 0px;
+		    left: 0;
+		    font-size: 12px;
+		    border: 1px solid #bbb;
+		    color: #bbb;
+		    border-radius: 3px;
+		    padding: 0 3px;
+		    transition: all .3s;
+		    &.active{
+		    	top: 28px;
+		    }
 		}
 	}
 	#header_part2{

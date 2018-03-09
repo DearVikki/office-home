@@ -36,7 +36,7 @@
 							<!-- 商品选择信息 -->
 							<div class="goods-des">
 								<p v-for="des in goods.description">{{des}}</p>
-                <p>{{lang.STOCK}}: {{goods.stores}}</p>
+                				<p>{{lang.STOCK}}: {{goods.stores}}</p>
 							</div>
 							<!-- 单价 -->
 							<div class="goods-price">${{goods.price}}</div>
@@ -46,7 +46,7 @@
 								:numEditorStyle="numEditorStyle"
 								:numEditorClass="numEditorClass"
 								:numEditorData="goods.numEditorData"
-                @numChange="numChange(goods)"></numeditor>
+               					 @numChange="numChange(goods)"></numeditor>
 							</div>
 							<!-- 总价 -->
 							<div class="goods-total-price">${{goods.price * goods.numEditorData.num}}</div>
@@ -396,7 +396,7 @@
 	#cart_container{
 		max-width: 1200px;
 		min-width: 1000px;
-		height: 800px;
+		min-height: 800px;
 		margin:0 auto;
     padding: .1px 0;
     margin-bottom: 150px;

@@ -337,13 +337,13 @@
 			}
 			// 拉取要结算商品信息
 			this.$http.post('', requestData).then((response)=>{
-        this.goodsLoaded = true;
-        if(!response.body.success) {
-          document.getElementById('address_container').style.display = 'none';
-          alert(response.body.msg)
-          history.go(-1)
-          return
-        }
+		        this.goodsLoaded = true;
+		        if(!response.body.success) {
+		          document.getElementById('address_container').style.display = 'none';
+		          alert(response.body.msg)
+		          history.go(-1)
+		          return
+		        }
 				// 此时商品还留在购物车中
 				let shipping_info = response.body.data.shipping_info;
 				let dealer_info = response.body.data.dealer_info;
@@ -711,6 +711,7 @@
 	#delivery_container{
 		margin-top: 50px;
 		z-index: 10;
+		position: relative;
 		#select_delivery{
 			width: 560px;
 			height: 36px;
@@ -719,6 +720,8 @@
 	}
 	/*#order部分已移入order-item.less了*/
 	#order_container{
+		z-index: 1;
+		position: relative;
 		margin-top: 50px;
 		.title{
 			border-bottom: none;
