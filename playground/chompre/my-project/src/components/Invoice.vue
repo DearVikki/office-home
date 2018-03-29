@@ -54,7 +54,19 @@
 					id:'taxid',
 					title:lang.INVOICE_ID,
 					placeholder:lang.FILL_IN_INVOICE_ID,
-					validators:{required:{msg:lang.NO_EMPTY_INVOICE_NAME}},
+					validators:{
+						required:{
+							msg:lang.NO_EMPTY_INVOICE_ID
+						},
+						custom:{
+							extra:{
+								validator(val){
+									return /^\d{7,8}-.$/.test(val)
+								}
+							},
+							msg: lang.INVALID_ID
+						}
+					},
 					error:false,
 					focus:false,
 					msg:'',

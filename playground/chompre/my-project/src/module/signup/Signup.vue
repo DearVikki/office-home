@@ -163,7 +163,15 @@
 		            name: lang.ID,
 		            placeholder: lang.FILL_IN_ID,
 		            validators: {
-		            	required: { msg: lang.NO_EMPTY_ID }
+		            	required: { msg: lang.NO_EMPTY_ID },
+		            	custom:{
+							extra:{
+								validator(val){
+									return /^\d{7,8}-.$/.test(val)
+								}
+							},
+							msg: lang.INVALID_ID
+						}
 		            },
 		            error: '',
 		            msg:'',
@@ -176,7 +184,7 @@
 		            name: lang.QUESTION,
 		            placeholder: lang.FILL_IN_QUESTION,
 		            validators: {
-		            	required: { msg: lang.FILL_IN_QUESTION }
+		            	required: { msg: lang.FILL_IN_QUESTION },
 		            },
 		            isSelect: true,
 		            options:[{

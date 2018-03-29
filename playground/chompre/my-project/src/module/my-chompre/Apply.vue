@@ -7,7 +7,7 @@
       <img src="~assets/img/product/icon_nothing.png">
       <p>{{tip}}</p>
     </div>
-    <div v-if="contentLoaded && !isAvailable && submitSuccess">
+    <div v-if="contentLoaded && !isAvailable && submitSuccess"  class="empty-tip">
       	<img src="~assets/img/personal/icon_select.png">
 		    {{lang.SUBMIT_SUCCESS}}
     </div>
@@ -111,15 +111,15 @@ export default{
   },
   mounted(){
     this.$http.post('',{
-				name:'zl.shopping.pc.isapply.shop',
-		}).then(res => {
-      this.contentLoaded = true;
-      if(res.data.success) this.isAvailable = true;
-      else {
-        this.isAvailable = false;
-        this.tip = res.data.msg;
-      }
-    })
+		name:'zl.shopping.pc.isapply.shop',
+	}).then(res => {
+    this.contentLoaded = true;
+    if(res.data.success) this.isAvailable = true;
+    else {
+       this.isAvailable = false;
+       this.tip = res.data.msg;
+     }
+   })
   },
 	methods:{
 		clickType(type) {
@@ -180,9 +180,6 @@ export default{
         response.body.data.list.forEach((e)=>{
 					picData.push(e.original);
         });
-        console.log(this.shoptype)
-        console.log(invoice)
-				// 评价订单
 				this.$http.post('',{
 					name:'zl.shopping.pc.apply.shop',
 					dealer_type: this.shoptype,

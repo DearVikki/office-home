@@ -28,6 +28,9 @@ var validatorMixin = {
         maxlen(val, extra) {
             return val.length <= extra.len;
         },
+        custom(val, extra) {
+            return extra.validator(val)
+        },
         checkAll(fields){
         	let checked = true;
         	Object.values(fields).forEach((e) => {
@@ -39,7 +42,9 @@ var validatorMixin = {
             let checked = true;
             for (var ruleName in field.validators) {
                 var rule = field.validators[ruleName];
+                console.log(ruleName)
                 if (!this[ruleName](field.val, rule.extra) && checked) {
+                    console.log(rule)
                     field.error = true;
                     field.msg = rule.msg;
                     checked = false;
@@ -52,6 +57,7 @@ var validatorMixin = {
         fieldFocus(field) {
             field.focus = true;
             field.error = false;
+            console.log(field.error)
         },
         fieldBlur(field) {
             this.handleValidate(field);

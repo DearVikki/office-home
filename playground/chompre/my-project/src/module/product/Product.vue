@@ -294,7 +294,7 @@
 				this.price_info = response.body.data.price_info;
 		        this.stock = response.body.data.pre_goods_info.stock;
 		        this.numEditorData.max = this.stock;
-		        this.numEditorData.num = this.numEditorData.min = this.price_info[this.price_info.length-1].salesnum_low;
+		        this.numEditorData.num = this.numEditorData.min = this.price_info[0].salesnum_low;
 				document.title = this.pre_goods_info.description;
 			})
 			//拉取商品详细属性

@@ -518,7 +518,17 @@
 						localStorage.setItem('buyDirectly', '');
 						console.log('提交订单成功!')
 						myAlert(lang.SUBMIT_ORDER_SUCCESSFULLY, () => {
-							location.replace('./my-chompre.html');
+							this.$http.post('',{
+								name:'zl.shopping.sys.pay',
+								order_id: response.body.data.order_id,
+								amount: this.conclu.sumprice
+							}).then((response) => {
+								if(response.body.code === 1000) {
+									location.replace(response.body.data.payment_url);
+								} else {
+									myAlert(respnse.body.msg);
+								}
+							})
 						});
 					} else {
 						myAlert(response.body.msg);

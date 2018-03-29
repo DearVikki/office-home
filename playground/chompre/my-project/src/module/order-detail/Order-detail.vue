@@ -1,7 +1,8 @@
 <template>
 	<div>
-    <div class="empty-tip" v-if="!contentLoaded">{{lang.LOADING}}...</div>
+    	<div class="empty-tip" v-if="!contentLoaded">{{lang.LOADING}}...</div>
 		<div id="order_container" v-if="contentLoaded">
+			<div class="smallGrey cp" style="color:#bbb" @click="back">Mis pedidos></div>
 			<div class="title">{{lang.ORDER_DETAIL}}
 				<span class="fr smallGrey time">{{time}}</span>
 				<!-- 新增地址 -->
@@ -263,6 +264,9 @@
 			}
     },
     methods:{
+    	back(){
+    		history.back();
+    	},
       clickInput(){
 				document.querySelector('input[type=file]').click();
 			},

@@ -25,7 +25,7 @@
 			</div>
 			<!--登录状态-->
 			<div id='name_container' v-else>
-				<div id="logout" :class="{active: isLogoutShow}" @click="logout">{{lang.LOGOUT}}</div>
+				<div id="logout" class="active" @click="logout">{{lang.LOGOUT}}</div>
 				<div style="background:#fff;position: relative;" @click="isLogoutShow=!isLogoutShow">{{nickname}}</div>
 			</div>
 		</div>
@@ -160,9 +160,10 @@
 			}).then((response) => {
 			    if(response.body.code === 1004) {
 			        this.logged = false;
-              localStorage.removeItem('userInfo');
-              if((['index', 'product', 'category', 'home-more'].indexOf(location.pathname.slice(9,-5)) < 0))
-                location.href="./login.html";
+		            localStorage.removeItem('userInfo');
+		            if((['index', 'product', 'category', 'home-more','pay-success'].indexOf(location.pathname.slice(9,-5)) < 0)) {
+		                location.href="./login.html";
+		            }
 			    } else {
 			    	this.logged = true;
 			    	this.nickname = JSON.parse(localStorage.getItem('userInfo')).nickname;
@@ -355,7 +356,6 @@
 		    top: 0px;
 		    left: 0;
 		    font-size: 12px;
-		    border: 1px solid #bbb;
 		    color: #bbb;
 		    border-radius: 3px;
 		    padding: 0 3px;

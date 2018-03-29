@@ -50,7 +50,7 @@
 			    deleteItem:'',
 			    table:{
 				    cols:[{
-						name:'名称',
+						name: lang.INVOICE_NAME,
 						key:'company_name',
 						width:'10%'
 					},{

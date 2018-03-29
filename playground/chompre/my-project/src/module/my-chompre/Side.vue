@@ -1,6 +1,6 @@
 <template>
 	<div id="personal_side" class="fl">
-		<p class="text">{{lang.MY_CHOMPRE}}</p>
+		<p class="text" style="color: #d42b1e;font-weight: bold;">{{lang.MY_CHOMPRE}}</p>
 		<router-link class="text"
 		v-for="item in items"
 		:class="{active:activeid === item.id}"
