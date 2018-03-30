@@ -75,7 +75,7 @@
 			            	required: { msg:'' }
 			            },
 			            name: lang.QUESTION,
-			            val:'你好吗'
+			            val:''
 			        },
 					answer: {
 			            id: 'answer',

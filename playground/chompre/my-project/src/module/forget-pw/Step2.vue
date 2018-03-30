@@ -30,6 +30,7 @@
 					<label :for="field.id">{{field.name}}</label>
 					<div class="input-container" :class="{ warn: field.error || field.focus}">
 						<input
+						readonly
 						type="text"
 						:id="field.id"
 						:placeholder="field.placeholder"
@@ -115,10 +116,12 @@
 			}
 		},
 		mounted(){
-			if(!localStorage.getItem('email')) this.$router.push('/step1');
+			const email = localStorage.getItem('email');
+			if(!email) this.$router.push('/step1');
+			this.fieldsB.email.val = email;
 			this.$http.post('',{
 				name:'zl.shopping.sys.pc.user.question',
-				account: localStorage.getItem('email')
+				account: email
 			}).then((response) => {
 				if(response.body.code === 1000) {
 					this.qDisabled = false;

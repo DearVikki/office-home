@@ -493,7 +493,7 @@
 				this.$http.post('',{
 					name:'zl.shopping.sys.pay',
 					order_id: order.order_id,
-					amount: order.sum_price
+					type: 'pc'
 				}).then((response) => {
 					this.getOrder();
 				})

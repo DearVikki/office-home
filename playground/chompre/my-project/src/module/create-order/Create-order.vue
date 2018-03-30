@@ -521,7 +521,7 @@
 							this.$http.post('',{
 								name:'zl.shopping.sys.pay',
 								order_id: response.body.data.order_id,
-								amount: this.conclu.sumprice
+								type: 'pc'
 							}).then((response) => {
 								if(response.body.code === 1000) {
 									location.replace(response.body.data.payment_url);

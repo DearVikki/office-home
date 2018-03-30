@@ -353,16 +353,13 @@
 		}
 		#logout{
 			position: absolute;
-		    top: 0px;
+		    top: 28px;
 		    left: 0;
 		    font-size: 12px;
 		    color: #bbb;
 		    border-radius: 3px;
 		    padding: 0 3px;
 		    transition: all .3s;
-		    &.active{
-		    	top: 28px;
-		    }
 		}
 	}
 	#header_part2{
